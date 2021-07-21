@@ -31,15 +31,21 @@ public class Interactor : MonoBehaviour
 	}
 
 
-	// Called when the player tries to interact with something
-	public void Interact()
+	public void InteractDown()
 	{
-        // Nothing is selected, do nothing
-        if (selected == null)
-		{
-            return;
-		}
+		// Nothing is selected, do nothing
+		if (selected == null)
+			return;
+		
+		selected.OnActivateDown(this);
+	}
 
-        selected.Activate(this);
+	public void InteractUp()
+	{
+		// Nothing is selected, do nothing
+		if (selected == null)
+			return;
+		
+		selected.OnActivateUp(this);
 	}
 }

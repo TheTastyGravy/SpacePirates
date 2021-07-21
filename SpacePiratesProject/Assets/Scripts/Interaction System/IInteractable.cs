@@ -5,10 +5,15 @@ using UnityEngine;
 public abstract class IInteractable : MonoBehaviour
 {
     /// <summary>
-    /// Called when the interactable is being interacted with
+    /// Called when an interactor presses the interaction key
     /// </summary>
     /// <param name="user">The interactor activating this</param>
-    public abstract void Activate(Interactor user);
+    public virtual void OnActivateDown(Interactor user) { }
+    /// <summary>
+    /// Called when an interactor releases the interaction key
+    /// </summary>
+    /// <param name="user">The interactor activating this</param>
+    public virtual void OnActivateUp(Interactor user) { }
 
 
 

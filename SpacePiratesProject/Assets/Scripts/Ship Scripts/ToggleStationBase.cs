@@ -2,40 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class StationBase : IInteractable
+public abstract class ToggleStationBase : IInteractable
 {
-    // The root transform for the ship this station belongs to
-    public Transform shipExternal;
-
     protected bool isActive = false;
     protected Interactor currentUser = null;
 
     private BasicController currentPlayerController = null;
 
 
-	public sealed override void Activate(Interactor user)
-	{
+    public sealed override void OnActivateDown(Interactor user)
+    {
         isActive = !isActive;
         currentUser = isActive ? user : null;
 
         if (isActive)
-		{
+        {
             //get and disable player controller
             currentPlayerController = user.GetComponent<BasicController>();
             currentPlayerController.canMove = false;
 
             OnActivated();
-		}
-		else
-		{
+        }
+        else
+        {
             //enable the player controller
             currentPlayerController.canMove = true;
             currentPlayerController = null;
 
             OnDeactivated();
-		}
+        }
+    }
+    public sealed override void OnActivateUp(Interactor user)
+    {
     }
 
-    protected abstract void OnActivated();
-    protected abstract void OnDeactivated();
+
+    protected virtual void OnActivated() { }
+    protected virtual void OnDeactivated() { }
 }

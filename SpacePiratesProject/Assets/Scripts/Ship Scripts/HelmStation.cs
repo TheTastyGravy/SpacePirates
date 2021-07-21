@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class HelmStation : StationBase
+public class HelmStation : ToggleStationBase
 {
 	//currently, this only supports a single player. when the controller 
 	//system is implemented, this needs to be updated to get input using that
+
+	// The root transform for the ship this station belongs to
+	public Transform shipExternal;
 
 	public float acceleration = 1;
 	public float maxSpeed = 20;
