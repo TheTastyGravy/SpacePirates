@@ -14,10 +14,14 @@ public class RoomManager : MonoBehaviour
     [Tooltip("When oxygen is below this level, players will start taking damage")]
     public float oxygenDamageLevel = 10;
     public float playerDamagePerSecond = 10;
+    [Space]
+    public float chanceToDamageStation = 0.1f;
 
 
     private HullHoleStation[] holes;
     private float oxygenLevel = 100;
+
+    private DamageStation[] damageStations;
 
     private List<PlayerHealth> players = new List<PlayerHealth>();
 
@@ -36,6 +40,15 @@ public class RoomManager : MonoBehaviour
 		{
             CreateHole(posIndex);
         }
+
+        // Random chance to damage each station
+        foreach (var obj in damageStations)
+		{
+            if (Random.Range(0f, 1f) < chanceToDamageStation)
+			{
+                obj.Damage();
+			}
+		}
     }
 
     private void CreateHole(int index)
@@ -59,6 +72,8 @@ public class RoomManager : MonoBehaviour
     {
         // There can be the same number of holes as hole positions
         holes = new HullHoleStation[holePositions.Length];
+        // Get all damage stations under this room
+        damageStations = GetComponentsInChildren<DamageStation>();
     }
 
     void Update()

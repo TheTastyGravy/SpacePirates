@@ -7,6 +7,8 @@ public class MedbayStation : Interactable
 	public float healthPerUse = 25;
 	public float damagedHealthPerUse = 10;
 
+	public DamageStation damage;
+
 
 
 	protected override void OnActivate(Interactor user)
@@ -19,8 +21,12 @@ public class MedbayStation : Interactable
 		}
 		else
 		{
+			bool isDamaged = damage != null;
+			if (!isDamaged)
+				isDamaged = damage.DamageLevel > 0;
+
 			// Heal player
-			playerHealth.UpdateHealth(healthPerUse);
+			playerHealth.UpdateHealth(isDamaged ? damagedHealthPerUse : healthPerUse);
 		}
 	}
 }
