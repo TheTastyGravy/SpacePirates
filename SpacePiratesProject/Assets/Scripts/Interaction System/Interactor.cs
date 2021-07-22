@@ -4,48 +4,40 @@ using UnityEngine;
 
 public class Interactor : MonoBehaviour
 {
-    // The interactable that is currently selected
-    private IInteractable selected = null;
+    // The interactables we are able to use
+    private List<Interactable> interactables = new List<Interactable>();
 
 
-	//for now triggers are used to determine if something can be interacted with, 
-	//but this could be changed to use the direction the player is facing and the 
-	//distance from interactables instead, which would be better for performance and 
-	//might be better for gameplay
 
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.TryGetComponent(out IInteractable interactable))
+		if (other.TryGetComponent(out Interactable interactable))
 		{
-			selected = interactable;
-			selected.HightlightObject();
+			interactables.Add(interactable);
 		}
 	}
 	void OnTriggerExit(Collider other)
 	{
-		if (selected != null && selected.gameObject == other.gameObject)
+		if (other.TryGetComponent(out Interactable interactable))
 		{
-			selected.UnhighlightObject();
-			selected = null;
+			interactables.Remove(interactable);
 		}
 	}
 
 
-	public void InteractDown()
+	public void Interact()
 	{
-		// Nothing is selected, do nothing
-		if (selected == null)
+		if (interactables.Count == 0)
 			return;
-		
-		selected.OnActivateDown(this);
-	}
 
-	public void InteractUp()
-	{
-		// Nothing is selected, do nothing
-		if (selected == null)
-			return;
-		
-		selected.OnActivateUp(this);
+
+		if (interactables.Count == 1)
+		{
+			interactables[0].Activate(this);
+		}
+		else
+		{
+			//use closest one
+		}
 	}
 }

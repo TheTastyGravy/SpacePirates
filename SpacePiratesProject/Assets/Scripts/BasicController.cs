@@ -31,11 +31,7 @@ public class BasicController : MonoBehaviour
 		{
 			if (keyboard.eKey.wasPressedThisFrame)
 			{
-				interactor.InteractDown();
-			}
-			else if (keyboard.eKey.wasReleasedThisFrame)
-			{
-				interactor.InteractUp();
+				interactor.Interact();
 			}
 		}
 	}
@@ -55,7 +51,7 @@ public class BasicController : MonoBehaviour
 			yVal += keyboard.wKey.ReadValue();
 			yVal -= keyboard.sKey.ReadValue();
 		}
-		// Move relitive to our parents local space
-		rb.MovePosition(rb.position + (transform.rotation * (speed * Time.deltaTime * new Vector3(xVal, 0, yVal))));
+
+		rb.MovePosition(rb.position + speed * Time.deltaTime * new Vector3(xVal, 0, yVal));
 	}
 }
