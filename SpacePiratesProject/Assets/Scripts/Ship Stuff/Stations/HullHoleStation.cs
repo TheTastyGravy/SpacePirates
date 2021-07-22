@@ -30,7 +30,7 @@ public class HullHoleStation : Interactable
         repairCount = damageLevels[0].repairCount;
     }
 
-    public override void Activate(Interactor user)
+    protected override void OnActivate(Interactor user)
 	{
         currentRepairCount++;
 

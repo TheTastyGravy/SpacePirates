@@ -21,7 +21,7 @@ public class RevivePlayerStation : Interactable
 		interactionCount = 0;
 	}
 
-	public override void Activate(Interactor user)
+	protected override void OnActivate(Interactor user)
 	{
 		interactionCount++;
 

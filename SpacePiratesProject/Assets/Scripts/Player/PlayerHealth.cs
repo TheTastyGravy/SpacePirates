@@ -49,13 +49,13 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
 	{
         controller.canMove = false;
-        reviveStation.enabled = true;
+        reviveStation.SetIsUsable(true);
     }
     public void Revive()
 	{
         currentHealth = healthOnRevive;
 
         controller.canMove = true;
-        reviveStation.enabled = false;
+        reviveStation.SetIsUsable(false);
     }
 }

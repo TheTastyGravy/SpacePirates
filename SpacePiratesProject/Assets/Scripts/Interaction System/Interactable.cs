@@ -8,10 +8,18 @@ public abstract class Interactable : MonoBehaviour
 
     // The number of players inside this trigger
     private int playerCount = 0;
+    private bool isUseable = true;
 
 
 
-    public abstract void Activate(Interactor user);
+    public void Activate(Interactor user)
+	{
+        if (isUseable)
+		{
+            OnActivate(user);
+		}
+	}
+    protected abstract void OnActivate(Interactor user);
 
 
     protected virtual void OnTriggerEnter(Collider other)
@@ -19,7 +27,7 @@ public abstract class Interactable : MonoBehaviour
         if (other.CompareTag("Player"))
 		{
             playerCount++;
-            if (prompt != null)
+            if (isUseable && prompt != null)
                 prompt.SetActive(true);
         }
 	}
@@ -30,9 +38,24 @@ public abstract class Interactable : MonoBehaviour
             playerCount--;
         }
 
-        if (playerCount == 0 && prompt != null)
+        if (isUseable && playerCount == 0 && prompt != null)
 		{
             prompt.SetActive(false);
 		}
+    }
+
+    public void SetIsUsable(bool value)
+	{
+        isUseable = value;
+
+        // Update prompt
+        if (isUseable && playerCount > 0 && prompt != null)
+		{
+            prompt.SetActive(true);
+        }
+        else if (!isUseable && prompt != null)
+		{
+            prompt.SetActive(false);
+        }
     }
 }

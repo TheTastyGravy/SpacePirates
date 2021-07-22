@@ -9,7 +9,7 @@ public class MedbayStation : Interactable
 
 
 
-	public override void Activate(Interactor user)
+	protected override void OnActivate(Interactor user)
 	{
 		PlayerHealth playerHealth = user.GetComponent<PlayerHealth>();
 

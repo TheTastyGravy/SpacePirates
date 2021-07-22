@@ -10,7 +10,7 @@ public class EngineStation : Interactable
 
 
 
-    public override void Activate(Interactor user)
+    protected override void OnActivate(Interactor user)
     {
         // Increase power level, looping
         powerLevel++;
