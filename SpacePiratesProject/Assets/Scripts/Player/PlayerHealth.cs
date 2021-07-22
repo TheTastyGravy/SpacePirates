@@ -6,6 +6,7 @@ public class PlayerHealth : MonoBehaviour
 {
     public float maxHealth = 100;
     public float healthOnRevive = 25;
+    public float Health { get => currentHealth; }
 
     private float currentHealth;
     private BasicController controller;
