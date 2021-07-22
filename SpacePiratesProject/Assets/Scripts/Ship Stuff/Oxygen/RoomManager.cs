@@ -9,15 +9,17 @@ public class RoomManager : MonoBehaviour
     // The possible hole prefabs to create
     public GameObject[] holePrefabs;
     [Space]
+    public float totalRoomOxygen = 100;
     public float baseOxygenRegenRate = 10;
     [Tooltip("When oxygen is below this level, players will start taking damage")]
     public float oxygenDamageLevel = 10;
+    public float playerDamagePerSecond = 10;
 
 
     private HullHoleStation[] holes;
     private float oxygenLevel = 100;
 
-    private List<BasicController> players = new List<BasicController>();
+    private List<PlayerHealth> players = new List<PlayerHealth>();
 
     
 
@@ -63,8 +65,8 @@ public class RoomManager : MonoBehaviour
     {
         // Increase level by base amount
         oxygenLevel += baseOxygenRegenRate * Time.deltaTime;
-        if (oxygenLevel > 100)
-            oxygenLevel = 100;
+        if (oxygenLevel > totalRoomOxygen)
+            oxygenLevel = totalRoomOxygen;
 
         // Find the total loss rate
         float oxygenLossRate = 0;
@@ -86,7 +88,7 @@ public class RoomManager : MonoBehaviour
 		{
             foreach (var player in players)
 			{
-                //player.damage()
+                player.UpdateHealth(-playerDamagePerSecond * Time.deltaTime);
 			}
         }
     }
@@ -96,14 +98,14 @@ public class RoomManager : MonoBehaviour
 	{
 		if (other.CompareTag("Player"))
 		{
-            //add player
+            players.Add(other.GetComponent<PlayerHealth>());
 		}
 	}
 	void OnTriggerExit(Collider other)
 	{
         if (other.CompareTag("Player"))
         {
-            //remove player
+            players.Remove(other.GetComponent<PlayerHealth>());
         }
     }
 }
