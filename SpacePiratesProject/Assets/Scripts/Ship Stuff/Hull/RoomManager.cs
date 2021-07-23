@@ -74,8 +74,6 @@ public class RoomManager : MonoBehaviour
         holes = new HullHoleStation[holePositions.Length];
         // Get all damage stations under this room
         damageStations = GetComponentsInChildren<DamageStation>();
-
-        DamageRoom();
     }
 
     void Update()

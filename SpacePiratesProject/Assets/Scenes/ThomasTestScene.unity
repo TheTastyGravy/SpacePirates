@@ -1085,7 +1085,7 @@ GameObject:
   - component: {fileID: 1979019137}
   - component: {fileID: 1979019136}
   - component: {fileID: 1979019141}
-  - component: {fileID: 1979019135}
+  - component: {fileID: 1979019144}
   - component: {fileID: 1979019140}
   - component: {fileID: 1979019142}
   - component: {fileID: 1979019143}
@@ -1096,20 +1096,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1979019135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1979019134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f5044bb7741c9b49b48710d37113ecd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canMove: 1
-  speed: 5
 --- !u!136 &1979019136
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1244,3 +1230,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prompt: {fileID: 0}
   numberOfInteractions: 3
+--- !u!114 &1979019144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979019134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b849ce839cf9ed24889844de55be550c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  turnSpeed: 10
