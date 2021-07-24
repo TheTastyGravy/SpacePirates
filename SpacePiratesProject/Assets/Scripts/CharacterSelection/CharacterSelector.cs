@@ -20,7 +20,6 @@ public class CharacterSelector : Singleton< CharacterSelector >
         m_ParentSelectorTiles = m_ParentSelectorTiles ?? transform.Find( "SelectorTiles" )?.GetComponent< RectTransform >();
 
         PopulateCharacterTiles();
-        InstantiateSelector( Player.PlayerSlot.P2, new Vector2Int( 1, 0 ) );
     }
 
     public void PopulateCharacterTiles()

@@ -29,8 +29,7 @@ public class ControllerManager : Singleton< ControllerManager >
 
     private void OnPlayerJoined( PlayerInput a_PlayerInput )
     {
-        Player newPlayer = a_PlayerInput.gameObject.AddComponent< Player >();
-        //newPlayer.
+        
     }
 
     private void OnPlayerLeft( PlayerInput a_PlayerInput )

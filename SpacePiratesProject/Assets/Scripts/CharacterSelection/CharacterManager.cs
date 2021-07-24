@@ -7,7 +7,7 @@ public class CharacterManager : Singleton< CharacterManager >
 {
     public CharacterTemplate[] CharacterTemplates;
 
-    public static GameObject CreateCharacter( Character a_Character )
+    public static GameObject CreateCharacter( Character a_Character, bool a_PlayerEnabled = false )
     {
         if ( a_Character.Index < 0 || a_Character.Index >= Instance.CharacterTemplates.Length )
         {
@@ -21,7 +21,9 @@ public class CharacterManager : Singleton< CharacterManager >
             return null;
         }
 
-        return Instantiate( chosenTemplate.CharacterPrefab );
+        GameObject newCharacter = Instantiate( chosenTemplate.CharacterPrefab );
+        newCharacter.GetComponent< Player >().enabled = a_PlayerEnabled;
+        return newCharacter;
     }
 }
 

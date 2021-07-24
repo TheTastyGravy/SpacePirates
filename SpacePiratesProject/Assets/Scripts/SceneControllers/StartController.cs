@@ -18,13 +18,11 @@ public class StartController : MonoBehaviour
     public void OnPlayerJoined( PlayerInput a_PlayerInput )
     {
         PlayerInputManager.instance.DisableJoining();
-
     }
 
     private void OnStartPressed()
     {
         StopCoroutine( m_PressStart );
-        //ControllerManager.Instance.RegisterInputDevice( Player.PlayerSlot.P1, m_LastUsedInputDevice );
         GameManager.Instance.SwitchToState( GameManager.GameState.MAIN );
     }
 

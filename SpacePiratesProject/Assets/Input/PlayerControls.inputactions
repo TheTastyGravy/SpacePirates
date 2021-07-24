@@ -1,0 +1,299 @@
+{
+    "name": "PlayerControls",
+    "maps": [
+        {
+            "name": "PlayerControls",
+            "id": "67ba4c82-134d-49c0-bbfa-215042453d73",
+            "actions": [
+                {
+                    "name": "DPAD_PRESSED",
+                    "type": "Value",
+                    "id": "e52b08fd-78c2-45b0-b05c-afc60c4f8dc7",
+                    "expectedControlType": "Dpad",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "LEFT_STICK",
+                    "type": "Value",
+                    "id": "044eb908-e49c-4dec-9c09-12e85ef10558",
+                    "expectedControlType": "Stick",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "LEFT_STICK_BUTTON_PRESSED",
+                    "type": "Button",
+                    "id": "c060b395-e4ef-43e0-b2a3-c2c526b27166",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "RIGHT_STICK",
+                    "type": "Value",
+                    "id": "c92da488-435d-4b90-bb3b-13fed04ea638",
+                    "expectedControlType": "Stick",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "RIGHT_STICK_BUTTON_PRESSED",
+                    "type": "Button",
+                    "id": "ac75baa8-9eba-4d8a-9f57-d44c966150a3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "START_PRESSED",
+                    "type": "Button",
+                    "id": "d873aea9-2b92-41bb-9e4c-46aaf8dc6c9a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "BACK_PRESSED",
+                    "type": "Button",
+                    "id": "74b79c9c-9305-4511-81ae-e39a31e5e6c0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "A_PRESSED",
+                    "type": "Button",
+                    "id": "6145b96d-0771-4a17-93ca-21d204f288a8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "B_PRESSED",
+                    "type": "Button",
+                    "id": "fb644ab8-fae0-48e4-b24c-f248eb8e9c18",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "X_PRESSED",
+                    "type": "Button",
+                    "id": "52a8ab50-5006-4727-a19e-9c3c12aa98ed",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Y_PRESSED",
+                    "type": "Button",
+                    "id": "47a761b1-6e4a-4c55-a83c-7f63635473d3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "LEFT_BUMPER_PRESSED",
+                    "type": "Button",
+                    "id": "a33461cb-c224-4e11-aa55-373f85c67ba6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "LEFT_TRIGGER",
+                    "type": "Value",
+                    "id": "017fc0f6-6fef-4f6a-a7a8-59ece45dba92",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "RIGHT_BUMPER_PRESSED",
+                    "type": "Button",
+                    "id": "cac3bca7-abf4-44a7-a87f-d7d9019a4f43",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "RIGHT_TRIGGER",
+                    "type": "Value",
+                    "id": "66ee9b5f-a09a-4c6d-bcd9-9e5809f1916d",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a6570f33-4a5d-4939-a5f5-d4be4e52260f",
+                    "path": "<XInputController>/dpad",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DPAD_PRESSED",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4f992b96-2cda-4419-8d49-b92f0cb5ddb9",
+                    "path": "<XInputController>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LEFT_STICK",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "62629a69-f5c9-4130-aeb4-cf14db63b294",
+                    "path": "<XInputController>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LEFT_STICK_BUTTON_PRESSED",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "751d4294-dbf2-411c-97dd-56f033d5135f",
+                    "path": "<XInputController>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RIGHT_STICK",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ae0a8dd2-09fb-4309-bfd4-f7adb4520377",
+                    "path": "<XInputController>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RIGHT_STICK_BUTTON_PRESSED",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8d58a0f4-49a0-4fa5-9ac7-760c659d93b4",
+                    "path": "<XInputController>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "START_PRESSED",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d67859f7-5173-472d-a2c6-6bd40e9d505f",
+                    "path": "<XInputController>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BACK_PRESSED",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "12ba3e60-8302-4a78-8280-a5fa4457a843",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "A_PRESSED",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d0c0fa74-aac5-4ccd-a9c5-6e8ad05ed9a2",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "B_PRESSED",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a386c235-65ed-438f-bc05-beeb5c33bd2b",
+                    "path": "<XInputController>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "X_PRESSED",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "af75f438-28ba-498b-bbf0-f3e91da6b21b",
+                    "path": "<XInputController>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Y_PRESSED",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f7c351ce-1f8c-4329-989c-8feb3fa8fc42",
+                    "path": "<XInputController>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LEFT_BUMPER_PRESSED",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "659f7759-3d4c-45d4-89cc-4547d79f655d",
+                    "path": "<XInputController>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LEFT_TRIGGER",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e7f1a4d4-68d5-4ad6-be4f-c659470a8ec8",
+                    "path": "<XInputController>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RIGHT_BUMPER_PRESSED",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5a1bc150-cf9b-420c-89d1-b5a862edf2a0",
+                    "path": "<XInputController>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RIGHT_TRIGGER",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

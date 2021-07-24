@@ -6,31 +6,31 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/INIT.unity
+    path: Assets/Scenes/State Scenes/INIT.unity
     guid: 676ac41316bf522429464dc11bcf2864
   - enabled: 1
-    path: Assets/Scenes/SPLASH.unity
+    path: Assets/Scenes/State Scenes/SPLASH.unity
     guid: a82e6633eed99f84abb05b2b12adccc3
   - enabled: 1
-    path: Assets/Scenes/START.unity
+    path: Assets/Scenes/State Scenes/START.unity
     guid: 63ce69ee21c39104aa283c415370786d
   - enabled: 1
-    path: Assets/Scenes/MAIN.unity
+    path: Assets/Scenes/State Scenes/MAIN.unity
     guid: 636849d683ec7464dad5a9ca031094c8
   - enabled: 1
-    path: Assets/Scenes/SHIP.unity
+    path: Assets/Scenes/State Scenes/SHIP.unity
     guid: 0e206de45d42540428609247d37461a9
   - enabled: 1
-    path: Assets/Scenes/CHARACTER.unity
+    path: Assets/Scenes/State Scenes/CHARACTER.unity
     guid: 69926c1e5f1535d4983b5436bc580e42
   - enabled: 1
-    path: Assets/Scenes/TRACK.unity
+    path: Assets/Scenes/State Scenes/TRACK.unity
     guid: 5e041d5691fd82647a85528f244b44e1
   - enabled: 1
-    path: Assets/Scenes/GAME.unity
+    path: Assets/Scenes/State Scenes/GAME.unity
     guid: 51cc8b2394e27874e8cb093520b65589
   - enabled: 1
-    path: Assets/Scenes/SUMMARY.unity
+    path: Assets/Scenes/State Scenes/SUMMARY.unity
     guid: de7b287d1acf73f4a9375ab9ab163ff0
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 88552c2ba1ac2a244a4e31d0cd0cd9f0, type: 2}
