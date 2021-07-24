@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class GameManager : Singleton< GameManager >
 {
@@ -36,10 +37,10 @@ public class GameManager : Singleton< GameManager >
 
     private void Start()
     {
-        DontDestroyOnLoad( this );
         m_SelectedShip = -1;
         m_SelectedMap = -1;
-        m_CurrentState = GameState.NONE;
+        
+        SwitchToState( GameState.SPLASH );
     }
 
     public void SwitchToState( GameState a_GameState )
@@ -53,13 +54,14 @@ public class GameManager : Singleton< GameManager >
         {
             SceneManager.UnloadSceneAsync( m_CurrentState.ToString() ).completed += asyncOperation => 
             { 
-                SceneManager.LoadSceneAsync( a_GameState.ToString() ); m_CurrentState = a_GameState; 
+                SceneManager.LoadSceneAsync( a_GameState.ToString(), LoadSceneMode.Additive ); 
+                m_CurrentState = a_GameState; 
             };
 
             return;
         }
         
-        SceneManager.LoadSceneAsync( a_GameState.ToString() );
+        SceneManager.LoadSceneAsync( a_GameState.ToString(), LoadSceneMode.Additive );
         m_CurrentState = a_GameState;
     }
 

@@ -147,3 +147,30 @@ public class CharacterSelector : Singleton< CharacterSelector >
         UP, DOWN, LEFT, RIGHT
     }
 }
+
+public struct Character
+{
+    public int Index
+    {
+        get
+        {
+            return m_Index;
+        }
+    }
+    public int Variant
+    {
+        get
+        {
+            return m_Variant;
+        }
+    }
+
+    public Character( int a_Index, int a_Variant, GameObject a_Prefab )
+    {
+        m_Index = a_Index;
+        m_Variant = a_Variant;
+    }
+
+    private int m_Index;
+    private int m_Variant;
+}

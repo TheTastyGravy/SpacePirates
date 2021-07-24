@@ -219,9 +219,12 @@ public class TrackManager : MonoBehaviour
         Vector3 curveDir = curvePoint - lastCurvePoint;
         curveDir.Normalize();
 
+        //Debug.Log( curveDir );
 
         //update cam
         Quaternion rot = Quaternion.FromToRotation(lastCurveDir, curveDir);
+
+        Debug.Log( rot.eulerAngles );
 
         rot = Quaternion.LerpUnclamped(Quaternion.identity, rot, 5);
 
@@ -232,7 +235,7 @@ public class TrackManager : MonoBehaviour
         Vector3 vec = Vector3.zero;
         float angle = Vector3.Angle(lastCurveDir, curveDir) * 5 * Mathf.Deg2Rad;
 
-        Debug.Log(angle * Mathf.Rad2Deg);
+        //Debug.Log(angle * Mathf.Rad2Deg);
 
         vec.x = Vector3.forward.x * Mathf.Cos(angle) - Vector3.forward.z * Mathf.Sin(angle);
         vec.z = Vector3.forward.x * Mathf.Sin(angle) + Vector3.forward.z * Mathf.Cos(angle);
