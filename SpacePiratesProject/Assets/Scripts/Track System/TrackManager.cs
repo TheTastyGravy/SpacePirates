@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TrackManager : MonoBehaviour
 {
@@ -20,62 +21,64 @@ public class TrackManager : MonoBehaviour
         public float segmentDist;
 	}
 
-    // ---------- VISUALS ----------
-    public Transform cameraTrans;
-    public Transform background;
-
-    private Quaternion initCamRot;
-    private Vector3 lastCurvePoint;
-    private Vector3 lastCurveDir;
-
-
-
+    
     public TrackType[] track;
-
+    [Space]
     public EngineStation[] leftEngines;
     public EngineStation[] rightEngines;
     public EngineStation[] centerEngines;
 
+    [Space]
+    [Tooltip("Invoked when the player reaches the end of the track")]
+    public UnityEvent onPlayerFinish;
+
+    [Space]
+    // ---------- VISUALS ----------
+    public Transform cameraTrans;
+
+    public AnimationCurve curve90;
+    public float maxAngle90;
+    public AnimationCurve curve45;
+    public float maxAngle45;
+
 
     private ShipPosition playerShip;
-
     private AIManager ai;
-
-
 
 
 
     void Start()
     {
         ai = GetComponent<AIManager>();
-
-        initCamRot = cameraTrans.rotation;
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        //get engine efficiency for player
+        // Get engine efficiency for player
         float playerEngine = GetEngineEfficiency();
 
-        //get new ship positions for all ships
+        // Get new ship positions
         ShipPosition newPlayerShip = GetNewShipPos(playerShip, playerEngine);
         List<ShipPosition> newAiShips = new List<ShipPosition>();
         for (int i = 0; i < ai.aiCount; i++)
 		{
-            newAiShips[i] = GetNewShipPos(ai.ships[i], ai.engineEfficiencies[i]);
+            newAiShips.Add(GetNewShipPos(ai.ships[i], ai.engineEfficiencies[i]));
         }
 
-
-        //check if the player has any passes
+        // Check if the player has any passes
         CheckForPasses(newPlayerShip, newAiShips);
 
-        //update positions
+        // Update positions
         playerShip = newPlayerShip;
         ai.ships = newAiShips;
+        // Check if the player has reached the end of the track
+        if (playerShip.trackIndex == track.Length-1 && playerShip.segmentDist == 1)
+		{
+            onPlayerFinish.Invoke();
+        }
 
-
-        //update ui and visuals
-        UpdateVisuals();
+        UpdateCamera();
+        UpdateUI();
     }
 
 
@@ -125,11 +128,60 @@ public class TrackManager : MonoBehaviour
         #endregion
 
 
+        float power = 0;
 
-        //magic
+        //  THIS NEEDS TO BE GENERALISED
+        TrackType currentTrack = track[playerShip.trackIndex];
+        switch (currentTrack)
+		{
+            case TrackType.Straight:
+				if (left == right)
+				{
+                    //divide by 9 because 3 regions * 3 power levels
+                    power = (left + right + center) / 9f;
+				}
+                break;
+
+            case TrackType.Left90:
+                if (left == 1 && right == 3)
+                    power = 1;
+                else if (left == 2 && right == 3)
+                    power = 0.666f;
+                else if (left == 1 && right == 2)
+                    power = 0.333f;
+                break;
+            case TrackType.Right90:
+                if (left == 3 && right == 1)
+                    power = 1;
+                else if (left == 3 && right == 2)
+                    power = 0.666f;
+                else if (left == 2 && right == 1)
+                    power = 0.333f;
+                break;
+
+            case TrackType.Left45:
+                if (left == 1 && right == 3)
+                    power = 0.333f;
+                else if (left == 2 && right == 3)
+                    power = 1;
+                else if (left == 1 && right == 2)
+                    power = 0.666f;
+                break;
+            case TrackType.Right45:
+                if (left == 3 && right == 1)
+                    power = 0.333f;
+                else if (left == 3 && right == 2)
+                    power = 1;
+                else if (left == 2 && right == 1)
+                    power = 0.666f;
+                break;
+        }
 
 
-        return 1f;
+        //min value
+        if (power < 0.25f)
+            power = 0.25f;
+        return power;
 	}
 
     private ShipPosition GetNewShipPos(ShipPosition shipPos, float engineEfficiency)
@@ -141,6 +193,12 @@ public class TrackManager : MonoBehaviour
             shipPos.segmentDist -= 1;
             shipPos.trackIndex++;
 		}
+        // Prevent ship position from going past the end of the track
+        if (shipPos.trackIndex >= track.Length)
+		{
+            shipPos.segmentDist = 1;
+            shipPos.trackIndex = track.Length - 1;
+        }
 
         return shipPos;
 	}
@@ -186,79 +244,44 @@ public class TrackManager : MonoBehaviour
 	}
 
 
-    // Visuals include background and the camera
-    private void UpdateVisuals()
+    private void UpdateCamera()
 	{
         TrackType currentTrack = track[playerShip.trackIndex];
 
         //default state
         if (currentTrack == TrackType.Straight)
 		{
-            lastCurvePoint = Vector3.zero;
-            lastCurveDir = Vector3.forward;
-            cameraTrans.rotation = initCamRot;
-            background.forward = Vector3.forward;
+            cameraTrans.forward = Vector3.forward;
             return;
         }
 
 
-        Vector3 curvePoint;
+        float angle;
         // 90 degree track
         if (currentTrack == TrackType.Left90 || currentTrack == TrackType.Right90)
 		{
-            curvePoint = GetPointOnCurve(playerShip.segmentDist, new Vector3(0,0,0), new Vector3(0,0,1), new Vector3(1,0,1));
+            angle = curve90.Evaluate(playerShip.segmentDist) * maxAngle90;
         }
         // 45 degree track
 		else
 		{
-            curvePoint = GetPointOnCurve(playerShip.segmentDist, new Vector3(0, 0, 0), new Vector3(0, 0, 0.414f), new Vector3(0.414f, 0, 1));
+            angle = curve45.Evaluate(playerShip.segmentDist) * maxAngle45;
         }
+        angle *= Mathf.Deg2Rad;
 
-        //flip for right turns
-
-        Vector3 curveDir = curvePoint - lastCurvePoint;
-        curveDir.Normalize();
-
-        //Debug.Log( curveDir );
-
-        //update cam
-        Quaternion rot = Quaternion.FromToRotation(lastCurveDir, curveDir);
-
-        Debug.Log( rot.eulerAngles );
-
-        rot = Quaternion.LerpUnclamped(Quaternion.identity, rot, 5);
-
-        rot = initCamRot * rot;
-        cameraTrans.rotation = rot;
-
-        //update background
-        Vector3 vec = Vector3.zero;
-        float angle = Vector3.Angle(lastCurveDir, curveDir) * 5 * Mathf.Deg2Rad;
-
-        //Debug.Log(angle * Mathf.Rad2Deg);
-
-        vec.x = Vector3.forward.x * Mathf.Cos(angle) - Vector3.forward.z * Mathf.Sin(angle);
-        vec.z = Vector3.forward.x * Mathf.Sin(angle) + Vector3.forward.z * Mathf.Cos(angle);
-        background.forward = vec;
-
-        lastCurvePoint = curvePoint;
-        lastCurveDir = curveDir;
+        // Get direction from angle
+        Vector3 dir = Vector3.zero;
+        dir.x = Vector3.forward.x * Mathf.Cos(angle) - Vector3.forward.z * Mathf.Sin(angle);
+        dir.z = Vector3.forward.x * Mathf.Sin(angle) + Vector3.forward.z * Mathf.Cos(angle);
+        // Flip direction for left turns
+        if (currentTrack == TrackType.Left90 || currentTrack == TrackType.Left45)
+            dir.x = -dir.x;
+		
+        cameraTrans.forward = dir;
 	}
 
-
-    private Vector3 GetPointOnCurve(float t, in Vector3 p1, in Vector3 p2, in Vector3 p3)
-    {
-        if (t < 0 || t > 1)
-            return Vector3.zero;
-
-        float c = 1.0f - t;
-
-        // The Bernstein polynomials
-        float bb0 = c * c;
-        float bb1 = 2 * c * t;
-        float bb2 = t * t;
-
-        // Return the point
-        return p1 * bb0 + p2 * bb1 + p3 * bb2;
-    }
+    private void UpdateUI()
+	{
+        //TODO
+	}
 }
