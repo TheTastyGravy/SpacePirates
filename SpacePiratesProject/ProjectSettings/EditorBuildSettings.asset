@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/State Scenes/START.unity
     guid: 63ce69ee21c39104aa283c415370786d
   - enabled: 1
-    path: Assets/Scenes/State Scenes/MAIN.unity
+    path: Assets/Scenes/State Scenes/MENU.unity
     guid: 636849d683ec7464dad5a9ca031094c8
   - enabled: 1
     path: Assets/Scenes/State Scenes/SHIP.unity

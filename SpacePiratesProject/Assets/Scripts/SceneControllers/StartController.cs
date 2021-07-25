@@ -23,7 +23,7 @@ public class StartController : MonoBehaviour
     {
         PlayerInputManager.instance.DisableJoining();
         StopCoroutine( m_PressStart );
-        GameManager.Instance.SwitchToState( GameManager.GameState.MAIN );
+        GameManager.CurrentState = GameManager.GameState.MENU;
     }
 
     private IEnumerator PressStart()

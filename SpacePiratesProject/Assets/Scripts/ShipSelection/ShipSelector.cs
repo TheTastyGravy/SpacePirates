@@ -21,6 +21,43 @@ public class ShipSelector : MonoBehaviour
         }
 
         SetShipIndex( 0 );
+        IPlayer primaryPlayer = ControllerManager.RetrievePlayer( IPlayer.PlayerSlot.P1 );
+        primaryPlayer.GetInputAction( IPlayer.Control.DPAD_PRESSED ).performed += OnDPADPressed;
+        primaryPlayer.GetInputAction( IPlayer.Control.A_PRESSED ).performed += OnAPressed;
+        primaryPlayer.GetInputAction( IPlayer.Control.B_PRESSED ).performed += OnBPressed;
+    }
+
+    private void OnDestroy()
+    {
+        IPlayer primaryPlayer = ControllerManager.RetrievePlayer( IPlayer.PlayerSlot.P1 );
+        primaryPlayer.GetInputAction( IPlayer.Control.DPAD_PRESSED ).performed -= OnDPADPressed;
+        primaryPlayer.GetInputAction( IPlayer.Control.A_PRESSED ).performed -= OnAPressed;
+        primaryPlayer.GetInputAction( IPlayer.Control.B_PRESSED ).performed -= OnBPressed;
+    }
+
+    private void OnDPADPressed( InputAction.CallbackContext a_CallbackContext )
+    {
+        Vector2 value = a_CallbackContext.ReadValue< Vector2 >();
+
+        if ( value.x < 0 )
+        {
+            DecrementShipIndex();
+        }
+        else if ( value.x > 0 )
+        {
+            IncrementShipIndex();
+        }
+    }
+
+    private void OnAPressed( InputAction.CallbackContext _ )
+    {
+        GameManager.RegisterSelectedShip( CurrentShipIndex );
+        GameManager.CurrentState = GameManager.GameState.CHARACTER;
+    }
+
+    private void OnBPressed( InputAction.CallbackContext _ )
+    {
+        GameManager.CurrentState = GameManager.GameState.MENU;
     }
 
     public void SetShipIndex( int a_Index )
@@ -68,25 +105,6 @@ public class ShipSelector : MonoBehaviour
         }
 
         m_ShipTiles[ CurrentShipIndex ].gameObject.SetActive( true );
-    }
-
-    private void OnDPadPressed( InputValue a_Value )
-    {
-        Vector2 value = a_Value.Get< Vector2 >();
-
-        if ( value.x < 0 )
-        {
-            DecrementShipIndex();
-        }
-        else if ( value.x > 0 )
-        {
-            IncrementShipIndex();
-        }
-    }
-
-    private void OnAPressed()
-    {
-        GameManager.Instance.RegisterSelectedShip( CurrentShipIndex );
     }
 
     private ShipTile[] m_ShipTiles;
