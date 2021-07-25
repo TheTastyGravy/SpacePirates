@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
@@ -19,6 +18,10 @@ public class IPlayer : PlayerInput
         {
             return m_ControlStage;
         }
+        set
+        {
+            m_ControlStage = value;
+        }
     }
     public InputDevice Device
     {
@@ -27,123 +30,107 @@ public class IPlayer : PlayerInput
             return devices.Count > 0 ? devices[ 0 ] : null;
         }
     }
-    public Character Character
+    public ICharacter Character
     {
         get
         {
             return m_Character;
         }
     }
-    public GameObject CharacterObject
+
+    private void Start()
     {
-        get
+        m_InputActions = actions.actionMaps[ 0 ].actions;
+    }
+
+    public bool GetInput( Control a_Control )
+    {
+        return m_InputActions[ ( int )a_Control ].ReadValue< bool >();
+    }
+
+    public void GetInput( Control a_Control, out Vector2 a_Value )
+    {
+        a_Value = m_InputActions[ ( int )a_Control ].ReadValue< Vector2 >();
+    }
+
+    public void GetInput( Control a_Control, out float a_Value )
+    {
+        a_Value = m_InputActions[ ( int )a_Control ].ReadValue< float >();
+    }
+
+    public InputAction GetInputAction( Control a_Control )
+    {
+        return m_InputActions[ ( int )a_Control ];
+    }
+    
+    public void AddInputListener( Control a_Control, Action< InputAction.CallbackContext > a_OnPerformed )
+    {
+        m_InputActions[ ( int )a_Control ].performed += a_OnPerformed;
+    }
+
+    public void RemoveInputListener( Control a_Control, Action< InputAction.CallbackContext > a_OnPerformed )
+    {
+        m_InputActions[ ( int )a_Control ].performed -= a_OnPerformed;
+    }
+
+    public void ChangeCharacter( int a_VariantIndex )
+    {
+        m_Character.VariantIndex = a_VariantIndex;
+    }
+
+    public void ChangeCharacter( int a_CharacterIndex, int a_VariantIndex )
+    {
+        if ( m_Character != null && m_Character.CharacterIndex == a_CharacterIndex )
         {
-            return m_CharacterObject;
-        }
-    }
-
-    private void Awake()
-    {
-        m_Character = new Character( -1, -1 );
-        m_Inputs = actions.actionMaps[ 0 ].actions;
-        ChangeCharacter( new Character( 0, 0 ) );
-    }
-
-    protected void GetInput( Control a_Control, out Vector2 a_Value )
-    {
-        a_Value = m_Inputs[ ( int )a_Control ].ReadValue< Vector2 >();
-    }
-
-    protected bool GetInput( Control a_Control )
-    {
-        return m_Inputs[ ( int )a_Control ].ReadValue< bool >();
-    }
-
-    protected void GetInput( Control a_Control, out float a_Value )
-    {
-        a_Value = m_Inputs[ ( int )a_Control ].ReadValue< float >();
-    }
-
-    public void ChangeCharacter( Character a_Character )
-    {
-        if ( a_Character.Index == m_Character.Index )
-        {
-            if ( a_Character.Variant == m_Character.Variant )
+            if ( m_Character.VariantIndex == a_VariantIndex )
             {
                 return;
             }
-            else if ( m_CharacterObject == null )
-            {
-                CharacterManager.CreateCharacter( a_Character, transform ).name = "Character";
-                OnCharacterChange( m_Character, a_Character );
-            }
             else
             {
-                m_CharacterObject.GetComponent< MeshRenderer >().material = CharacterManager.GetCharacterMaterial( a_Character );
-                OnCharacterChange( m_Character, a_Character );
+                m_Character.VariantIndex = a_VariantIndex;
             }
         }
         else
         {
-            if ( m_CharacterObject != null )
+            if ( m_Character != null )
             {
-                Destroy( m_CharacterObject );
+                Destroy( m_Character.gameObject );
+                m_Character = CharacterManager.CreateCharacter( a_CharacterIndex, a_VariantIndex );
+                m_Character.transform.parent = transform;
+                typeof( ICharacter ).GetProperty( "m_Player" ).SetValue( m_Character, this );
             }
-            
-            m_CharacterObject = CharacterManager.CreateCharacter( a_Character, transform );
-            m_CharacterObject.name = "Character";
-            OnCharacterChange( m_Character, a_Character );
         }
-
-        m_Character = a_Character;
     }
 
-    protected virtual void OnCharacterChange( Character a_OldCharacter, Character a_NewCharacter ) { }
-
-    public void SetControlStage( ControlStage a_ControlStage )
+    public void ChangeCharacter( string a_CharacterName, int a_VariantIndex )
     {
-        m_ControlStage = a_ControlStage;
-
-        switch ( a_ControlStage )
+        if ( m_Character != null && m_Character.CharacterName == a_CharacterName )
         {
-            case ControlStage.MENU:
-                {
-                    notificationBehavior = PlayerNotifications.SendMessages;
-                }
-                break;
-            case ControlStage.GAME:
-                {
-                    enabled = true;
-                    notificationBehavior = PlayerNotifications.InvokeCSharpEvents;
-                }
-                break;
+            if ( m_Character.VariantIndex == a_VariantIndex )
+            {
+                return;
+            }
+            else
+            {
+                m_Character.VariantIndex = a_VariantIndex;
+            }
         }
-    }
-
-    private void OnDPAD_PRESSED( InputValue a_Value )
-    {
-
-    }
-
-    private void OnSTART_PRESSED()
-    {
-
-    }
-
-    private void OnA_PRESSED()
-    {
-
-    }
-
-    private void OnB_PRESSED()
-    {
-
+        else
+        {
+            if ( m_Character != null )
+            {
+                Destroy( m_Character.gameObject );
+                m_Character = CharacterManager.CreateCharacter( a_CharacterName, a_VariantIndex );
+                m_Character.transform.parent = transform;
+                typeof( ICharacter ).GetProperty( "m_Player" ).SetValue( m_Character, this );
+            }
+        }
     }
 
     private ControlStage m_ControlStage;
-    private Character m_Character;
-    private ReadOnlyArray< InputAction > m_Inputs;
-    private GameObject m_CharacterObject;
+    private ICharacter m_Character;
+    private ReadOnlyArray< InputAction > m_InputActions;
 
     public enum PlayerSlot
     {

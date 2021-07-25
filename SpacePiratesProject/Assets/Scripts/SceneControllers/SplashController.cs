@@ -36,11 +36,11 @@ public class SplashController : MonoBehaviour
             Filter.color = new Color( 0.0f, 0.0f, 0.0f, alpha );
         }
 
-        GameManager.Instance.SwitchToState( GameManager.GameState.START );
+        GameManager.CurrentState = GameManager.GameState.START;
     }
 
     private IEnumerator Splash()
     {
-        yield return new WaitForSeconds( 2.0f );
+        yield return new WaitForSeconds( 0.0f );
     }
 }

@@ -3,28 +3,50 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 
 public class GameManager : Singleton< GameManager >
 {
-    public int SelectedShip
+    public static int SelectedShip
     {
         get
         {
-            return m_SelectedShip;
+            return Instance.m_SelectedShip;
         }
     }
-    public int SelectedMap
+    public static int SelectedMap
     {
         get
         {
-            return m_SelectedMap;
+            return Instance.m_SelectedMap;
         }
     }
-    public GameState CurrentState
+    public static GameState CurrentState
     {
         get
         {
-            return m_CurrentState;
+            return Instance.m_CurrentState;
+        }
+        set
+        {
+            if ( Instance.m_CurrentState == value )
+            {
+                return;
+            }
+
+            if ( Instance.m_CurrentState != GameState.NONE )
+            {
+                SceneManager.UnloadSceneAsync( Instance.m_CurrentState.ToString() ).completed += asyncOperation => 
+                { 
+                    SceneManager.LoadSceneAsync( value.ToString(), LoadSceneMode.Additive ); 
+                    Instance.m_CurrentState = value; 
+                };
+
+                return;
+            }
+            
+            SceneManager.LoadSceneAsync( value.ToString(), LoadSceneMode.Additive );
+            Instance.m_CurrentState = value;
         }
     }
 
@@ -33,39 +55,17 @@ public class GameManager : Singleton< GameManager >
         m_SelectedShip = -1;
         m_SelectedMap = -1;
         
-        SwitchToState( GameState.SPLASH );
+        CurrentState = GameState.SPLASH;
     }
 
-    public void SwitchToState( GameState a_GameState )
+    public static void RegisterSelectedShip( int a_Index )
     {
-        if ( m_CurrentState == a_GameState )
-        {
-            return;
-        }
-
-        if ( m_CurrentState != GameState.NONE )
-        {
-            SceneManager.UnloadSceneAsync( m_CurrentState.ToString() ).completed += asyncOperation => 
-            { 
-                SceneManager.LoadSceneAsync( a_GameState.ToString(), LoadSceneMode.Additive ); 
-                m_CurrentState = a_GameState; 
-            };
-
-            return;
-        }
-        
-        SceneManager.LoadSceneAsync( a_GameState.ToString(), LoadSceneMode.Additive );
-        m_CurrentState = a_GameState;
+        Instance.m_SelectedShip = a_Index;
     }
 
-    public void RegisterSelectedShip( int a_Index )
+    public static void RegisterSelectedMap( int a_Index )
     {
-        m_SelectedShip = a_Index;
-    }
-
-    public void RegisterSelectedMap( int a_Index )
-    {
-        m_SelectedMap = a_Index;
+        Instance.m_SelectedMap = a_Index;
     }
 
     private int m_SelectedShip;
@@ -77,7 +77,7 @@ public class GameManager : Singleton< GameManager >
         NONE,
         SPLASH,
         START,
-        MAIN,
+        MENU,
         SHIP,
         CHARACTER,
         TRACK,

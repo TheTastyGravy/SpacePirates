@@ -5,75 +5,110 @@ using System;
 
 public class CharacterManager : Singleton< CharacterManager >
 {
-    [ SerializeField ] private CharacterTemplate[] CharacterTemplates;
+    public CharacterTemplate[] CharacterTemplates;
 
-    public static GameObject CreateCharacter( Character a_Character, Transform a_Parent )
+    private void OnValidate()
     {
-        if ( a_Character.Index < 0 || a_Character.Index >= Instance.CharacterTemplates.Length )
+        for ( int i = 0; i < CharacterTemplates.Length; ++i )
         {
-            return null;
+            typeof( CharacterTemplate ).GetProperty( "m_Index" ).SetValue( CharacterTemplates[ i ], i );
         }
-
-        ref CharacterTemplate chosenTemplate = ref Instance.CharacterTemplates[ a_Character.Index ];
-        
-        if ( a_Character.Variant < 0 || a_Character.Variant >= chosenTemplate.CharacterMaterials.Length )
-        {
-            return null;
-        }
-
-        GameObject newCharacter = Instantiate( chosenTemplate.CharacterPrefab, a_Parent );
-        newCharacter.GetComponent< MeshRenderer >().material = chosenTemplate.CharacterMaterials[ a_Character.Variant ];
-        return newCharacter;
     }
 
-    public static Material GetCharacterMaterial( Character a_Character )
+    public static ICharacter CreateCharacter( int a_CharacterIndex, int a_VariantIndex = 0 )
     {
-        if ( a_Character.Index < 0 || a_Character.Index >= Instance.CharacterTemplates.Length )
-        {
-            return null;
-        }
-        
-        ref CharacterTemplate chosenTemplate = ref Instance.CharacterTemplates[ a_Character.Index ];
-        
-        if ( a_Character.Variant < 0 || a_Character.Variant >= chosenTemplate.CharacterMaterials.Length )
+        if ( a_CharacterIndex < 0 || a_CharacterIndex >= Instance.CharacterTemplates.Length || a_VariantIndex < 0 )
         {
             return null;
         }
 
-        return Instance.CharacterTemplates[ a_Character.Index ].CharacterMaterials[ a_Character.Variant ];
+        ref CharacterTemplate template = ref Instance.CharacterTemplates[ a_CharacterIndex ];
+
+        if ( a_VariantIndex >= template.VariantCount )
+        {
+            return null;
+        }
+
+        return template.Instantiate( a_VariantIndex );
+    }
+
+    public static ICharacter CreateCharacter( string a_CharacterName, int a_VariantIndex = 0 )
+    {
+        if ( a_VariantIndex < 0 )
+        {
+            return null;
+        }
+
+        int foundIndex = Array.FindIndex( Instance.CharacterTemplates, template => template.Character.name == a_CharacterName );
+
+        if ( foundIndex == -1 )
+        {
+            return null;
+        }
+
+        ref CharacterTemplate template = ref Instance.CharacterTemplates[ foundIndex ];
+
+        if ( a_VariantIndex >= template.VariantCount )
+        {
+            return null;
+        }
+
+        return template.Instantiate( a_VariantIndex );
+    }
+
+    public static Material GetVariantMaterial( int a_CharacterIndex, int a_VariantIndex )
+    {
+        if ( a_CharacterIndex < 0 || a_CharacterIndex >= Instance.CharacterTemplates.Length || a_VariantIndex < 0 )
+        {
+            return null;
+        }
+
+        ref CharacterTemplate template = ref Instance.CharacterTemplates[ a_CharacterIndex ];
+
+        return Instance.CharacterTemplates[ a_CharacterIndex ].GetMaterial( a_VariantIndex );
     }
 }
 
 [ Serializable ]
 public struct CharacterTemplate
 {
-    public GameObject CharacterPrefab;
-    public Material[] CharacterMaterials;
-}
-
-public struct Character
-{
-    public int Index
+    public ICharacter Character
     {
         get
         {
-            return m_Index;
+            return m_Character;
         }
     }
-    public int Variant
+    public int VariantCount
     {
         get
         {
-            return m_Variant;
+            return m_Materials.Length;
         }
     }
 
-    public Character( int a_Index, int a_Variant )
+    public ICharacter Instantiate( int a_VariantIndex = 0 )
     {
-        m_Index = a_Index;
-        m_Variant = a_Variant;
+        a_VariantIndex = Mathf.Clamp( a_VariantIndex, 0, m_Materials.Length - 1 );
+        ICharacter newCharacter = UnityEngine.Object.Instantiate( m_Character );
+        typeof( ICharacter ).GetProperty( "m_CharacterName" ).SetValue( newCharacter, m_Character.name );
+        typeof( ICharacter ).GetProperty( "m_CharacterIndex" ).SetValue( newCharacter, m_Index );
+        typeof( ICharacter ).GetProperty( "m_VariantIndex" ).SetValue( newCharacter, a_VariantIndex );
+        newCharacter.GetComponent< MeshRenderer >().material = m_Materials[ a_VariantIndex ];
+        return newCharacter;
+    }
+
+    public Material GetMaterial( int a_VariantIndex )
+    {
+        if ( a_VariantIndex < 0 || a_VariantIndex >= m_Materials.Length )
+        {
+            return null;
+        }
+
+        return m_Materials[ a_VariantIndex ];
     }
 
     private int m_Index;
-    private int m_Variant;
+    [ SerializeField ] private Material[] m_Materials;
+    [ SerializeField ] private ICharacter m_Character;
 }
