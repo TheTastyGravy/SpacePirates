@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class StartController : MonoBehaviour
 {
     public GameObject PressStartText;
-    public PlayerInput PlayerInput;
 
     private void Start()
     {
@@ -15,13 +14,14 @@ public class StartController : MonoBehaviour
         PlayerInputManager.instance.onPlayerJoined += OnPlayerJoined;
     }
 
+    private void OnDestroy()
+    {
+        PlayerInputManager.instance.onPlayerJoined -= OnPlayerJoined;
+    }
+
     public void OnPlayerJoined( PlayerInput a_PlayerInput )
     {
         PlayerInputManager.instance.DisableJoining();
-    }
-
-    private void OnStartPressed()
-    {
         StopCoroutine( m_PressStart );
         GameManager.Instance.SwitchToState( GameManager.GameState.MAIN );
     }

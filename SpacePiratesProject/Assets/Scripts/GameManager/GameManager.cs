@@ -13,13 +13,6 @@ public class GameManager : Singleton< GameManager >
             return m_SelectedShip;
         }
     }
-    public int PlayerCount
-    {
-        get
-        {
-            return m_RegisteredPlayers.Length;
-        }
-    }
     public int SelectedMap
     {
         get
@@ -75,19 +68,8 @@ public class GameManager : Singleton< GameManager >
         m_SelectedMap = a_Index;
     }
 
-    public Player GetPlayer( Player.PlayerSlot a_PlayerSlot )
-    {
-        if ( ( int )a_PlayerSlot >= m_RegisteredPlayers.Length )
-        {
-            return null;
-        }
-
-        return m_RegisteredPlayers[ ( int )a_PlayerSlot ];
-    }
-
     private int m_SelectedShip;
     private int m_SelectedMap;
-    private Player[] m_RegisteredPlayers;
     private GameState m_CurrentState;
 
     public enum GameState

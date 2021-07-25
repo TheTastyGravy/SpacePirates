@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 1234440285}
   - component: {fileID: 1234440284}
   - component: {fileID: 1234440286}
+  - component: {fileID: 1234440288}
   - component: {fileID: 1234440287}
   m_Layer: 0
   m_Name: GameManager
@@ -254,7 +255,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 518662c6d4380c744835f524acca5e17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Text: {fileID: 0}
 --- !u!114 &1234440287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,10 +267,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 3
   m_MaxPlayerCount: -1
   m_AllowJoining: 0
-  m_JoinBehavior: 2
+  m_JoinBehavior: 1
   m_PlayerJoinedEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -280,15 +280,23 @@ MonoBehaviour:
   m_JoinAction:
     m_UseReference: 0
     m_Action:
-      m_Name: 
+      m_Name: Join
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 
+      m_Id: 217aab2e-ed87-4dc0-8570-48400be3d79d
       m_Processors: 
       m_Interactions: 
-      m_SingletonActionBindings: []
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: 5bee84b2-bf31-4f9c-b1ed-ee29550ed2ca
+        m_Path: <XInputController>/start
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
     m_Reference: {fileID: 0}
-  m_PlayerPrefab: {fileID: 0}
+  m_PlayerPrefab: {fileID: 7805122478229081468, guid: 9f4d2ebe216e82349b70066fa682ce43, type: 3}
   m_SplitScreen: 0
   m_MaintainAspectRatioInSplitScreen: 0
   m_FixedNumberOfSplitScreens: -1
@@ -298,6 +306,34 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &1234440288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1234440283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 990acff2a16535f4494ee23f9539c259, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CharacterTemplates:
+  - CharacterPrefab: {fileID: 1826442602404909407, guid: 7483a3fca6f1ee9419524ee68803a790, type: 3}
+    CharacterMaterials:
+    - {fileID: 2100000, guid: d619cfe3e504ba941aacb8d69ff57367, type: 2}
+    - {fileID: 2100000, guid: 29f4f5d92557c1b49873df4dfd8882b2, type: 2}
+    - {fileID: 2100000, guid: dabbddd1b5d1aef4088589fe41bac36a, type: 2}
+  - CharacterPrefab: {fileID: 8930849702745272475, guid: 27fe0ba167b8f2e459224499e63251d9, type: 3}
+    CharacterMaterials:
+    - {fileID: 2100000, guid: d619cfe3e504ba941aacb8d69ff57367, type: 2}
+    - {fileID: 2100000, guid: 29f4f5d92557c1b49873df4dfd8882b2, type: 2}
+    - {fileID: 2100000, guid: dabbddd1b5d1aef4088589fe41bac36a, type: 2}
+  - CharacterPrefab: {fileID: 7157204328620887941, guid: 58a9e26b30ae3ce428445bd8fb22aa29, type: 3}
+    CharacterMaterials:
+    - {fileID: 2100000, guid: d619cfe3e504ba941aacb8d69ff57367, type: 2}
+    - {fileID: 2100000, guid: 29f4f5d92557c1b49873df4dfd8882b2, type: 2}
+    - {fileID: 2100000, guid: dabbddd1b5d1aef4088589fe41bac36a, type: 2}
 --- !u!1 &1641688840
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,22 +20,40 @@ public class ControllerManager : Singleton< ControllerManager >
     {
         PlayerInputManager.instance.onPlayerJoined += OnPlayerJoined;
         PlayerInputManager.instance.onPlayerLeft += OnPlayerLeft;
+        m_ParentPlayers = m_ParentPlayers ?? transform.Find( "Players" );
+
+        if ( m_ParentPlayers == null )
+        {
+            GameObject newParentPlayers = new GameObject( "Players" );
+            newParentPlayers.transform.parent = transform;
+        }
+
+        m_Players = new List< IPlayer >();
     }
     
-    public static Player RetrievePlayer( Player.PlayerSlot a_PlayerSlot )
+    public static IPlayer RetrievePlayer( IPlayer.PlayerSlot a_PlayerSlot )
     {
         return Instance.m_Players[ ( int )a_PlayerSlot ];
     }
 
     private void OnPlayerJoined( PlayerInput a_PlayerInput )
     {
-        
+        m_Players.Add( a_PlayerInput as IPlayer );
+        a_PlayerInput.gameObject.name = "Player" + m_Players.Count;
     }
 
     private void OnPlayerLeft( PlayerInput a_PlayerInput )
     {
+        m_Players.Remove( a_PlayerInput as IPlayer );
 
+        int index = 0;
+
+        foreach ( IPlayer player in m_Players )
+        {
+            player.gameObject.name = "Player" + ++index;
+        }
     }
 
-    private Player[] m_Players = new Player[ 4 ];
+    private List< IPlayer > m_Players;
+    private Transform m_ParentPlayers;
 }

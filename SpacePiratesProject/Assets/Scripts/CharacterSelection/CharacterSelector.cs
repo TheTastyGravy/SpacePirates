@@ -14,7 +14,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
     private void Start()
     {
-        m_SelectorTiles = new SelectorTile[ ( int )Player.PlayerSlot.COUNT ];
+        m_SelectorTiles = new SelectorTile[ ( int )IPlayer.PlayerSlot.COUNT ];
         m_CharacterTiles = new CharacterTile[ CharacterTiles.Length ];
         m_ParentCharacterTiles = m_ParentCharacterTiles ?? transform.Find( "CharacterTiles" )?.GetComponent< RectTransform >();
         m_ParentSelectorTiles = m_ParentSelectorTiles ?? transform.Find( "SelectorTiles" )?.GetComponent< RectTransform >();
@@ -34,12 +34,12 @@ public class CharacterSelector : Singleton< CharacterSelector >
         }
     }
 
-    public bool DoesSelectorExist( Player.PlayerSlot a_PlayerSlot )
+    public bool DoesSelectorExist( IPlayer.PlayerSlot a_PlayerSlot )
     {
         return m_SelectorTiles[ ( int )a_PlayerSlot ] != null;
     }
 
-    public bool InstantiateSelector( Player.PlayerSlot a_PlayerSlot, Vector2Int a_GridPosition )
+    public bool InstantiateSelector( IPlayer.PlayerSlot a_PlayerSlot, Vector2Int a_GridPosition )
     {
         if ( m_SelectorTiles[ ( int )a_PlayerSlot ] == null )
         {
@@ -47,22 +47,22 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
             switch ( a_PlayerSlot )
             {
-                case Player.PlayerSlot.P1:
+                case IPlayer.PlayerSlot.P1:
                     {
                         prefabSelectorTile = SelectorP1;
                     }
                     break;
-                case Player.PlayerSlot.P2:
+                case IPlayer.PlayerSlot.P2:
                     {
                         prefabSelectorTile = SelectorP1;
                     }
                     break;
-                case Player.PlayerSlot.P3:
+                case IPlayer.PlayerSlot.P3:
                     {
                         prefabSelectorTile = SelectorP1;
                     }
                     break;
-                case Player.PlayerSlot.P4:
+                case IPlayer.PlayerSlot.P4:
                     {
                         prefabSelectorTile = SelectorP1;
                     }
@@ -78,7 +78,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
         return false;
     }
 
-    public bool DestroySelector( Player.PlayerSlot a_PlayerSlot )
+    public bool DestroySelector( IPlayer.PlayerSlot a_PlayerSlot )
     {
         if ( m_SelectorTiles[ ( int ) a_PlayerSlot ] != null )
         {
@@ -89,7 +89,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
         return false;
     }
 
-    public bool ShiftSelector( Player.PlayerSlot a_PlayerSlot, Direction a_Direction )
+    public bool ShiftSelector( IPlayer.PlayerSlot a_PlayerSlot, Direction a_Direction )
     {
         SelectorTile selector = m_SelectorTiles[ ( int )a_PlayerSlot ];
         
@@ -145,31 +145,4 @@ public class CharacterSelector : Singleton< CharacterSelector >
     {
         UP, DOWN, LEFT, RIGHT
     }
-}
-
-public struct Character
-{
-    public int Index
-    {
-        get
-        {
-            return m_Index;
-        }
-    }
-    public int Variant
-    {
-        get
-        {
-            return m_Variant;
-        }
-    }
-
-    public Character( int a_Index, int a_Variant, GameObject a_Prefab )
-    {
-        m_Index = a_Index;
-        m_Variant = a_Variant;
-    }
-
-    private int m_Index;
-    private int m_Variant;
 }
