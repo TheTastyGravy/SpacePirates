@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class TrackManager : MonoBehaviour
+public class TrackManager : Singleton<TrackManager>
 {
     public enum TrackType
 	{
@@ -61,7 +61,7 @@ public class TrackManager : MonoBehaviour
 
     void Start()
     {
-        ai = GetComponent<AIManager>();
+		ai = AIManager.Instance;
 
 		currentTrackBase = currentTrack.text;
 		nextTrackBase = nextTrack.text;

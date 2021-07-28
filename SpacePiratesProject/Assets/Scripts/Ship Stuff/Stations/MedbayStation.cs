@@ -27,6 +27,8 @@ public class MedbayStation : Interactable
 
 			// Heal player
 			playerHealth.UpdateHealth(isDamaged ? damagedHealthPerUse : healthPerUse);
+			// Increase power usage for this tick
+			PowerManager.Instance.tempEnergyUsage++;
 		}
 	}
 }

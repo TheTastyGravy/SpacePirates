@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIManager : MonoBehaviour
+public class AIManager : Singleton<AIManager>
 {
     public enum AIDifficulty
     { Easy, Medium, Hard }
