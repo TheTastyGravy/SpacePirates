@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 
 public class TrackManager : MonoBehaviour
@@ -26,31 +27,48 @@ public class TrackManager : MonoBehaviour
     [Space]
     public EngineStation[] leftEngines;
     public EngineStation[] rightEngines;
-    public EngineStation[] centerEngines;
-
+	public EngineStation[] centerEngines;
     [Space]
     [Tooltip("Invoked when the player reaches the end of the track")]
     public UnityEvent onPlayerFinish;
 
-    [Space]
-    // ---------- VISUALS ----------
+    [Header("Camera")]
     public Transform cameraTrans;
-
     public AnimationCurve curve90;
     public float maxAngle90;
     public AnimationCurve curve45;
     public float maxAngle45;
 
+	[Header("UI")]
+	public Text currentTrack;
+	public Text nextTrack;
+	public Text nextNextTrack;
+	[Space]
+	public Text nextShip;
+	public Text previousShip;
+
 
     private ShipPosition playerShip;
     private AIManager ai;
+
+	private string currentTrackBase;
+	private string nextTrackBase;
+	private string nextNextTrackBase;
+	private string nextShipBase;
+	private string previousShipBase;
 
 
 
     void Start()
     {
         ai = GetComponent<AIManager>();
-    }
+
+		currentTrackBase = currentTrack.text;
+		nextTrackBase = nextTrack.text;
+		nextNextTrackBase = nextNextTrack.text;
+		nextShipBase = nextShip.text;
+		previousShipBase = previousShip.text;
+	}
 
     void Update()
     {
@@ -282,6 +300,59 @@ public class TrackManager : MonoBehaviour
 
     private void UpdateUI()
 	{
-        //TODO
+		//display track info
+		currentTrack.text = currentTrackBase + Track2String(track[playerShip.trackIndex]);
+		if (playerShip.trackIndex + 1 < track.Length)
+		{
+			nextTrack.text = nextTrackBase + Track2String(track[playerShip.trackIndex + 1]) + "\nIn " + (1 - playerShip.segmentDist);
+		}
+		if (playerShip.trackIndex + 2 < track.Length)
+		{
+			nextNextTrack.text = nextNextTrackBase + Track2String(track[playerShip.trackIndex + 2]) + "\nIn " + (2 - playerShip.segmentDist);
+		}
+
+		//get closest opponents
+		float playerDist = playerShip.trackIndex + playerShip.segmentDist;
+
+		float nextOpponent = float.PositiveInfinity;
+		float prevOpponent = float.NegativeInfinity;
+		for (int i = 0; i < ai.aiCount; i++)
+		{
+			float dist = ai.ships[i].trackIndex + ai.ships[i].segmentDist;
+			dist -= playerDist;
+
+			if (dist > 0) //ahead of player
+			{
+				if (nextOpponent > dist)
+					nextOpponent = dist;
+			}
+			else //behind player
+			{
+				if (prevOpponent < dist)
+					nextOpponent = dist;
+			}
+		}
+		//display opponent info
+		nextShip.text = nextShipBase + nextOpponent.ToString();
+		nextShip.text = previousShipBase + prevOpponent.ToString();
+	}
+	private string Track2String(TrackType track)
+	{
+		switch (track)
+		{
+			case TrackType.Straight:
+				return "Straight";
+			case TrackType.Left90:
+				return "90 Left";
+			case TrackType.Left45:
+				return "45 Left";
+			case TrackType.Right90:
+				return "90 Right";
+			case TrackType.Right45:
+				return "45 Right";
+
+			default:
+				return "Unknown Track Type";
+		}
 	}
 }
