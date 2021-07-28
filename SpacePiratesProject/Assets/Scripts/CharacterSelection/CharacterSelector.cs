@@ -1,25 +1,80 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class CharacterSelector : Singleton< CharacterSelector >
 {
+    public Canvas Canvas;
+
     public SelectorTile SelectorP1;
     public SelectorTile SelectorP2;
     public SelectorTile SelectorP3;
     public SelectorTile SelectorP4;
 
     public CharacterTile[] CharacterTiles;
+    public CharacterDock CharacterDock;
+
+    public Transform DockBoundLeft;
+    public Transform DockBoundRight;
+    public RectTransform ParentCharacterTiles;
+    public RectTransform ParentSelectorTiles;
 
     private void Start()
     {
+        Canvas.renderMode = RenderMode.ScreenSpaceCamera;
+        Canvas.worldCamera = Camera.main;
         m_SelectorTiles = new SelectorTile[ ( int )IPlayer.PlayerSlot.COUNT ];
         m_CharacterTiles = new CharacterTile[ CharacterTiles.Length ];
-        m_ParentCharacterTiles = m_ParentCharacterTiles ?? transform.Find( "CharacterTiles" )?.GetComponent< RectTransform >();
-        m_ParentSelectorTiles = m_ParentSelectorTiles ?? transform.Find( "SelectorTiles" )?.GetComponent< RectTransform >();
-
+        m_CharacterDocks = new CharacterDock[ GameManager.MaxPlayers ];
         PopulateCharacterTiles();
+        PopulateCharacterDocks();
+
+        for ( int i = 0; i < PlayerInput.all.Count; ++i )
+        {
+            m_CharacterDocks[ i ].SetPlayer( PlayerInput.all[ i ] as IPlayer );
+            ControllerManager.RetrievePlayer( ( IPlayer.PlayerSlot )i ).ChangeCharacter( 0, 0 );
+        }
+
+        for ( int i = PlayerInput.all.Count; i < Gamepad.all.Count; ++i )
+        {
+            m_CharacterDocks[ i ].CurrentStage = CharacterDock.Stage.WAIT_ON_JOIN;
+        }
+
+        for ( int i = Gamepad.all.Count; i < GameManager.MaxPlayers; ++i )
+        {
+            m_CharacterDocks[ i ].CurrentStage = CharacterDock.Stage.WAIT_ON_DEVICE;
+        }
+
+        InputSystem.onDeviceChange += OnDeviceChange;
+    }
+
+    private void OnDestroy()
+    {
+        InputSystem.onDeviceChange -= OnDeviceChange;
+    }
+
+    public CharacterDock GetCharacterDock( IPlayer.PlayerSlot a_PlayerSlot )
+    {
+        int index = ( int )a_PlayerSlot;
+        
+        if ( index >= m_CharacterDocks.Length )
+        {
+            return null;
+        }
+
+        return m_CharacterDocks[ index ];
+    }
+
+    public void PopulateCharacterDocks()
+    {
+        for ( int i = 0; i < m_CharacterDocks.Length; ++i )
+        {
+            m_CharacterDocks[ i ] = Instantiate( CharacterDock );
+        }
+
+        RepositionDocks();
     }
 
     public void PopulateCharacterTiles()
@@ -29,7 +84,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
         while ( gridEnumerator.MoveNext() && i < CharacterTiles.Length )
         {
-            m_CharacterTiles[ i ] = Instantiate( CharacterTiles[ i ], m_ParentCharacterTiles );
+            m_CharacterTiles[ i ] = Instantiate( CharacterTiles[ i ], ParentCharacterTiles );
             m_CharacterTiles[ i++ ].SetPosition( ( Vector2Int )gridEnumerator.Current, m_GridCellSize, m_GridCellSpacing );
         }
     }
@@ -39,7 +94,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
         return m_SelectorTiles[ ( int )a_PlayerSlot ] != null;
     }
 
-    public bool InstantiateSelector( IPlayer.PlayerSlot a_PlayerSlot, Vector2Int a_GridPosition )
+    public SelectorTile InstantiateSelector( IPlayer.PlayerSlot a_PlayerSlot, Vector2Int a_GridPosition )
     {
         if ( m_SelectorTiles[ ( int )a_PlayerSlot ] == null )
         {
@@ -69,13 +124,13 @@ public class CharacterSelector : Singleton< CharacterSelector >
                     break;
             }
 
-            SelectorTile newSelectorTile = Instantiate( prefabSelectorTile, m_ParentSelectorTiles );
+            SelectorTile newSelectorTile = Instantiate( prefabSelectorTile, ParentSelectorTiles );
             newSelectorTile.SetPosition( a_GridPosition, m_GridCellSize, m_GridCellSpacing );
 
-            return true;
+            return newSelectorTile;
         }
 
-        return false;
+        return null;
     }
 
     public bool DestroySelector( IPlayer.PlayerSlot a_PlayerSlot )
@@ -133,10 +188,44 @@ public class CharacterSelector : Singleton< CharacterSelector >
         return true;
     }
 
+    private void RepositionDocks()
+    {
+        Vector3 boundLeft = DockBoundLeft.position;
+        Vector3 boundRight = DockBoundRight.position;
+
+        float increment = 1.0f / ( 1 + m_CharacterDocks.Length );
+
+        for ( int i = 0; i < m_CharacterDocks.Length; ++i )
+        {
+            m_CharacterDocks[ i ].transform.position = Vector3.Lerp( boundLeft, boundRight, ( i + 1 ) * increment );
+        }
+    }
+
+    private void OnDeviceChange( InputDevice a_InputDevice, InputDeviceChange a_InputDeviceChange )
+    {
+        if ( a_InputDevice is Gamepad  )
+        {
+            switch ( a_InputDeviceChange )
+            {
+                case InputDeviceChange.Added:
+                    {
+
+                    }
+                    break;
+                case InputDeviceChange.Removed:
+                    {
+
+                    }
+                    break;
+            }
+        }
+    }
+
+    //private int Find
+
     private SelectorTile[] m_SelectorTiles;
     private CharacterTile[] m_CharacterTiles;
-    private RectTransform m_ParentCharacterTiles;
-    private RectTransform m_ParentSelectorTiles;
+    private CharacterDock[] m_CharacterDocks;
     [ SerializeField ] private Vector2 m_GridCellSpacing;
     [ SerializeField ] private Vector2 m_GridCellSize;
     [ SerializeField ] private RectInt m_Grid;

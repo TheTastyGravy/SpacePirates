@@ -8,7 +8,7 @@ using UnityEngine.InputSystem.Users;
 
 public class ControllerManager : Singleton< ControllerManager >
 {
-    public int ControllerCount
+    public static int ControllerCount
     {
         get
         {
@@ -33,7 +33,8 @@ public class ControllerManager : Singleton< ControllerManager >
     
     public static IPlayer RetrievePlayer( IPlayer.PlayerSlot a_PlayerSlot )
     {
-        return Instance.m_Players[ ( int )a_PlayerSlot ];
+        //return Instance.m_Players[ ( int )a_PlayerSlot ];
+        return PlayerInput.GetPlayerByIndex( ( int )a_PlayerSlot ) as IPlayer;
     }
 
     private void OnPlayerJoined( PlayerInput a_PlayerInput )

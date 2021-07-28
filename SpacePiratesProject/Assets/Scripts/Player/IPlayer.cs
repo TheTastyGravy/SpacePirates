@@ -37,10 +37,20 @@ public class IPlayer : PlayerInput
             return m_Character;
         }
     }
+    public bool IsDeviceConnected
+    {
+        get
+        {
+            return m_IsDeviceConnected;
+        }
+    }
 
     private void Start()
     {
         m_InputActions = actions.actionMaps[ 0 ].actions;
+        m_IsDeviceConnected = true;
+        onDeviceLost += device => m_IsDeviceConnected = false;
+        onDeviceRegained += device => m_IsDeviceConnected = true;
     }
 
     public bool GetInput( Control a_Control )
@@ -96,10 +106,11 @@ public class IPlayer : PlayerInput
             if ( m_Character != null )
             {
                 Destroy( m_Character.gameObject );
-                m_Character = CharacterManager.CreateCharacter( a_CharacterIndex, a_VariantIndex );
-                m_Character.transform.parent = transform;
-                typeof( ICharacter ).GetProperty( "m_Player" ).SetValue( m_Character, this );
             }
+
+            m_Character = CharacterManager.CreateCharacter( this, a_CharacterIndex, a_VariantIndex );
+            m_Character.transform.parent = transform;
+            typeof( ICharacter ).GetField( "m_Player", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance ).SetValue( m_Character, this );
         }
     }
 
@@ -121,7 +132,7 @@ public class IPlayer : PlayerInput
             if ( m_Character != null )
             {
                 Destroy( m_Character.gameObject );
-                m_Character = CharacterManager.CreateCharacter( a_CharacterName, a_VariantIndex );
+                m_Character = CharacterManager.CreateCharacter( this, a_CharacterName, a_VariantIndex );
                 m_Character.transform.parent = transform;
                 typeof( ICharacter ).GetProperty( "m_Player" ).SetValue( m_Character, this );
             }
@@ -131,6 +142,7 @@ public class IPlayer : PlayerInput
     private ControlStage m_ControlStage;
     private ICharacter m_Character;
     private ReadOnlyArray< InputAction > m_InputActions;
+    private bool m_IsDeviceConnected;
 
     public enum PlayerSlot
     {

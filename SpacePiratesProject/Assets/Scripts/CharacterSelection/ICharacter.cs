@@ -26,6 +26,7 @@ public class ICharacter : MonoBehaviour
                 return;
             }
 
+            value = Mathf.Clamp( value, 0, CharacterManager.GetVariantCount( m_CharacterIndex ) );
             m_Renderer.material = CharacterManager.GetVariantMaterial( m_CharacterIndex, value );
             m_VariantIndex = value;
         }

@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.UI;
 
 public class GameManager : Singleton< GameManager >
 {
@@ -19,6 +14,13 @@ public class GameManager : Singleton< GameManager >
         get
         {
             return Instance.m_SelectedMap;
+        }
+    }
+    public static int MaxPlayers
+    {
+        get
+        {
+            return Instance.m_MaxPlayers;
         }
     }
     public static GameState CurrentState
@@ -58,9 +60,10 @@ public class GameManager : Singleton< GameManager >
         CurrentState = GameState.SPLASH;
     }
 
-    public static void RegisterSelectedShip( int a_Index )
+    public static void RegisterSelectedShip( int a_Index, int a_MaxPlayers )
     {
         Instance.m_SelectedShip = a_Index;
+        Instance.m_MaxPlayers = a_MaxPlayers;
     }
 
     public static void RegisterSelectedMap( int a_Index )
@@ -70,6 +73,7 @@ public class GameManager : Singleton< GameManager >
 
     private int m_SelectedShip;
     private int m_SelectedMap;
+    private int m_MaxPlayers;
     private GameState m_CurrentState;
 
     public enum GameState

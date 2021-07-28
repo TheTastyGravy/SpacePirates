@@ -51,7 +51,7 @@ public class ShipSelector : MonoBehaviour
 
     private void OnAPressed( InputAction.CallbackContext _ )
     {
-        GameManager.RegisterSelectedShip( CurrentShipIndex );
+        GameManager.RegisterSelectedShip( CurrentShipIndex, ShipTiles[ CurrentShipIndex ].MaxPlayers );
         GameManager.CurrentState = GameManager.GameState.CHARACTER;
     }
 
