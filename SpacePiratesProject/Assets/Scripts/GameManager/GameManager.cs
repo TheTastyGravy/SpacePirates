@@ -9,11 +9,11 @@ public class GameManager : Singleton< GameManager >
             return Instance.m_SelectedShip;
         }
     }
-    public static int SelectedMap
+    public static int SelectedTrack
     {
         get
         {
-            return Instance.m_SelectedMap;
+            return Instance.m_SelectedTrack;
         }
     }
     public static int MaxPlayers
@@ -55,7 +55,7 @@ public class GameManager : Singleton< GameManager >
     private void Start()
     {
         m_SelectedShip = -1;
-        m_SelectedMap = -1;
+        m_SelectedTrack = -1;
         
         CurrentState = GameState.SPLASH;
     }
@@ -66,13 +66,13 @@ public class GameManager : Singleton< GameManager >
         Instance.m_MaxPlayers = a_MaxPlayers;
     }
 
-    public static void RegisterSelectedMap( int a_Index )
+    public static void RegisterSelectedTrack( int a_Index )
     {
-        Instance.m_SelectedMap = a_Index;
+        Instance.m_SelectedTrack = a_Index;
     }
 
     private int m_SelectedShip;
-    private int m_SelectedMap;
+    private int m_SelectedTrack;
     private int m_MaxPlayers;
     private GameState m_CurrentState;
 

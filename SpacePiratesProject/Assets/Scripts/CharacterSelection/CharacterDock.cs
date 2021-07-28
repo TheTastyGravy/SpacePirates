@@ -103,6 +103,20 @@ public class CharacterDock : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        if ( CurrentStage == Stage.CHOOSE_CHARACTER )
+        {
+            m_AssignedPlayer.RemoveInputListener( IPlayer.Control.DPAD_PRESSED, OnDPADPressed );
+            m_AssignedPlayer.RemoveInputListener( IPlayer.Control.X_PRESSED, OnXPressed );
+
+            if ( m_AssignedPlayer.Slot != IPlayer.PlayerSlot.P1 )
+            {
+                m_AssignedPlayer.RemoveInputListener( IPlayer.Control.B_PRESSED, OnBPressed );
+            }
+        }
+    }
+
     public void SetPlayer( IPlayer a_Player )
     {
         if ( a_Player == null )
@@ -117,7 +131,7 @@ public class CharacterDock : MonoBehaviour
         a_Player.transform.parent = DockTransform;
         a_Player.transform.localPosition = Vector3.zero;
         a_Player.transform.localRotation = Quaternion.identity;
-        CharacterSelector.InstantiateSelector( m_AssignedPlayer.Slot, Vector2Int.zero );
+        CharacterSelector.InstantiateSelector( m_AssignedPlayer.Slot, a_Player.Character.CharacterIndex );
     }
 
     private void IncrementVariant( bool a_Loop = false )
@@ -171,22 +185,30 @@ public class CharacterDock : MonoBehaviour
     private void OnDPADPressed( InputAction.CallbackContext a_CallbackContext )
     {
         Vector2 value = a_CallbackContext.ReadValue< Vector2 >();
+        bool moveSuccess = false;
 
         if ( value.x < 0 )
         {
-            CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.LEFT );
+            moveSuccess = CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.LEFT );
         }
         else if ( value.x > 0 )
         {
-            CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.RIGHT );
+            moveSuccess = CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.RIGHT );
         }
         else if ( value.y < 0 )
         {
-            CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.DOWN );
+            moveSuccess = CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.DOWN );
         }
         else if ( value.y > 0 )
         {
-            CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.UP );
+            moveSuccess = CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.UP );
+        }
+
+        if ( moveSuccess )
+        {
+            Vector2Int selectorPosition = CharacterSelector.GetSelectorGridPosition( m_AssignedPlayer.Slot );
+            int index = CharacterSelector.GridSize.x * selectorPosition.y + selectorPosition.x;
+            m_AssignedPlayer.ChangeCharacter( index, 0 );
         }
     }
 

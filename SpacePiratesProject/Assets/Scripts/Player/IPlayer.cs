@@ -18,10 +18,6 @@ public class IPlayer : PlayerInput
         {
             return m_ControlStage;
         }
-        set
-        {
-            m_ControlStage = value;
-        }
     }
     public InputDevice Device
     {
@@ -141,6 +137,16 @@ public class IPlayer : PlayerInput
             m_Character = CharacterManager.CreateCharacter( this, a_CharacterName, a_VariantIndex );
             typeof( ICharacter ).GetProperty( "m_Player" ).SetValue( m_Character, this );
         }
+    }
+
+    public void DestroyCharacter()
+    {
+        if ( m_Character == null )
+        {
+            return;
+        }
+
+        Destroy( m_Character.gameObject );
     }
 
     private ControlStage m_ControlStage;

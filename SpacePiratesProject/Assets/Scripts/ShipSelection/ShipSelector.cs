@@ -6,12 +6,10 @@ using UnityEngine.InputSystem;
 public class ShipSelector : MonoBehaviour
 {
     public ShipTile[] ShipTiles;
-    public int CurrentShipIndex;
 
     private void Start()
     {
         m_ShipTiles = new ShipTile[ ShipTiles.Length ];
-        m_ParentShipTiles = m_ParentShipTiles ?? transform.Find( "ShipTiles" )?.GetComponent< RectTransform >();
 
         for ( int i = 0; i < m_ShipTiles.Length; ++i )
         {
@@ -22,17 +20,17 @@ public class ShipSelector : MonoBehaviour
 
         SetShipIndex( 0 );
         IPlayer primaryPlayer = ControllerManager.RetrievePlayer( IPlayer.PlayerSlot.P1 );
-        primaryPlayer.GetInputAction( IPlayer.Control.DPAD_PRESSED ).performed += OnDPADPressed;
-        primaryPlayer.GetInputAction( IPlayer.Control.A_PRESSED ).performed += OnAPressed;
-        primaryPlayer.GetInputAction( IPlayer.Control.B_PRESSED ).performed += OnBPressed;
+        primaryPlayer.AddInputListener( IPlayer.Control.DPAD_PRESSED, OnDPADPressed );
+        primaryPlayer.AddInputListener( IPlayer.Control.A_PRESSED, OnAPressed );
+        primaryPlayer.AddInputListener( IPlayer.Control.B_PRESSED, OnBPressed );
     }
 
     private void OnDestroy()
     {
         IPlayer primaryPlayer = ControllerManager.RetrievePlayer( IPlayer.PlayerSlot.P1 );
-        primaryPlayer.GetInputAction( IPlayer.Control.DPAD_PRESSED ).performed -= OnDPADPressed;
-        primaryPlayer.GetInputAction( IPlayer.Control.A_PRESSED ).performed -= OnAPressed;
-        primaryPlayer.GetInputAction( IPlayer.Control.B_PRESSED ).performed -= OnBPressed;
+        primaryPlayer.RemoveInputListener( IPlayer.Control.DPAD_PRESSED, OnDPADPressed );
+        primaryPlayer.RemoveInputListener( IPlayer.Control.A_PRESSED, OnAPressed );
+        primaryPlayer.RemoveInputListener( IPlayer.Control.B_PRESSED, OnBPressed );
     }
 
     private void OnDPADPressed( InputAction.CallbackContext a_CallbackContext )
@@ -51,7 +49,7 @@ public class ShipSelector : MonoBehaviour
 
     private void OnAPressed( InputAction.CallbackContext _ )
     {
-        GameManager.RegisterSelectedShip( CurrentShipIndex, ShipTiles[ CurrentShipIndex ].MaxPlayers );
+        GameManager.RegisterSelectedShip( m_CurrentShipIndex, ShipTiles[ m_CurrentShipIndex ].MaxPlayers );
         GameManager.CurrentState = GameManager.GameState.CHARACTER;
     }
 
@@ -62,7 +60,7 @@ public class ShipSelector : MonoBehaviour
 
     public void SetShipIndex( int a_Index )
     {
-        m_ShipTiles[ CurrentShipIndex ].gameObject.SetActive( false );
+        m_ShipTiles[ m_CurrentShipIndex ].gameObject.SetActive( false );
         
         if ( a_Index < 0 || a_Index >= m_ShipTiles.Length )
         {
@@ -70,43 +68,44 @@ public class ShipSelector : MonoBehaviour
         }
 
         m_ShipTiles[ a_Index ].gameObject.SetActive( true );
-        CurrentShipIndex = a_Index;
+        m_CurrentShipIndex = a_Index;
     }
 
     public void IncrementShipIndex( bool a_LoopAround = false )
     {
-        if ( CurrentShipIndex == m_ShipTiles.Length - 1 && !a_LoopAround )
+        if ( m_CurrentShipIndex == m_ShipTiles.Length - 1 && !a_LoopAround )
         {
             return;
         }
 
-        m_ShipTiles[ CurrentShipIndex ].gameObject.SetActive( false );
+        m_ShipTiles[ m_CurrentShipIndex ].gameObject.SetActive( false );
 
-        if ( ++CurrentShipIndex >= m_ShipTiles.Length )
+        if ( ++m_CurrentShipIndex >= m_ShipTiles.Length )
         {
-            CurrentShipIndex = 0;
+            m_CurrentShipIndex = 0;
         }
 
-        m_ShipTiles[ CurrentShipIndex ].gameObject.SetActive( true );
+        m_ShipTiles[ m_CurrentShipIndex ].gameObject.SetActive( true );
     }
 
     public void DecrementShipIndex( bool a_LoopAround = false )
     {
-        if ( CurrentShipIndex == 0 && !a_LoopAround )
+        if ( m_CurrentShipIndex == 0 && !a_LoopAround )
         {
             return;
         }
 
-        m_ShipTiles[ CurrentShipIndex ].gameObject.SetActive( false );
+        m_ShipTiles[ m_CurrentShipIndex ].gameObject.SetActive( false );
 
-        if ( --CurrentShipIndex < 0 )
+        if ( --m_CurrentShipIndex < 0 )
         {
-            CurrentShipIndex = m_ShipTiles.Length - 1;
+            m_CurrentShipIndex = m_ShipTiles.Length - 1;
         }
 
-        m_ShipTiles[ CurrentShipIndex ].gameObject.SetActive( true );
+        m_ShipTiles[ m_CurrentShipIndex ].gameObject.SetActive( true );
     }
 
     private ShipTile[] m_ShipTiles;
-    private RectTransform m_ParentShipTiles;
+    private int m_CurrentShipIndex;
+    [ SerializeField ] private RectTransform m_ParentShipTiles;
 }

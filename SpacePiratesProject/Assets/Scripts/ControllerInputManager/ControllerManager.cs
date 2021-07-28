@@ -20,14 +20,6 @@ public class ControllerManager : Singleton< ControllerManager >
     {
         PlayerInputManager.instance.onPlayerJoined += OnPlayerJoined;
         PlayerInputManager.instance.onPlayerLeft += OnPlayerLeft;
-        m_ParentPlayers = m_ParentPlayers ?? transform.Find( "Players" );
-
-        if ( m_ParentPlayers == null )
-        {
-            GameObject newParentPlayers = new GameObject( "Players" );
-            newParentPlayers.transform.parent = transform;
-        }
-
         m_Players = new List< IPlayer >();
     }
     
@@ -61,5 +53,4 @@ public class ControllerManager : Singleton< ControllerManager >
     }
 
     private List< IPlayer > m_Players;
-    private Transform m_ParentPlayers;
 }
