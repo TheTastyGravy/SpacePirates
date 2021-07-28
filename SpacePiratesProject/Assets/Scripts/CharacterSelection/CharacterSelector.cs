@@ -16,28 +16,31 @@ public class CharacterSelector : Singleton< CharacterSelector >
     public CharacterTile[] CharacterTiles;
     public CharacterDock CharacterDock;
 
-    public Transform DockBoundLeft;
-    public Transform DockBoundRight;
+    public RectTransform ParentCharacterDocks;
+    public RectTransform DockBoundLeft;
+    public RectTransform DockBoundRight;
     public RectTransform ParentCharacterTiles;
     public RectTransform ParentSelectorTiles;
 
     private void Start()
     {
-        Canvas.renderMode = RenderMode.ScreenSpaceCamera;
         Canvas.worldCamera = Camera.main;
         m_SelectorTiles = new SelectorTile[ ( int )IPlayer.PlayerSlot.COUNT ];
         m_CharacterTiles = new CharacterTile[ CharacterTiles.Length ];
         m_CharacterDocks = new CharacterDock[ GameManager.MaxPlayers ];
+        PlayerInputManager.instance.EnableJoining();
+        PlayerInputManager.instance.onPlayerJoined += OnPlayerJoined;
+        PlayerInputManager.instance.onPlayerLeft += OnPlayerLeft;
         PopulateCharacterTiles();
         PopulateCharacterDocks();
 
-        for ( int i = 0; i < PlayerInput.all.Count; ++i )
+        for ( int i = 0; i < Mathf.Min( PlayerInput.all.Count, m_CharacterDocks.Length ); ++i )
         {
             m_CharacterDocks[ i ].SetPlayer( PlayerInput.all[ i ] as IPlayer );
             ControllerManager.RetrievePlayer( ( IPlayer.PlayerSlot )i ).ChangeCharacter( 0, 0 );
         }
 
-        for ( int i = PlayerInput.all.Count; i < Gamepad.all.Count; ++i )
+        for ( int i = PlayerInput.all.Count; i < Mathf.Min( Gamepad.all.Count, m_CharacterDocks.Length ); ++i )
         {
             m_CharacterDocks[ i ].CurrentStage = CharacterDock.Stage.WAIT_ON_JOIN;
         }
@@ -48,55 +51,38 @@ public class CharacterSelector : Singleton< CharacterSelector >
         }
 
         InputSystem.onDeviceChange += OnDeviceChange;
+        ControllerManager.RetrievePlayer(IPlayer.PlayerSlot.P1).AddInputListener( IPlayer.Control.A_PRESSED, OnAPressedByP1 );
     }
 
     private void OnDestroy()
     {
         InputSystem.onDeviceChange -= OnDeviceChange;
+        ControllerManager.RetrievePlayer( IPlayer.PlayerSlot.P1 ).RemoveInputListener( IPlayer.Control.A_PRESSED, OnAPressedByP1 );
+        PlayerInputManager.instance.onPlayerJoined -= OnPlayerJoined;
+        PlayerInputManager.instance.onPlayerLeft -= OnPlayerLeft;
+        PlayerInputManager.instance.DisableJoining();
     }
 
-    public CharacterDock GetCharacterDock( IPlayer.PlayerSlot a_PlayerSlot )
+    public static CharacterDock GetCharacterDock( IPlayer.PlayerSlot a_PlayerSlot )
     {
         int index = ( int )a_PlayerSlot;
         
-        if ( index >= m_CharacterDocks.Length )
+        if ( index >= Instance.m_CharacterDocks.Length )
         {
             return null;
         }
 
-        return m_CharacterDocks[ index ];
+        return Instance.m_CharacterDocks[ index ];
     }
 
-    public void PopulateCharacterDocks()
+    public static bool DoesSelectorExist( IPlayer.PlayerSlot a_PlayerSlot )
     {
-        for ( int i = 0; i < m_CharacterDocks.Length; ++i )
-        {
-            m_CharacterDocks[ i ] = Instantiate( CharacterDock );
-        }
-
-        RepositionDocks();
+        return Instance.m_SelectorTiles[ ( int )a_PlayerSlot ] != null;
     }
 
-    public void PopulateCharacterTiles()
+    public static SelectorTile InstantiateSelector( IPlayer.PlayerSlot a_PlayerSlot, Vector2Int a_GridPosition )
     {
-        IEnumerator gridEnumerator = m_Grid.allPositionsWithin;
-        int i = 0;
-
-        while ( gridEnumerator.MoveNext() && i < CharacterTiles.Length )
-        {
-            m_CharacterTiles[ i ] = Instantiate( CharacterTiles[ i ], ParentCharacterTiles );
-            m_CharacterTiles[ i++ ].SetPosition( ( Vector2Int )gridEnumerator.Current, m_GridCellSize, m_GridCellSpacing );
-        }
-    }
-
-    public bool DoesSelectorExist( IPlayer.PlayerSlot a_PlayerSlot )
-    {
-        return m_SelectorTiles[ ( int )a_PlayerSlot ] != null;
-    }
-
-    public SelectorTile InstantiateSelector( IPlayer.PlayerSlot a_PlayerSlot, Vector2Int a_GridPosition )
-    {
-        if ( m_SelectorTiles[ ( int )a_PlayerSlot ] == null )
+        if ( Instance.m_SelectorTiles[ ( int )a_PlayerSlot ] == null )
         {
             SelectorTile prefabSelectorTile = null;
 
@@ -104,28 +90,29 @@ public class CharacterSelector : Singleton< CharacterSelector >
             {
                 case IPlayer.PlayerSlot.P1:
                     {
-                        prefabSelectorTile = SelectorP1;
+                        prefabSelectorTile = Instance.SelectorP1;
                     }
                     break;
                 case IPlayer.PlayerSlot.P2:
                     {
-                        prefabSelectorTile = SelectorP1;
+                        prefabSelectorTile = Instance.SelectorP2;
                     }
                     break;
                 case IPlayer.PlayerSlot.P3:
                     {
-                        prefabSelectorTile = SelectorP1;
+                        prefabSelectorTile = Instance.SelectorP3;
                     }
                     break;
                 case IPlayer.PlayerSlot.P4:
                     {
-                        prefabSelectorTile = SelectorP1;
+                        prefabSelectorTile = Instance.SelectorP4;
                     }
                     break;
             }
 
-            SelectorTile newSelectorTile = Instantiate( prefabSelectorTile, ParentSelectorTiles );
-            newSelectorTile.SetPosition( a_GridPosition, m_GridCellSize, m_GridCellSpacing );
+            SelectorTile newSelectorTile = Instantiate( prefabSelectorTile, Instance.ParentSelectorTiles );
+            Instance.m_SelectorTiles[ ( int )a_PlayerSlot ] = newSelectorTile;
+            newSelectorTile.SetPosition( a_GridPosition, Instance.m_GridCellSize, Instance.m_GridCellSpacing );
 
             return newSelectorTile;
         }
@@ -133,20 +120,20 @@ public class CharacterSelector : Singleton< CharacterSelector >
         return null;
     }
 
-    public bool DestroySelector( IPlayer.PlayerSlot a_PlayerSlot )
+    public static bool DestroySelector( IPlayer.PlayerSlot a_PlayerSlot )
     {
-        if ( m_SelectorTiles[ ( int ) a_PlayerSlot ] != null )
+        if ( Instance.m_SelectorTiles[ ( int ) a_PlayerSlot ] != null )
         {
-            Destroy( m_SelectorTiles[ ( int )a_PlayerSlot ].gameObject );
+            Destroy( Instance.m_SelectorTiles[ ( int )a_PlayerSlot ].gameObject );
             return true;
         }
 
         return false;
     }
 
-    public bool ShiftSelector( IPlayer.PlayerSlot a_PlayerSlot, Direction a_Direction )
+    public static bool ShiftSelector( IPlayer.PlayerSlot a_PlayerSlot, Direction a_Direction )
     {
-        SelectorTile selector = m_SelectorTiles[ ( int )a_PlayerSlot ];
+        SelectorTile selector = Instance.m_SelectorTiles[ ( int )a_PlayerSlot ];
         
         if ( selector == null )
         {
@@ -179,13 +166,35 @@ public class CharacterSelector : Singleton< CharacterSelector >
                 break;
         }
 
-        if ( !m_Grid.Contains( newPosition ) )
+        if ( !Instance.m_Grid.Contains( newPosition ) )
         {
             return false;
         }
 
-        selector.SetPosition( newPosition, m_GridCellSize, m_GridCellSpacing );
+        selector.SetPosition( newPosition, Instance.m_GridCellSize, Instance.m_GridCellSpacing );
         return true;
+    }
+
+    private void PopulateCharacterDocks()
+    {
+        for ( int i = 0; i < m_CharacterDocks.Length; ++i )
+        {
+            m_CharacterDocks[ i ] = Instantiate( CharacterDock, ParentCharacterDocks );
+        }
+
+        RepositionDocks();
+    }
+
+    private void PopulateCharacterTiles()
+    {
+        IEnumerator gridEnumerator = m_Grid.allPositionsWithin;
+        int i = 0;
+
+        while ( gridEnumerator.MoveNext() && i < CharacterTiles.Length )
+        {
+            m_CharacterTiles[ i ] = Instantiate( CharacterTiles[ i ], ParentCharacterTiles );
+            m_CharacterTiles[ i++ ].SetPosition( ( Vector2Int )gridEnumerator.Current, m_GridCellSize, m_GridCellSpacing );
+        }
     }
 
     private void RepositionDocks()
@@ -201,6 +210,30 @@ public class CharacterSelector : Singleton< CharacterSelector >
         }
     }
 
+    private void OnPlayerJoined( PlayerInput a_PlayerInput )
+    {
+        for ( int i = 0; i < m_CharacterDocks.Length; ++i )
+        {
+            if ( m_CharacterDocks[ i ].AssignedPlayer == null )
+            {
+                IPlayer newPlayer = a_PlayerInput as IPlayer;
+                m_CharacterDocks[ i ].SetPlayer( newPlayer );
+                newPlayer.ChangeCharacter( 0, 0 );
+                break;
+            }
+        }
+
+        if ( PlayerInput.all.Count >= GameManager.MaxPlayers )
+        {
+            PlayerInputManager.instance.DisableJoining();
+        }
+    }
+
+    private void OnPlayerLeft( PlayerInput _ )
+    {
+        PlayerInputManager.instance.EnableJoining();
+    }
+
     private void OnDeviceChange( InputDevice a_InputDevice, InputDeviceChange a_InputDeviceChange )
     {
         if ( a_InputDevice is Gamepad  )
@@ -209,19 +242,61 @@ public class CharacterSelector : Singleton< CharacterSelector >
             {
                 case InputDeviceChange.Added:
                     {
+                        bool isDeviceAssigned = false;
 
+                        foreach ( PlayerInput playerInput in PlayerInput.all )
+                        {
+                            if ( ( playerInput as IPlayer ).Device.deviceId == a_InputDevice.deviceId )
+                            {
+                                isDeviceAssigned = true;
+                                break;
+                            }
+                        }
+
+                        for ( int i = 0; i < m_CharacterDocks.Length && !isDeviceAssigned; ++i )
+                        {
+                            if ( m_CharacterDocks[ i ].CurrentStage == CharacterDock.Stage.WAIT_ON_DEVICE )
+                            {
+                                m_CharacterDocks[ i ].CurrentStage = CharacterDock.Stage.WAIT_ON_JOIN;
+                                break;
+                            }
+                        }
                     }
                     break;
                 case InputDeviceChange.Removed:
                     {
+                        bool isDeviceAssigned = false;
 
+                        foreach ( PlayerInput playerInput in PlayerInput.all )
+                        {
+                            if ( ( playerInput as IPlayer ).Device.deviceId == a_InputDevice.deviceId )
+                            {
+                                isDeviceAssigned = true;
+                                break;
+                            }
+                        }
+
+                        if ( !isDeviceAssigned )
+                        {
+                            for ( int i = m_CharacterDocks.Length - 1; i >= 0; --i )
+                            {
+                                if ( m_CharacterDocks[ i ].CurrentStage == CharacterDock.Stage.WAIT_ON_JOIN )
+                                {
+                                    m_CharacterDocks[ i ].CurrentStage = CharacterDock.Stage.WAIT_ON_DEVICE;
+                                    break;
+                                }
+                            }
+                        }
                     }
                     break;
             }
         }
     }
 
-    //private int Find
+    private void OnAPressedByP1( InputAction.CallbackContext _ )
+    {
+        GameManager.CurrentState = GameManager.GameState.TRACK;
+    }
 
     private SelectorTile[] m_SelectorTiles;
     private CharacterTile[] m_CharacterTiles;

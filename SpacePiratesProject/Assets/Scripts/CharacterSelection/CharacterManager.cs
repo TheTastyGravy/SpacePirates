@@ -31,6 +31,8 @@ public class CharacterManager : Singleton< CharacterManager >
 
         ICharacter newCharacter = template.Instantiate( a_VariantIndex );
         newCharacter.transform.parent = a_Owner.transform;
+        newCharacter.transform.localPosition = Vector3.zero;
+        newCharacter.transform.localRotation = Quaternion.identity;
         typeof( ICharacter ).GetField( "m_Player", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance ).SetValue( newCharacter, a_Owner );
         return newCharacter;
     }
@@ -58,6 +60,8 @@ public class CharacterManager : Singleton< CharacterManager >
 
         ICharacter newCharacter = template.Instantiate( a_VariantIndex );
         newCharacter.transform.parent = a_Owner.transform;
+        newCharacter.transform.localPosition = Vector3.zero;
+        newCharacter.transform.localRotation = Quaternion.identity;
         typeof( ICharacter ).GetProperty( "m_Player" ).SetValue( newCharacter, a_Owner );
         return newCharacter;
     }

@@ -53,6 +53,11 @@ public class ControllerManager : Singleton< ControllerManager >
         {
             player.gameObject.name = "Player" + ++index;
         }
+
+        if ( PlayerInput.all.Count < GameManager.MaxPlayers )
+        {
+            PlayerInputManager.instance.EnableJoining();
+        }
     }
 
     private List< IPlayer > m_Players;

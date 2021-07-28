@@ -89,4 +89,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RectTransform: {fileID: 4427755708587693019}
-  MaxPlayers: 1
+  MaxPlayers: 4

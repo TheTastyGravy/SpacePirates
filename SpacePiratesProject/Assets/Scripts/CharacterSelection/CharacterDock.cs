@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class CharacterDock : MonoBehaviour
 {
-    public Transform DockTransform;
+    public RectTransform DockTransform;
     public GameObject ConnectController;
     public GameObject ReconnectController;
     public GameObject PressStartToJoin;
@@ -45,11 +45,16 @@ public class CharacterDock : MonoBehaviour
                     break;
                 case Stage.CHOOSE_CHARACTER:
                     {
-                        PressBToLeave?.SetActive( false );
                         PressXToCycleVariant?.SetActive( false );
-                        m_AssignedPlayer.GetInputAction( IPlayer.Control.DPAD_PRESSED ).performed -= OnDPADPressed;
-                        m_AssignedPlayer.GetInputAction( IPlayer.Control.B_PRESSED ).performed -= OnBPressed;
-                        m_AssignedPlayer.GetInputAction( IPlayer.Control.X_PRESSED ).performed -= OnXPressed;
+                        m_AssignedPlayer.RemoveInputListener( IPlayer.Control.DPAD_PRESSED, OnDPADPressed );
+                        m_AssignedPlayer.RemoveInputListener( IPlayer.Control.X_PRESSED, OnXPressed );
+
+                        if ( m_AssignedPlayer.Slot != IPlayer.PlayerSlot.P1 )
+                        {
+                            m_AssignedPlayer.RemoveInputListener( IPlayer.Control.B_PRESSED, OnBPressed );
+                            PressBToLeave?.SetActive( false );
+                        }
+                        
                     }
                     break;
             }
@@ -76,14 +81,25 @@ public class CharacterDock : MonoBehaviour
                     break;
                 case Stage.CHOOSE_CHARACTER:
                     {
-                        PressBToLeave?.SetActive( true );
                         PressXToCycleVariant?.SetActive( true );
-                        m_AssignedPlayer.GetInputAction( IPlayer.Control.DPAD_PRESSED ).performed += OnDPADPressed;
-                        m_AssignedPlayer.GetInputAction( IPlayer.Control.B_PRESSED ).performed += OnBPressed;
-                        m_AssignedPlayer.GetInputAction( IPlayer.Control.X_PRESSED ).performed += OnXPressed;
+                        m_AssignedPlayer.AddInputListener( IPlayer.Control.DPAD_PRESSED, OnDPADPressed );
+                        m_AssignedPlayer.AddInputListener( IPlayer.Control.X_PRESSED, OnXPressed );
+
+                        if ( m_AssignedPlayer.Slot != IPlayer.PlayerSlot.P1 )
+                        {                            
+                            m_AssignedPlayer.AddInputListener( IPlayer.Control.B_PRESSED, OnBPressed );
+                            PressBToLeave?.SetActive( true );
+                        }
                     }
                     break;
             }
+        }
+    }
+    public IPlayer AssignedPlayer
+    {
+        get
+        {
+            return m_AssignedPlayer;
         }
     }
 
@@ -101,6 +117,7 @@ public class CharacterDock : MonoBehaviour
         a_Player.transform.parent = DockTransform;
         a_Player.transform.localPosition = Vector3.zero;
         a_Player.transform.localRotation = Quaternion.identity;
+        CharacterSelector.InstantiateSelector( m_AssignedPlayer.Slot, Vector2Int.zero );
     }
 
     private void IncrementVariant( bool a_Loop = false )
@@ -155,11 +172,29 @@ public class CharacterDock : MonoBehaviour
     {
         Vector2 value = a_CallbackContext.ReadValue< Vector2 >();
 
+        if ( value.x < 0 )
+        {
+            CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.LEFT );
+        }
+        else if ( value.x > 0 )
+        {
+            CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.RIGHT );
+        }
+        else if ( value.y < 0 )
+        {
+            CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.DOWN );
+        }
+        else if ( value.y > 0 )
+        {
+            CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.UP );
+        }
     }
 
     private void OnBPressed( InputAction.CallbackContext _ )
     {
-
+        CharacterSelector.DestroySelector( m_AssignedPlayer.Slot );
+        Destroy( m_AssignedPlayer.gameObject );
+        CurrentStage = Stage.WAIT_ON_JOIN;
     }
 
     private void OnXPressed( InputAction.CallbackContext _ )
