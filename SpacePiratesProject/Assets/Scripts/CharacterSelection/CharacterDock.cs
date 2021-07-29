@@ -12,7 +12,7 @@ public class CharacterDock : MonoBehaviour
     public GameObject PressBToLeave;
     public GameObject PressXToCycleVariant;
 
-    public Stage CurrentStage
+    public Phase ConnectPhase
     {
         get
         {
@@ -28,30 +28,30 @@ public class CharacterDock : MonoBehaviour
             // Unset old events.
             switch ( m_CurrentStage )
             {
-                case Stage.WAIT_ON_DEVICE:
+                case Phase.WAIT_ON_DEVICE:
                     {
                         ConnectController?.SetActive( false );
                     }
                     break;
-                case Stage.WAIT_ON_RECONNECT:
+                case Phase.WAIT_ON_RECONNECT:
                     {
                         ReconnectController?.SetActive( false );
                     }
                     break;
-                case Stage.WAIT_ON_JOIN:
+                case Phase.WAIT_ON_JOIN:
                     {
                         PressStartToJoin?.SetActive( false );
                     }
                     break;
-                case Stage.CHOOSE_CHARACTER:
+                case Phase.CHOOSE_CHARACTER:
                     {
                         PressXToCycleVariant?.SetActive( false );
-                        m_AssignedPlayer.RemoveInputListener( IPlayer.Control.DPAD_PRESSED, OnDPADPressed );
-                        m_AssignedPlayer.RemoveInputListener( IPlayer.Control.X_PRESSED, OnXPressed );
+                        m_AssignedPlayer.RemoveInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
+                        m_AssignedPlayer.RemoveInputListener( Player.Control.X_PRESSED, OnXPressed );
 
-                        if ( m_AssignedPlayer.Slot != IPlayer.PlayerSlot.P1 )
+                        if ( m_AssignedPlayer.Slot != Player.PlayerSlot.P1 )
                         {
-                            m_AssignedPlayer.RemoveInputListener( IPlayer.Control.B_PRESSED, OnBPressed );
+                            m_AssignedPlayer.RemoveInputListener( Player.Control.B_PRESSED, OnBPressed );
                             PressBToLeave?.SetActive( false );
                         }
                         
@@ -64,30 +64,30 @@ public class CharacterDock : MonoBehaviour
             // Set new events.
             switch ( m_CurrentStage )
             {
-                case Stage.WAIT_ON_DEVICE:
+                case Phase.WAIT_ON_DEVICE:
                     {
                         ConnectController?.SetActive( true );
                     }
                     break;
-                case Stage.WAIT_ON_RECONNECT:
+                case Phase.WAIT_ON_RECONNECT:
                     {
                         ReconnectController?.SetActive( true );
                     }
                     break;
-                case Stage.WAIT_ON_JOIN:
+                case Phase.WAIT_ON_JOIN:
                     {
                         PressStartToJoin?.SetActive( true );
                     }
                     break;
-                case Stage.CHOOSE_CHARACTER:
+                case Phase.CHOOSE_CHARACTER:
                     {
                         PressXToCycleVariant?.SetActive( true );
-                        m_AssignedPlayer.AddInputListener( IPlayer.Control.DPAD_PRESSED, OnDPADPressed );
-                        m_AssignedPlayer.AddInputListener( IPlayer.Control.X_PRESSED, OnXPressed );
+                        m_AssignedPlayer.AddInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
+                        m_AssignedPlayer.AddInputListener( Player.Control.X_PRESSED, OnXPressed );
 
-                        if ( m_AssignedPlayer.Slot != IPlayer.PlayerSlot.P1 )
+                        if ( m_AssignedPlayer.Slot != Player.PlayerSlot.P1 )
                         {                            
-                            m_AssignedPlayer.AddInputListener( IPlayer.Control.B_PRESSED, OnBPressed );
+                            m_AssignedPlayer.AddInputListener( Player.Control.B_PRESSED, OnBPressed );
                             PressBToLeave?.SetActive( true );
                         }
                     }
@@ -95,7 +95,7 @@ public class CharacterDock : MonoBehaviour
             }
         }
     }
-    public IPlayer AssignedPlayer
+    public Player AssignedPlayer
     {
         get
         {
@@ -105,19 +105,19 @@ public class CharacterDock : MonoBehaviour
 
     private void OnDestroy()
     {
-        if ( CurrentStage == Stage.CHOOSE_CHARACTER )
+        if ( ConnectPhase == Phase.CHOOSE_CHARACTER )
         {
-            m_AssignedPlayer.RemoveInputListener( IPlayer.Control.DPAD_PRESSED, OnDPADPressed );
-            m_AssignedPlayer.RemoveInputListener( IPlayer.Control.X_PRESSED, OnXPressed );
+            m_AssignedPlayer.RemoveInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
+            m_AssignedPlayer.RemoveInputListener( Player.Control.X_PRESSED, OnXPressed );
 
-            if ( m_AssignedPlayer.Slot != IPlayer.PlayerSlot.P1 )
+            if ( m_AssignedPlayer.Slot != Player.PlayerSlot.P1 )
             {
-                m_AssignedPlayer.RemoveInputListener( IPlayer.Control.B_PRESSED, OnBPressed );
+                m_AssignedPlayer.RemoveInputListener( Player.Control.B_PRESSED, OnBPressed );
             }
         }
     }
 
-    public void SetPlayer( IPlayer a_Player )
+    public void SetPlayer( Player a_Player )
     {
         if ( a_Player == null )
         {
@@ -125,13 +125,13 @@ public class CharacterDock : MonoBehaviour
         }
 
         m_AssignedPlayer = a_Player;
-        CurrentStage = a_Player.IsDeviceConnected ? Stage.CHOOSE_CHARACTER : Stage.WAIT_ON_RECONNECT;
-        a_Player.onDeviceLost += device => CurrentStage = Stage.WAIT_ON_RECONNECT;
-        a_Player.onDeviceRegained += device => CurrentStage = Stage.CHOOSE_CHARACTER;
+        ConnectPhase = a_Player.IsDeviceConnected ? Phase.CHOOSE_CHARACTER : Phase.WAIT_ON_RECONNECT;
+        a_Player.onDeviceLost += device => ConnectPhase = Phase.WAIT_ON_RECONNECT;
+        a_Player.onDeviceRegained += device => ConnectPhase = Phase.CHOOSE_CHARACTER;
         a_Player.transform.parent = DockTransform;
         a_Player.transform.localPosition = Vector3.zero;
         a_Player.transform.localRotation = Quaternion.identity;
-        CharacterSelector.InstantiateSelector( m_AssignedPlayer.Slot, a_Player.Character.CharacterIndex );
+        CharacterSelector.InstantiateSelector( m_AssignedPlayer.Slot, a_Player.Character != null ? a_Player.Character.CharacterIndex : 0 );
     }
 
     private void IncrementVariant( bool a_Loop = false )
@@ -216,7 +216,7 @@ public class CharacterDock : MonoBehaviour
     {
         CharacterSelector.DestroySelector( m_AssignedPlayer.Slot );
         Destroy( m_AssignedPlayer.gameObject );
-        CurrentStage = Stage.WAIT_ON_JOIN;
+        ConnectPhase = Phase.WAIT_ON_JOIN;
     }
 
     private void OnXPressed( InputAction.CallbackContext _ )
@@ -224,12 +224,12 @@ public class CharacterDock : MonoBehaviour
         IncrementVariant( true );
     }
 
-    private IPlayer m_AssignedPlayer;
-    private Stage m_CurrentStage;
+    private Player m_AssignedPlayer;
+    private Phase m_CurrentStage;
 
-    public enum Stage
+    public enum Phase
     {
-        NONE,             
+        NONE,             // Initial phase to switch from.
         WAIT_ON_DEVICE,   // No device connected.
         WAIT_ON_RECONNECT,// Device disconnected on player.
         WAIT_ON_JOIN,     // Device not joined.

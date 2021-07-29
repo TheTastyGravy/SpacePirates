@@ -4,15 +4,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerController : IPlayer
+public class PlayerController : Player
 {
     public float moveSpeed = 1;
     public float turnSpeed = 10;
 
     private Rigidbody rb;
     private Interactor interactor;
-
-
 
     void Awake()
     {

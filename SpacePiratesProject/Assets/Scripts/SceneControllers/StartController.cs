@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class StartController : MonoBehaviour
+public class StartController : Singleton< StartController >
 {
     public GameObject PressStartText;
 

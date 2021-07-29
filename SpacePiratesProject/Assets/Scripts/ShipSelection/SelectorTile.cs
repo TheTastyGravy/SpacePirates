@@ -3,7 +3,4 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SelectorTile : Tile
-{
-
-}
+public class SelectorTile : Tile { }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ShipSelector : MonoBehaviour
+public class ShipSelector : Singleton< ShipSelector >
 {
     public ShipTile[] ShipTiles;
 
@@ -19,18 +19,18 @@ public class ShipSelector : MonoBehaviour
         }
 
         SetShipIndex( 0 );
-        IPlayer primaryPlayer = ControllerManager.RetrievePlayer( IPlayer.PlayerSlot.P1 );
-        primaryPlayer.AddInputListener( IPlayer.Control.DPAD_PRESSED, OnDPADPressed );
-        primaryPlayer.AddInputListener( IPlayer.Control.A_PRESSED, OnAPressed );
-        primaryPlayer.AddInputListener( IPlayer.Control.B_PRESSED, OnBPressed );
+        Player primaryPlayer = Player.GetPlayerBySlot( Player.PlayerSlot.P1 );
+        primaryPlayer.AddInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
+        primaryPlayer.AddInputListener( Player.Control.A_PRESSED, OnAPressed );
+        primaryPlayer.AddInputListener( Player.Control.B_PRESSED, OnBPressed );
     }
 
     private void OnDestroy()
     {
-        IPlayer primaryPlayer = ControllerManager.RetrievePlayer( IPlayer.PlayerSlot.P1 );
-        primaryPlayer.RemoveInputListener( IPlayer.Control.DPAD_PRESSED, OnDPADPressed );
-        primaryPlayer.RemoveInputListener( IPlayer.Control.A_PRESSED, OnAPressed );
-        primaryPlayer.RemoveInputListener( IPlayer.Control.B_PRESSED, OnBPressed );
+        Player primaryPlayer = Player.GetPlayerBySlot( Player.PlayerSlot.P1 );
+        primaryPlayer.RemoveInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
+        primaryPlayer.RemoveInputListener( Player.Control.A_PRESSED, OnAPressed );
+        primaryPlayer.RemoveInputListener( Player.Control.B_PRESSED, OnBPressed );
     }
 
     private void OnDPADPressed( InputAction.CallbackContext a_CallbackContext )

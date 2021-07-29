@@ -25,7 +25,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
     private void Start()
     {
         Canvas.worldCamera = Camera.main;
-        m_SelectorTiles = new SelectorTile[ ( int )IPlayer.PlayerSlot.COUNT ];
+        m_SelectorTiles = new SelectorTile[ ( int )Player.PlayerSlot.COUNT ];
         m_CharacterTiles = new CharacterTile[ CharacterTiles.Length ];
         m_CharacterDocks = new CharacterDock[ GameManager.MaxPlayers ];
         PlayerInputManager.instance.EnableJoining();
@@ -36,7 +36,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
         for ( int i = 0; i < Mathf.Min( PlayerInput.all.Count, m_CharacterDocks.Length ); ++i )
         {
-            IPlayer player = PlayerInput.all[ i ] as IPlayer;
+            Player player = PlayerInput.all[ i ] as Player;
 
             if ( player.Character == null )
             {
@@ -49,31 +49,31 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
         for ( int i = PlayerInput.all.Count; i < Mathf.Min( Gamepad.all.Count, m_CharacterDocks.Length ); ++i )
         {
-            m_CharacterDocks[ i ].CurrentStage = CharacterDock.Stage.WAIT_ON_JOIN;
+            m_CharacterDocks[ i ].ConnectPhase = CharacterDock.Phase.WAIT_ON_JOIN;
         }
 
         for ( int i = Gamepad.all.Count; i < GameManager.MaxPlayers; ++i )
         {
-            m_CharacterDocks[ i ].CurrentStage = CharacterDock.Stage.WAIT_ON_DEVICE;
+            m_CharacterDocks[ i ].ConnectPhase = CharacterDock.Phase.WAIT_ON_DEVICE;
         }
 
         InputSystem.onDeviceChange += OnDeviceChange;
-        IPlayer primaryPlayer = ControllerManager.RetrievePlayer( IPlayer.PlayerSlot.P1 );
-        primaryPlayer.AddInputListener( IPlayer.Control.A_PRESSED, OnAPressedByP1 );
-        primaryPlayer.AddInputListener( IPlayer.Control.B_PRESSED, OnBPressedByP1 );
+        Player primaryPlayer = Player.GetPlayerBySlot( Player.PlayerSlot.P1 );
+        primaryPlayer.AddInputListener( Player.Control.A_PRESSED, OnAPressedByP1 );
+        primaryPlayer.AddInputListener( Player.Control.B_PRESSED, OnBPressedByP1 );
     }
 
     private void OnDestroy()
     {
         InputSystem.onDeviceChange -= OnDeviceChange;
-        IPlayer primaryPlayer = ControllerManager.RetrievePlayer( IPlayer.PlayerSlot.P1 );
-        primaryPlayer.RemoveInputListener( IPlayer.Control.A_PRESSED, OnAPressedByP1 );
-        primaryPlayer.RemoveInputListener( IPlayer.Control.B_PRESSED, OnBPressedByP1 );
+        Player primaryPlayer = Player.GetPlayerBySlot( Player.PlayerSlot.P1 );
+        primaryPlayer.RemoveInputListener( Player.Control.A_PRESSED, OnAPressedByP1 );
+        primaryPlayer.RemoveInputListener( Player.Control.B_PRESSED, OnBPressedByP1 );
         PlayerInputManager.instance.onPlayerJoined -= OnPlayerJoined;
         PlayerInputManager.instance.onPlayerLeft -= OnPlayerLeft;
     }
 
-    public static CharacterDock GetCharacterDock( IPlayer.PlayerSlot a_PlayerSlot )
+    public static CharacterDock GetCharacterDock( Player.PlayerSlot a_PlayerSlot )
     {
         int index = ( int )a_PlayerSlot;
         
@@ -85,12 +85,12 @@ public class CharacterSelector : Singleton< CharacterSelector >
         return Instance.m_CharacterDocks[ index ];
     }
 
-    public static bool DoesSelectorExist( IPlayer.PlayerSlot a_PlayerSlot )
+    public static bool DoesSelectorExist( Player.PlayerSlot a_PlayerSlot )
     {
         return Instance.m_SelectorTiles[ ( int )a_PlayerSlot ] != null;
     }
 
-    public static SelectorTile InstantiateSelector( IPlayer.PlayerSlot a_PlayerSlot, Vector2Int a_GridPosition )
+    public static SelectorTile InstantiateSelector( Player.PlayerSlot a_PlayerSlot, Vector2Int a_GridPosition )
     {
         if ( Instance.m_SelectorTiles[ ( int )a_PlayerSlot ] == null )
         {
@@ -98,22 +98,22 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
             switch ( a_PlayerSlot )
             {
-                case IPlayer.PlayerSlot.P1:
+                case Player.PlayerSlot.P1:
                     {
                         prefabSelectorTile = Instance.SelectorP1;
                     }
                     break;
-                case IPlayer.PlayerSlot.P2:
+                case Player.PlayerSlot.P2:
                     {
                         prefabSelectorTile = Instance.SelectorP2;
                     }
                     break;
-                case IPlayer.PlayerSlot.P3:
+                case Player.PlayerSlot.P3:
                     {
                         prefabSelectorTile = Instance.SelectorP3;
                     }
                     break;
-                case IPlayer.PlayerSlot.P4:
+                case Player.PlayerSlot.P4:
                     {
                         prefabSelectorTile = Instance.SelectorP4;
                     }
@@ -130,7 +130,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
         return null;
     }
 
-    public static SelectorTile InstantiateSelector( IPlayer.PlayerSlot a_PlayerSlot, int a_GridIndex )
+    public static SelectorTile InstantiateSelector( Player.PlayerSlot a_PlayerSlot, int a_GridIndex )
     {
         if ( Instance.m_SelectorTiles[ ( int )a_PlayerSlot ] == null )
         {
@@ -138,22 +138,22 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
             switch ( a_PlayerSlot )
             {
-                case IPlayer.PlayerSlot.P1:
+                case Player.PlayerSlot.P1:
                     {
                         prefabSelectorTile = Instance.SelectorP1;
                     }
                     break;
-                case IPlayer.PlayerSlot.P2:
+                case Player.PlayerSlot.P2:
                     {
                         prefabSelectorTile = Instance.SelectorP2;
                     }
                     break;
-                case IPlayer.PlayerSlot.P3:
+                case Player.PlayerSlot.P3:
                     {
                         prefabSelectorTile = Instance.SelectorP3;
                     }
                     break;
-                case IPlayer.PlayerSlot.P4:
+                case Player.PlayerSlot.P4:
                     {
                         prefabSelectorTile = Instance.SelectorP4;
                     }
@@ -175,7 +175,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
         return null;
     }
 
-    public static bool DestroySelector( IPlayer.PlayerSlot a_PlayerSlot )
+    public static bool DestroySelector( Player.PlayerSlot a_PlayerSlot )
     {
         if ( Instance.m_SelectorTiles[ ( int ) a_PlayerSlot ] != null )
         {
@@ -186,7 +186,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
         return false;
     }
 
-    public static bool ShiftSelector( IPlayer.PlayerSlot a_PlayerSlot, Direction a_Direction )
+    public static bool ShiftSelector( Player.PlayerSlot a_PlayerSlot, Direction a_Direction )
     {
         SelectorTile selector = Instance.m_SelectorTiles[ ( int )a_PlayerSlot ];
         
@@ -230,7 +230,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
         return true;
     }
 
-    public static Vector2Int GetSelectorGridPosition( IPlayer.PlayerSlot a_PlayerSlot )
+    public static Vector2Int GetSelectorGridPosition( Player.PlayerSlot a_PlayerSlot )
     {
         SelectorTile tile = Instance.m_SelectorTiles[ ( int )a_PlayerSlot ];
 
@@ -278,7 +278,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
         {
             if ( m_CharacterDocks[ i ].AssignedPlayer == null )
             {
-                IPlayer newPlayer = a_PlayerInput as IPlayer;
+                Player newPlayer = a_PlayerInput as Player;
                 m_CharacterDocks[ i ].SetPlayer( newPlayer );
                 newPlayer.ChangeCharacter( 0, 0 );
                 break;
@@ -308,7 +308,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
                         foreach ( PlayerInput playerInput in PlayerInput.all )
                         {
-                            if ( ( playerInput as IPlayer ).Device.deviceId == a_InputDevice.deviceId )
+                            if ( ( playerInput as Player ).Device.deviceId == a_InputDevice.deviceId )
                             {
                                 isDeviceAssigned = true;
                                 break;
@@ -317,9 +317,9 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
                         for ( int i = 0; i < m_CharacterDocks.Length && !isDeviceAssigned; ++i )
                         {
-                            if ( m_CharacterDocks[ i ].CurrentStage == CharacterDock.Stage.WAIT_ON_DEVICE )
+                            if ( m_CharacterDocks[ i ].ConnectPhase == CharacterDock.Phase.WAIT_ON_DEVICE )
                             {
-                                m_CharacterDocks[ i ].CurrentStage = CharacterDock.Stage.WAIT_ON_JOIN;
+                                m_CharacterDocks[ i ].ConnectPhase = CharacterDock.Phase.WAIT_ON_JOIN;
                                 break;
                             }
                         }
@@ -331,7 +331,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
                         foreach ( PlayerInput playerInput in PlayerInput.all )
                         {
-                            if ( ( playerInput as IPlayer ).Device.deviceId == a_InputDevice.deviceId )
+                            if ( ( playerInput as Player ).Device.deviceId == a_InputDevice.deviceId )
                             {
                                 isDeviceAssigned = true;
                                 break;
@@ -342,9 +342,9 @@ public class CharacterSelector : Singleton< CharacterSelector >
                         {
                             for ( int i = m_CharacterDocks.Length - 1; i >= 0; --i )
                             {
-                                if ( m_CharacterDocks[ i ].CurrentStage == CharacterDock.Stage.WAIT_ON_JOIN )
+                                if ( m_CharacterDocks[ i ].ConnectPhase == CharacterDock.Phase.WAIT_ON_JOIN )
                                 {
-                                    m_CharacterDocks[ i ].CurrentStage = CharacterDock.Stage.WAIT_ON_DEVICE;
+                                    m_CharacterDocks[ i ].ConnectPhase = CharacterDock.Phase.WAIT_ON_DEVICE;
                                     break;
                                 }
                             }
@@ -362,7 +362,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
         foreach ( PlayerInput playerInput in PlayerInput.all )
         {
             playerInput.transform.parent = null;
-            ( playerInput as IPlayer ).Character.gameObject.SetActive( false );
+            ( playerInput as Player ).Character.gameObject.SetActive( false );
             playerInput.transform.SetPositionAndRotation( Vector3.zero, Quaternion.identity );
             DontDestroyOnLoad( playerInput.gameObject );
         }
@@ -377,7 +377,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
             Destroy( PlayerInput.all[ i ].gameObject );
         }
 
-        IPlayer primaryPlayer = PlayerInput.all[ 0 ] as IPlayer;
+        Player primaryPlayer = PlayerInput.all[ 0 ] as Player;
         primaryPlayer.DestroyCharacter();
         primaryPlayer.transform.parent = null;
         DontDestroyOnLoad( primaryPlayer.gameObject );

@@ -3,8 +3,6 @@ using System;
 
 public class CharacterManager : Singleton< CharacterManager >
 {
-    public CharacterTemplate[] CharacterTemplates;
-
     private void OnValidate()
     {
         for ( int i = 0; i < CharacterTemplates.Length; ++i )
@@ -15,7 +13,7 @@ public class CharacterManager : Singleton< CharacterManager >
         }
     }
 
-    public static ICharacter CreateCharacter( IPlayer a_Owner, int a_CharacterIndex, int a_VariantIndex = 0 )
+    public static ICharacter CreateCharacter( Player a_Owner, int a_CharacterIndex, int a_VariantIndex = 0 )
     {
         if ( a_CharacterIndex < 0 || a_CharacterIndex >= Instance.CharacterTemplates.Length || a_VariantIndex < 0 || a_Owner == null )
         {
@@ -37,7 +35,7 @@ public class CharacterManager : Singleton< CharacterManager >
         return newCharacter;
     }
 
-    public static ICharacter CreateCharacter( IPlayer a_Owner, string a_CharacterName, int a_VariantIndex = 0 )
+    public static ICharacter CreateCharacter( Player a_Owner, string a_CharacterName, int a_VariantIndex = 0 )
     {
         if ( a_VariantIndex < 0 || a_Owner == null )
         {
@@ -87,48 +85,50 @@ public class CharacterManager : Singleton< CharacterManager >
 
         return Instance.CharacterTemplates[ a_CharacterIndex ].VariantCount;
     }
-}
 
-[ Serializable ]
-public class CharacterTemplate
-{
-    public ICharacter Character
+    [ SerializeField ] private CharacterTemplate[] CharacterTemplates;
+
+    [ Serializable ]
+    private struct CharacterTemplate
     {
-        get
+        public ICharacter Character
         {
-            return m_Character;
+            get
+            {
+                return m_Character;
+            }
         }
-    }
-    public int VariantCount
-    {
-        get
+        public int VariantCount
         {
-            return m_Materials.Length;
+            get
+            {
+                return m_Materials.Length;
+            }
         }
-    }
-
-    public ICharacter Instantiate( int a_VariantIndex = 0 )
-    {
-        a_VariantIndex = Mathf.Clamp( a_VariantIndex, 0, m_Materials.Length - 1 );
-        ICharacter newCharacter = UnityEngine.Object.Instantiate( m_Character );
-        typeof( ICharacter ).GetField( "m_CharacterName", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance ).SetValue( newCharacter, m_Character.name );
-        typeof( ICharacter ).GetField( "m_CharacterIndex", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance ).SetValue( newCharacter, m_Index );
-        typeof( ICharacter ).GetField( "m_VariantIndex", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance ).SetValue( newCharacter, a_VariantIndex );
-        newCharacter.GetComponent< MeshRenderer >().material = m_Materials[ a_VariantIndex ];
-        return newCharacter;
-    }
-
-    public Material GetMaterial( int a_VariantIndex )
-    {
-        if ( a_VariantIndex < 0 || a_VariantIndex >= m_Materials.Length )
+    
+        public ICharacter Instantiate( int a_VariantIndex = 0 )
         {
-            return null;
+            a_VariantIndex = Mathf.Clamp( a_VariantIndex, 0, m_Materials.Length - 1 );
+            ICharacter newCharacter = UnityEngine.Object.Instantiate( m_Character );
+            typeof( ICharacter ).GetField( "m_CharacterName", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance ).SetValue( newCharacter, m_Character.name );
+            typeof( ICharacter ).GetField( "m_CharacterIndex", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance ).SetValue( newCharacter, m_Index );
+            typeof( ICharacter ).GetField( "m_VariantIndex", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance ).SetValue( newCharacter, a_VariantIndex );
+            newCharacter.GetComponent< MeshRenderer >().material = m_Materials[ a_VariantIndex ];
+            return newCharacter;
         }
-
-        return m_Materials[ a_VariantIndex ];
+    
+        public Material GetMaterial( int a_VariantIndex )
+        {
+            if ( a_VariantIndex < 0 || a_VariantIndex >= m_Materials.Length )
+            {
+                return null;
+            }
+    
+            return m_Materials[ a_VariantIndex ];
+        }
+    
+        private int m_Index;
+        [ SerializeField ] private Material[] m_Materials;
+        [ SerializeField ] private ICharacter m_Character;
     }
-
-    private int m_Index;
-    [ SerializeField ] private Material[] m_Materials;
-    [ SerializeField ] private ICharacter m_Character;
 }

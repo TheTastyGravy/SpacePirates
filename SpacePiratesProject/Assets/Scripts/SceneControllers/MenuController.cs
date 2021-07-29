@@ -6,7 +6,7 @@ using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
-public class MenuController : MonoBehaviour
+public class MenuController : Singleton< MenuController >
 {
     public GameObject OptionsBackground;
     public Button MenuButtonPlay;
@@ -54,7 +54,7 @@ public class MenuController : MonoBehaviour
 
     private void OnMenuCancel( InputAction.CallbackContext _ )
     {
-        Destroy( ControllerManager.RetrievePlayer( IPlayer.PlayerSlot.P1 ).gameObject );
+        Destroy( Player.GetPlayerBySlot( Player.PlayerSlot.P1 ).gameObject );
         GameManager.CurrentState = GameManager.GameState.START;
     }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SplashController : MonoBehaviour
+public class SplashController : Singleton< SplashController >
 {
     public Image Filter;
     public float FadeDuration;

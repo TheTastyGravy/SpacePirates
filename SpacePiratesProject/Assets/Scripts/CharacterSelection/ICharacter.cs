@@ -31,7 +31,7 @@ public class ICharacter : MonoBehaviour
             m_VariantIndex = value;
         }
     }
-    public IPlayer Player
+    public Player Player
     {
         get
         {
@@ -48,5 +48,5 @@ public class ICharacter : MonoBehaviour
     private int m_CharacterIndex;
     private int m_VariantIndex;
     private MeshRenderer m_Renderer;
-    private IPlayer m_Player;
+    private Player m_Player;
 }
