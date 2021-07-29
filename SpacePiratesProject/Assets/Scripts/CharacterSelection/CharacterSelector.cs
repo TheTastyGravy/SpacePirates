@@ -298,7 +298,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
     private void OnDeviceChange( InputDevice a_InputDevice, InputDeviceChange a_InputDeviceChange )
     {
-        if ( a_InputDevice is Gamepad  )
+        if ( a_InputDevice is Gamepad || a_InputDevice is Keyboard )
         {
             switch ( a_InputDeviceChange )
             {
