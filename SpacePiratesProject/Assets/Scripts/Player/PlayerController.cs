@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : IPlayer
 {
     public float moveSpeed = 1;
     public float turnSpeed = 10;
@@ -22,13 +22,14 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 movement = GetMovement();
+		Vector3 movement = GetMovement();
         // Move using the rigidbody
         rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * movement);
-        // Rotate over time towards the direction of movement
-        Quaternion rotToDir = Quaternion.FromToRotation(transform.forward, movement);
-        rb.MoveRotation(rb.rotation * Quaternion.Lerp(Quaternion.identity, rotToDir, Time.deltaTime * turnSpeed));
-
+		// Rotate over time towards the direction of movement
+		Vector3 forward = Vector3.Slerp(transform.forward, movement, Time.fixedDeltaTime * turnSpeed);
+		Quaternion quat = Quaternion.FromToRotation(transform.forward, forward);
+		rb.MoveRotation(rb.rotation * quat);
+		
         // Interaction
         if (CheckInteract())
 		{
@@ -36,8 +37,8 @@ public class PlayerController : MonoBehaviour
 		}
     }
 
-    // Read movement input
-    private Vector3 GetMovement()
+	// Read movement input
+	private Vector3 GetMovement()
     {
         // Keyboard
         if (Keyboard.current != null)
@@ -51,6 +52,12 @@ public class PlayerController : MonoBehaviour
             movement.z -= keyboard.sKey.ReadValue();
             return movement;
         }
+		// Gamepad
+		else
+		{
+			GetInput(Control.LEFT_STICK, out Vector2 value);
+			return value;
+		}
 
 
         // Fallback
@@ -66,6 +73,11 @@ public class PlayerController : MonoBehaviour
             var keyboard = Keyboard.current;
             return keyboard.eKey.wasPressedThisFrame;
         }
+		// Gamepad
+		else
+		{
+			return GetInput(Control.A_PRESSED);
+		}
 
 
         // Fallback
