@@ -3,7 +3,7 @@ using System;
 
 public class CharacterManager : Singleton< CharacterManager >
 {
-    private void OnValidate()
+    private void Start()
     {
         for ( int i = 0; i < CharacterTemplates.Length; ++i )
         {
@@ -89,7 +89,7 @@ public class CharacterManager : Singleton< CharacterManager >
     [ SerializeField ] private CharacterTemplate[] CharacterTemplates;
 
     [ Serializable ]
-    private struct CharacterTemplate
+    private class CharacterTemplate
     {
         public ICharacter Character
         {
@@ -128,7 +128,7 @@ public class CharacterManager : Singleton< CharacterManager >
         }
     
         private int m_Index;
-        [ SerializeField ] private Material[] m_Materials;
         [ SerializeField ] private ICharacter m_Character;
+        [ SerializeField ] private Material[] m_Materials;
     }
 }

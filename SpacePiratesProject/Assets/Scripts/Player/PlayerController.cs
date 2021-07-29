@@ -3,82 +3,88 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody))]
-public class PlayerController : Player
+[ RequireComponent( typeof( Rigidbody ) ) ]
+public class PlayerController : ICharacter
 {
-    public float moveSpeed = 1;
-    public float turnSpeed = 10;
+    public float MoveSpeed = 1;
+    public float TurnSpeed = 10;
 
-    private Rigidbody rb;
-    private Interactor interactor;
-
-    void Awake()
+    void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        interactor = GetComponent<Interactor>();
+        m_Rigidbody = GetComponent< Rigidbody >();
+        m_Interactor = GetComponent< Interactor >();
+        Player.AddInputListener( Player.Control.RIGHT_BUMPER_PRESSED, OnRBumperPressed );
+    }
+
+    private void OnDestroy()
+    {
+        Player.RemoveInputListener( Player.Control.RIGHT_BUMPER_PRESSED, OnRBumperPressed );
     }
 
     void FixedUpdate()
     {
-		Vector3 movement = GetMovement();
+        Player.GetInput( Player.Control.LEFT_STICK, out Vector3 movement );
+
         // Move using the rigidbody
-        rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * movement);
+        m_Rigidbody.MovePosition( m_Rigidbody.position + MoveSpeed * Time.fixedDeltaTime * movement );
+
 		// Rotate over time towards the direction of movement
-		Vector3 forward = Vector3.Slerp(transform.forward, movement, Time.fixedDeltaTime * turnSpeed);
-		Quaternion quat = Quaternion.FromToRotation(transform.forward, forward);
-		rb.MoveRotation(rb.rotation * quat);
-		
-        // Interaction
-        if (CheckInteract())
-		{
-            interactor.Interact();
-		}
+		Vector3 forward = Vector3.Slerp( transform.forward, movement, Time.fixedDeltaTime * TurnSpeed );
+		Quaternion quat = Quaternion.FromToRotation( transform.forward, forward );
+		m_Rigidbody.MoveRotation( m_Rigidbody.rotation * quat );
+    }
+
+    private void OnRBumperPressed( InputAction.CallbackContext _ )
+    {
+        m_Interactor?.Interact();
     }
 
 	// Read movement input
-	private Vector3 GetMovement()
-    {
-        // Keyboard
-        if (Keyboard.current != null)
-		{
-            var keyboard = Keyboard.current;
+	//private Vector3 GetMovement()
+ //   {
+ //       // Keyboard
+ //       if (Keyboard.current != null)
+	//	{
+ //           var keyboard = Keyboard.current;
 
-            Vector3 movement = Vector3.zero;
-            movement.x += keyboard.dKey.ReadValue();
-            movement.x -= keyboard.aKey.ReadValue();
-            movement.z += keyboard.wKey.ReadValue();
-            movement.z -= keyboard.sKey.ReadValue();
-            return movement;
-        }
-		// Gamepad
-		else
-		{
-			GetInput(Control.LEFT_STICK, out Vector2 value);
-			return value;
-		}
+ //           Vector3 movement = Vector3.zero;
+ //           movement.x += keyboard.dKey.ReadValue();
+ //           movement.x -= keyboard.aKey.ReadValue();
+ //           movement.z += keyboard.wKey.ReadValue();
+ //           movement.z -= keyboard.sKey.ReadValue();
+ //           return movement;
+ //       }
+	//	// Gamepad
+	//	else
+	//	{
+	//		Player.GetInput(Player.Control.LEFT_STICK, out Vector2 value);
+	//		return value;
+	//	}
 
 
-        // Fallback
-        return Vector3.zero;
-    }
+ //       // Fallback
+ //       return Vector3.zero;
+ //   }
 
     // Read interaction input
-    private bool CheckInteract()
-	{
-        // Keyboard
-        if (Keyboard.current != null)
-        {
-            var keyboard = Keyboard.current;
-            return keyboard.eKey.wasPressedThisFrame;
-        }
-		// Gamepad
-		else
-		{
-			return GetInput(Control.A_PRESSED);
-		}
+ //   private bool CheckInteract()
+	//{
+ //       // Keyboard
+ //       if (Keyboard.current != null)
+ //       {
+ //           var keyboard = Keyboard.current;
+ //           return keyboard.eKey.wasPressedThisFrame;
+ //       }
+	//	// Gamepad
+	//	else
+	//	{
+	//		return Player.GetInput(Player.Control.A_PRESSED);
+	//	}
 
+ //       // Fallback
+ //       return false;
+ //   }
 
-        // Fallback
-        return false;
-    }
+    private Rigidbody m_Rigidbody;
+    private Interactor m_Interactor;
 }

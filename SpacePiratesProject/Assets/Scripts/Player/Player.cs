@@ -61,14 +61,21 @@ public class Player : PlayerInput
         return m_InputActions[ ( int )a_Control ].ReadValue< bool >();
     }
 
-    public void GetInput( Control a_Control, out Vector2 a_Value )
+    public void GetInput( Control a_Control, out Vector2 o_Value )
     {
-        a_Value = m_InputActions[ ( int )a_Control ].ReadValue< Vector2 >();
+        o_Value = m_InputActions[ ( int )a_Control ].ReadValue< Vector2 >();
     }
 
-    public void GetInput( Control a_Control, out float a_Value )
+    public void GetInput( Control a_Control, out Vector3 o_Value )
     {
-        a_Value = m_InputActions[ ( int )a_Control ].ReadValue< float >();
+        o_Value = m_InputActions[ ( int )a_Control ].ReadValue< Vector2 >();
+        o_Value.z = o_Value.y;
+        o_Value.y = 0;
+    }
+
+    public void GetInput( Control a_Control, out float o_Value )
+    {
+        o_Value = m_InputActions[ ( int )a_Control ].ReadValue< float >();
     }
 
     public InputAction GetInputAction( Control a_Control )

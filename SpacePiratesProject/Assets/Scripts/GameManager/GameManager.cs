@@ -1,7 +1,16 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton< GameManager >
 {
+    public static InputActionMap DefaultActionMap
+    {
+        get
+        {
+            return Instance.m_DefaultActionAsset.actionMaps.Count > 0 ? Instance.m_DefaultActionAsset.actionMaps[ 0 ] : null;
+        }
+    }
     public static int SelectedShip
     {
         get
@@ -75,6 +84,8 @@ public class GameManager : Singleton< GameManager >
     private int m_SelectedTrack;
     private int m_MaxPlayers;
     private GameState m_CurrentState;
+
+    [ SerializeField ] private InputActionAsset m_DefaultActionAsset;
 
     public enum GameState
     {

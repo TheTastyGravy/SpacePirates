@@ -39,14 +39,10 @@ public class ICharacter : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        m_Renderer = GetComponent< MeshRenderer >();
-    }
-
     private string m_CharacterName;
     private int m_CharacterIndex;
     private int m_VariantIndex;
-    private MeshRenderer m_Renderer;
     private Player m_Player;
+
+    [ SerializeField ] private MeshRenderer m_Renderer;
 }

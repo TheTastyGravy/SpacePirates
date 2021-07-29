@@ -51,6 +51,13 @@ public class TrackSelector : Singleton< TrackSelector >
     {
         GameManager.RegisterSelectedTrack( m_CurrentTrackIndex );
         GameManager.CurrentState = GameManager.GameState.GAME;
+
+        foreach ( PlayerInput playerInput in PlayerInput.all )
+        {
+            Player player = playerInput as Player;
+            player.Character.gameObject.SetActive( true );
+            player.Character.enabled = true;
+        }
     }
 
     private void OnBPressed( InputAction.CallbackContext _ )

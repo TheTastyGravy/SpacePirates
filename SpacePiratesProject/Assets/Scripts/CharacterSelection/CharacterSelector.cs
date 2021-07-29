@@ -28,7 +28,16 @@ public class CharacterSelector : Singleton< CharacterSelector >
         m_SelectorTiles = new SelectorTile[ ( int )Player.PlayerSlot.COUNT ];
         m_CharacterTiles = new CharacterTile[ CharacterTiles.Length ];
         m_CharacterDocks = new CharacterDock[ GameManager.MaxPlayers ];
-        PlayerInputManager.instance.EnableJoining();
+
+        if ( PlayerInput.all.Count < GameManager.MaxPlayers )
+        {
+            PlayerInputManager.instance.EnableJoining();
+        }
+        else
+        {
+            PlayerInputManager.instance.DisableJoining();
+        }
+
         PlayerInputManager.instance.onPlayerJoined += OnPlayerJoined;
         PlayerInputManager.instance.onPlayerLeft += OnPlayerLeft;
         PopulateCharacterTiles();
@@ -47,12 +56,23 @@ public class CharacterSelector : Singleton< CharacterSelector >
             player.Character.gameObject.SetActive( true );
         }
 
-        for ( int i = PlayerInput.all.Count; i < Mathf.Min( Gamepad.all.Count, m_CharacterDocks.Length ); ++i )
+        m_DefaultActionMap = GameManager.DefaultActionMap;
+        int countCompatible = 0;
+
+        foreach( InputDevice inputDevice in InputSystem.devices )
+        {
+            if ( m_DefaultActionMap.IsUsableWithDevice( inputDevice ) )
+            {
+                ++countCompatible;
+            }
+        }
+
+        for ( int i = PlayerInput.all.Count; i < Mathf.Min( countCompatible, m_CharacterDocks.Length ); ++i )
         {
             m_CharacterDocks[ i ].ConnectPhase = CharacterDock.Phase.WAIT_ON_JOIN;
         }
 
-        for ( int i = Gamepad.all.Count; i < GameManager.MaxPlayers; ++i )
+        for ( int i = countCompatible; i < GameManager.MaxPlayers; ++i )
         {
             m_CharacterDocks[ i ].ConnectPhase = CharacterDock.Phase.WAIT_ON_DEVICE;
         }
@@ -298,7 +318,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
     private void OnDeviceChange( InputDevice a_InputDevice, InputDeviceChange a_InputDeviceChange )
     {
-        if ( a_InputDevice is Gamepad || a_InputDevice is Keyboard )
+        if ( m_DefaultActionMap.IsUsableWithDevice( a_InputDevice ) )
         {
             switch ( a_InputDeviceChange )
             {
@@ -387,6 +407,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
     private SelectorTile[] m_SelectorTiles;
     private CharacterTile[] m_CharacterTiles;
     private CharacterDock[] m_CharacterDocks;
+    private InputActionMap m_DefaultActionMap;
     [ SerializeField ] private RectTransform m_DockBoundLeft;
     [ SerializeField ] private RectTransform m_DockBoundRight;
     [ SerializeField ] private RectTransform m_ParentCharacterDocks;

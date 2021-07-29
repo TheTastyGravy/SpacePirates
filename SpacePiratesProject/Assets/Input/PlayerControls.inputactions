@@ -272,17 +272,6 @@
                 },
                 {
                     "name": "",
-                    "id": "aa68ab85-a149-415b-8128-e06cb9200cbb",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LEFT_STICK_BUTTON_PRESSED",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "751d4294-dbf2-411c-97dd-56f033d5135f",
                     "path": "<XInputController>/rightStick",
                     "interactions": "",
@@ -293,75 +282,9 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Arrow Keys",
-                    "id": "4582f4b1-7056-4e34-92ec-94c2763fc4e8",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RIGHT_STICK",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "012078c8-77b2-4dd7-b70f-e6eb88f2fce0",
-                    "path": "<Keyboard>/upArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RIGHT_STICK",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "72318ecb-bbb3-450e-b9da-23d6bcf21028",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RIGHT_STICK",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "318d1637-80f2-448e-a73a-a8df755d891d",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RIGHT_STICK",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "4319cc59-7f02-44ae-b643-78d835445ec2",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RIGHT_STICK",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "ae0a8dd2-09fb-4309-bfd4-f7adb4520377",
                     "path": "<XInputController>/rightStickPress",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RIGHT_STICK_BUTTON_PRESSED",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7957182e-b416-4b3a-930f-e6f6adbf578d",
-                    "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -427,7 +350,7 @@
                 {
                     "name": "",
                     "id": "5a99f47e-641f-4b16-98d0-fdfab778e559",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -449,7 +372,7 @@
                 {
                     "name": "",
                     "id": "4e353623-df7f-49f3-b011-8378a0a79d68",
-                    "path": "<Keyboard>/r",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -470,7 +393,7 @@
                 },
                 {
                     "name": "",
-                    "id": "4c261eaf-8558-4fd4-a5b9-95396ad96792",
+                    "id": "8eca5f5f-7e14-4854-ad22-e0d1fe3a4684",
                     "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
@@ -492,30 +415,8 @@
                 },
                 {
                     "name": "",
-                    "id": "3a01d888-27ce-4c9a-a00e-b3b207994610",
-                    "path": "<Keyboard>/tab",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Y_PRESSED",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "f7c351ce-1f8c-4329-989c-8feb3fa8fc42",
                     "path": "<XInputController>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LEFT_BUMPER_PRESSED",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5fa4ff9c-e67d-4550-8ece-285859a2b895",
-                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -536,17 +437,6 @@
                 },
                 {
                     "name": "",
-                    "id": "8411bb25-1b89-4805-9d85-72b52c1fb6a2",
-                    "path": "<Keyboard>/z",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LEFT_TRIGGER",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "e7f1a4d4-68d5-4ad6-be4f-c659470a8ec8",
                     "path": "<XInputController>/rightShoulder",
                     "interactions": "",
@@ -558,30 +448,8 @@
                 },
                 {
                     "name": "",
-                    "id": "82ceed4d-ff2b-4f1b-adfb-65c5c3fb83f1",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RIGHT_BUMPER_PRESSED",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "5a1bc150-cf9b-420c-89d1-b5a862edf2a0",
                     "path": "<XInputController>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RIGHT_TRIGGER",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "61229e62-ced1-4685-b3ea-523f0bede795",
-                    "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

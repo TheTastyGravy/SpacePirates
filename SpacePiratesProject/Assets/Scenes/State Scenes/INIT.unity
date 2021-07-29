@@ -207,7 +207,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1234440285}
   - component: {fileID: 1234440284}
-  - component: {fileID: 1234440286}
   - component: {fileID: 1234440288}
   - component: {fileID: 1234440287}
   m_Layer: 0
@@ -229,6 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d89bf0d2e4846740ba61bc73319405b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_DefaultActionAsset: {fileID: -944628639613478452, guid: 66637995c6492454c88311f2533856d4, type: 3}
 --- !u!4 &1234440285
 Transform:
   m_ObjectHideFlags: 0
@@ -243,18 +243,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1234440286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1234440283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 518662c6d4380c744835f524acca5e17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1234440287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,6 +283,14 @@ MonoBehaviour:
         m_Groups: 
         m_Action: Join
         m_Flags: 0
+      - m_Name: 
+        m_Id: 3d8de642-8914-4f04-8369-018598c1b070
+        m_Path: <Keyboard>/enter
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
     m_Reference: {fileID: 0}
   m_PlayerPrefab: {fileID: 7805122478229081468, guid: 9f4d2ebe216e82349b70066fa682ce43, type: 3}
   m_SplitScreen: 0
@@ -319,18 +315,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterTemplates:
-  - m_Materials:
+  - m_Character: {fileID: 6830744984575529230, guid: fe2cc47b4fd4b0449a15b39184928d55, type: 3}
+    m_Materials:
     - {fileID: 2100000, guid: d619cfe3e504ba941aacb8d69ff57367, type: 2}
     - {fileID: 2100000, guid: 29f4f5d92557c1b49873df4dfd8882b2, type: 2}
     - {fileID: 2100000, guid: dabbddd1b5d1aef4088589fe41bac36a, type: 2}
-    m_Character: {fileID: -6767640677420991422, guid: 7483a3fca6f1ee9419524ee68803a790, type: 3}
-  - m_Materials:
+  - m_Character: {fileID: 6830744984575529230, guid: a27f85207003a0b40956c4a5110dfba5, type: 3}
+    m_Materials:
     - {fileID: 2100000, guid: d619cfe3e504ba941aacb8d69ff57367, type: 2}
     - {fileID: 2100000, guid: 29f4f5d92557c1b49873df4dfd8882b2, type: 2}
     - {fileID: 2100000, guid: dabbddd1b5d1aef4088589fe41bac36a, type: 2}
-    m_Character: {fileID: 7900328182544514025, guid: 27fe0ba167b8f2e459224499e63251d9, type: 3}
-  - m_Materials:
+  - m_Character: {fileID: 6830744984575529230, guid: 34a7b1db65974944e965a6cb2d6e033e, type: 3}
+    m_Materials:
     - {fileID: 2100000, guid: d619cfe3e504ba941aacb8d69ff57367, type: 2}
     - {fileID: 2100000, guid: 29f4f5d92557c1b49873df4dfd8882b2, type: 2}
     - {fileID: 2100000, guid: dabbddd1b5d1aef4088589fe41bac36a, type: 2}
-    m_Character: {fileID: 1277395106449709980, guid: 58a9e26b30ae3ce428445bd8fb22aa29, type: 3}
