@@ -27,13 +27,15 @@ public class PlayerController : Player
 		Vector3 forward = Vector3.Slerp(transform.forward, movement, Time.fixedDeltaTime * turnSpeed);
 		Quaternion quat = Quaternion.FromToRotation(transform.forward, forward);
 		rb.MoveRotation(rb.rotation * quat);
-		
-        // Interaction
-        if (CheckInteract())
-		{
-            interactor.Interact();
-		}
     }
+	void Update()
+	{
+		// Interaction
+		if (CheckInteract())
+		{
+			interactor.Interact();
+		}
+	}
 
 	// Read movement input
 	private Vector3 GetMovement()

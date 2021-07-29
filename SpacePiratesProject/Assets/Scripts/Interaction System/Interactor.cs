@@ -5,7 +5,8 @@ using UnityEngine;
 public class Interactor : MonoBehaviour
 {
     // The interactables we are able to use
-    private List<Interactable> interactables = new List<Interactable>();
+	[HideInInspector]
+    public List<Interactable> interactables = new List<Interactable>();
 
 
 

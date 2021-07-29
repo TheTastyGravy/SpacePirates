@@ -6,8 +6,9 @@ public abstract class Interactable : MonoBehaviour
 {
     public GameObject prompt;
 
-    // The number of players inside this trigger
-    private int playerCount = 0;
+	public Collider _collider;
+
+	private List<Interactor> interactors = new List<Interactor>();
     private bool isUseable = true;
 
 
@@ -26,8 +27,9 @@ public abstract class Interactable : MonoBehaviour
 	{
         if (other.CompareTag("Player"))
 		{
-            playerCount++;
-            if (isUseable && prompt != null)
+			interactors.Add(other.GetComponent<Interactor>());
+
+			if (isUseable && prompt != null)
                 prompt.SetActive(true);
         }
 	}
@@ -35,10 +37,10 @@ public abstract class Interactable : MonoBehaviour
 	{
         if (other.CompareTag("Player"))
         {
-            playerCount--;
-        }
+			interactors.Remove(other.GetComponent<Interactor>());
+		}
 
-        if (isUseable && playerCount == 0 && prompt != null)
+        if (isUseable && interactors.Count == 0 && prompt != null)
 		{
             prompt.SetActive(false);
 		}
@@ -47,9 +49,10 @@ public abstract class Interactable : MonoBehaviour
     public void SetIsUsable(bool value)
 	{
         isUseable = value;
+		_collider.enabled = value;
 
-        // Update prompt
-        if (isUseable && playerCount > 0 && prompt != null)
+		// Update prompt
+		if (isUseable && interactors.Count > 0 && prompt != null)
 		{
             prompt.SetActive(true);
         }
@@ -58,4 +61,13 @@ public abstract class Interactable : MonoBehaviour
             prompt.SetActive(false);
         }
     }
+
+	void OnDestroy()
+	{
+		//remove this from interactors
+		foreach (var obj in interactors)
+		{
+			obj.interactables.Remove(this);
+		}
+	}
 }
