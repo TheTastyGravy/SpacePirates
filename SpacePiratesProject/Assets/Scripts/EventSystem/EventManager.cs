@@ -12,6 +12,21 @@ public class EventManager : Singleton<EventManager>
 	private PriorityQueue<Event> priorityQueue = new PriorityQueue<Event>();
 
 
+	public enum Region
+	{
+		FRONT = 0,
+		LEFT,
+		RIGHT,
+		COUNT
+	}
+	[HideInInspector]
+	public bool[] regions = new bool[(int)Region.COUNT];
+
+	//temp
+	public GameObject astroidPrefab;
+
+
+
 
 	void Update()
     {
@@ -36,6 +51,12 @@ public class EventManager : Singleton<EventManager>
 
 	private void CustomTick()
 	{
+		//temp
+		AstroidEvent astroidEvent = new AstroidEvent();
+		astroidEvent.astroidPrefab = astroidPrefab;
+		AddEventToQueue(astroidEvent, 10);
+
+
 		// Activate all events in the queue that can be activated
 		while (!priorityQueue.IsEmpty())
 		{

@@ -115,17 +115,18 @@ MonoBehaviour:
   maxAngle: 180
   randomAngleVarience: 10
   startDist: 0.5
+  velocity: 5
   damageLevels:
   - oxygenLossRate: 5
     repairCount: 1
     minShrapnel: 1
     maxShrapnel: 2
   - oxygenLossRate: 10
-    repairCount: 3
+    repairCount: 1
     minShrapnel: 2
     maxShrapnel: 3
   - oxygenLossRate: 15
-    repairCount: 5
+    repairCount: 1
     minShrapnel: 3
     maxShrapnel: 5
   oxygenLossRate: 0
