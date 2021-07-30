@@ -51,6 +51,14 @@ public abstract class Interactable : MonoBehaviour
         isUseable = value;
 		_collider.enabled = value;
 
+		if (!isUseable)
+		{
+			foreach (var obj in interactors)
+			{
+				obj.interactables.Remove(this);
+			}
+		}
+		
 		// Update prompt
 		if (isUseable && interactors.Count > 0 && prompt != null)
 		{
