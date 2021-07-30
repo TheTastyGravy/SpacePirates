@@ -529,7 +529,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: ExPloDiNg PenQuIN
+  m_Text: ExPloDiNg PenGuIN
 --- !u!222 &1154415235
 CanvasRenderer:
   m_ObjectHideFlags: 0
