@@ -13,12 +13,12 @@ public class PlayerController : ICharacter
     {
         m_Rigidbody = GetComponent< Rigidbody >();
         m_Interactor = GetComponent< Interactor >();
-        Player.AddInputListener( Player.Control.RIGHT_BUMPER_PRESSED, OnRBumperPressed );
+        Player.AddInputListener( Player.Control.A_PRESSED, OnAPressed );
     }
 
     private void OnDestroy()
     {
-        Player.RemoveInputListener( Player.Control.RIGHT_BUMPER_PRESSED, OnRBumperPressed );
+        Player.RemoveInputListener( Player.Control.A_PRESSED, OnAPressed );
     }
 
     void FixedUpdate()
@@ -34,7 +34,7 @@ public class PlayerController : ICharacter
 		m_Rigidbody.MoveRotation( m_Rigidbody.rotation * quat );
     }
 
-    private void OnRBumperPressed( InputAction.CallbackContext _ )
+    private void OnAPressed( InputAction.CallbackContext _ )
     {
         m_Interactor?.Interact();
     }

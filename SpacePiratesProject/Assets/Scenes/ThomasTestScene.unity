@@ -4013,10 +4013,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1979019134}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3befe3307c01c5e469a25090d45c87cb, type: 3}
+  m_Script: {fileID: 11500000, guid: b849ce839cf9ed24889844de55be550c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 7.5
+  CharacterName: 
+  m_Renderer: {fileID: 0}
+  MoveSpeed: 1
   TurnSpeed: 10
 --- !u!136 &1979019136
 CapsuleCollider:

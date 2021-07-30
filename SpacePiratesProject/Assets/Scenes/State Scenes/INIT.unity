@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -237,7 +237,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1234440283}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.95890003, y: 0.97260225, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -292,7 +292,7 @@ MonoBehaviour:
         m_Action: Join
         m_Flags: 0
     m_Reference: {fileID: 0}
-  m_PlayerPrefab: {fileID: 7805122478229081468, guid: 9f4d2ebe216e82349b70066fa682ce43, type: 3}
+  m_PlayerPrefab: {fileID: 4902487611060801344, guid: 877506bda02af2545a6447aae4708c77, type: 3}
   m_SplitScreen: 0
   m_MaintainAspectRatioInSplitScreen: 0
   m_FixedNumberOfSplitScreens: -1
@@ -315,7 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterTemplates:
-  - m_Character: {fileID: 6830744984575529230, guid: fe2cc47b4fd4b0449a15b39184928d55, type: 3}
+  - m_Character: {fileID: 6830744984575529230, guid: ae0a4aa2398e1384fb730ad97c1e45c2, type: 3}
     m_Materials:
     - {fileID: 2100000, guid: d619cfe3e504ba941aacb8d69ff57367, type: 2}
     - {fileID: 2100000, guid: 29f4f5d92557c1b49873df4dfd8882b2, type: 2}
