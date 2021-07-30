@@ -213,7 +213,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterName: Character1
   m_Renderer: {fileID: 6830744984575529223}
-  MoveSpeed: 1
+  MoveSpeed: 5
   TurnSpeed: 10
 --- !u!114 &6830744984575529218
 MonoBehaviour:
@@ -227,6 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b536a0c5710fd341a01f40cdb7e8969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactables: []
 --- !u!114 &6830744984575529216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,4 +255,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prompt: {fileID: 0}
+  _collider: {fileID: 0}
   numberOfInteractions: 3

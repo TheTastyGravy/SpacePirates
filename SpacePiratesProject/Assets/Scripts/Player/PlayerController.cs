@@ -39,52 +39,6 @@ public class PlayerController : ICharacter
         m_Interactor?.Interact();
     }
 
-	// Read movement input
-	//private Vector3 GetMovement()
- //   {
- //       // Keyboard
- //       if (Keyboard.current != null)
-	//	{
- //           var keyboard = Keyboard.current;
-
- //           Vector3 movement = Vector3.zero;
- //           movement.x += keyboard.dKey.ReadValue();
- //           movement.x -= keyboard.aKey.ReadValue();
- //           movement.z += keyboard.wKey.ReadValue();
- //           movement.z -= keyboard.sKey.ReadValue();
- //           return movement;
- //       }
-	//	// Gamepad
-	//	else
-	//	{
-	//		Player.GetInput(Player.Control.LEFT_STICK, out Vector2 value);
-	//		return value;
-	//	}
-
-
- //       // Fallback
- //       return Vector3.zero;
- //   }
-
-    // Read interaction input
- //   private bool CheckInteract()
-	//{
- //       // Keyboard
- //       if (Keyboard.current != null)
- //       {
- //           var keyboard = Keyboard.current;
- //           return keyboard.eKey.wasPressedThisFrame;
- //       }
-	//	// Gamepad
-	//	else
-	//	{
-	//		return Player.GetInput(Player.Control.A_PRESSED);
-	//	}
-
- //       // Fallback
- //       return false;
- //   }
-
     private Rigidbody m_Rigidbody;
     private Interactor m_Interactor;
 }

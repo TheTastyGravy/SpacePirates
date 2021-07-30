@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2089576865504899980}
   - component: {fileID: 1133824584467663127}
   m_Layer: 5
-  m_Name: CharacterTile
+  m_Name: CharacterTile4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 0425238081e17d34193038db361dff0d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -89,4 +89,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RectTransform: {fileID: 6072752204404651193}
-  CharacterModelPrefab: {fileID: 8502672484543673370, guid: 70f3ba00f4900b14e816e8e8ce4a784c, type: 3}

@@ -41,6 +41,6 @@ public class SplashController : Singleton< SplashController >
 
     private IEnumerator Splash()
     {
-        yield return new WaitForSeconds( 0.0f );
+        yield return new WaitForSeconds( 2.0f );
     }
 }
