@@ -11,13 +11,12 @@ public class Spawner : MonoBehaviour
     {
         Player player = Player.GetPlayerBySlot( PlayerSlot );
 
-        if ( player == null )
+        if ( player != null )
         {
-            return;
+            ( player.Character as PlayerController ).MovementEnabled = true;
+            player.transform.SetPositionAndRotation( transform.position, transform.rotation );
+            player.transform.parent = transform.parent;
         }
-
-        player.transform.SetPositionAndRotation( transform.position, transform.rotation );
-        player.transform.parent = transform.parent;
 
         if ( DestroyOnTeleport )
         {

@@ -8,6 +8,18 @@ public class PlayerController : ICharacter
 {
     public float MoveSpeed = 1;
     public float TurnSpeed = 10;
+    public bool MovementEnabled
+    {
+        get
+        {
+            return !m_Rigidbody.isKinematic;
+        }
+        set
+        {
+            m_Rigidbody = m_Rigidbody ?? GetComponent< Rigidbody >();
+            m_Rigidbody.isKinematic = !value;
+        }
+    }
 
     void Start()
     {

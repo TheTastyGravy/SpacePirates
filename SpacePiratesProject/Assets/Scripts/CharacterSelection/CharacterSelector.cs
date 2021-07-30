@@ -54,6 +54,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
             m_CharacterDocks[ i ].SetPlayer( player );
             player.Character.gameObject.SetActive( true );
+            ( player.Character as PlayerController ).MovementEnabled = false;
         }
 
         m_DefaultActionMap = GameManager.DefaultActionMap;
@@ -301,6 +302,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
                 Player newPlayer = a_PlayerInput as Player;
                 m_CharacterDocks[ i ].SetPlayer( newPlayer );
                 newPlayer.ChangeCharacter( 0, 0 );
+                ( newPlayer.Character as PlayerController ).MovementEnabled = false;
                 break;
             }
         }
