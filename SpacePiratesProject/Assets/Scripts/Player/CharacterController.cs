@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [ RequireComponent( typeof( Rigidbody ) ) ]
-public class PlayerController : ICharacter
+public class CharacterController : ICharacter
 {
     public float MoveSpeed = 1;
     public float TurnSpeed = 10;
@@ -37,8 +37,10 @@ public class PlayerController : ICharacter
     {
         Player.GetInput( Player.Control.LEFT_STICK, out Vector3 movement );
 
-        // Move using the rigidbody
-        m_Rigidbody.MovePosition( m_Rigidbody.position + MoveSpeed * Time.fixedDeltaTime * movement );
+        // Move using the rigidbody, constraining the y component
+		Vector3 newPos = m_Rigidbody.position + MoveSpeed * Time.fixedDeltaTime * movement;
+		newPos.y = 0;
+		m_Rigidbody.MovePosition( newPos );
 
 		// Rotate over time towards the direction of movement
 		Vector3 forward = Vector3.Slerp( transform.forward, movement, Time.fixedDeltaTime * TurnSpeed );
