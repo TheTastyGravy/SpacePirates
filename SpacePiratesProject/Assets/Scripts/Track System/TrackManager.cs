@@ -82,8 +82,6 @@ public class TrackManager : Singleton<TrackManager>
         // Get engine efficiency for player
         float playerEngine = GetEngineEfficiency();
 
-		Debug.Log("Engine: " + playerEngine);
-
         // Get new ship positions
         ShipPosition newPlayerShip = GetNewShipPos(playerShip, playerEngine);
         List<ShipPosition> newAiShips = new List<ShipPosition>();
@@ -326,8 +324,6 @@ public class TrackManager : Singleton<TrackManager>
 			float dist = ai.ships[i].trackIndex + ai.ships[i].segmentDist;
 			dist -= playerDist;
 
-			Debug.Log(dist);
-
 			if (dist > 0) //ahead of player
 			{
 				if (nextOpponent > dist)
@@ -342,8 +338,6 @@ public class TrackManager : Singleton<TrackManager>
 		//display opponent info
 		nextShip.text = nextShipBase + nextOpponent.ToString();
 		previousShip.text = previousShipBase + prevOpponent.ToString();
-
-		Debug.Log("");
 	}
 	private string Track2String(TrackType track)
 	{

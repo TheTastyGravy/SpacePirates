@@ -37,7 +37,9 @@ public class HullHoleStation : Interactable
     {
         oxygenLossRate = damageLevels[0].oxygenLossRate;
         repairCount = damageLevels[0].repairCount;
-    }
+
+		CreateShrapnel();
+	}
 
     protected override void OnActivate(Interactor user)
 	{

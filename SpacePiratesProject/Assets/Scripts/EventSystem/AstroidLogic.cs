@@ -6,9 +6,14 @@ using UnityEngine.Events;
 public class AstroidLogic : MonoBehaviour
 {
 	public UnityEvent onContact;
+	private bool hasContacted = false;
 
 	void OnCollisionEnter(Collision collision)
 	{
-		onContact.Invoke();
+		if (!hasContacted)
+		{
+			onContact.Invoke();
+			hasContacted = true;
+		}
 	}
 }
