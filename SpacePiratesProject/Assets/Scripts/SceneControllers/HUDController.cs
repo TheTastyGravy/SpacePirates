@@ -18,18 +18,18 @@ public class HUDController : Singleton< HUDController >
         foreach ( PlayerInput playerInput in PlayerInput.all )
         {
             Player player = playerInput as Player;
-            player.AddInputListener( Player.Control.START_PRESSED, callback => OnStartPressed( player.Slot ) );
+            player.AddInputListener( Player.Control.START_PRESSED, callback => OnStartPressed( player ) );
         }
     }
 
-    private void OnStartPressed( Player.PlayerSlot a_PlayerSlot )
+    private void OnStartPressed( Player a_Player )
     {
         if ( OptionsMenu.gameObject.activeSelf )
         {
             return;
         }
 
-        OptionsMenu.ShowOptions( a_PlayerSlot );
+        OptionsMenu.ShowOptions( a_Player );
     }
 
     public static HUDPlayerCard GetPlayerCard( Player.PlayerSlot a_PlayerSlot )

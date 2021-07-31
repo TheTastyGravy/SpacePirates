@@ -85,6 +85,11 @@ public class Character : ICharacter
 
     private void OnAPressed( InputAction.CallbackContext _ )
     {
+        if ( IsDead )
+        {
+            return;
+        }
+
         m_Interactor?.Interact();
     }
 
