@@ -11,8 +11,6 @@ public abstract class Interactable : MonoBehaviour
 	private List<Interactor> interactors = new List<Interactor>();
     private bool isUseable = true;
 
-
-
     public void Activate(Interactor user)
 	{
         if (isUseable)

@@ -8,8 +8,6 @@ public class Interactor : MonoBehaviour
 	[HideInInspector]
     public List<Interactable> interactables = new List<Interactable>();
 
-
-
 	void OnTriggerEnter(Collider other)
 	{
 		if (other.TryGetComponent(out Interactable interactable))
@@ -17,6 +15,7 @@ public class Interactor : MonoBehaviour
 			interactables.Add(interactable);
 		}
 	}
+
 	void OnTriggerExit(Collider other)
 	{
 		if (other.TryGetComponent(out Interactable interactable))
@@ -25,12 +24,10 @@ public class Interactor : MonoBehaviour
 		}
 	}
 
-
 	public void Interact()
 	{
 		if (interactables.Count == 0)
 			return;
-
 
 		if (interactables.Count == 1)
 		{

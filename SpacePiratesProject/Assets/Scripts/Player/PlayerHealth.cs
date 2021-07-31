@@ -9,7 +9,7 @@ public class PlayerHealth : MonoBehaviour
     public float Health { get => currentHealth; }
 
     private float currentHealth;
-    private CharacterController controller;
+    private Character controller;
     private RevivePlayerStation reviveStation;
 
     
@@ -17,7 +17,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-        controller = GetComponent<CharacterController>();
+        controller = GetComponent<Character>();
         reviveStation = GetComponent<RevivePlayerStation>();
     }
 

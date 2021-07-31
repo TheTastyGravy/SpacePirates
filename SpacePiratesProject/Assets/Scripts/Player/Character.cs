@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [ RequireComponent( typeof( Rigidbody ) ) ]
-public class CharacterController : ICharacter
+public class Character : ICharacter
 {
     public float MoveSpeed = 1;
     public float TurnSpeed = 10;
+
     public bool MovementEnabled
     {
         get

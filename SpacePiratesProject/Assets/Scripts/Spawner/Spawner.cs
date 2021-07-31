@@ -13,7 +13,7 @@ public class Spawner : MonoBehaviour
 
         if ( player != null )
         {
-            ( player.Character as CharacterController).MovementEnabled = true;
+            ( player.Character as Character).MovementEnabled = true;
             player.transform.SetPositionAndRotation( transform.position, transform.rotation );
             player.transform.parent = transform.parent;
         }
