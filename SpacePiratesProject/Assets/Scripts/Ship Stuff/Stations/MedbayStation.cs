@@ -13,9 +13,9 @@ public class MedbayStation : Interactable
 
 	protected override void OnActivate(Interactor user)
 	{
-		PlayerHealth playerHealth = user.GetComponent<PlayerHealth>();
+		Character playerHealth = user.GetComponent<Character>();
 
-		if (playerHealth.Health == playerHealth.maxHealth)
+		if (playerHealth.Health == playerHealth.HealthMax)
 		{
 			// Player is at full health, do nothing
 		}
@@ -26,7 +26,7 @@ public class MedbayStation : Interactable
 				isDamaged = damage.DamageLevel > 0;
 
 			// Heal player
-			playerHealth.UpdateHealth(isDamaged ? damagedHealthPerUse : healthPerUse);
+			playerHealth.ApplyHealthModifier(isDamaged ? damagedHealthPerUse : healthPerUse);
 			// Increase power usage for this tick
 			PowerManager.Instance.tempEnergyUsage++;
 		}

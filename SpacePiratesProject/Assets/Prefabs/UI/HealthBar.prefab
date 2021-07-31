@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7325814405317417423}
   - component: {fileID: 4655253553654573512}
   - component: {fileID: 8486116129813376766}
-  - component: {fileID: 3923378308391761447}
+  - component: {fileID: 3959275986728578376}
   m_Layer: 5
   m_Name: Bar
   m_TagString: Untagged
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3923378308391761447
+--- !u!114 &3959275986728578376
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,6 +89,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Bar: {fileID: 7325814405317417423}
+  m_Value: 100
+  m_MaxValue: 100
 --- !u!1 &8231177263310060817
 GameObject:
   m_ObjectHideFlags: 0

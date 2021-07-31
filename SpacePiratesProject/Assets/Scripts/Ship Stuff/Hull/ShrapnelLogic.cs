@@ -17,7 +17,7 @@ public class ShrapnelLogic : MonoBehaviour
 		if (collision.gameObject.CompareTag("Player"))
 		{
 			// Damage player
-			collision.gameObject.GetComponent<PlayerHealth>().UpdateHealth(-Random.Range(minDamageToPlayer, maxDamageToPlayer));
+			collision.gameObject.GetComponent<Character>().ApplyHealthModifier(-Random.Range(minDamageToPlayer, maxDamageToPlayer));
 		}
 		else
 		{

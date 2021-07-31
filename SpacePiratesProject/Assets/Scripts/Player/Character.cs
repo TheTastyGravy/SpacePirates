@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +7,16 @@ using UnityEngine.InputSystem;
 [ RequireComponent( typeof( Rigidbody ) ) ]
 public class Character : ICharacter
 {
+    [ Header( "Movement" ) ]
     public float MoveSpeed = 1;
     public float TurnSpeed = 10;
 
-    public bool MovementEnabled
+    public float Health => m_Health;
+    public float HealthMax => m_HealthMax;
+    public float HealthOnRevive => m_HealthOnRevive;
+    public bool IsDead => m_Health <= 0;
+    public bool IsAlive => m_Health > 0;
+    public bool IsKinematic
     {
         get
         {
@@ -26,6 +33,7 @@ public class Character : ICharacter
     {
         m_Rigidbody = GetComponent< Rigidbody >();
         m_Interactor = GetComponent< Interactor >();
+        m_ReviveStation = GetComponent< ReviveStation >();
         Player.AddInputListener( Player.Control.A_PRESSED, OnAPressed );
     }
 
@@ -49,6 +57,32 @@ public class Character : ICharacter
 		m_Rigidbody.MoveRotation( m_Rigidbody.rotation * quat );
     }
 
+    public void ApplyHealthModifier( float a_HealthModifier )
+    {
+        if ( m_Health == 0 )
+        {
+            return;
+        }
+
+        m_Health += a_HealthModifier;
+
+        if ( m_Health <= 0 )
+        {
+            enabled = false;
+            m_ReviveStation.SetIsUsable( true );
+        }
+
+        m_Health = Mathf.Clamp( m_Health, 0.0f, m_HealthMax );
+        HUDController.GetPlayerCard( Player.Slot ).HealthBar.Value = m_Health;
+    }
+
+    public void Revive()
+    {
+        m_Health = m_HealthOnRevive;
+        enabled = true;
+        m_ReviveStation.SetIsUsable( false );
+    }
+
     private void OnAPressed( InputAction.CallbackContext _ )
     {
         m_Interactor?.Interact();
@@ -56,4 +90,10 @@ public class Character : ICharacter
 
     private Rigidbody m_Rigidbody;
     private Interactor m_Interactor;
+    private ReviveStation m_ReviveStation;
+
+    [ Header( "Health" ) ]
+    [ SerializeField ] [ Range( 0.0f, 100.0f ) ] private float m_Health;
+    [ SerializeField ] [ Range( 0.0f, 100.0f ) ] private float m_HealthMax;
+    [ SerializeField ] [ Range( 0.0f, 100.0f ) ] private float m_HealthOnRevive;
 }

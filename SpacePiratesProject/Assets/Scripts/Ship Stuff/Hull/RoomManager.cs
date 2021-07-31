@@ -24,7 +24,7 @@ public class RoomManager : MonoBehaviour
 
     private DamageStation[] damageStations;
 
-    private List<PlayerHealth> players = new List<PlayerHealth>();
+    private List< Character > players = new List< Character >();
 
     
 
@@ -105,7 +105,7 @@ public class RoomManager : MonoBehaviour
 		{
             foreach (var player in players)
 			{
-                player.UpdateHealth(-playerDamagePerSecond * Time.deltaTime);
+                player.ApplyHealthModifier(-playerDamagePerSecond * Time.deltaTime);
 			}
         }
     }
@@ -115,14 +115,14 @@ public class RoomManager : MonoBehaviour
 	{
 		if (other.CompareTag("Player"))
 		{
-            players.Add(other.GetComponent<PlayerHealth>());
+            players.Add(other.GetComponent<Character>());
 		}
 	}
 	void OnTriggerExit(Collider other)
 	{
         if (other.CompareTag("Player"))
         {
-            players.Remove(other.GetComponent<PlayerHealth>());
+            players.Remove(other.GetComponent<Character>());
         }
     }
 }

@@ -57,13 +57,18 @@ public class HUDHealthBar : UIBehaviour
         m_InitialWidth = Bar.rect.width;
     }
 
+    protected override void OnValidate()
+    {
+        UpdateBar();
+    }
+
     private void UpdateBar()
     {
         Bar.offsetMax = new Vector2( Bar.offsetMax.x, ( 1.0f - Normalized ) * m_InitialWidth );
     }
 
-    private float m_MaxValue;
+    [ SerializeField ] [ Range( 0.0f, 100.0f ) ] private float m_Value;
+    [ SerializeField ] [ Range( 0.0f, 100.0f ) ] private float m_MaxValue;
     private float m_MaxValueInverse;
-    private float m_Value;
     private float m_InitialWidth;
 }

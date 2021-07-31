@@ -96,7 +96,6 @@ GameObject:
   - component: {fileID: 6830744984575529219}
   - component: {fileID: 6830744984575529230}
   - component: {fileID: 6830744984575529218}
-  - component: {fileID: 6830744984575529216}
   - component: {fileID: 6830744984575529217}
   - component: {fileID: 7959441702028714243}
   m_Layer: 0
@@ -216,6 +215,9 @@ MonoBehaviour:
   m_Renderer: {fileID: 6830744984575529223}
   MoveSpeed: 7.5
   TurnSpeed: 10
+  m_Health: 100
+  m_HealthMax: 100
+  m_HealthOnRevive: 25
 --- !u!114 &6830744984575529218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,20 +231,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactables: []
---- !u!114 &6830744984575529216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6830744984575529464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d912d74d6056874cad1cbc4c131a041, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  healthOnRevive: 25
 --- !u!114 &6830744984575529217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,7 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prompt: {fileID: 0}
   _collider: {fileID: 7959441702028714243}
-  numberOfInteractions: 3
+  NumberOfInteractions: 3
 --- !u!135 &7959441702028714243
 SphereCollider:
   m_ObjectHideFlags: 0
