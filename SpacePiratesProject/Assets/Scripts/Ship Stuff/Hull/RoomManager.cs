@@ -20,6 +20,7 @@ public class RoomManager : MonoBehaviour
 
     private HullHoleStation[] holes;
     private float oxygenLevel = 100;
+	public float OxygenLevel { get => oxygenLevel; }
 
     private DamageStation[] damageStations;
 
@@ -78,11 +79,6 @@ public class RoomManager : MonoBehaviour
 
     void Update()
     {
-        // Increase level by base amount
-        oxygenLevel += baseOxygenRegenRate * Time.deltaTime;
-        if (oxygenLevel > totalRoomOxygen)
-            oxygenLevel = totalRoomOxygen;
-
         // Find the total loss rate
         float oxygenLossRate = 0;
         foreach (var hole in holes)
@@ -96,7 +92,13 @@ public class RoomManager : MonoBehaviour
         oxygenLevel -= oxygenLossRate * Time.deltaTime;
         if (oxygenLevel < 0)
             oxygenLevel = 0;
-
+		// Only increate oxygen level if there is no loss
+		if (oxygenLossRate == 0)
+		{
+			oxygenLevel += baseOxygenRegenRate * Time.deltaTime;
+			if (oxygenLevel > totalRoomOxygen)
+				oxygenLevel = totalRoomOxygen;
+		}
 
         // If level is low enough, damage players in this room
         if (oxygenLevel < oxygenDamageLevel)
