@@ -47,6 +47,10 @@ public class TrackManager : Singleton<TrackManager>
 	public Text nextShip;
 	public Text previousShip;
 
+	[Space]
+	//temp for event
+	public GameObject shipPrefab;
+
 
     private ShipPosition playerShip;
     private AIManager ai;
@@ -62,6 +66,9 @@ public class TrackManager : Singleton<TrackManager>
     void Start()
     {
 		ai = AIManager.Instance;
+		ai.CreateAi(AIManager.AIDifficulty.Easy);
+		ai.CreateAi(AIManager.AIDifficulty.Medium);
+		ai.CreateAi(AIManager.AIDifficulty.Hard);
 
 		currentTrackBase = currentTrack.text;
 		nextTrackBase = nextTrack.text;
@@ -74,6 +81,8 @@ public class TrackManager : Singleton<TrackManager>
     {
         // Get engine efficiency for player
         float playerEngine = GetEngineEfficiency();
+
+		Debug.Log("Engine: " + playerEngine);
 
         // Get new ship positions
         ShipPosition newPlayerShip = GetNewShipPos(playerShip, playerEngine);
@@ -115,7 +124,7 @@ public class TrackManager : Singleton<TrackManager>
         {
             foreach (var obj in leftEngines)
             {
-                left += obj.PowerLevel;
+                left += obj.PowerLevel + 1;
             }
             left /= leftEngines.Length;
         }
@@ -127,7 +136,7 @@ public class TrackManager : Singleton<TrackManager>
         {
             foreach (var obj in rightEngines)
             {
-                right += obj.PowerLevel;
+                right += obj.PowerLevel + 1;
             }
             right /= rightEngines.Length;
         }
@@ -139,7 +148,7 @@ public class TrackManager : Singleton<TrackManager>
         {
             foreach (var obj in centerEngines)
             {
-                center += obj.PowerLevel;
+                center += obj.PowerLevel + 1;
             }
             center /= centerEngines.Length;
         }
@@ -249,14 +258,10 @@ public class TrackManager : Singleton<TrackManager>
 
             if (isBehind != wasBehind)
 			{
-                if (isBehind)
-				{
-                    //player passed ai
-				}
-				else
-				{
-                    //ai passed player
-				}
+				ShipPassEvent _event = new ShipPassEvent();
+				_event.shipPrefab = shipPrefab;
+				_event.isPassing = !isBehind;
+				EventManager.Instance.AddEventToQueue(_event, 100);
 			}
 		}
 	}
@@ -321,6 +326,8 @@ public class TrackManager : Singleton<TrackManager>
 			float dist = ai.ships[i].trackIndex + ai.ships[i].segmentDist;
 			dist -= playerDist;
 
+			Debug.Log(dist);
+
 			if (dist > 0) //ahead of player
 			{
 				if (nextOpponent > dist)
@@ -329,12 +336,14 @@ public class TrackManager : Singleton<TrackManager>
 			else //behind player
 			{
 				if (prevOpponent < dist)
-					nextOpponent = dist;
+					prevOpponent = dist;
 			}
 		}
 		//display opponent info
 		nextShip.text = nextShipBase + nextOpponent.ToString();
-		nextShip.text = previousShipBase + prevOpponent.ToString();
+		previousShip.text = previousShipBase + prevOpponent.ToString();
+
+		Debug.Log("");
 	}
 	private string Track2String(TrackType track)
 	{
