@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -49,14 +50,22 @@ public class GameManager : Singleton< GameManager >
             {
                 SceneManager.UnloadSceneAsync( Instance.m_CurrentState.ToString() ).completed += asyncOperation => 
                 { 
-                    SceneManager.LoadSceneAsync( value.ToString(), LoadSceneMode.Additive ); 
-                    Instance.m_CurrentState = value; 
+                    SceneManager.LoadSceneAsync( value.ToString(), LoadSceneMode.Additive ).completed += asyncOperation =>
+                    {
+                        SceneManager.SetActiveScene( SceneManager.GetSceneByName( value.ToString() ) );
+                    };
+
+                    Instance.m_CurrentState = value;
                 };
 
                 return;
             }
             
-            SceneManager.LoadSceneAsync( value.ToString(), LoadSceneMode.Additive );
+            SceneManager.LoadSceneAsync( value.ToString(), LoadSceneMode.Additive ).completed += asyncOperation =>
+            {
+                SceneManager.SetActiveScene( SceneManager.GetSceneByName( value.ToString() ) );
+            };
+            
             Instance.m_CurrentState = value;
         }
     }
@@ -65,8 +74,8 @@ public class GameManager : Singleton< GameManager >
     {
         m_SelectedShip = -1;
         m_SelectedTrack = -1;
-        
         CurrentState = GameState.SPLASH;
+        PlayerInputManager.instance.onPlayerJoined += player => DontDestroyOnLoad( player );
     }
 
     public static void RegisterSelectedShip( int a_Index, int a_MaxPlayers )
@@ -99,11 +108,4 @@ public class GameManager : Singleton< GameManager >
         GAME,
         SUMMARY
     }
-
-    // summary, play again, play, return,
-
-    // options, sound, video,
-    // controls,
-    // exit,
-    // play
 }
