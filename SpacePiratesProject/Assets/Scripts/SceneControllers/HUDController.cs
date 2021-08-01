@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class HUDController : Singleton< HUDController >
 {
-    public HUDManeuvre ManeuverDisplay;
+    public HUDManeuverDisplay ManeuverDisplay;
     public HUDOptionsMenu OptionsMenu;
 
     private void Awake()

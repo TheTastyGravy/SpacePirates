@@ -1,18 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-public class HUDManeuvre : MonoBehaviour
+public class HUDManeuverDisplay : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public TextMeshPro TimeUntilManeuver;
+    public GameObject[] TrackManeuvers;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

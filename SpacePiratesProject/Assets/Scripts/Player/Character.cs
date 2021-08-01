@@ -40,7 +40,7 @@ public class Character : ICharacter
         set
         {
             m_Rigidbody = m_Rigidbody ?? GetComponent< Rigidbody >();
-            m_Rigidbody.isKinematic = !value;
+            m_Rigidbody.isKinematic = value;
         }
     }
 

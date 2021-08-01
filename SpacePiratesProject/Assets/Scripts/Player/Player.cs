@@ -5,41 +5,11 @@ using UnityEngine.InputSystem.Utilities;
 
 public class Player : PlayerInput
 {
-    public PlayerSlot Slot
-    {
-        get
-        {
-            return ( PlayerSlot )playerIndex;
-        }
-    }
-    public ControlStage Stage
-    {
-        get
-        {
-            return m_ControlStage;
-        }
-    }
-    public InputDevice Device
-    {
-        get
-        {
-            return m_InputDevice;
-        }
-    }
-    public ICharacter Character
-    {
-        get
-        {
-            return m_Character;
-        }
-    }
-    public bool IsDeviceConnected
-    {
-        get
-        {
-            return m_IsDeviceConnected;
-        }
-    }
+    public PlayerSlot Slot => ( PlayerSlot )playerIndex;
+    public ControlStage Stage => m_ControlStage;
+    public InputDevice Device => m_InputDevice;
+    public ICharacter Character => m_Character;
+    public bool IsDeviceConnected => m_IsDeviceConnected;
 
     private void Awake()
     {
