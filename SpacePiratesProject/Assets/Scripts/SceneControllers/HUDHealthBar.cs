@@ -56,6 +56,7 @@ public class HUDHealthBar : UIBehaviour
     {
         m_InitialWidth = ( Bar.parent as RectTransform ).rect.width;
         m_MaxValueInverse = m_MaxValue == 0 ? float.MaxValue : 1.0f / m_MaxValue;
+        UpdateBar();
     }
 
     private void UpdateBar()

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -696,6 +696,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1324750617}
     m_Modifications:
+    - target: {fileID: 503260605196592206, guid: 042d75be720c87d4a9d74f64b7aab0f1, type: 3}
+      propertyPath: m_Value
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 713523901772599862, guid: 042d75be720c87d4a9d74f64b7aab0f1, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -11315,6 +11319,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1324750617}
     m_Modifications:
+    - target: {fileID: 503260605196592206, guid: 042d75be720c87d4a9d74f64b7aab0f1, type: 3}
+      propertyPath: m_Value
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 713523901772599862, guid: 042d75be720c87d4a9d74f64b7aab0f1, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -12291,6 +12299,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prompt: {fileID: 1516045244}
   _collider: {fileID: 830443730}
+  interactors: []
   maxDamageLevel: 1
   repairCount: 2
 --- !u!65 &830443730
@@ -12643,6 +12652,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prompt: {fileID: 62514660}
   _collider: {fileID: 958528013}
+  interactors: []
   damage: {fileID: 999845603}
   powerLabel: {fileID: 134183303}
 --- !u!65 &958528015
@@ -12773,6 +12783,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prompt: {fileID: 706826673}
   _collider: {fileID: 999845604}
+  interactors: []
   maxDamageLevel: 1
   repairCount: 2
 --- !u!65 &999845604
@@ -13156,7 +13167,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 503260605196592206, guid: 042d75be720c87d4a9d74f64b7aab0f1, type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 713523901772599862, guid: 042d75be720c87d4a9d74f64b7aab0f1, type: 3}
       propertyPath: m_Pivot.x
@@ -13739,6 +13750,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prompt: {fileID: 1829384480}
   _collider: {fileID: 1274372757}
+  interactors: []
   maxDamageLevel: 5
   repairCount: 2
 --- !u!135 &1274372757
@@ -13882,6 +13894,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prompt: {fileID: 1186130151}
   _collider: {fileID: 1280147220}
+  interactors: []
   maxDamageLevel: 1
   repairCount: 2
 --- !u!65 &1280147220
@@ -14638,6 +14651,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prompt: {fileID: 621949671}
   _collider: {fileID: 1629291728}
+  interactors: []
   healthPerUse: 25
   damagedHealthPerUse: 10
   damage: {fileID: 830443729}
@@ -14876,6 +14890,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prompt: {fileID: 1861981656}
   _collider: {fileID: 1707709140}
+  interactors: []
   damage: {fileID: 1280147219}
   powerLabel: {fileID: 1082778011}
 --- !u!65 &1707709142
@@ -15560,6 +15575,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1324750617}
     m_Modifications:
+    - target: {fileID: 503260605196592206, guid: 042d75be720c87d4a9d74f64b7aab0f1, type: 3}
+      propertyPath: m_Value
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 713523901772599862, guid: 042d75be720c87d4a9d74f64b7aab0f1, type: 3}
       propertyPath: m_Pivot.x
       value: 0

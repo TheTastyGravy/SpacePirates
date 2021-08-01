@@ -11,6 +11,21 @@ public class Character : ICharacter
     public float MoveSpeed = 1;
     public float TurnSpeed = 10;
 
+    public static bool AreAllDead
+    {
+        get
+        {
+            foreach ( Player player in Player.all )
+            {
+                if ( player.Character != null ? ( player.Character as Character ).IsAlive : false )
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
     public float Health => m_Health;
     public float HealthMax => m_HealthMax;
     public float HealthOnRevive => m_HealthOnRevive;
@@ -71,6 +86,11 @@ public class Character : ICharacter
             enabled = false;
             m_ReviveStation.SetIsUsable( true );
 			m_Interactor.SetIsActive( false );
+
+            if ( AreAllDead )
+            {
+                GameManager.CurrentState = GameManager.GameState.SUMMARY;
+            }
 		}
 
         m_Health = Mathf.Clamp( m_Health, 0.0f, m_HealthMax );

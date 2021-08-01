@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 
 public class HUDOptionsMenu : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class HUDOptionsMenu : MonoBehaviour
         m_AssignedPlayer = a_Player;
         m_AssignedPlayer.AddInputListener( Player.Control.B_PRESSED, OnBPressed );
         Time.timeScale = 0.0f;
+        ( EventSystem.current.currentInputModule as InputSystemUIInputModule ).actionsAsset = m_AssignedPlayer.actions;
     }
 
     public void HideOptions()
