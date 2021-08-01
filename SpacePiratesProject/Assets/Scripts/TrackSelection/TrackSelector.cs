@@ -6,19 +6,10 @@ using UnityEngine.InputSystem;
 public class TrackSelector : Singleton< TrackSelector >
 {
     public TrackTile[] TrackTiles;
+    public SelectorTile SelectorTile;
 
     private void Start()
     {
-        m_TrackTiles = new TrackTile[ TrackTiles.Length ];
-
-        for ( int i = 0; i < m_TrackTiles.Length; ++i )
-        {
-            TrackTile newTrackTile = Instantiate( TrackTiles[ i ], m_ParentTrackTiles );
-            newTrackTile.SetPosition( Vector2.zero );
-            m_TrackTiles[ i ] = newTrackTile;
-        }
-
-        SetTrackIndex( 0 );
         Player primaryPlayer = Player.GetPlayerBySlot( Player.PlayerSlot.P1 );
         primaryPlayer.AddInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
         primaryPlayer.AddInputListener( Player.Control.A_PRESSED, OnAPressed );
@@ -39,11 +30,11 @@ public class TrackSelector : Singleton< TrackSelector >
 
         if ( value.x < 0 )
         {
-            DecrementTrackIndex();
+            DecrementTrackIndex( true );
         }
         else if ( value.x > 0 )
         {
-            IncrementTrackIndex();
+            IncrementTrackIndex( true );
         }
     }
 
@@ -67,32 +58,29 @@ public class TrackSelector : Singleton< TrackSelector >
 
     public void SetTrackIndex( int a_Index )
     {
-        m_TrackTiles[ m_CurrentTrackIndex ].gameObject.SetActive( false );
+        TrackTiles[ m_CurrentTrackIndex ].gameObject.SetActive( false );
         
-        if ( a_Index < 0 || a_Index >= m_TrackTiles.Length )
+        if ( a_Index < 0 || a_Index >= TrackTiles.Length )
         {
             return;
         }
-
-        m_TrackTiles[ a_Index ].gameObject.SetActive( true );
         m_CurrentTrackIndex = a_Index;
+        SelectorTile.SetPosition( TrackTiles[ m_CurrentTrackIndex ].RectTransform.anchoredPosition );
     }
 
     public void IncrementTrackIndex( bool a_LoopAround = false )
     {
-        if ( m_CurrentTrackIndex == m_TrackTiles.Length - 1 && !a_LoopAround )
+        if ( m_CurrentTrackIndex == TrackTiles.Length - 1 && !a_LoopAround )
         {
             return;
         }
 
-        m_TrackTiles[ m_CurrentTrackIndex ].gameObject.SetActive( false );
-
-        if ( ++m_CurrentTrackIndex >= m_TrackTiles.Length )
+        if ( ++m_CurrentTrackIndex >= TrackTiles.Length )
         {
             m_CurrentTrackIndex = 0;
         }
 
-        m_TrackTiles[ m_CurrentTrackIndex ].gameObject.SetActive( true );
+        SelectorTile.SetPosition( TrackTiles[ m_CurrentTrackIndex ].RectTransform.anchoredPosition );
     }
 
     public void DecrementTrackIndex( bool a_LoopAround = false )
@@ -102,17 +90,13 @@ public class TrackSelector : Singleton< TrackSelector >
             return;
         }
 
-        m_TrackTiles[ m_CurrentTrackIndex ].gameObject.SetActive( false );
-
         if ( --m_CurrentTrackIndex < 0 )
         {
-            m_CurrentTrackIndex = m_TrackTiles.Length - 1;
+            m_CurrentTrackIndex = TrackTiles.Length - 1;
         }
-
-        m_TrackTiles[ m_CurrentTrackIndex ].gameObject.SetActive( true );
+        
+        SelectorTile.SetPosition( TrackTiles[ m_CurrentTrackIndex ].RectTransform.anchoredPosition );
     }
 
-    private TrackTile[] m_TrackTiles;
     private int m_CurrentTrackIndex;
-    [ SerializeField ] private RectTransform m_ParentTrackTiles;
 }

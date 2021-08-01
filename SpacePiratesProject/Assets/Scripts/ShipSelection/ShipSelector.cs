@@ -6,23 +6,16 @@ using UnityEngine.InputSystem;
 public class ShipSelector : Singleton< ShipSelector >
 {
     public ShipTile[] ShipTiles;
+    public SelectorTile SelectorTile;
 
     private void Start()
     {
-        m_ShipTiles = new ShipTile[ ShipTiles.Length ];
-
-        for ( int i = 0; i < m_ShipTiles.Length; ++i )
-        {
-            ShipTile newShipTile = Instantiate( ShipTiles[ i ], m_ParentShipTiles );
-            newShipTile.SetPosition( Vector2.zero );
-            m_ShipTiles[ i ] = newShipTile;
-        }
-
-        SetShipIndex( 0 );
         Player primaryPlayer = Player.GetPlayerBySlot( Player.PlayerSlot.P1 );
         primaryPlayer.AddInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
         primaryPlayer.AddInputListener( Player.Control.A_PRESSED, OnAPressed );
         primaryPlayer.AddInputListener( Player.Control.B_PRESSED, OnBPressed );
+
+        SelectorTile.SetPosition( ShipTiles[ 0 ].RectTransform.anchoredPosition );
     }
 
     private void OnDestroy()
@@ -39,11 +32,11 @@ public class ShipSelector : Singleton< ShipSelector >
 
         if ( value.x < 0 )
         {
-            DecrementShipIndex();
+            DecrementShipIndex( true );
         }
         else if ( value.x > 0 )
         {
-            IncrementShipIndex();
+            IncrementShipIndex( true );
         }
     }
 
@@ -60,32 +53,29 @@ public class ShipSelector : Singleton< ShipSelector >
 
     public void SetShipIndex( int a_Index )
     {
-        m_ShipTiles[ m_CurrentShipIndex ].gameObject.SetActive( false );
-        
-        if ( a_Index < 0 || a_Index >= m_ShipTiles.Length )
+        if ( a_Index < 0 || a_Index >= ShipTiles.Length )
         {
             return;
         }
 
-        m_ShipTiles[ a_Index ].gameObject.SetActive( true );
         m_CurrentShipIndex = a_Index;
+
+        SelectorTile.SetPosition( ShipTiles[ m_CurrentShipIndex ].RectTransform.anchoredPosition );
     }
 
     public void IncrementShipIndex( bool a_LoopAround = false )
     {
-        if ( m_CurrentShipIndex == m_ShipTiles.Length - 1 && !a_LoopAround )
+        if ( m_CurrentShipIndex == ShipTiles.Length - 1 && !a_LoopAround )
         {
             return;
         }
 
-        m_ShipTiles[ m_CurrentShipIndex ].gameObject.SetActive( false );
-
-        if ( ++m_CurrentShipIndex >= m_ShipTiles.Length )
+        if ( ++m_CurrentShipIndex >= ShipTiles.Length )
         {
             m_CurrentShipIndex = 0;
         }
 
-        m_ShipTiles[ m_CurrentShipIndex ].gameObject.SetActive( true );
+        SelectorTile.SetPosition( ShipTiles[ m_CurrentShipIndex ].RectTransform.anchoredPosition );
     }
 
     public void DecrementShipIndex( bool a_LoopAround = false )
@@ -95,17 +85,13 @@ public class ShipSelector : Singleton< ShipSelector >
             return;
         }
 
-        m_ShipTiles[ m_CurrentShipIndex ].gameObject.SetActive( false );
-
         if ( --m_CurrentShipIndex < 0 )
         {
-            m_CurrentShipIndex = m_ShipTiles.Length - 1;
+            m_CurrentShipIndex = ShipTiles.Length - 1;
         }
 
-        m_ShipTiles[ m_CurrentShipIndex ].gameObject.SetActive( true );
+        SelectorTile.SetPosition( ShipTiles[m_CurrentShipIndex ].RectTransform.anchoredPosition );
     }
 
-    private ShipTile[] m_ShipTiles;
     private int m_CurrentShipIndex;
-    [ SerializeField ] private RectTransform m_ParentShipTiles;
 }

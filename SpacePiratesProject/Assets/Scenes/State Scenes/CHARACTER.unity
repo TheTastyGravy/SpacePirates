@@ -548,8 +548,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 250, y: 70}
+  m_AnchoredPosition: {x: 0, y: -50}
+  m_SizeDelta: {x: 800, y: 300}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &553099402
 MonoBehaviour:
@@ -814,12 +814,12 @@ MonoBehaviour:
   m_ParentCharacterDocks: {fileID: 535065891}
   m_ParentCharacterTiles: {fileID: 1678167561}
   m_ParentSelectorTiles: {fileID: 2077818740}
-  m_GridCellSpacing: {x: 10, y: 10}
-  m_GridCellSize: {x: 50, y: 50}
+  m_GridCellSpacing: {x: 50, y: 50}
+  m_GridCellSize: {x: 200, y: 200}
   m_Grid:
     x: 0
     y: 0
-    width: 4
+    width: 3
     height: 1
 --- !u!4 &1276405771
 Transform:
@@ -937,10 +937,10 @@ RectTransform:
   m_Father: {fileID: 843786808}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2014018752
 MonoBehaviour:
@@ -955,7 +955,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
