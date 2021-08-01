@@ -18,3 +18,4 @@ Possible Problems:
 Ensure each RoomManager has at least 1 hole position and 1 hole prefab
 Ensure the TrackManager has a enemy ship prefab to use for the ship passing event
 Ensure the EventManager has an astroid prefab that has an AstroidLogic on it
+For hole positions, make red handle point away from the direction of the hole
