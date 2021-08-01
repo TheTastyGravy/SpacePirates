@@ -22,7 +22,7 @@ public class MedbayStation : Interactable
 		else
 		{
 			bool isDamaged = damage != null;
-			if (!isDamaged)
+			if (isDamaged)
 				isDamaged = damage.DamageLevel > 0;
 
 			// Heal player
