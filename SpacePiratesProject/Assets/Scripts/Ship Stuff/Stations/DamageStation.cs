@@ -11,6 +11,7 @@ public class DamageStation : Interactable
 	public int DamageLevel { get => damageLevel; }
 
 	private int currentRepairCount = 0;
+	private ParticleSystem effect;
 
 
 
@@ -18,6 +19,8 @@ public class DamageStation : Interactable
 	{
 		// This should only be usable after taking damage
 		SetIsUsable(false);
+
+		effect = GetComponentInChildren<ParticleSystem>();
 	}
 
 	public void Damage()
@@ -27,6 +30,11 @@ public class DamageStation : Interactable
 			damageLevel = maxDamageLevel;
 
 		SetIsUsable(true);
+
+		if (effect != null)
+		{
+			effect.Play();
+		}
 	}
 
 	protected override void OnActivate(Interactor user)
@@ -40,6 +48,11 @@ public class DamageStation : Interactable
 			if (damageLevel <= 0)
 			{
 				SetIsUsable(false);
+			}
+
+			if (effect != null)
+			{
+				effect.Stop();
 			}
 		}
 	}
