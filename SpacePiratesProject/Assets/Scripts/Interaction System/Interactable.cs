@@ -8,7 +8,8 @@ public abstract class Interactable : MonoBehaviour
 
 	public Collider _collider;
 
-	private List<Interactor> interactors = new List<Interactor>();
+	[HideInInspector]
+	public List<Interactor> interactors = new List<Interactor>();
     private bool isUseable = true;
 
     public void Activate(Interactor user)
@@ -23,7 +24,7 @@ public abstract class Interactable : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
 	{
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !other.isTrigger)
 		{
 			interactors.Add(other.GetComponent<Interactor>());
 
@@ -33,7 +34,7 @@ public abstract class Interactable : MonoBehaviour
 	}
     protected virtual void OnTriggerExit(Collider other)
 	{
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !other.isTrigger)
         {
 			interactors.Remove(other.GetComponent<Interactor>());
 		}

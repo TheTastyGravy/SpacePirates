@@ -8,6 +8,9 @@ public class Interactor : MonoBehaviour
 	[HideInInspector]
     public List<Interactable> interactables = new List<Interactable>();
 
+	private bool isActive = true;
+	public bool IsActive { get => isActive; }
+
 	void OnTriggerEnter(Collider other)
 	{
 		if (other.TryGetComponent(out Interactable interactable))
@@ -26,7 +29,7 @@ public class Interactor : MonoBehaviour
 
 	public void Interact()
 	{
-		if (interactables.Count == 0)
+		if (!isActive || interactables.Count == 0)
 			return;
 
 		if (interactables.Count == 1)
@@ -38,6 +41,25 @@ public class Interactor : MonoBehaviour
 			//use closest one
 
 			interactables[0].Activate(this);
+		}
+	}
+
+	public void SetIsActive(bool value)
+	{
+		isActive = value;
+
+		foreach (var obj in interactables)
+		{
+			if (value)
+			{
+				obj.interactors.Add(this);
+				obj.SetIsUsable(true);
+			}
+			else
+			{
+				obj.interactors.Remove(this);
+				obj.SetIsUsable(true);
+			}
 		}
 	}
 }

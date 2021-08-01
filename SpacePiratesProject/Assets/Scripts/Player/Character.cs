@@ -70,7 +70,8 @@ public class Character : ICharacter
         {
             enabled = false;
             m_ReviveStation.SetIsUsable( true );
-        }
+			m_Interactor.SetIsActive( false );
+		}
 
         m_Health = Mathf.Clamp( m_Health, 0.0f, m_HealthMax );
         HUDController.GetPlayerCard( Player.Slot ).HealthBar.Value = m_Health;
@@ -81,7 +82,8 @@ public class Character : ICharacter
         m_Health = m_HealthOnRevive;
         enabled = true;
         m_ReviveStation.SetIsUsable( false );
-    }
+		m_Interactor.SetIsActive( true );
+	}
 
     private void OnAPressed( InputAction.CallbackContext _ )
     {
