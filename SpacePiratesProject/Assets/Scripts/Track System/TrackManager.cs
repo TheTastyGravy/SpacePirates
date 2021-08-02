@@ -6,14 +6,7 @@ using UnityEngine.Events;
 
 public class TrackManager : Singleton<TrackManager>
 {
-    public enum TrackType
-	{
-        Straight,
-        Left90,
-        Left45,
-        Right90,
-        Right45
-	}
+    
 
     [System.Serializable]
     public struct ShipPosition
@@ -23,7 +16,7 @@ public class TrackManager : Singleton<TrackManager>
 	}
 
     public ShipPosition PlayerShipPosition => playerShip;
-    public TrackType[] track;
+    public Track track;
     [Space]
     public EngineStation[] leftEngines;
     public EngineStation[] rightEngines;
@@ -65,6 +58,7 @@ public class TrackManager : Singleton<TrackManager>
 
     void Start()
     {
+        track = Track.GetTrack( GameManager.SelectedTrack );
 		ai = AIManager.Instance;
 		ai.CreateAi(AIManager.AIDifficulty.Easy);
 		ai.CreateAi(AIManager.AIDifficulty.Medium);
@@ -172,10 +166,10 @@ public class TrackManager : Singleton<TrackManager>
         float power = 0;
 
         //  THIS NEEDS TO BE GENERALISED
-        TrackType currentTrack = track[playerShip.trackIndex];
+        Track.Segment.Type currentTrack = track[playerShip.trackIndex].SegmentType;
         switch (currentTrack)
 		{
-            case TrackType.Straight:
+            case Track.Segment.Type.Straight:
 				if (left == right)
 				{
                     //divide by 9 because 3 regions * 3 power levels
@@ -183,7 +177,7 @@ public class TrackManager : Singleton<TrackManager>
 				}
                 break;
 
-            case TrackType.Left90:
+            case Track.Segment.Type.Left90:
                 if (left == 1 && right == 3)
                     power = 1;
                 else if (left == 2 && right == 3)
@@ -191,7 +185,7 @@ public class TrackManager : Singleton<TrackManager>
                 else if (left == 1 && right == 2)
                     power = 0.333f;
                 break;
-            case TrackType.Right90:
+            case Track.Segment.Type.Right90:
                 if (left == 3 && right == 1)
                     power = 1;
                 else if (left == 3 && right == 2)
@@ -200,7 +194,7 @@ public class TrackManager : Singleton<TrackManager>
                     power = 0.333f;
                 break;
 
-            case TrackType.Left45:
+            case Track.Segment.Type.Left45:
                 if (left == 1 && right == 3)
                     power = 0.333f;
                 else if (left == 2 && right == 3)
@@ -208,7 +202,7 @@ public class TrackManager : Singleton<TrackManager>
                 else if (left == 1 && right == 2)
                     power = 0.666f;
                 break;
-            case TrackType.Right45:
+            case Track.Segment.Type.Right45:
                 if (left == 3 && right == 1)
                     power = 0.333f;
                 else if (left == 3 && right == 2)
@@ -233,7 +227,7 @@ public class TrackManager : Singleton<TrackManager>
     private ShipPosition GetNewShipPos(ShipPosition shipPos, float engineEfficiency)
 	{
         // Update pos, looping segment dist into track index
-        shipPos.segmentDist += engineEfficiency * Time.deltaTime;
+        shipPos.segmentDist += engineEfficiency * Time.deltaTime / track[ shipPos.trackIndex ].TimeToComplete;
         if (shipPos.segmentDist > 1)
 		{
             shipPos.segmentDist -= 1;
@@ -288,19 +282,18 @@ public class TrackManager : Singleton<TrackManager>
 
     private void UpdateCamera()
 	{
-        TrackType currentTrack = track[playerShip.trackIndex];
+        Track.Segment.Type currentTrack = track[playerShip.trackIndex].SegmentType;
 
         //default state
-        if (currentTrack == TrackType.Straight)
+        if (currentTrack == Track.Segment.Type.Straight)
 		{
             cameraTrans.forward = Vector3.forward;
             return;
         }
 
-
         float angle;
         // 90 degree track
-        if (currentTrack == TrackType.Left90 || currentTrack == TrackType.Right90)
+        if (currentTrack == Track.Segment.Type.Left90 || currentTrack == Track.Segment.Type.Right90)
 		{
             angle = curve90.Evaluate(playerShip.segmentDist) * maxAngle90;
         }
@@ -316,7 +309,7 @@ public class TrackManager : Singleton<TrackManager>
         dir.x = Vector3.forward.x * Mathf.Cos(angle) - Vector3.forward.z * Mathf.Sin(angle);
         dir.z = Vector3.forward.x * Mathf.Sin(angle) + Vector3.forward.z * Mathf.Cos(angle);
         // Flip direction for left turns
-        if (currentTrack == TrackType.Left90 || currentTrack == TrackType.Left45)
+        if (currentTrack == Track.Segment.Type.Left90 || currentTrack == Track.Segment.Type.Left45)
             dir.x = -dir.x;
 		
         cameraTrans.forward = dir;
@@ -325,14 +318,14 @@ public class TrackManager : Singleton<TrackManager>
     private void UpdateUI()
 	{
 		//display track info
-		currentTrack.text = currentTrackBase + Track2String(track[playerShip.trackIndex]);
+		currentTrack.text = currentTrackBase + Track2String(track[playerShip.trackIndex].SegmentType);
 		if (playerShip.trackIndex + 1 < track.Length)
 		{
-			nextTrack.text = nextTrackBase + Track2String(track[playerShip.trackIndex + 1]) + "\nIn " + (1 - playerShip.segmentDist);
+			nextTrack.text = nextTrackBase + Track2String(track[playerShip.trackIndex + 1].SegmentType) + "\nIn " + (1 - playerShip.segmentDist);
 		}
 		if (playerShip.trackIndex + 2 < track.Length)
 		{
-			nextNextTrack.text = nextNextTrackBase + Track2String(track[playerShip.trackIndex + 2]) + "\nIn " + (2 - playerShip.segmentDist);
+			nextNextTrack.text = nextNextTrackBase + Track2String(track[playerShip.trackIndex + 2].SegmentType) + "\nIn " + (2 - playerShip.segmentDist);
 		}
 
 		//get closest opponents
@@ -360,19 +353,19 @@ public class TrackManager : Singleton<TrackManager>
 		nextShip.text = nextShipBase + nextOpponent.ToString();
 		previousShip.text = previousShipBase + prevOpponent.ToString();
 	}
-	private string Track2String(TrackType track)
+	private string Track2String(Track.Segment.Type track)
 	{
 		switch (track)
 		{
-			case TrackType.Straight:
+			case Track.Segment.Type.Straight:
 				return "Straight";
-			case TrackType.Left90:
+			case Track.Segment.Type.Left90:
 				return "90 Left";
-			case TrackType.Left45:
+			case Track.Segment.Type.Left45:
 				return "45 Left";
-			case TrackType.Right90:
+			case Track.Segment.Type.Right90:
 				return "90 Right";
-			case TrackType.Right45:
+			case Track.Segment.Type.Right45:
 				return "45 Right";
 
 			default:

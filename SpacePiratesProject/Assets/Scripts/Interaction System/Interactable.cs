@@ -19,8 +19,8 @@ public abstract class Interactable : MonoBehaviour
             OnActivate(user);
 		}
 	}
-    protected abstract void OnActivate(Interactor user);
 
+    protected abstract void OnActivate(Interactor user);
 
     protected virtual void OnTriggerEnter(Collider other)
 	{

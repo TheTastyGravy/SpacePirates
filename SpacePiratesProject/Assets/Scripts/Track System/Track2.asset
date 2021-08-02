@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4887b6bf477a24faf45579ca3133b4, type: 3}
+  m_Name: Track2
+  m_EditorClassIdentifier: 
+  Segments:
+  - m_SegmentType: 0
+    m_TimeToComplete: 2
+  - m_SegmentType: 1
+    m_TimeToComplete: 1
+  - m_SegmentType: 0
+    m_TimeToComplete: 3
+  - m_SegmentType: 2
+    m_TimeToComplete: 1
+  - m_SegmentType: 0
+    m_TimeToComplete: 2
+  - m_SegmentType: 3
+    m_TimeToComplete: 1
+  - m_SegmentType: 0
+    m_TimeToComplete: 2
+  - m_SegmentType: 4
+    m_TimeToComplete: 1
+  - m_SegmentType: 0
+    m_TimeToComplete: 2
+  - m_SegmentType: 3
+    m_TimeToComplete: 1

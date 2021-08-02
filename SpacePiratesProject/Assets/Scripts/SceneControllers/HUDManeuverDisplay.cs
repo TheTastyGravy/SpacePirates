@@ -35,7 +35,7 @@ public class HUDManeuverDisplay : MonoBehaviour
 
         for ( int i = 0; i < 4; ++i )
         {
-            int trackType = ++currentTrack < trackCount ? ( int )TrackManager.Instance.track[ currentTrack ] : -1;
+            int trackType = ++currentTrack < trackCount ? ( int )TrackManager.Instance.track[ currentTrack ].SegmentType : -1;
 
             if ( trackType > -1 )
             {
