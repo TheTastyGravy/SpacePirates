@@ -93,6 +93,12 @@ public class TrackManager : Singleton<TrackManager>
         // Check if the player has any passes
         CheckForPasses(newPlayerShip, newAiShips);
 
+		// Play alert if the player in on a new segment
+		if (newPlayerShip.trackIndex != playerShip.trackIndex)
+		{
+			SoundController.Instance.Play("TrackUpdates", false);
+		}
+
         // Update positions
         playerShip = newPlayerShip;
         ai.ships = newAiShips;

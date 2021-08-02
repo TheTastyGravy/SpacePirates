@@ -35,6 +35,8 @@ public class DamageStation : Interactable
 		{
 			effect.Play();
 		}
+
+		SoundController.Instance.Play("StationDamage", false);
 	}
 
 	protected override void OnActivate(Interactor user)
@@ -54,6 +56,8 @@ public class DamageStation : Interactable
 			{
 				effect.Stop();
 			}
+
+			SoundController.Instance.Play("Repair", false);
 		}
 	}
 }

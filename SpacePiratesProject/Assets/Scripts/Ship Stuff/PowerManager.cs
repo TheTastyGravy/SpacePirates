@@ -62,6 +62,10 @@ public class PowerManager : Singleton<PowerManager>
 			{
 				//game over
 			}
+			else if (obj.DamageLevel == obj.maxDamageLevel - 1)
+			{
+				SoundController.Instance.Play("ReactorAlert", false);
+			}
 		}
 	}
 }

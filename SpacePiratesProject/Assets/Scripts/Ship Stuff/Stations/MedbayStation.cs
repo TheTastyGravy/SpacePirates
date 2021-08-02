@@ -29,6 +29,8 @@ public class MedbayStation : Interactable
 			playerHealth.ApplyHealthModifier(isDamaged ? damagedHealthPerUse : healthPerUse);
 			// Increase power usage for this tick
 			PowerManager.Instance.tempEnergyUsage++;
+
+			SoundController.Instance.Play("Medbay", false);
 		}
 	}
 }
