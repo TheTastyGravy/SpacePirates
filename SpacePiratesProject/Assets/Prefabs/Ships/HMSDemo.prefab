@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6561677871412980863}
   m_Layer: 0
   m_Name: HolePos (6)
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 5942194347635443027}
   m_Layer: 0
   m_Name: HolePos (1)
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 3628955405252454898}
   m_Layer: 0
   m_Name: HolePos (1)
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 1074877651089659684}
   m_Layer: 0
   m_Name: HolePos (1)
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 7826115179924823169}
   m_Layer: 0
   m_Name: HolePos (2)
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 7060709199416773660}
   m_Layer: 0
   m_Name: HolePos (1)
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 8412370488167996681}
   m_Layer: 0
   m_Name: HolePos (2)
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 4284349045395117659}
   m_Layer: 0
   m_Name: HolePos (4)
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 217178215709007933}
   m_Layer: 0
   m_Name: HolePos (3)
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -281,7 +281,7 @@ GameObject:
   - component: {fileID: 4912991196913298695}
   m_Layer: 0
   m_Name: HolePos (3)
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -350,11 +350,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14542cb5d4f5904c98bc569b871b63e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holePositions:
-  - {fileID: 6458727535712466504}
-  - {fileID: 5942194347635443027}
-  - {fileID: 5027203139709011368}
-  - {fileID: 217178215709007933}
   holePrefabs:
   - {fileID: 3854229849652578900, guid: cd754eadd9184a6409307abbb48dc0c7, type: 3}
   totalRoomOxygen: 100
@@ -386,7 +381,7 @@ GameObject:
   - component: {fileID: 6458727534529741276}
   m_Layer: 0
   m_Name: HolePos
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -416,7 +411,7 @@ GameObject:
   - component: {fileID: 6458727534557443551}
   m_Layer: 0
   m_Name: HolePos
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -446,7 +441,7 @@ GameObject:
   - component: {fileID: 6458727534596178186}
   m_Layer: 0
   m_Name: HolePos
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -661,9 +656,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14542cb5d4f5904c98bc569b871b63e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holePositions:
-  - {fileID: 6458727534557443551}
-  - {fileID: 3628955405252454898}
   holePrefabs:
   - {fileID: 3854229849652578900, guid: cd754eadd9184a6409307abbb48dc0c7, type: 3}
   totalRoomOxygen: 100
@@ -741,14 +733,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14542cb5d4f5904c98bc569b871b63e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holePositions:
-  - {fileID: 6458727534596178186}
-  - {fileID: 6458727536289567311}
-  - {fileID: 7826115179924823169}
-  - {fileID: 4912991196913298695}
-  - {fileID: 4284349045395117659}
-  - {fileID: 5991946589545788746}
-  - {fileID: 6561677871412980863}
   holePrefabs:
   - {fileID: 3854229849652578900, guid: cd754eadd9184a6409307abbb48dc0c7, type: 3}
   totalRoomOxygen: 100
@@ -855,12 +839,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxPower: 6
   tickInterval: 1
-  engines:
-  - {fileID: 5024727681505560691}
-  - {fileID: 5024727681114262984}
-  - {fileID: 5537035677981477998}
-  reactors:
-  - {fileID: 2115746189835965948}
   tempEnergyUsage: 0
 --- !u!114 &6458727535237299351
 MonoBehaviour:
@@ -1015,10 +993,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14542cb5d4f5904c98bc569b871b63e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holePositions:
-  - {fileID: 6458727534529741276}
-  - {fileID: 7060709199416773660}
-  - {fileID: 8412370488167996681}
   holePrefabs:
   - {fileID: 3854229849652578900, guid: cd754eadd9184a6409307abbb48dc0c7, type: 3}
   totalRoomOxygen: 100
@@ -1050,7 +1024,7 @@ GameObject:
   - component: {fileID: 6458727535712466504}
   m_Layer: 0
   m_Name: HolePos
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1147,7 +1121,7 @@ GameObject:
   - component: {fileID: 6458727535914687575}
   m_Layer: 0
   m_Name: HolePos
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1248,9 +1222,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14542cb5d4f5904c98bc569b871b63e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holePositions:
-  - {fileID: 6458727535914687575}
-  - {fileID: 1074877651089659684}
   holePrefabs:
   - {fileID: 3854229849652578900, guid: cd754eadd9184a6409307abbb48dc0c7, type: 3}
   totalRoomOxygen: 100
@@ -1282,7 +1253,7 @@ GameObject:
   - component: {fileID: 6458727536289567311}
   m_Layer: 0
   m_Name: HolePos (1)
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1312,7 +1283,7 @@ GameObject:
   - component: {fileID: 5991946589545788746}
   m_Layer: 0
   m_Name: HolePos (5)
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1342,7 +1313,7 @@ GameObject:
   - component: {fileID: 5027203139709011368}
   m_Layer: 0
   m_Name: HolePos (2)
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1542,17 +1513,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
---- !u!114 &5537035677981477998 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1546285970719843227, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
-  m_PrefabInstance: {fileID: 6458727534370303989}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e630c13f14af6fe47ba3d733d617a536, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &5537035677981477992 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1546285970719843229, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
@@ -2907,17 +2867,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8db4201d45688c4794276534d01ca04, type: 3}
---- !u!114 &5024727681505560691 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2024765288636441211, guid: c8db4201d45688c4794276534d01ca04, type: 3}
-  m_PrefabInstance: {fileID: 6458727534912694792}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e630c13f14af6fe47ba3d733d617a536, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &5024727681505560693 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2024765288636441213, guid: c8db4201d45688c4794276534d01ca04, type: 3}
@@ -3933,17 +3882,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4971588652983193434, guid: d62785ec555396641a893f7a083d664b, type: 3}
   m_PrefabInstance: {fileID: 6458727535363627681}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2115746189835965948 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4971588652983193437, guid: d62785ec555396641a893f7a083d664b, type: 3}
-  m_PrefabInstance: {fileID: 6458727535363627681}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4dbd84b849d95b409737c65deafc047, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &6458727535366235666
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4542,17 +4480,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2024765288636441213, guid: c8db4201d45688c4794276534d01ca04, type: 3}
   m_PrefabInstance: {fileID: 6458727535580819379}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5024727681114262984 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2024765288636441211, guid: c8db4201d45688c4794276534d01ca04, type: 3}
-  m_PrefabInstance: {fileID: 6458727535580819379}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e630c13f14af6fe47ba3d733d617a536, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &6458727535629652426
 PrefabInstance:
   m_ObjectHideFlags: 0

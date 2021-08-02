@@ -2,7 +2,7 @@
 2. Create an empty object called "Ship", with PowerManager and HullManager
 3. Create an empty object called "Room" as a child of the ship, with RoomManager, and a trigger volume containing the entire room
 4. Create walls and floors and children of the room
-5. Create empty game objects for hole positions, rotating as nessesary, and assign them to RoomManager
+5. Create empty game objects for hole positions, rotating as nessesary, and give them the "HolePosition" tag
 6. Create an instance of the OxygenDisplay prefab in the room, giving it a reference to the RoomManager
 7. Add stations as children of room as desiered
 8. Repeat steps 3-7 until all rooms are added

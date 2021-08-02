@@ -7,9 +7,14 @@ public class MedbayStation : Interactable
 	public float healthPerUse = 25;
 	public float damagedHealthPerUse = 10;
 
-	public DamageStation damage;
+	private DamageStation damage;
 
 
+
+	void Awake()
+	{
+		damage = GetComponentInChildren<DamageStation>();
+	}
 
 	protected override void OnActivate(Interactor user)
 	{

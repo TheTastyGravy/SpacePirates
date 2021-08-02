@@ -8,11 +8,16 @@ public class EngineStation : Interactable
     // The current power level of this engine. 0-2
     private int powerLevel = 0;
     public int PowerLevel { get => powerLevel; }
-
-    public DamageStation damage;
 	public TextMeshProUGUI powerLabel;
 
+	private DamageStation damage;
 
+
+
+	void Awake()
+	{
+		damage = GetComponentInChildren<DamageStation>();
+	}
 
 	void Start()
 	{

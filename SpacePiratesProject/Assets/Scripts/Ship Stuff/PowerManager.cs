@@ -6,16 +6,30 @@ public class PowerManager : Singleton<PowerManager>
 {
 	public int maxPower = 4;
 	public float tickInterval = 1;
-	public EngineStation[] engines;
-	public DamageStation[] reactors;
-
+	
 	[HideInInspector]
 	public int tempEnergyUsage = 0;
 	private float timePassed = 0;
+	private EngineStation[] engines;
+	private DamageStation[] reactors;
 
 
 
-    void Update()
+	void Awake()
+	{
+		engines = GetComponentsInChildren<EngineStation>();
+
+		// Get damage stations with reactor tag
+		List<DamageStation> damageStations = new List<DamageStation>();
+		foreach (var obj in GetComponentsInChildren<DamageStation>())
+		{
+			if (obj.CompareTag("Reactor"))
+				damageStations.Add(obj);
+		}
+		reactors = damageStations.ToArray();
+	}
+
+	void Update()
     {
 		// Wait for time interval
 		timePassed += Time.deltaTime;

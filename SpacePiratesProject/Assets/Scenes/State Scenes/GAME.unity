@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -359,7 +359,7 @@ GameObject:
   - component: {fileID: 59377378}
   m_Layer: 0
   m_Name: HolePos
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5494,7 +5494,7 @@ GameObject:
   - component: {fileID: 222039005}
   m_Layer: 0
   m_Name: HolePos
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5839,7 +5839,7 @@ GameObject:
   - component: {fileID: 396023902}
   m_Layer: 0
   m_Name: HolePos
-  m_TagString: Untagged
+  m_TagString: HolePosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17653,7 +17653,6 @@ MonoBehaviour:
   prompt: {fileID: 62514660}
   _collider: {fileID: 958528013}
   interactors: []
-  damage: {fileID: 999845603}
   powerLabel: {fileID: 134183303}
 --- !u!65 &958528015
 BoxCollider:
@@ -18326,8 +18325,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14542cb5d4f5904c98bc569b871b63e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holePositions:
-  - {fileID: 222039005}
   holePrefabs:
   - {fileID: 3854229849652578900, guid: cd754eadd9184a6409307abbb48dc0c7, type: 3}
   totalRoomOxygen: 100
@@ -18717,7 +18714,7 @@ GameObject:
   - component: {fileID: 1274372756}
   m_Layer: 0
   m_Name: Reactor
-  m_TagString: Untagged
+  m_TagString: Reactor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29016,8 +29013,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14542cb5d4f5904c98bc569b871b63e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holePositions:
-  - {fileID: 396023902}
   holePrefabs:
   - {fileID: 3854229849652578900, guid: cd754eadd9184a6409307abbb48dc0c7, type: 3}
   totalRoomOxygen: 100
@@ -29337,7 +29332,6 @@ MonoBehaviour:
   interactors: []
   healthPerUse: 25
   damagedHealthPerUse: 10
-  damage: {fileID: 830443729}
 --- !u!65 &1629291728
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29574,7 +29568,6 @@ MonoBehaviour:
   prompt: {fileID: 1861981656}
   _collider: {fileID: 1707709140}
   interactors: []
-  damage: {fileID: 1280147219}
   powerLabel: {fileID: 1082778011}
 --- !u!65 &1707709142
 BoxCollider:
@@ -30046,8 +30039,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14542cb5d4f5904c98bc569b871b63e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holePositions:
-  - {fileID: 59377378}
   holePrefabs:
   - {fileID: 3854229849652578900, guid: cd754eadd9184a6409307abbb48dc0c7, type: 3}
   totalRoomOxygen: 100
@@ -30437,11 +30428,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxPower: 4
   tickInterval: 1
-  engines:
-  - {fileID: 958528014}
-  - {fileID: 1707709141}
-  reactors:
-  - {fileID: 1274372756}
   tempEnergyUsage: 0
 --- !u!4 &1906211937
 Transform:

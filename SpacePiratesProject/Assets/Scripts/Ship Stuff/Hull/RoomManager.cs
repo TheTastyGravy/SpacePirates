@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class RoomManager : MonoBehaviour
 {
-    // All the positions a hole can be created at
-    public Transform[] holePositions;
     // The possible hole prefabs to create
     public GameObject[] holePrefabs;
     [Space]
@@ -17,8 +15,9 @@ public class RoomManager : MonoBehaviour
     [Space]
     public float chanceToDamageStation = 0.1f;
 
-
-    private HullHoleStation[] holes;
+	// All the positions a hole can be created at
+	private Transform[] holePositions;
+	private HullHoleStation[] holes;
     private float oxygenLevel = 100;
 	public float OxygenLevel { get => oxygenLevel; }
 
@@ -68,14 +67,24 @@ public class RoomManager : MonoBehaviour
         holes[index] = null;
 	}
 
+	void Awake()
+	{
+		// Get hole positions
+		List<Transform> transforms = new List<Transform>();
+		for (int i = 0; i < transform.childCount; i++)
+		{
+			if (transform.GetChild(i).CompareTag("HolePosition"))
+			{
+				transforms.Add(transform.GetChild(i));
+			}
+		}
+		holePositions = transforms.ToArray();
 
-    void Start()
-    {
-        // There can be the same number of holes as hole positions
-        holes = new HullHoleStation[holePositions.Length];
-        // Get all damage stations under this room
-        damageStations = GetComponentsInChildren<DamageStation>();
-    }
+		// There are the same number of posible holes as hole positions
+		holes = new HullHoleStation[holePositions.Length];
+		// Get all damage stations under this room
+		damageStations = GetComponentsInChildren<DamageStation>();
+	}
 
     void Update()
     {
