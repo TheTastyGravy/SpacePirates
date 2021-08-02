@@ -50,6 +50,8 @@ public class Character : ICharacter
         m_Interactor = GetComponent< Interactor >();
         m_ReviveStation = GetComponent< ReviveStation >();
         Player.AddInputListener( Player.Control.A_PRESSED, OnAPressed );
+        IsKinematic = true;
+        enabled = false;
     }
 
     private void OnDestroy()
@@ -63,7 +65,6 @@ public class Character : ICharacter
 
         // Move using the rigidbody, constraining the y component
 		Vector3 newPos = m_Rigidbody.position + MoveSpeed * Time.fixedDeltaTime * movement;
-		newPos.y = 0;
 		m_Rigidbody.MovePosition( newPos );
 
 		// Rotate over time towards the direction of movement
