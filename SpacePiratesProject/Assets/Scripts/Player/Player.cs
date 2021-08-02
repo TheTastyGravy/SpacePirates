@@ -89,7 +89,6 @@ public class Player : PlayerInput
             }
 
             m_Character = CharacterManager.CreateCharacter( this, a_CharacterIndex, a_VariantIndex );
-            typeof( ICharacter ).GetField( "m_Player", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance ).SetValue( m_Character, this );
         }
     }
 

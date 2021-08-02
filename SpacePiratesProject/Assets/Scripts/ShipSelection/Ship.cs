@@ -24,7 +24,7 @@ public class Ship : ScriptableObject
 
     private static Ship[] m_Ships;
 
-    [ System.Serializable ]
+    [ Serializable ]
     public struct Position
 	{
         public int TrackSegment;

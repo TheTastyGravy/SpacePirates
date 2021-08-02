@@ -38,14 +38,6 @@ public class LevelController : Singleton<LevelController>
 	private Ship.Position playerShip;
     private AIManager ai;
 
-	private string currentTrackBase;
-	private string nextTrackBase;
-	private string nextNextTrackBase;
-	private string nextShipBase;
-	private string previousShipBase;
-
-
-
 	private void Awake()
 	{
 		List<EngineStation> engineC = new List<EngineStation>();
@@ -84,12 +76,6 @@ public class LevelController : Singleton<LevelController>
 		ai.CreateAi(AIManager.AIDifficulty.Easy);
 		ai.CreateAi(AIManager.AIDifficulty.Medium);
 		ai.CreateAi(AIManager.AIDifficulty.Hard);
-
-		//currentTrackBase = currentTrack.text;
-		nextTrackBase = nextTrack.text;
-		nextNextTrackBase = nextNextTrack.text;
-		nextShipBase = nextShip.text;
-		previousShipBase = previousShip.text;
 	}
 
     void Update()
@@ -136,7 +122,7 @@ public class LevelController : Singleton<LevelController>
 
 
         UpdateCamera();
-        UpdateUI();
+        //UpdateUI();
     }
 
     private float GetEngineEfficiency()
@@ -337,61 +323,61 @@ public class LevelController : Singleton<LevelController>
         cameraTrans.forward = dir;
 	}
 
-    private void UpdateUI()
-	{
-		//display track info
-		currentTrack.text = currentTrackBase + Track2String(track[playerShip.TrackSegment].SegmentType);
-		if (playerShip.TrackSegment + 1 < track.Length)
-		{
-			nextTrack.text = nextTrackBase + Track2String(track[playerShip.TrackSegment + 1].SegmentType) + "\nIn " + (1 - playerShip.SegmentPosition);
-		}
-		if (playerShip.TrackSegment + 2 < track.Length)
-		{
-			nextNextTrack.text = nextNextTrackBase + Track2String(track[playerShip.TrackSegment + 2].SegmentType) + "\nIn " + (2 - playerShip.SegmentPosition);
-		}
+ //   private void UpdateUI()
+	//{
+	//	//display track info
+	//	currentTrack.text = currentTrackBase + Track2String(track[playerShip.TrackSegment].SegmentType);
+	//	if (playerShip.TrackSegment + 1 < track.Length)
+	//	{
+	//		nextTrack.text = nextTrackBase + Track2String(track[playerShip.TrackSegment + 1].SegmentType) + "\nIn " + (1 - playerShip.SegmentPosition);
+	//	}
+	//	if (playerShip.TrackSegment + 2 < track.Length)
+	//	{
+	//		nextNextTrack.text = nextNextTrackBase + Track2String(track[playerShip.TrackSegment + 2].SegmentType) + "\nIn " + (2 - playerShip.SegmentPosition);
+	//	}
 
-		//get closest opponents
-		float playerDist = playerShip.TrackSegment + playerShip.SegmentPosition;
+	//	//get closest opponents
+	//	float playerDist = playerShip.TrackSegment + playerShip.SegmentPosition;
 
-		float nextOpponent = float.PositiveInfinity;
-		float prevOpponent = float.NegativeInfinity;
-		for (int i = 0; i < ai.aiCount; i++)
-		{
-			float dist = ai.ships[i].TrackSegment + ai.ships[i].SegmentPosition;
-			dist -= playerDist;
+	//	float nextOpponent = float.PositiveInfinity;
+	//	float prevOpponent = float.NegativeInfinity;
+	//	for (int i = 0; i < ai.aiCount; i++)
+	//	{
+	//		float dist = ai.ships[i].TrackSegment + ai.ships[i].SegmentPosition;
+	//		dist -= playerDist;
 
-			if (dist > 0) //ahead of player
-			{
-				if (nextOpponent > dist)
-					nextOpponent = dist;
-			}
-			else //behind player
-			{
-				if (prevOpponent < dist)
-					prevOpponent = dist;
-			}
-		}
-		//display opponent info
-		nextShip.text = nextShipBase + nextOpponent.ToString();
-		previousShip.text = previousShipBase + prevOpponent.ToString();
-	}
-	private string Track2String(Track.Segment.Type track)
-	{
-		switch (track)
-		{
-			case Track.Segment.Type.Straight:
-				return "Straight";
-			case Track.Segment.Type.Left90:
-				return "90 Left";
-			case Track.Segment.Type.Left45:
-				return "45 Left";
-			case Track.Segment.Type.Right90:
-				return "90 Right";
-			case Track.Segment.Type.Right45:
-				return "45 Right";
+	//		if (dist > 0) //ahead of player
+	//		{
+	//			if (nextOpponent > dist)
+	//				nextOpponent = dist;
+	//		}
+	//		else //behind player
+	//		{
+	//			if (prevOpponent < dist)
+	//				prevOpponent = dist;
+	//		}
+	//	}
+	//	//display opponent info
+	//	nextShip.text = nextShipBase + nextOpponent.ToString();
+	//	previousShip.text = previousShipBase + prevOpponent.ToString();
+	//}
+	//private string Track2String(Track.Segment.Type track)
+	//{
+	//	switch (track)
+	//	{
+	//		case Track.Segment.Type.Straight:
+	//			return "Straight";
+	//		case Track.Segment.Type.Left90:
+	//			return "90 Left";
+	//		case Track.Segment.Type.Left45:
+	//			return "45 Left";
+	//		case Track.Segment.Type.Right90:
+	//			return "90 Right";
+	//		case Track.Segment.Type.Right45:
+	//			return "45 Right";
 
-			default:
-				return "Unknown Track Type";
-		}
-	}
+	//		default:
+	//			return "Unknown Track Type";
+	//	}
+	//}
 }

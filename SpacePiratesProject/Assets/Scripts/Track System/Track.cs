@@ -18,17 +18,7 @@ public class Track : ScriptableObject
     }
     public int Length => Segments != null ? Segments.Length : 0;
 
-    public Segment this[ int a_Index ]
-    {
-        get
-        {
-            return Segments[ a_Index ];
-        }
-        set
-        {
-            Segments[ a_Index ] = value;
-        }
-    }
+    public Segment this[ int a_Index ] => Segments[ a_Index ];
 
     public static Track GetTrack( int a_Index )
     {

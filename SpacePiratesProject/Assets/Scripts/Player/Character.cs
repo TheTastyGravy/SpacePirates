@@ -52,7 +52,6 @@ public class Character : ICharacter
         m_Interactor = GetComponent< Interactor >();
         m_ReviveStation = GetComponent< ReviveStation >();
 		animator = GetComponent<Animator>();
-        Player.AddInputListener( Player.Control.A_PRESSED, OnAPressed );
         IsKinematic = true;
         enabled = false;
     }
@@ -115,6 +114,12 @@ public class Character : ICharacter
         m_ReviveStation.SetIsUsable( false );
 		m_Interactor.SetIsActive( true );
 	}
+
+    protected override void SetPlayer( Player a_Player )
+    {
+        base.SetPlayer( a_Player );
+        Player.AddInputListener( Player.Control.A_PRESSED, OnAPressed );
+    }
 
     private void OnAPressed( InputAction.CallbackContext _ )
     {

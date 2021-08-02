@@ -8,7 +8,8 @@ public class HUDManeuverDisplay : MonoBehaviour
 {
     [ Header( "Order should be: Straight, Left90, Left45, Right90, Right45." ) ]
     public Sprite[] TrackManeuverSprites;
-    public TextMeshProUGUI TimeUntilManeuver;
+    public TextMeshProUGUI TimeUntilManeuver0;
+    public TextMeshProUGUI TimeUntilManeuver1;
     public Image[] ManeuverCards;
 
     private void Start()
@@ -24,7 +25,7 @@ public class HUDManeuverDisplay : MonoBehaviour
 
     public void UpdateETADisplay( int a_Seconds )
     {
-        TimeUntilManeuver.text = ( a_Seconds < 10 ? "0" + a_Seconds.ToString() : a_Seconds.ToString() ) + "s";
+        TimeUntilManeuver0.text = ( a_Seconds < 10 ? "0" + a_Seconds.ToString() : a_Seconds.ToString() ) + "s";
     }
 
     public void UpdateCards()
@@ -32,9 +33,9 @@ public class HUDManeuverDisplay : MonoBehaviour
         int currentTrack = LevelController.Instance.PlayerShipPosition.TrackSegment;
         int trackCount = LevelController.Instance.track.Length;
 
-        for ( int i = 0; i < 4; ++i )
+        for ( int i = 0; i < 5; ++i )
         {
-            int trackType = ++currentTrack < trackCount ? ( int )LevelController.Instance.track[ currentTrack ].SegmentType : -1;
+            int trackType = currentTrack < trackCount ? ( int )LevelController.Instance.track[ currentTrack++ ].SegmentType : -1;
 
             if ( trackType > -1 )
             {

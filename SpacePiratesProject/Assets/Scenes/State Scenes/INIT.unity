@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -328,12 +328,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterTemplates:
-  - m_Character: {fileID: 6830744984575529230, guid: ae0a4aa2398e1384fb730ad97c1e45c2, type: 3}
+  - m_Character: {fileID: 4094064559791825036, guid: ae0a4aa2398e1384fb730ad97c1e45c2, type: 3}
     m_Materials:
     - {fileID: 2100000, guid: d619cfe3e504ba941aacb8d69ff57367, type: 2}
     - {fileID: 2100000, guid: 29f4f5d92557c1b49873df4dfd8882b2, type: 2}
     - {fileID: 2100000, guid: dabbddd1b5d1aef4088589fe41bac36a, type: 2}
-  - m_Character: {fileID: 6830744984575529230, guid: a27f85207003a0b40956c4a5110dfba5, type: 3}
+  - m_Character: {fileID: 2197583947200488318, guid: 8fb955896b375d24aa6630159afeb16c, type: 3}
     m_Materials:
     - {fileID: 2100000, guid: d619cfe3e504ba941aacb8d69ff57367, type: 2}
     - {fileID: 2100000, guid: 29f4f5d92557c1b49873df4dfd8882b2, type: 2}

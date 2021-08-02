@@ -38,6 +38,11 @@ public class ICharacter : MonoBehaviour
         }
     }
 
+    protected virtual void SetPlayer( Player a_Player )
+    {
+        m_Player = a_Player;
+    }
+
     private string m_CharacterName;
     private int m_CharacterIndex;
     private int m_VariantIndex;

@@ -189,19 +189,19 @@ public class CharacterDock : MonoBehaviour
 
         if ( value.x < 0 )
         {
-            moveSuccess = CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.LEFT );
+            moveSuccess = CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.LEFT, true );
         }
         else if ( value.x > 0 )
         {
-            moveSuccess = CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.RIGHT );
+            moveSuccess = CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.RIGHT, true );
         }
         else if ( value.y < 0 )
         {
-            moveSuccess = CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.DOWN );
+            moveSuccess = CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.DOWN, true );
         }
         else if ( value.y > 0 )
         {
-            moveSuccess = CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.UP );
+            moveSuccess = CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.UP, true );
         }
 
         if ( moveSuccess )

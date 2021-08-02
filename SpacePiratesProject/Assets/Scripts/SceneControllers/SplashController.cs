@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class SplashController : Singleton< SplashController >
@@ -11,6 +12,13 @@ public class SplashController : Singleton< SplashController >
     void Start()
     {
         StartCoroutine( SplashFade() );
+        InputSystem.onEvent += InputSystem_onEvent;
+    }
+
+    private void InputSystem_onEvent(UnityEngine.InputSystem.LowLevel.InputEventPtr arg1, InputDevice arg2)
+    {
+        InputSystem.onEvent -= InputSystem_onEvent;
+        GameManager.CurrentState = GameManager.GameState.START;
     }
 
     private IEnumerator SplashFade()

@@ -206,7 +206,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
         return false;
     }
 
-    public static bool ShiftSelector( Player.PlayerSlot a_PlayerSlot, Direction a_Direction )
+    public static bool ShiftSelector( Player.PlayerSlot a_PlayerSlot, Direction a_Direction, bool a_WrapAround = false )
     {
         SelectorTile selector = Instance.m_SelectorTiles[ ( int )a_PlayerSlot ];
         
@@ -241,9 +241,29 @@ public class CharacterSelector : Singleton< CharacterSelector >
                 break;
         }
 
-        if ( !Instance.m_Grid.Contains( newPosition ) )
+        if ( !a_WrapAround && !Instance.m_Grid.Contains( newPosition ) )
         {
             return false;
+        }
+
+        if ( newPosition.x < 0 )
+        {
+            newPosition.x = Instance.m_Grid.width - 1;
+        }
+
+        if ( newPosition.x >= Instance.m_Grid.width )
+        {
+            newPosition.x = 0;
+        }
+
+        if ( newPosition.y < 0 )
+        {
+            newPosition.y = Instance.m_Grid.height - 1;
+        }
+
+        if ( newPosition.y >= Instance.m_Grid.height )
+        {
+            newPosition.y = 0;
         }
 
         selector.SetPosition( newPosition, Instance.m_GridCellSize, Instance.m_GridCellSpacing );
