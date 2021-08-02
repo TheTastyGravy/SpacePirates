@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ RequireComponent( typeof( MeshRenderer ) ) ]
 public class ICharacter : MonoBehaviour
 {
     public string CharacterName;
@@ -44,5 +43,5 @@ public class ICharacter : MonoBehaviour
     private int m_VariantIndex;
     private Player m_Player;
 
-    [ SerializeField ] private MeshRenderer m_Renderer;
+    [ SerializeField ] private Renderer m_Renderer;
 }

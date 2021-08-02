@@ -11,6 +11,8 @@ public class Character : ICharacter
     public float MoveSpeed = 1;
     public float TurnSpeed = 10;
 
+	private Animator animator;
+
     public static bool AreAllDead
     {
         get
@@ -49,6 +51,7 @@ public class Character : ICharacter
         m_Rigidbody = GetComponent< Rigidbody >();
         m_Interactor = GetComponent< Interactor >();
         m_ReviveStation = GetComponent< ReviveStation >();
+		animator = GetComponent<Animator>();
         Player.AddInputListener( Player.Control.A_PRESSED, OnAPressed );
         IsKinematic = true;
         enabled = false;
@@ -71,6 +74,12 @@ public class Character : ICharacter
 		Vector3 forward = Vector3.Slerp( transform.forward, movement, Time.fixedDeltaTime * TurnSpeed );
 		Quaternion quat = Quaternion.FromToRotation( transform.forward, forward );
 		m_Rigidbody.MoveRotation( m_Rigidbody.rotation * quat );
+
+		// Set animator value
+		if (animator != null)
+		{
+			animator.SetFloat("Speed", movement.magnitude);
+		}
     }
 
     public void ApplyHealthModifier( float a_HealthModifier )
