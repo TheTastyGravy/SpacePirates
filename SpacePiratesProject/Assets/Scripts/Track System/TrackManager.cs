@@ -6,8 +6,6 @@ using UnityEngine.Events;
 
 public class TrackManager : Singleton<TrackManager>
 {
-    
-
     [System.Serializable]
     public struct ShipPosition
 	{
@@ -86,6 +84,7 @@ public class TrackManager : Singleton<TrackManager>
 	void Start()
     {
         track = Track.GetTrack( GameManager.SelectedTrack );
+        HUDController.Instance.ManeuverDisplay.UpdateCards();
 		ai = AIManager.Instance;
 		ai.CreateAi(AIManager.AIDifficulty.Easy);
 		ai.CreateAi(AIManager.AIDifficulty.Medium);
@@ -103,11 +102,11 @@ public class TrackManager : Singleton<TrackManager>
         // Get engine efficiency for player
         float playerEngine = GetEngineEfficiency();
 
-        int timeRemaining = GetSecondsRemaining( playerEngine );
-        HUDController.Instance.ManeuverDisplay.UpdateETADisplay( timeRemaining );
-
         // Get new ship positions
         ShipPosition newPlayerShip = GetNewShipPos(playerShip, playerEngine);
+        
+        int timeRemaining = GetSecondsRemaining( playerEngine );
+        HUDController.Instance.ManeuverDisplay.UpdateETADisplay( timeRemaining );
 
         // Track change, push to ManeuverDisplay
         if ( newPlayerShip.trackIndex > playerShip.trackIndex )
@@ -139,6 +138,7 @@ public class TrackManager : Singleton<TrackManager>
             //onPlayerFinish.Invoke();
             GameManager.CurrentState = GameManager.GameState.SUMMARY;
         }
+
 
         UpdateCamera();
         UpdateUI();
@@ -248,7 +248,7 @@ public class TrackManager : Singleton<TrackManager>
 
     private int GetSecondsRemaining( float a_EngineEfficiency )
     {
-        return ( int )( ( 1.0f - playerShip.segmentDist ) / a_EngineEfficiency );
+        return ( int )( ( 1.0f - playerShip.segmentDist ) * track[ playerShip.trackIndex ].TimeToComplete / a_EngineEfficiency ) + 1;
     }
 
     private ShipPosition GetNewShipPos(ShipPosition shipPos, float engineEfficiency)

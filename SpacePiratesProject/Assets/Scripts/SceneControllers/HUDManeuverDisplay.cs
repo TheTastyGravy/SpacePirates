@@ -11,10 +11,9 @@ public class HUDManeuverDisplay : MonoBehaviour
     public TextMeshProUGUI TimeUntilManeuver;
     public Image[] ManeuverCards;
 
-    private void Awake()
+    private void Start()
     {
         m_Animation = GetComponent< Animation >();
-        UpdateCards();
     }
 
     public void TriggerSlide()
@@ -28,7 +27,7 @@ public class HUDManeuverDisplay : MonoBehaviour
         TimeUntilManeuver.text = ( a_Seconds < 10 ? "0" + a_Seconds.ToString() : a_Seconds.ToString() ) + "s";
     }
 
-    private void UpdateCards()
+    public void UpdateCards()
     {
         int currentTrack = TrackManager.Instance.PlayerShipPosition.trackIndex;
         int trackCount = TrackManager.Instance.track.Length;
