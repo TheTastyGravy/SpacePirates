@@ -4,14 +4,12 @@
 4. Create walls and floors and children of the room
 5. Create empty game objects for hole positions, rotating as nessesary, and give them the "HolePosition" tag
 6. Create an instance of the OxygenDisplay prefab in the room, giving it a reference to the RoomManager
-7. Add stations as children of room as desiered
+7. Add stations as children of room as desiered. Engines need to be assigned a region (left, right, center)
 8. Repeat steps 3-7 until all rooms are added
 9. Place the camera on a pivot object to rotate around for turns
-10. Go to the PowerManager and add each engine and reactor station to its arrays
-11. Go to the HullManager and add rooms to the left, right, and front (not all rooms need to be assigned to a region, and a room can belong to multiple)
-12. Go to the TrackManger and assign references to the left, right, and center engines, and the camera pivot (camera trans)
-13. Setup the track on the TrackManager
-14. Place Spawner prefabs in the ship, and set the player slot for each player. This is where players will be spawned
+10. Go to the HullManager and add rooms to the left, right, and front (not all rooms need to be assigned to a region, and a room can belong to multiple)
+11. Setup the track on the TrackManager
+12. Place Spawner prefabs in the ship, and set the player slot for each player. This is where players will be spawned
 
 
 Possible Problems:

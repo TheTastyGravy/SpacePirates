@@ -15776,12 +15776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3846fb7f3a315f74597e3f57c1603532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  track: {fileID: 11400000, guid: 4239e338389b4a6448ab67a5de401615, type: 2}
-  leftEngines:
-  - {fileID: 958528014}
-  rightEngines:
-  - {fileID: 1707709141}
-  centerEngines: []
+  track: 00000000030000000000000000000000000000000100000000000000040000000000000000000000
   onPlayerFinish:
     m_PersistentCalls:
       m_Calls: []
@@ -17653,6 +17648,7 @@ MonoBehaviour:
   prompt: {fileID: 62514660}
   _collider: {fileID: 958528013}
   interactors: []
+  region: 1
   powerLabel: {fileID: 134183303}
 --- !u!65 &958528015
 BoxCollider:
@@ -29568,6 +29564,7 @@ MonoBehaviour:
   prompt: {fileID: 1861981656}
   _collider: {fileID: 1707709140}
   interactors: []
+  region: 2
   powerLabel: {fileID: 1082778011}
 --- !u!65 &1707709142
 BoxCollider:

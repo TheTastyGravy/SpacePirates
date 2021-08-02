@@ -5,6 +5,14 @@ using TMPro;
 
 public class EngineStation : Interactable
 {
+	public enum EngineRegion
+	{
+		CENTER,
+		LEFT,
+		RIGHT
+	}
+	public EngineRegion region;
+
     // The current power level of this engine. 0-2
     private int powerLevel = 0;
     public int PowerLevel { get => powerLevel; }

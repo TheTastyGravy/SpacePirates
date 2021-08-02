@@ -18,15 +18,10 @@ public class TrackManager : Singleton<TrackManager>
     public ShipPosition PlayerShipPosition => playerShip;
     public Track track;
     [Space]
-    public EngineStation[] leftEngines;
-    public EngineStation[] rightEngines;
-	public EngineStation[] centerEngines;
-    [Space]
     [Tooltip("Invoked when the player reaches the end of the track")]
     public UnityEvent onPlayerFinish;
 
     [Header("Camera")]
-    public Transform cameraTrans;
     public AnimationCurve curve90;
     public float maxAngle90;
     public AnimationCurve curve45;
@@ -44,8 +39,12 @@ public class TrackManager : Singleton<TrackManager>
 	//temp for event
 	public GameObject shipPrefab;
 
-
-    private ShipPosition playerShip;
+	
+	private EngineStation[] leftEngines;
+	private EngineStation[] rightEngines;
+	private EngineStation[] centerEngines;
+	private Transform cameraTrans;
+	private ShipPosition playerShip;
     private AIManager ai;
 
 	private string currentTrackBase;
@@ -56,7 +55,35 @@ public class TrackManager : Singleton<TrackManager>
 
 
 
-    void Start()
+	private void Awake()
+	{
+		List<EngineStation> engineC = new List<EngineStation>();
+		List<EngineStation> engineL = new List<EngineStation>();
+		List<EngineStation> engineR = new List<EngineStation>();
+		foreach (var obj in FindObjectsOfType<EngineStation>())
+		{
+			switch (obj.region)
+			{
+				case EngineStation.EngineRegion.CENTER:
+					engineC.Add(obj);
+					break;
+				case EngineStation.EngineRegion.LEFT:
+					engineL.Add(obj);
+					break;
+				case EngineStation.EngineRegion.RIGHT:
+					engineR.Add(obj);
+					break;
+			}
+		}
+
+		leftEngines = engineL.ToArray();
+		rightEngines = engineR.ToArray();
+		centerEngines = engineC.ToArray();
+
+		cameraTrans = Camera.main.transform.parent;
+	}
+
+	void Start()
     {
         track = Track.GetTrack( GameManager.SelectedTrack );
 		ai = AIManager.Instance;

@@ -1463,6 +1463,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6458727535077406513}
     m_Modifications:
+    - target: {fileID: 1546285970719843227, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
+      propertyPath: region
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1546285970719843228, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
       propertyPath: m_Name
       value: Engine-Right
@@ -4425,6 +4429,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6458727536098796675}
     m_Modifications:
+    - target: {fileID: 2024765288636441211, guid: c8db4201d45688c4794276534d01ca04, type: 3}
+      propertyPath: region
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2024765288636441212, guid: c8db4201d45688c4794276534d01ca04, type: 3}
       propertyPath: m_Name
       value: Engine-Left
