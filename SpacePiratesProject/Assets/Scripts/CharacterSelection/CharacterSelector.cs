@@ -54,7 +54,6 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
             m_CharacterDocks[ i ].SetPlayer( player );
             player.Character.gameObject.SetActive( true );
-            ( player.Character as Character).IsKinematic = false;
         }
 
         m_DefaultActionMap = GameManager.DefaultActionMap;
