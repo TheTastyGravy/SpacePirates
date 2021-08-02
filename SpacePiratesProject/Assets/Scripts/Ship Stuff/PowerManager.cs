@@ -74,7 +74,9 @@ public class PowerManager : Singleton<PowerManager>
 		{
 			if (obj.DamageLevel == obj.maxDamageLevel)
 			{
-				//game over
+				// Game over
+				GameManager.RegisterFinalGameState(false, 0, 0);
+				GameManager.CurrentState = GameManager.GameState.SUMMARY;
 			}
 			else if (obj.DamageLevel == obj.maxDamageLevel - 1)
 			{

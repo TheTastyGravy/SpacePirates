@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 
 public class TrackManager : Singleton<TrackManager>
 {
@@ -15,9 +14,6 @@ public class TrackManager : Singleton<TrackManager>
 
     public ShipPosition PlayerShipPosition => playerShip;
     public Track track;
-    [Space]
-    [Tooltip("Invoked when the player reaches the end of the track")]
-    public UnityEvent onPlayerFinish;
 
     [Header("Camera")]
     public AnimationCurve curve90;
@@ -44,6 +40,9 @@ public class TrackManager : Singleton<TrackManager>
 	private Transform cameraTrans;
 	private ShipPosition playerShip;
     private AIManager ai;
+
+	private int playerPlacement;
+	private float timeTaken;
 
 	private string currentTrackBase;
 	private string nextTrackBase;
@@ -101,32 +100,22 @@ public class TrackManager : Singleton<TrackManager>
     {
         // Get engine efficiency for player
         float playerEngine = GetEngineEfficiency();
-
         // Get new ship positions
         ShipPosition newPlayerShip = GetNewShipPos(playerShip, playerEngine);
-        
-        int timeRemaining = GetSecondsRemaining( playerEngine );
-        HUDController.Instance.ManeuverDisplay.UpdateETADisplay( timeRemaining );
-
-        // Track change, push to ManeuverDisplay
-        if ( newPlayerShip.trackIndex > playerShip.trackIndex )
-        {
-            HUDController.Instance.ManeuverDisplay.TriggerSlide();
-        }
-
         List<ShipPosition> newAiShips = new List<ShipPosition>();
         for (int i = 0; i < ai.aiCount; i++)
 		{
             newAiShips.Add(GetNewShipPos(ai.ships[i], ai.engineEfficiencies[i]));
         }
 
-        // Check if the player has any passes
-        CheckForPasses(newPlayerShip, newAiShips);
+		// Check if the player has any passes
+		CheckForPasses(newPlayerShip, newAiShips);
 
 		// Play alert if the player in on a new segment
 		if (newPlayerShip.trackIndex != playerShip.trackIndex)
 		{
 			SoundController.Instance.Play("TrackUpdates", false);
+			HUDController.Instance.ManeuverDisplay.TriggerSlide();
 		}
 
         // Update positions
@@ -135,12 +124,15 @@ public class TrackManager : Singleton<TrackManager>
         // Check if the player has reached the end of the track
         if (playerShip.trackIndex == track.Length-1 && playerShip.segmentDist == 1)
 		{
-            //onPlayerFinish.Invoke();
+			GameManager.RegisterFinalGameState(true, playerPlacement, timeTaken);
             GameManager.CurrentState = GameManager.GameState.SUMMARY;
         }
 
+		// Update time remaining
+		int timeRemaining = GetSecondsRemaining(playerEngine);
+		HUDController.Instance.ManeuverDisplay.UpdateETADisplay(timeRemaining);
 
-        UpdateCamera();
+		UpdateCamera();
         UpdateUI();
     }
 
@@ -272,7 +264,9 @@ public class TrackManager : Singleton<TrackManager>
 
     private void CheckForPasses(in ShipPosition newPlayerShip, in List<ShipPosition> newAiShips)
 	{
-        for (int i = 0; i < ai.aiCount; i++)
+		playerPlacement = 1;
+
+		for (int i = 0; i < ai.aiCount; i++)
 		{
             //determine last state
             bool wasBehind = true;
@@ -302,6 +296,11 @@ public class TrackManager : Singleton<TrackManager>
 				_event.shipPrefab = shipPrefab;
 				_event.isPassing = !isBehind;
 				EventManager.Instance.AddEventToQueue(_event, 100);
+			}
+
+			if (!isBehind)
+			{
+				playerPlacement++;
 			}
 		}
 	}

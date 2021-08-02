@@ -90,6 +90,7 @@ public class Character : ICharacter
 
             if ( AreAllDead )
             {
+				GameManager.RegisterFinalGameState(false, 0, 0);
                 GameManager.CurrentState = GameManager.GameState.SUMMARY;
             }
 		}
