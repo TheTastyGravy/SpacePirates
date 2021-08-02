@@ -4916,7 +4916,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prompt: {fileID: 7164245676777462958}
-  _collider: {fileID: 0}
+  _collider: {fileID: 3487642358829170103}
   interactors: []
   shrapnelPrefab: {fileID: 6366491747031843224, guid: 1dba4b221130c704f843bb31de78201b, type: 3}
   minAngle: 0
