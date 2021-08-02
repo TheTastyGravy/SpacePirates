@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5472,6 +5472,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 134183301}
   m_CullTransparentMesh: 1
+--- !u!114 &147325194 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6094224344800485132, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+  m_PrefabInstance: {fileID: 840547188}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &222039004
 GameObject:
   m_ObjectHideFlags: 0
@@ -16967,6 +16978,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4207087454012434251, guid: e47ea2d4b01fa3d4a9ec881f8e0acd65, type: 3}
   m_PrefabInstance: {fileID: 755415411}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &760671727 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3904017984304121630, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+  m_PrefabInstance: {fileID: 840547188}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &823815607
 GameObject:
   m_ObjectHideFlags: 0
@@ -17201,6 +17223,50 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1324750617}
     m_Modifications:
+    - target: {fileID: 1024253234085235324, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: ManeuverCards.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024253234085235324, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: ManeuverCards.Array.data[0]
+      value: 
+      objectReference: {fileID: 1803517872}
+    - target: {fileID: 1024253234085235324, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: ManeuverCards.Array.data[1]
+      value: 
+      objectReference: {fileID: 760671727}
+    - target: {fileID: 1024253234085235324, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: ManeuverCards.Array.data[2]
+      value: 
+      objectReference: {fileID: 1280580694}
+    - target: {fileID: 1024253234085235324, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: ManeuverCards.Array.data[3]
+      value: 
+      objectReference: {fileID: 147325194}
+    - target: {fileID: 1024253234085235324, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: TrackManeuverSprites.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024253234085235324, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: TrackManeuverSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 7ca0b38762c0037438bcd1791633c2d6, type: 3}
+    - target: {fileID: 1024253234085235324, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: TrackManeuverSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: bef0ad53683213a4281434c5814e92de, type: 3}
+    - target: {fileID: 1024253234085235324, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: TrackManeuverSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: f3c5f5fa274b2d049871550b0c1055a0, type: 3}
+    - target: {fileID: 1024253234085235324, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: TrackManeuverSprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: b8e56d1b55993f444a70920e0c7a7893, type: 3}
+    - target: {fileID: 1024253234085235324, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: TrackManeuverSprites.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300000, guid: 0d12675279a800b418c579298428249f, type: 3}
     - target: {fileID: 1525179531370686686, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -17288,6 +17354,54 @@ PrefabInstance:
     - target: {fileID: 3675888347159993047, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
       propertyPath: m_Name
       value: ManeuverCards
+      objectReference: {fileID: 0}
+    - target: {fileID: 3904017984304121630, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3904017984304121630, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3904017984304121630, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4298627357664665969, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4298627357664665969, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4298627357664665969, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6094224344800485132, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6094224344800485132, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6094224344800485132, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8151153931181030437, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8151153931181030437, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8151153931181030437, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
@@ -18760,6 +18874,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1280147216}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1280580694 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8151153931181030437, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+  m_PrefabInstance: {fileID: 840547188}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1324750612
 GameObject:
   m_ObjectHideFlags: 0
@@ -29646,6 +29771,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'Next Ship In: '
+--- !u!114 &1803517872 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4298627357664665969, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+  m_PrefabInstance: {fileID: 840547188}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1829384480
 GameObject:
   m_ObjectHideFlags: 0

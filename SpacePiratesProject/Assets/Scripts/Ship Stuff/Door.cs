@@ -49,13 +49,13 @@ public class Door : MonoBehaviour
 
 	public void Open()
 	{
-		m_DoorAnimation.Play("Open");
+		m_DoorAnimation.Play("OpenDoor");
 		SoundController.Instance.Play("Door", false);
 	}
 
 	public void Close()
 	{
-		m_DoorAnimation.Play("Close");
+		m_DoorAnimation.Play("CloseDoor");
 	}
 
     private int m_PlayersNearby;

@@ -53,5 +53,5 @@ public class AudioPool : ScriptableObject
 
     [ SerializeField ] private AudioClip[] m_Items;
 
-    private static Dictionary< string, AudioPool > m_AllPools;
+    private static Dictionary< string, AudioPool > m_AllPools = new Dictionary< string, AudioPool >();
 }

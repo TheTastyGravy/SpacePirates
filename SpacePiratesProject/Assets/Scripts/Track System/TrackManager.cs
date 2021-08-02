@@ -22,7 +22,7 @@ public class TrackManager : Singleton<TrackManager>
         public float segmentDist;
 	}
 
-    
+    public ShipPosition PlayerShipPosition => playerShip;
     public TrackType[] track;
     [Space]
     public EngineStation[] leftEngines;
@@ -84,6 +84,13 @@ public class TrackManager : Singleton<TrackManager>
 
         // Get new ship positions
         ShipPosition newPlayerShip = GetNewShipPos(playerShip, playerEngine);
+
+        // Track change, push to ManeuverDisplay
+        if ( newPlayerShip.trackIndex > playerShip.trackIndex )
+        {
+            HUDController.Instance.ManeuverDisplay.TriggerSlide();
+        }
+
         List<ShipPosition> newAiShips = new List<ShipPosition>();
         for (int i = 0; i < ai.aiCount; i++)
 		{
@@ -105,7 +112,8 @@ public class TrackManager : Singleton<TrackManager>
         // Check if the player has reached the end of the track
         if (playerShip.trackIndex == track.Length-1 && playerShip.segmentDist == 1)
 		{
-            onPlayerFinish.Invoke();
+            //onPlayerFinish.Invoke();
+            GameManager.CurrentState = GameManager.GameState.SUMMARY;
         }
 
         UpdateCamera();
