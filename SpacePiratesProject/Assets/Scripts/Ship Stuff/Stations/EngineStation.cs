@@ -30,7 +30,7 @@ public class EngineStation : Interactable
 	void Start()
 	{
 		UpdateText();
-		SoundController.Instance.Play("Engine", true);
+		SoundManager.Instance.Play("Engine", true);
 	}
 
 	protected override void OnActivate(Interactor user)

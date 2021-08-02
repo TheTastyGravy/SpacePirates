@@ -9,7 +9,7 @@ public class AIManager : Singleton<AIManager>
 
 
     [HideInInspector]
-    public List<TrackManager.ShipPosition> ships = new List<TrackManager.ShipPosition>();
+    public List<Ship.Position> ships = new List<Ship.Position>();
     [HideInInspector]
     public List<float> engineEfficiencies = new List<float>();
 
@@ -23,7 +23,7 @@ public class AIManager : Singleton<AIManager>
         aiCount++;
 
 
-        ships.Add(new TrackManager.ShipPosition());
+        ships.Add(new Ship.Position());
 
         float engine = 0;
         switch (difficulty)

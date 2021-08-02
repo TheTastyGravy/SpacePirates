@@ -82,6 +82,6 @@ public class AstroidEvent : Event
 		//apply damage
 		targetRoom.DamageRoom();
 
-		SoundController.Instance.Play("Impact", false);
+		SoundManager.Instance.Play("Impact", false);
 	}
 }

@@ -4,17 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class TrackManager : Singleton<TrackManager>
+public class LevelController : Singleton<LevelController>
 {
-    [System.Serializable]
-    public struct ShipPosition
-	{
-        public int trackIndex;
-        public float segmentDist;
-	}
+    
 
-    public ShipPosition PlayerShipPosition => playerShip;
+    public Ship.Position PlayerShipPosition => playerShip;
     public Track track;
+    public Ship ship;
     [Space]
     [Tooltip("Invoked when the player reaches the end of the track")]
     public UnityEvent onPlayerFinish;
@@ -42,7 +38,7 @@ public class TrackManager : Singleton<TrackManager>
 	private EngineStation[] rightEngines;
 	private EngineStation[] centerEngines;
 	private Transform cameraTrans;
-	private ShipPosition playerShip;
+	private Ship.Position playerShip;
     private AIManager ai;
 
 	private string currentTrackBase;
@@ -84,6 +80,9 @@ public class TrackManager : Singleton<TrackManager>
 	void Start()
     {
         track = Track.GetTrack( GameManager.SelectedTrack );
+        ship = Ship.GetShip( GameManager.SelectedShip );
+
+        Instantiate( ship.ShipPrefab );
         HUDController.Instance.ManeuverDisplay.UpdateCards();
 		ai = AIManager.Instance;
 		ai.CreateAi(AIManager.AIDifficulty.Easy);
@@ -103,18 +102,18 @@ public class TrackManager : Singleton<TrackManager>
         float playerEngine = GetEngineEfficiency();
 
         // Get new ship positions
-        ShipPosition newPlayerShip = GetNewShipPos(playerShip, playerEngine);
+        Ship.Position newPlayerShip = GetNewShipPos(playerShip, playerEngine);
         
         int timeRemaining = GetSecondsRemaining( playerEngine );
         HUDController.Instance.ManeuverDisplay.UpdateETADisplay( timeRemaining );
 
         // Track change, push to ManeuverDisplay
-        if ( newPlayerShip.trackIndex > playerShip.trackIndex )
+        if ( newPlayerShip.TrackSegment > playerShip.TrackSegment )
         {
             HUDController.Instance.ManeuverDisplay.TriggerSlide();
         }
 
-        List<ShipPosition> newAiShips = new List<ShipPosition>();
+        List<Ship.Position> newAiShips = new List<Ship.Position>();
         for (int i = 0; i < ai.aiCount; i++)
 		{
             newAiShips.Add(GetNewShipPos(ai.ships[i], ai.engineEfficiencies[i]));
@@ -124,16 +123,16 @@ public class TrackManager : Singleton<TrackManager>
         CheckForPasses(newPlayerShip, newAiShips);
 
 		// Play alert if the player in on a new segment
-		if (newPlayerShip.trackIndex != playerShip.trackIndex)
+		if (newPlayerShip.TrackSegment != playerShip.TrackSegment)
 		{
-			SoundController.Instance.Play("TrackUpdates", false);
+			SoundManager.Instance.Play("TrackUpdates", false);
 		}
 
         // Update positions
         playerShip = newPlayerShip;
         ai.ships = newAiShips;
         // Check if the player has reached the end of the track
-        if (playerShip.trackIndex == track.Length-1 && playerShip.segmentDist == 1)
+        if (playerShip.TrackSegment == track.Length-1 && playerShip.SegmentPosition == 1)
 		{
             //onPlayerFinish.Invoke();
             GameManager.CurrentState = GameManager.GameState.SUMMARY;
@@ -193,7 +192,7 @@ public class TrackManager : Singleton<TrackManager>
         float power = 0;
 
         //  THIS NEEDS TO BE GENERALISED
-        Track.Segment.Type currentTrack = track[playerShip.trackIndex].SegmentType;
+        Track.Segment.Type currentTrack = track[playerShip.TrackSegment].SegmentType;
         switch (currentTrack)
 		{
             case Track.Segment.Type.Straight:
@@ -248,51 +247,51 @@ public class TrackManager : Singleton<TrackManager>
 
     private int GetSecondsRemaining( float a_EngineEfficiency )
     {
-        return ( int )( ( 1.0f - playerShip.segmentDist ) * track[ playerShip.trackIndex ].TimeToComplete / a_EngineEfficiency ) + 1;
+        return ( int )( ( 1.0f - playerShip.SegmentPosition ) * track[ playerShip.TrackSegment ].TimeToComplete / a_EngineEfficiency ) + 1;
     }
 
-    private ShipPosition GetNewShipPos(ShipPosition shipPos, float engineEfficiency)
+    private Ship.Position GetNewShipPos(Ship.Position shipPos, float engineEfficiency)
 	{
         // Update pos, looping segment dist into track index
-        shipPos.segmentDist += engineEfficiency * Time.deltaTime / track[ shipPos.trackIndex ].TimeToComplete;
-        if (shipPos.segmentDist > 1)
+        shipPos.SegmentPosition += engineEfficiency * Time.deltaTime / track[ shipPos.TrackSegment ].TimeToComplete;
+        if (shipPos.SegmentPosition > 1)
 		{
-            shipPos.segmentDist -= 1;
-            shipPos.trackIndex++;
+            shipPos.SegmentPosition -= 1;
+            shipPos.TrackSegment++;
 		}
         // Prevent ship position from going past the end of the track
-        if (shipPos.trackIndex >= track.Length)
+        if (shipPos.TrackSegment >= track.Length)
 		{
-            shipPos.segmentDist = 1;
-            shipPos.trackIndex = track.Length - 1;
+            shipPos.SegmentPosition = 1;
+            shipPos.TrackSegment = track.Length - 1;
         }
 
         return shipPos;
 	}
 
-    private void CheckForPasses(in ShipPosition newPlayerShip, in List<ShipPosition> newAiShips)
+    private void CheckForPasses(in Ship.Position newPlayerShip, in List<Ship.Position> newAiShips)
 	{
         for (int i = 0; i < ai.aiCount; i++)
 		{
             //determine last state
             bool wasBehind = true;
-            if (playerShip.trackIndex < ai.ships[i].trackIndex)
+            if (playerShip.TrackSegment < ai.ships[i].TrackSegment)
 			{
                 wasBehind = false;
 			}
-            else if (playerShip.trackIndex == ai.ships[i].trackIndex)
+            else if (playerShip.TrackSegment == ai.ships[i].TrackSegment)
 			{
-                wasBehind = playerShip.segmentDist > ai.ships[i].segmentDist;
+                wasBehind = playerShip.SegmentPosition > ai.ships[i].SegmentPosition;
 			}
             //determine current state
             bool isBehind = true;
-            if (newPlayerShip.trackIndex < newAiShips[i].trackIndex)
+            if (newPlayerShip.TrackSegment < newAiShips[i].TrackSegment)
 			{
                 isBehind = false;
 			}
-            else if (newPlayerShip.trackIndex == newAiShips[i].trackIndex)
+            else if (newPlayerShip.TrackSegment == newAiShips[i].TrackSegment)
 			{
-                isBehind = newPlayerShip.segmentDist > newAiShips[i].segmentDist;
+                isBehind = newPlayerShip.SegmentPosition > newAiShips[i].SegmentPosition;
 			}
 
 
@@ -309,7 +308,7 @@ public class TrackManager : Singleton<TrackManager>
 
     private void UpdateCamera()
 	{
-        Track.Segment.Type currentTrack = track[playerShip.trackIndex].SegmentType;
+        Track.Segment.Type currentTrack = track[playerShip.TrackSegment].SegmentType;
 
         //default state
         if (currentTrack == Track.Segment.Type.Straight)
@@ -322,12 +321,12 @@ public class TrackManager : Singleton<TrackManager>
         // 90 degree track
         if (currentTrack == Track.Segment.Type.Left90 || currentTrack == Track.Segment.Type.Right90)
 		{
-            angle = curve90.Evaluate(playerShip.segmentDist) * maxAngle90;
+            angle = curve90.Evaluate(playerShip.SegmentPosition) * maxAngle90;
         }
         // 45 degree track
 		else
 		{
-            angle = curve45.Evaluate(playerShip.segmentDist) * maxAngle45;
+            angle = curve45.Evaluate(playerShip.SegmentPosition) * maxAngle45;
         }
         angle *= Mathf.Deg2Rad;
 
@@ -345,24 +344,24 @@ public class TrackManager : Singleton<TrackManager>
     private void UpdateUI()
 	{
 		//display track info
-		currentTrack.text = currentTrackBase + Track2String(track[playerShip.trackIndex].SegmentType);
-		if (playerShip.trackIndex + 1 < track.Length)
+		currentTrack.text = currentTrackBase + Track2String(track[playerShip.TrackSegment].SegmentType);
+		if (playerShip.TrackSegment + 1 < track.Length)
 		{
-			nextTrack.text = nextTrackBase + Track2String(track[playerShip.trackIndex + 1].SegmentType) + "\nIn " + (1 - playerShip.segmentDist);
+			nextTrack.text = nextTrackBase + Track2String(track[playerShip.TrackSegment + 1].SegmentType) + "\nIn " + (1 - playerShip.SegmentPosition);
 		}
-		if (playerShip.trackIndex + 2 < track.Length)
+		if (playerShip.TrackSegment + 2 < track.Length)
 		{
-			nextNextTrack.text = nextNextTrackBase + Track2String(track[playerShip.trackIndex + 2].SegmentType) + "\nIn " + (2 - playerShip.segmentDist);
+			nextNextTrack.text = nextNextTrackBase + Track2String(track[playerShip.TrackSegment + 2].SegmentType) + "\nIn " + (2 - playerShip.SegmentPosition);
 		}
 
 		//get closest opponents
-		float playerDist = playerShip.trackIndex + playerShip.segmentDist;
+		float playerDist = playerShip.TrackSegment + playerShip.SegmentPosition;
 
 		float nextOpponent = float.PositiveInfinity;
 		float prevOpponent = float.NegativeInfinity;
 		for (int i = 0; i < ai.aiCount; i++)
 		{
-			float dist = ai.ships[i].trackIndex + ai.ships[i].segmentDist;
+			float dist = ai.ships[i].TrackSegment + ai.ships[i].SegmentPosition;
 			dist -= playerDist;
 
 			if (dist > 0) //ahead of player

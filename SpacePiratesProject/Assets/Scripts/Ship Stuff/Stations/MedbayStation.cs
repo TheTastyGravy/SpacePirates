@@ -35,7 +35,7 @@ public class MedbayStation : Interactable
 			// Increase power usage for this tick
 			PowerManager.Instance.tempEnergyUsage++;
 
-			SoundController.Instance.Play("Medbay", false);
+			SoundManager.Instance.Play("Medbay", false);
 		}
 	}
 }

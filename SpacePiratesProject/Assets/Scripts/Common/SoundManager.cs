@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundController : Singleton< SoundController >
+public class SoundManager : Singleton< SoundManager >
 {
     Dictionary< string, AudioSource > AudioSources = new Dictionary< string, AudioSource >();
 

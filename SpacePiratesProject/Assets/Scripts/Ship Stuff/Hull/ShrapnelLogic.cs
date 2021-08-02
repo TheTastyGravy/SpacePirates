@@ -30,6 +30,6 @@ public class ShrapnelLogic : MonoBehaviour
 		}
 
 		Destroy(gameObject);
-		SoundController.Instance.Play("ShrapnelImpact", false);
+		SoundManager.Instance.Play("ShrapnelImpact", false);
 	}
 }

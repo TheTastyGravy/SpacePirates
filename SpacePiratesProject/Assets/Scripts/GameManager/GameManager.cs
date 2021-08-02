@@ -108,4 +108,13 @@ public class GameManager : Singleton< GameManager >
         GAME,
         SUMMARY
     }
+
+    // To do:
+    // Skip splash screen
+    // Character wrap around
+    // Level loadin
+    // Update maneuver cards to show current and time foldout
+    // Video
+    // Edit slide
+    // Mixamo
 }

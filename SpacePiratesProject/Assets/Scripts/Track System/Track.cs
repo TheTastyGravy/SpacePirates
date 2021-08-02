@@ -8,11 +8,11 @@ public class Track : ScriptableObject
 {
     public Segment[] Segments;
 
-    public static Track[] AllTracks
+    public static Track[] All
     {
         get
         {
-            m_Tracks = m_Tracks ?? Resources.FindObjectsOfTypeAll< Track >();
+            m_Tracks = m_Tracks ?? Resources.LoadAll< Track >( "Tracks" );
             return m_Tracks;
         }
     }
@@ -29,6 +29,13 @@ public class Track : ScriptableObject
             Segments[ a_Index ] = value;
         }
     }
+
+    public static Track GetTrack( int a_Index )
+    {
+        return a_Index < 0 || a_Index >= All.Length ? null : All[ a_Index ];
+    }
+
+    private static Track[] m_Tracks;
 
     [ Serializable ]
     public struct Segment
@@ -48,11 +55,4 @@ public class Track : ScriptableObject
             Right45
 	    }
     }
-
-    public static Track GetTrack( int a_Index )
-    {
-        return a_Index < 0 || a_Index >= AllTracks.Length ? null : AllTracks[ a_Index ];
-    }
-
-    private static Track[] m_Tracks;
 }

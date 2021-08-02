@@ -45,7 +45,7 @@ public class ShipPassEvent : Event
 			(shipInstance.transform.position.z < targetRoom.transform.position.z))
 		{
 			targetRoom.DamageRoom();
-			SoundController.Instance.Play("ShipPassing", false);
+			SoundManager.Instance.Play("ShipPassing", false);
 		}
 		lastZPos = shipInstance.transform.position.z;
 		

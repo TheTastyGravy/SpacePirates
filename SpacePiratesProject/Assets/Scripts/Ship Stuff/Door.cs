@@ -50,7 +50,7 @@ public class Door : MonoBehaviour
 	public void Open()
 	{
 		m_DoorAnimation.Play("OpenDoor");
-		SoundController.Instance.Play("Door", false);
+		SoundManager.Instance.Play("Door", false);
 	}
 
 	public void Close()

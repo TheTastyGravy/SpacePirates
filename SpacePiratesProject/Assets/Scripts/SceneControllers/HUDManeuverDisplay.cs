@@ -29,12 +29,12 @@ public class HUDManeuverDisplay : MonoBehaviour
 
     public void UpdateCards()
     {
-        int currentTrack = TrackManager.Instance.PlayerShipPosition.trackIndex;
-        int trackCount = TrackManager.Instance.track.Length;
+        int currentTrack = LevelController.Instance.PlayerShipPosition.TrackSegment;
+        int trackCount = LevelController.Instance.track.Length;
 
         for ( int i = 0; i < 4; ++i )
         {
-            int trackType = ++currentTrack < trackCount ? ( int )TrackManager.Instance.track[ currentTrack ].SegmentType : -1;
+            int trackType = ++currentTrack < trackCount ? ( int )LevelController.Instance.track[ currentTrack ].SegmentType : -1;
 
             if ( trackType > -1 )
             {
