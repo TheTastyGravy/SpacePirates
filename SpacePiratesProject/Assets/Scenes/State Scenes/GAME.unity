@@ -16989,6 +16989,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &819356480 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3038163083733792040, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+  m_PrefabInstance: {fileID: 840547188}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &823815607
 GameObject:
   m_ObjectHideFlags: 0
@@ -17224,6 +17235,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1324750617}
     m_Modifications:
     - target: {fileID: 1024253234085235324, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: TimeUntilManeuver
+      value: 
+      objectReference: {fileID: 819356480}
+    - target: {fileID: 1024253234085235324, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
       propertyPath: ManeuverCards.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -17359,6 +17374,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3038163083733792040, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_fontSize
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3038163083733792040, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3038163083733792040, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3038163083733792040, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3038163083733792040, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3038163083733792040, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3038163083733792040, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 3038163083733792040, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3675888347159993047, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
       propertyPath: m_Name
       value: ManeuverCards
@@ -17387,6 +17434,22 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4674331877657275882, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5137871677190778266, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 5137871677190778266, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 5137871677190778266, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 350
+      objectReference: {fileID: 0}
     - target: {fileID: 6094224344800485132, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -17398,6 +17461,22 @@ PrefabInstance:
     - target: {fileID: 6094224344800485132, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
       propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243153424918920029, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243153424918920029, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243153424918920029, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243153424918920029, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
+      propertyPath: m_Color.r
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8151153931181030437, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
       propertyPath: m_Color.b
@@ -18988,7 +19067,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

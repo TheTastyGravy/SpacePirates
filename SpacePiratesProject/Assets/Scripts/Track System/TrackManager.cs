@@ -82,6 +82,9 @@ public class TrackManager : Singleton<TrackManager>
         // Get engine efficiency for player
         float playerEngine = GetEngineEfficiency();
 
+        int timeRemaining = GetSecondsRemaining( playerEngine );
+        HUDController.Instance.ManeuverDisplay.UpdateETADisplay( timeRemaining );
+
         // Get new ship positions
         ShipPosition newPlayerShip = GetNewShipPos(playerShip, playerEngine);
 
@@ -119,7 +122,6 @@ public class TrackManager : Singleton<TrackManager>
         UpdateCamera();
         UpdateUI();
     }
-
 
     private float GetEngineEfficiency()
 	{
@@ -222,6 +224,11 @@ public class TrackManager : Singleton<TrackManager>
             power = 0.25f;
         return power;
 	}
+
+    private int GetSecondsRemaining( float a_EngineEfficiency )
+    {
+        return ( int )( ( 1.0f - playerShip.segmentDist ) / a_EngineEfficiency );
+    }
 
     private ShipPosition GetNewShipPos(ShipPosition shipPos, float engineEfficiency)
 	{

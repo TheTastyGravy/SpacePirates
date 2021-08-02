@@ -8,7 +8,7 @@ public class HUDManeuverDisplay : MonoBehaviour
 {
     [ Header( "Order should be: Straight, Left90, Left45, Right90, Right45." ) ]
     public Sprite[] TrackManeuverSprites;
-    public TextMeshPro TimeUntilManeuver;
+    public TextMeshProUGUI TimeUntilManeuver;
     public Image[] ManeuverCards;
 
     private void Awake()
@@ -21,6 +21,11 @@ public class HUDManeuverDisplay : MonoBehaviour
     {
         m_Animation.Play( "SlideManeuverCards" );
         m_Animation.Rewind();
+    }
+
+    public void UpdateETADisplay( int a_Seconds )
+    {
+        TimeUntilManeuver.text = ( a_Seconds < 10 ? "0" + a_Seconds.ToString() : a_Seconds.ToString() ) + "s";
     }
 
     private void UpdateCards()
