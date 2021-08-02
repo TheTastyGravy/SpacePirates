@@ -5,34 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton< GameManager >
 {
-    public static InputActionMap DefaultActionMap
-    {
-        get
-        {
-            return Instance.m_DefaultActionAsset.actionMaps.Count > 0 ? Instance.m_DefaultActionAsset.actionMaps[ 0 ] : null;
-        }
-    }
-    public static int SelectedShip
-    {
-        get
-        {
-            return Instance.m_SelectedShip;
-        }
-    }
-    public static int SelectedTrack
-    {
-        get
-        {
-            return Instance.m_SelectedTrack;
-        }
-    }
-    public static int MaxPlayers
-    {
-        get
-        {
-            return Instance.m_MaxPlayers;
-        }
-    }
+    public static InputActionMap DefaultActionMap => Instance.m_DefaultActionAsset.actionMaps.Count > 0 ? Instance.m_DefaultActionAsset.actionMaps[0] : null;
+    public static int SelectedShip => Instance.m_SelectedShip;
+	public static int SelectedTrack => Instance.m_SelectedTrack;
+	public static int MaxPlayers => Instance.m_MaxPlayers;
+	public static int Placement => Instance.m_Placement;
+	public static float Time => Instance.m_Time;
+	public static bool HasFinished => Instance.m_HasFinished;
+    
     public static GameState CurrentState
     {
         get
@@ -89,9 +69,19 @@ public class GameManager : Singleton< GameManager >
         Instance.m_SelectedTrack = a_Index;
     }
 
+	public static void RegisterFinalGameState( bool a_HasFinished, int a_Placement, float a_Time )
+	{
+		Instance.m_Placement = a_Placement;
+		Instance.m_Time = a_Time;
+		Instance.m_HasFinished = a_HasFinished;
+	}
+
     private int m_SelectedShip;
     private int m_SelectedTrack;
     private int m_MaxPlayers;
+	private int m_Placement;
+	private float m_Time;
+	private bool m_HasFinished;
     private GameState m_CurrentState;
 
     [ SerializeField ] private InputActionAsset m_DefaultActionAsset;
