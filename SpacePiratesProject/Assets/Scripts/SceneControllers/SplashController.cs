@@ -12,12 +12,17 @@ public class SplashController : Singleton< SplashController >
     void Start()
     {
         StartCoroutine( SplashFade() );
-        InputSystem.onEvent += InputSystem_onEvent;
+        InputSystem.onEvent += OnInput;
     }
 
-    private void InputSystem_onEvent(UnityEngine.InputSystem.LowLevel.InputEventPtr arg1, InputDevice arg2)
+    private void OnInput( UnityEngine.InputSystem.LowLevel.InputEventPtr _, InputDevice a_InputDevice )
     {
-        InputSystem.onEvent -= InputSystem_onEvent;
+        if ( a_InputDevice is Mouse )
+        {
+            return;
+        }
+
+        InputSystem.onEvent -= OnInput;
         GameManager.CurrentState = GameManager.GameState.START;
     }
 

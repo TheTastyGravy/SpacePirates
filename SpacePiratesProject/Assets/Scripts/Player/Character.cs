@@ -81,6 +81,11 @@ public class Character : ICharacter
 		}
     }
 
+    public void SetupInteractorInput()
+    {
+        Player.AddInputListener( Player.Control.A_PRESSED, OnAPressed );
+    }
+
     public void ApplyHealthModifier( float a_HealthModifier )
     {
         if ( m_Health == 0 )
@@ -114,12 +119,6 @@ public class Character : ICharacter
         m_ReviveStation.SetIsUsable( false );
 		m_Interactor.SetIsActive( true );
 	}
-
-    protected override void SetPlayer( Player a_Player )
-    {
-        base.SetPlayer( a_Player );
-        Player.AddInputListener( Player.Control.A_PRESSED, OnAPressed );
-    }
 
     private void OnAPressed( InputAction.CallbackContext _ )
     {
