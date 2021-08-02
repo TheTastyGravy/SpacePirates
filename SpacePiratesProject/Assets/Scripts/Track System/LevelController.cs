@@ -11,9 +11,6 @@ public class LevelController : Singleton<LevelController>
     public Ship.Position PlayerShipPosition => playerShip;
     public Track track;
     public Ship ship;
-    [Space]
-    [Tooltip("Invoked when the player reaches the end of the track")]
-    public UnityEvent onPlayerFinish;
 
     [Header("Camera")]
     public AnimationCurve curve90;
@@ -74,22 +71,21 @@ public class LevelController : Singleton<LevelController>
 		rightEngines = engineR.ToArray();
 		centerEngines = engineC.ToArray();
 
-		cameraTrans = Camera.main.transform.parent;
 	}
 
 	void Start()
     {
         track = Track.GetTrack( GameManager.SelectedTrack );
         ship = Ship.GetShip( GameManager.SelectedShip );
-
         Instantiate( ship.ShipPrefab );
+		cameraTrans = Camera.main.transform.parent;
         HUDController.Instance.ManeuverDisplay.UpdateCards();
 		ai = AIManager.Instance;
 		ai.CreateAi(AIManager.AIDifficulty.Easy);
 		ai.CreateAi(AIManager.AIDifficulty.Medium);
 		ai.CreateAi(AIManager.AIDifficulty.Hard);
 
-		currentTrackBase = currentTrack.text;
+		//currentTrackBase = currentTrack.text;
 		nextTrackBase = nextTrack.text;
 		nextNextTrackBase = nextNextTrack.text;
 		nextShipBase = nextShip.text;
