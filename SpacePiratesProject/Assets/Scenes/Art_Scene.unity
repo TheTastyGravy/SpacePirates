@@ -431,26 +431,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: HMSDemo
       objectReference: {fileID: 0}
-    - target: {fileID: 7591954412406257705, guid: 04a16119cc96b44438e2d24689519dc3, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.7071048
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591954412406257705, guid: 04a16119cc96b44438e2d24689519dc3, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591954412406257705, guid: 04a16119cc96b44438e2d24689519dc3, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.70710886
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591954412406257705, guid: 04a16119cc96b44438e2d24689519dc3, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591954412406257705, guid: 04a16119cc96b44438e2d24689519dc3, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 270
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04a16119cc96b44438e2d24689519dc3, type: 3}
 --- !u!1001 &974100739
