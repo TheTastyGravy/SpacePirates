@@ -24,7 +24,7 @@ public class EngineStation : Interactable
 
 	void Awake()
 	{
-		damage = GetComponentInChildren<DamageStation>();
+		damage = transform.parent.GetComponentInChildren<DamageStation>();
 	}
 
 	void Start()

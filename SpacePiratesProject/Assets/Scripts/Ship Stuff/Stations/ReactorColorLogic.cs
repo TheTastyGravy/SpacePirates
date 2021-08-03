@@ -7,14 +7,13 @@ public class ReactorColorLogic : MonoBehaviour
 	public Color[] colors;
 
 	private DamageStation damage;
-	private Renderer render;
+	public Renderer render;
 
 
 
     void Start()
     {
 		damage = GetComponent<DamageStation>();
-		render = GetComponent<Renderer>();
     }
 
     void LateUpdate()

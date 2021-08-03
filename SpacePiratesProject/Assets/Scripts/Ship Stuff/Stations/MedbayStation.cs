@@ -13,7 +13,7 @@ public class MedbayStation : Interactable
 
 	void Awake()
 	{
-		damage = GetComponentInChildren<DamageStation>();
+		damage = transform.parent.GetComponentInChildren<DamageStation>();
 	}
 
 	protected override void OnActivate(Interactor user)
