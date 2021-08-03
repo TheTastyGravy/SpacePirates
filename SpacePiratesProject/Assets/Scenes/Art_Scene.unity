@@ -431,10 +431,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: HMSDemo
       objectReference: {fileID: 0}
-    - target: {fileID: 8130809044007197340, guid: 04a16119cc96b44438e2d24689519dc3, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.95
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04a16119cc96b44438e2d24689519dc3, type: 3}
 --- !u!1001 &974100739
