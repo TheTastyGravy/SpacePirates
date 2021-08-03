@@ -15321,6 +15321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ManeuverDisplay: {fileID: 333356963}
   OptionsMenu: {fileID: 1595431792}
+  InteractPrompt: {fileID: 214091428206585149, guid: 20d2ff3df9b12af4e9dc21259738cf2e, type: 3}
   PlayerCardP1: {fileID: 1084206953}
   PlayerCardP2: {fileID: 327123695}
   PlayerCardP3: {fileID: 1891650908}

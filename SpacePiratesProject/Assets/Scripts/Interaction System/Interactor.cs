@@ -11,11 +11,14 @@ public class Interactor : MonoBehaviour
 	private bool isActive = true;
 	public bool IsActive { get => isActive; }
 
-	void OnTriggerEnter(Collider other)
+
+    void OnTriggerEnter(Collider other)
 	{
 		if (other.TryGetComponent(out Interactable interactable))
 		{
 			interactables.Add(interactable);
+			Vector2 promptPosition = Camera.main.WorldToScreenPoint( interactables[ 0 ].prompt.transform.position );
+			HUDController.ShowInteractPrompt( interactables[ 0 ], promptPosition );
 		}
 	}
 
@@ -23,6 +26,13 @@ public class Interactor : MonoBehaviour
 	{
 		if (other.TryGetComponent(out Interactable interactable))
 		{
+			Interactable first = interactables[ 0 ];
+
+			if ( interactables.Count == 1 )
+            {
+				HUDController.HideInteractPrompt( first );
+            }
+
 			interactables.Remove(interactable);
 		}
 	}

@@ -11,6 +11,15 @@ public abstract class Interactable : MonoBehaviour
 	[HideInInspector]
 	public List<Interactor> interactors = new List<Interactor>();
     private bool isUseable = true;
+	public RectTransform ActiveInteractPrompt;
+
+    private void Update()
+    {
+        if ( ActiveInteractPrompt != null )
+        {
+			ActiveInteractPrompt.anchoredPosition = Camera.main.WorldToScreenPoint( prompt.transform.position );
+        }
+    }
 
     public void Activate(Interactor user)
 	{
@@ -76,5 +85,7 @@ public abstract class Interactable : MonoBehaviour
 		{
 			obj.interactables.Remove(this);
 		}
+
+		HUDController.HideInteractPrompt( this );
 	}
 }
