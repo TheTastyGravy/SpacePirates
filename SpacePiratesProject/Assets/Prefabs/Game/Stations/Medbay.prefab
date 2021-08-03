@@ -4853,7 +4853,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1740980142051233723}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -6765525505130649956, guid: 98e9819b9ef37d941bc92619562c7d7f, type: 3}
 --- !u!23 &4982107062984481038
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4873,7 +4873,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 29f4f5d92557c1b49873df4dfd8882b2, type: 2}
+  - {fileID: 8368722655750445499, guid: 98e9819b9ef37d941bc92619562c7d7f, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4969,6 +4969,7 @@ MonoBehaviour:
   prompt: {fileID: 9026298268310072753}
   _collider: {fileID: 4547451836257747919}
   interactors: []
+  ActiveInteractPrompt: {fileID: 0}
   healthPerUse: 25
   damagedHealthPerUse: 10
 --- !u!1 &9026298267972259736
@@ -5033,6 +5034,7 @@ MonoBehaviour:
   prompt: {fileID: 9026298269396327658}
   _collider: {fileID: 5720997250605146498}
   interactors: []
+  ActiveInteractPrompt: {fileID: 0}
   maxDamageLevel: 1
   repairCount: 2
 --- !u!1 &9026298268310072753
