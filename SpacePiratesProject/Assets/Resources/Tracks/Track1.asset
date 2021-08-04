@@ -14,22 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Segments:
   - m_SegmentType: 0
-    m_TimeToComplete: 2
+    m_TimeToComplete: 5
   - m_SegmentType: 1
-    m_TimeToComplete: 1
+    m_TimeToComplete: 2
   - m_SegmentType: 0
-    m_TimeToComplete: 3
+    m_TimeToComplete: 5
   - m_SegmentType: 2
     m_TimeToComplete: 1
   - m_SegmentType: 0
-    m_TimeToComplete: 2
+    m_TimeToComplete: 5
   - m_SegmentType: 3
-    m_TimeToComplete: 1
-  - m_SegmentType: 0
     m_TimeToComplete: 2
+  - m_SegmentType: 0
+    m_TimeToComplete: 5
   - m_SegmentType: 4
-    m_TimeToComplete: 1
-  - m_SegmentType: 0
     m_TimeToComplete: 2
+  - m_SegmentType: 0
+    m_TimeToComplete: 5
   - m_SegmentType: 3
-    m_TimeToComplete: 1
+    m_TimeToComplete: 2

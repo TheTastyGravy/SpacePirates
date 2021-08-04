@@ -28,7 +28,7 @@ EditorBuildSettings:
     guid: 5e041d5691fd82647a85528f244b44e1
   - enabled: 1
     path: Assets/Scenes/State Scenes/GAME.unity
-    guid: 51cc8b2394e27874e8cb093520b65589
+    guid: 7b07f1f765f42c9469f015cae9ca66d1
   - enabled: 1
     path: Assets/Scenes/State Scenes/SUMMARY.unity
     guid: de7b287d1acf73f4a9375ab9ab163ff0
