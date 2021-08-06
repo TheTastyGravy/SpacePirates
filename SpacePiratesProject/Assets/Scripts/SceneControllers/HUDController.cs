@@ -37,38 +37,38 @@ public class HUDController : Singleton< HUDController >
         }
     }
 
-    public static void ShowInteractPrompt( Interactable a_Interactable, Vector2 a_ScreenPosition )
-    {
-        if ( Array.FindIndex( Instance.m_InteractPrompts, prompt => ReferenceEquals( prompt.Item2, a_Interactable ) ) != -1 )
-        {
-            return;
-        }
+    //public static void ShowInteractPrompt( Interactable a_Interactable, Vector2 a_ScreenPosition )
+    //{
+    //    if ( Array.FindIndex( Instance.m_InteractPrompts, prompt => ReferenceEquals( prompt.Item2, a_Interactable ) ) != -1 )
+    //    {
+    //        return;
+    //    }
 
-        int index = Array.FindIndex( Instance.m_InteractPrompts, prompt => prompt.Item2 == null );
-        Instance.m_InteractPrompts[ index ].Item2 = a_Interactable;
-        a_Interactable.ActiveInteractPrompt = Instance.m_InteractPrompts[ index ].Item1;
-        Instance.m_InteractPrompts[ index ].Item1.anchoredPosition = a_ScreenPosition;
-        Instance.m_InteractPrompts[ index ].Item1.gameObject.SetActive( true );
-    }
+    //    int index = Array.FindIndex( Instance.m_InteractPrompts, prompt => prompt.Item2 == null );
+    //    Instance.m_InteractPrompts[ index ].Item2 = a_Interactable;
+    //    a_Interactable.ActiveInteractPrompt = Instance.m_InteractPrompts[ index ].Item1;
+    //    Instance.m_InteractPrompts[ index ].Item1.anchoredPosition = a_ScreenPosition;
+    //    Instance.m_InteractPrompts[ index ].Item1.gameObject.SetActive( true );
+    //}
 
-    public static void HideInteractPrompt( Interactable a_Interactable )
-    {
-        if ( Instance == null )
-        {
-            return;
-        }
+    //public static void HideInteractPrompt( Interactable a_Interactable )
+    //{
+    //    if ( Instance == null )
+    //    {
+    //        return;
+    //    }
 
-        int index = Array.FindIndex( Instance.m_InteractPrompts, prompt => ReferenceEquals( prompt.Item2, a_Interactable ) );
+    //    int index = Array.FindIndex( Instance.m_InteractPrompts, prompt => ReferenceEquals( prompt.Item2, a_Interactable ) );
 
-        if ( index == -1 )
-        {
-            return;
-        }
+    //    if ( index == -1 )
+    //    {
+    //        return;
+    //    }
 
-        a_Interactable.ActiveInteractPrompt = null;
-        Instance.m_InteractPrompts[ index ].Item2 = null;
-        Instance.m_InteractPrompts[ index ].Item1.gameObject.SetActive( false );
-    }
+    //    a_Interactable.ActiveInteractPrompt = null;
+    //    Instance.m_InteractPrompts[ index ].Item2 = null;
+    //    Instance.m_InteractPrompts[ index ].Item1.gameObject.SetActive( false );
+    //}
 
     private void OnStartPressed( Player a_Player )
     {

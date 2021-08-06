@@ -98,8 +98,10 @@ public class Character : ICharacter
         if ( m_Health <= 0 )
         {
             enabled = false;
-            m_ReviveStation.SetIsUsable( true );
-			m_Interactor.SetIsActive( false );
+            //m_ReviveStation.SetIsUsable( true );
+			//m_Interactor.SetIsActive( false );
+            m_ReviveStation.IsActive = true;
+            m_Interactor.IsActive = false;
 
             if ( AreAllDead )
             {
@@ -116,8 +118,10 @@ public class Character : ICharacter
     {
         m_Health = m_HealthOnRevive;
         enabled = true;
-        m_ReviveStation.SetIsUsable( false );
-		m_Interactor.SetIsActive( true );
+        //m_ReviveStation.SetIsUsable( false );
+		//m_Interactor.SetIsActive( true );
+        m_ReviveStation.IsActive = false;
+        m_Interactor.IsActive = true;
 	}
 
     private void OnAPressed( InputAction.CallbackContext _ )

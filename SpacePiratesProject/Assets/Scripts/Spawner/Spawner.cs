@@ -7,7 +7,7 @@ public class Spawner : MonoBehaviour
     public Player.PlayerSlot PlayerSlot;
     public bool DestroyOnTeleport;
     
-    void Start()
+    void Awake()
     {
         Player player = Player.GetPlayerBySlot( PlayerSlot );
 

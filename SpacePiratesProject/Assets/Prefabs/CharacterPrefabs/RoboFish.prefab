@@ -1137,8 +1137,8 @@ GameObject:
   - component: {fileID: 6666732367417627743}
   - component: {fileID: 6666732367417627736}
   - component: {fileID: 6666732367417627740}
-  - component: {fileID: 6666732367417627741}
   - component: {fileID: 6666732367417627742}
+  - component: {fileID: 2728967066245303500}
   m_Layer: 0
   m_Name: RoboFish
   m_TagString: Player
@@ -1243,19 +1243,6 @@ MonoBehaviour:
   m_Health: 100
   m_HealthMax: 100
   m_HealthOnRevive: 25
---- !u!114 &6666732367417627741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6666732367417627739}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b536a0c5710fd341a01f40cdb7e8969, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactables: []
 --- !u!114 &6666732367417627742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1268,10 +1255,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbf2aba68525cd94f922e0be709b7b80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prompt: {fileID: 0}
-  _collider: {fileID: 6666732367417627743}
-  interactors: []
+  m_IsActiveOnStart: 0
   NumberOfInteractions: 3
+--- !u!114 &2728967066245303500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6666732367417627739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a82bae481166412429e4fa198709fa27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsActiveOnStart: 1
+  Attach: {fileID: 777432540409091836}
+  DropOnInteract: 1
 --- !u!1 &6913195361811537205
 GameObject:
   m_ObjectHideFlags: 0

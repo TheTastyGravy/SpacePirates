@@ -16,7 +16,7 @@ public class MedbayStation : Interactable
 		damage = transform.parent.GetComponentInChildren<DamageStation>();
 	}
 
-	protected override void OnActivate(Interactor user)
+	protected override void OnInteract(Interactor user)
 	{
 		Character playerHealth = user.GetComponent<Character>();
 

@@ -59,9 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4dbd84b849d95b409737c65deafc047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prompt: {fileID: 7610447150336671937}
-  _collider: {fileID: 2459222999714244296}
-  interactors: []
+  SelectedPrompt: {fileID: 0}
   maxDamageLevel: 1
   repairCount: 2
 --- !u!1 &589329883080002568
@@ -122,9 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e630c13f14af6fe47ba3d733d617a536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prompt: {fileID: 1065627257738661208}
-  _collider: {fileID: 8631600370304723440}
-  interactors: []
+  SelectedPrompt: {fileID: 1065627257738661208}
   region: 0
   powerLabel: {fileID: 2485103495586588881}
 --- !u!1 &1065627257738661208

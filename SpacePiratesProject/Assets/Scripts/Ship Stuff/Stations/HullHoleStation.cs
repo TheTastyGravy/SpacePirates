@@ -41,7 +41,7 @@ public class HullHoleStation : Interactable
 		CreateShrapnel();
 	}
 
-    protected override void OnActivate(Interactor user)
+    protected override void OnInteract( Interactor user )
 	{
         currentRepairCount++;
 
