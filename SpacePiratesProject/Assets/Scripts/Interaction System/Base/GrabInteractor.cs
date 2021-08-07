@@ -9,9 +9,9 @@ public class GrabInteractor : Interactor
 
     public Grabbable Grabbed => m_Grabbed;
 
-    protected override void OnInteract( Interactable a_Interactable )
+    protected override void OnInteract( InteractionCallback a_Interaction )
     {
-        if ( a_Interactable == null )
+        if ( a_Interaction.Interactable == null )
         {
             if ( DropOnInteract )
             {
@@ -21,7 +21,7 @@ public class GrabInteractor : Interactor
             return;
         }
 
-        if ( a_Interactable is Grabbable grabbable )
+        if ( a_Interaction.Interactable is Grabbable grabbable )
         {
             PickUp( grabbable );
         }

@@ -33,7 +33,7 @@ public class EngineStation : Interactable
 		SoundManager.Instance.Play("Engine", true);
 	}
 
-	protected override void OnInteract(Interactor user)
+	protected override void OnInteract(InteractionCallback _)
     {
         // Increase power level, looping
         powerLevel++;

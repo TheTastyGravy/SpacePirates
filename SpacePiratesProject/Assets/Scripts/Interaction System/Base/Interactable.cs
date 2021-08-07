@@ -3,9 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Interactable : MonoBehaviour
 {
+    public UnityEvent< Interactor > Selected;
+    public UnityEvent< Interactor > Deselected;
+    public UnityEvent< InteractionCallback > Interacted;
+
     public Interactor LastInteractedBy => m_LastInteractedBy;
     public List< Interactor > SelectedBy
     {
@@ -60,20 +65,19 @@ public class Interactable : MonoBehaviour
         }
 
         m_LastInteractedBy = a_Interactor;
-        OnInteract( a_Interactor );
+        OnInteract( new InteractionCallback( a_Interactor, this ) );
+        Interacted.Invoke( new InteractionCallback( a_Interactor, this ) );
         return true;
     }
     
-    /// <summary>
-    /// For internal use only.
-    /// </summary>
-    public void RegisterInteractor( Interactor a_Interactor, bool a_Active )
+    internal void RegisterInteractor( Interactor a_Interactor, bool a_Active )
     {
         if ( a_Active )
         {
             m_InteractorsActive.Add( a_Interactor );
             ++m_SelectedCount;
             OnSelected( a_Interactor );
+            Selected.Invoke( a_Interactor );
         }
         else
         {
@@ -81,10 +85,7 @@ public class Interactable : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// For internal use only.
-    /// </summary>
-    public void DeregisterInteractor( Interactor a_Interactor, bool a_Active )
+    internal void DeregisterInteractor( Interactor a_Interactor, bool a_Active )
     {
         if ( a_Active )
         {
@@ -92,6 +93,7 @@ public class Interactable : MonoBehaviour
             m_InteractorsActive.Remove( a_Interactor );
             m_SelectedCount -= wasSelected ? 1 : 0;
             OnDeselected( a_Interactor );
+            Deselected.Invoke( a_Interactor );
         }
         else
         {
@@ -99,13 +101,16 @@ public class Interactable : MonoBehaviour
         }
     }
 
-    protected virtual void OnInteract( Interactor a_Interactor ) { }
+    protected virtual void OnInteract( InteractionCallback a_Interaction ) { }
     
     protected virtual void OnSelected( Interactor a_SelectedBy ) { }
 
     protected virtual void OnDeselected( Interactor a_DeselectedBy ) { }
 
-    private void Awake() => m_IsActive = m_IsActiveOnStart;
+    private void Awake()
+    {
+        m_IsActive = m_IsActiveOnStart;
+    }
 
     private void OnTriggerEnter( Collider a_Other )
     {

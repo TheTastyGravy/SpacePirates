@@ -16,9 +16,9 @@ public class MedbayStation : Interactable
 		damage = transform.parent.GetComponentInChildren<DamageStation>();
 	}
 
-	protected override void OnInteract(Interactor user)
+	protected override void OnInteract(InteractionCallback user)
 	{
-		Character playerHealth = user.GetComponent<Character>();
+		Character playerHealth = user.Interactor.GetComponent<Character>();
 
 		if (playerHealth.Health == playerHealth.HealthMax)
 		{

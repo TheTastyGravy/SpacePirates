@@ -17,7 +17,7 @@ public class ReviveStation : Interactable
 		m_InteractionCount = 0;
 	}
 
-	protected override void OnInteract( Interactor a_User )
+	protected override void OnInteract( InteractionCallback _ )
 	{
 		++m_InteractionCount;
 

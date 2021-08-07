@@ -20,9 +20,9 @@ public class Grabbable : Interactable
         Rigidbody.detectCollisions = true;
     }
 
-    protected override void OnInteract( Interactor a_Interactor )
+    protected override void OnInteract( InteractionCallback a_Interaction )
     {
-        if ( a_Interactor is GrabInteractor grabInteractor )
+        if ( a_Interaction.Interactor is GrabInteractor grabInteractor )
         {
             m_GrabInteractor = grabInteractor;
         }

@@ -41,7 +41,7 @@ public class DamageStation : Interactable
 		SoundManager.Instance.Play("StationDamage", false);
 	}
 
-	protected override void OnInteract(Interactor user)
+	protected override void OnInteract(InteractionCallback _)
 	{
 		currentRepairCount++;
 		if (currentRepairCount >= repairCount)

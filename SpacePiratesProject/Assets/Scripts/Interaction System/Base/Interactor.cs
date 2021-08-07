@@ -38,28 +38,19 @@ public class Interactor : MonoBehaviour
         }
     }
 
-    public bool Interact()
+    public void Interact()
     {
-        if ( !IsActive )
-        {
-            return false;
-        }
-
         Interactable selected = Selected;
-        OnInteract( selected );
 
-        if ( selected != null && selected.Interact( this ) )
+        if ( selected != null )
         {
-            return true;
+            selected.Interact( this );
         }
 
-        return false;
+        OnInteract( new InteractionCallback( this, selected ) );
     }
     
-    /// <summary>
-    /// For internal use only.
-    /// </summary>
-    public void RegisterInteractable( Interactable a_Interactable, bool a_Active )
+    internal void RegisterInteractable( Interactable a_Interactable, bool a_Active )
     {
         if ( a_Active )
         {
@@ -77,10 +68,7 @@ public class Interactor : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// For internal use only.
-    /// </summary>
-    public void DeregisterInteractable( Interactable a_Interactable, bool a_Active )
+    internal void DeregisterInteractable( Interactable a_Interactable, bool a_Active )
     {
         if ( a_Active )
         {
@@ -103,7 +91,7 @@ public class Interactor : MonoBehaviour
         }
     }
 
-    protected virtual void OnInteract( Interactable a_Interactable ) { }
+    protected virtual void OnInteract( InteractionCallback a_Interaction ) { }
 
     protected virtual void OnSelect( Interactable a_Interactable ) { }
 
@@ -115,4 +103,26 @@ public class Interactor : MonoBehaviour
     private bool m_IsActive;
     private List< Interactable > m_InteractablesActive = new List< Interactable >();
     private List< Interactable > m_InteractablesInactive = new List< Interactable >();
+}
+
+public struct InteractionCallback
+{
+    public Interactor Interactor => m_Interactor;
+    public Interactable Interactable => m_Interactable;
+    public bool Succeeded
+    {
+        get
+        {
+            return m_Interactor != null && m_Interactor.IsActive && m_Interactable != null && m_Interactable.IsActive;
+        }
+    }
+
+    public InteractionCallback( Interactor a_Interactor, Interactable a_Interactable )
+    {
+        m_Interactor = a_Interactor;
+        m_Interactable = a_Interactable;
+    }
+
+    private Interactor m_Interactor;
+    private Interactable m_Interactable;
 }
