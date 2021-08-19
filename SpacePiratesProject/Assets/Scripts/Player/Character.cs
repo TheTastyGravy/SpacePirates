@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [ RequireComponent( typeof( Rigidbody ) ) ]
 public class Character : ICharacter
@@ -13,26 +12,6 @@ public class Character : ICharacter
 
 	private Animator animator;
 
-    public static bool AreAllDead
-    {
-        get
-        {
-            foreach ( Player player in Player.all )
-            {
-                if ( player.Character != null ? ( player.Character as Character ).IsAlive : false )
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-    }
-    public float Health => m_Health;
-    public float HealthMax => m_HealthMax;
-    public float HealthOnRevive => m_HealthOnRevive;
-    public bool IsDead => m_Health <= 0;
-    public bool IsAlive => m_Health > 0;
     public bool IsKinematic
     {
         get
@@ -49,17 +28,11 @@ public class Character : ICharacter
     void Start()
     {
         m_Rigidbody = GetComponent< Rigidbody >();
-        m_Interactor = GetComponent< Interactor >();
-        m_ReviveStation = GetComponent< ReviveStation >();
 		animator = GetComponent<Animator>();
         IsKinematic = true;
         enabled = false;
     }
 
-    private void OnDestroy()
-    {
-        Player.RemoveInputListener( Player.Control.A_PRESSED, OnAPressed );
-    }
 
     void FixedUpdate()
     {
@@ -81,65 +54,6 @@ public class Character : ICharacter
 		}
     }
 
-    public void SetupInteractorInput()
-    {
-        Player.AddInputListener( Player.Control.A_PRESSED, OnAPressed );
-    }
-
-    public void ApplyHealthModifier( float a_HealthModifier )
-    {
-        if ( m_Health == 0 )
-        {
-            return;
-        }
-
-        m_Health += a_HealthModifier;
-
-        if ( m_Health <= 0 )
-        {
-            enabled = false;
-            //m_ReviveStation.SetIsUsable( true );
-			//m_Interactor.SetIsActive( false );
-            m_ReviveStation.IsActive = true;
-            m_Interactor.IsActive = false;
-
-            if ( AreAllDead )
-            {
-				GameManager.RegisterFinalGameState(false, 0, 0);
-                GameManager.CurrentState = GameManager.GameState.SUMMARY;
-            }
-		}
-
-        m_Health = Mathf.Clamp( m_Health, 0.0f, m_HealthMax );
-        HUDController.GetPlayerCard( Player.Slot ).HealthBar.Value = m_Health;
-    }
-
-    public void Revive()
-    {
-        m_Health = m_HealthOnRevive;
-        enabled = true;
-        //m_ReviveStation.SetIsUsable( false );
-		//m_Interactor.SetIsActive( true );
-        m_ReviveStation.IsActive = false;
-        m_Interactor.IsActive = true;
-	}
-
-    private void OnAPressed( InputAction.CallbackContext _ )
-    {
-        if ( IsDead )
-        {
-            return;
-        }
-
-        m_Interactor?.Interact();
-    }
 
     private Rigidbody m_Rigidbody;
-    private Interactor m_Interactor;
-    private ReviveStation m_ReviveStation;
-
-    [ Header( "Health" ) ]
-    [ SerializeField ] [ Range( 0.0f, 100.0f ) ] private float m_Health;
-    [ SerializeField ] [ Range( 0.0f, 100.0f ) ] private float m_HealthMax;
-    [ SerializeField ] [ Range( 0.0f, 100.0f ) ] private float m_HealthOnRevive;
 }

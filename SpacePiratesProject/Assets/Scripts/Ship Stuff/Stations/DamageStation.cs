@@ -18,8 +18,7 @@ public class DamageStation : Interactable
 	void Start()
 	{
 		// This should only be usable after taking damage
-		//SetIsUsable(false);
-		IsActive = false;
+		enabled = false;
 
 		effect = GetComponentInChildren<ParticleSystem>();
 	}
@@ -30,8 +29,7 @@ public class DamageStation : Interactable
 		if (damageLevel > maxDamageLevel)
 			damageLevel = maxDamageLevel;
 
-		//SetIsUsable(true);
-		IsActive = true;
+		enabled = true;
 
 		if (effect != null)
 		{
@@ -41,7 +39,7 @@ public class DamageStation : Interactable
 		SoundManager.Instance.Play("StationDamage", false);
 	}
 
-	protected override void OnInteract(InteractionCallback _)
+	protected override void OnInteractStart(Interactor interactor)
 	{
 		currentRepairCount++;
 		if (currentRepairCount >= repairCount)
@@ -51,8 +49,7 @@ public class DamageStation : Interactable
 
 			if (damageLevel <= 0)
 			{
-				//SetIsUsable(false);
-				IsActive = false;
+				enabled = false;
 			}
 
 			if (effect != null)
@@ -62,5 +59,11 @@ public class DamageStation : Interactable
 
 			SoundManager.Instance.Play("Repair", false);
 		}
+	}
+
+	protected override bool ShouldRegister(Interactor interactor, out Player.Control button)
+	{
+		button = Player.Control.A_PRESSED;
+		return true;
 	}
 }

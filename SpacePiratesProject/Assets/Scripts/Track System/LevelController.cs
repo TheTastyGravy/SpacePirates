@@ -76,11 +76,6 @@ public class LevelController : Singleton<LevelController>
 		ai.CreateAi(AIManager.AIDifficulty.Easy);
 		ai.CreateAi(AIManager.AIDifficulty.Medium);
 		ai.CreateAi(AIManager.AIDifficulty.Hard);
-
-        foreach ( Player player in Player.all )
-        {
-            ( player.Character as Character ).SetupInteractorInput();
-        }
 	}
 
     void Update()

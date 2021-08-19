@@ -1,128 +1,173 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Interactor : MonoBehaviour
 {
-    public Interactable Selected
-    {
-        get
-        {
-            return m_InteractablesActive.Count > 0 ? m_InteractablesActive[ m_InteractablesActive.Count - 1 ] : null;
-        }
-    }
-    public bool IsActive
-    {
-        get
-        {
-            return m_IsActive;
-        }
-        set
-        {
-            if ( m_IsActive != value )
-            {
-                m_IsActive = value;
+	public Transform grabAttach;
 
-                foreach ( Interactable interactable in m_InteractablesActive )
-                {
-                    interactable.DeregisterInteractor( this, !m_IsActive );
-                    interactable.RegisterInteractor( this, m_IsActive );
-                }
+	// All interactables in range (registered and unregistered)
+	// Destroied interactables will remove themself from this list after unregistering
+	internal List<Interactable> interactables = new List<Interactable>();
+	// Interactions for interactables that have been registered
+	private List<Interaction> registeredInteractions = new List<Interaction>();
 
-                foreach ( Interactable interactable in m_InteractablesInactive )
-                {
-                    interactable.DeregisterInteractor( this, !m_IsActive );
-                    interactable.RegisterInteractor( this, m_IsActive );
-                }
-            }
-        }
-    }
+	private Player player;
+	public Player Player => player;
 
-    public void Interact()
-    {
-        Interactable selected = Selected;
+	private Grabbable heldGrabbable = null;
+	public Grabbable HeldGrabbable => heldGrabbable;
 
-        if ( selected != null )
-        {
-            selected.Interact( this );
-        }
 
-        OnInteract( new InteractionCallback( this, selected ) );
-    }
-    
-    internal void RegisterInteractable( Interactable a_Interactable, bool a_Active )
-    {
-        if ( a_Active )
-        {
-            if ( m_InteractablesActive.Count > 0 )
-            {
-                OnDeselect( Selected );
-            }
 
-            m_InteractablesActive.Add( a_Interactable );
-            OnSelect( a_Interactable );
-        }
-        else
-        {
-            m_InteractablesInactive.Add( a_Interactable );
-        }
-    }
+	void Start()
+	{
+		player = GetComponentInParent<Player>();
+	}
 
-    internal void DeregisterInteractable( Interactable a_Interactable, bool a_Active )
-    {
-        if ( a_Active )
-        {
-            bool wasSelected = Selected == a_Interactable;
-            m_InteractablesActive.Remove( a_Interactable );
 
-            if ( wasSelected )
-            {
-                OnDeselect( a_Interactable );
+	/// <summary>
+	/// Register an interactable to be interacted with by a button
+	/// </summary>
+	public void RegisterInteractable(Interactable interactable, Player.Control button)
+	{
+		// Get input action for the button
+		InputAction inputAction = player.GetInputAction(button);
 
-                if ( m_InteractablesActive.Count > 0 )
-                {
-                    OnSelect( Selected );
-                }
-            }
-        }
-        else
-        {
-            m_InteractablesInactive.Remove( a_Interactable );
-        }
-    }
+		// Setup an interaction instance
+		Interaction interaction = new Interaction();
+		interaction.SetupInteraction(interactable, this, inputAction);
 
-    protected virtual void OnInteract( InteractionCallback a_Interaction ) { }
+		registeredInteractions.Add(interaction);
+	}
+	/// <summary>
+	/// Unregister an interactable to not be interacted with
+	/// </summary>
+	public void UnregisterInteractable(Interactable interactable)
+	{
+		// Find the interaction for the interactable and destroy it
+		foreach (var interaction in registeredInteractions)
+		{
+			if (interaction.interactable == interactable)
+			{
+				interaction.DestroyInteraction();
+				registeredInteractions.Remove(interaction);
+				return;
+			}
+		}
+	}
 
-    protected virtual void OnSelect( Interactable a_Interactable ) { }
+	/// <summary>
+	/// Re-register all interactables
+	/// </summary>
+	public void UpdateRegistry()
+	{
+		// Destroy all interactions
+		for (int i = 0; i < registeredInteractions.Count; i++)
+		{
+			registeredInteractions[i].DestroyInteraction();
+		}
+		registeredInteractions.Clear();
 
-    protected virtual void OnDeselect( Interactable a_Interactable ) { }
+		// Notify all interactables to re-register
+		foreach (var interactable in interactables)
+		{
+			interactable.Notify_Removed(this);
+			interactable.Notify_Register(this);
+		}
+	}
 
-    private void Awake() => m_IsActive = m_IsActiveOnStart;
 
-    [ SerializeField ] private bool m_IsActiveOnStart;
-    private bool m_IsActive;
-    private List< Interactable > m_InteractablesActive = new List< Interactable >();
-    private List< Interactable > m_InteractablesInactive = new List< Interactable >();
+	/// <summary>
+	/// Pickup a grabbable item
+	/// </summary>
+	public void Pickup(Grabbable grabbable)
+	{
+		if (heldGrabbable != null)
+			return;
+		
+
+		grabbable.attach.SetParent(grabAttach);
+		grabbable.attach.SetPositionAndRotation(grabAttach.position, grabAttach.rotation);
+
+		heldGrabbable = grabbable;
+		UpdateRegistry();
+
+		grabbable.Pickup(this);
+	}
+	/// <summary>
+	/// Drop the currently held item
+	/// </summary>
+	public void Drop()
+	{
+		if (heldGrabbable == null)
+			return;
+
+
+		heldGrabbable.attach.SetParent(null);
+		heldGrabbable.Drop(this);
+
+		heldGrabbable = null;
+		UpdateRegistry();
+	}
+
+
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.TryGetComponent(out Interactable interactable))
+		{
+			if (interactables.Contains(interactable))
+				return;
+
+			interactables.Add(interactable);
+			// Notify interactable that it can register
+			interactable.Notify_Register(this);
+		}
+	}
+	void OnTriggerExit(Collider other)
+	{
+		if (other.TryGetComponent(out Interactable interactable))
+		{
+			UnregisterInteractable(interactable);
+			interactables.Remove(interactable);
+			// Notify interactable that it has been removed
+			interactable.Notify_Removed(this);
+		}
+	}
 }
 
-public struct InteractionCallback
+internal class Interaction
 {
-    public Interactor Interactor => m_Interactor;
-    public Interactable Interactable => m_Interactable;
-    public bool Succeeded
-    {
-        get
-        {
-            return m_Interactor != null && m_Interactor.IsActive && m_Interactable != null && m_Interactable.IsActive;
-        }
-    }
+	// The interactable that this belongs to
+	public Interactable interactable;
 
-    public InteractionCallback( Interactor a_Interactor, Interactable a_Interactable )
-    {
-        m_Interactor = a_Interactor;
-        m_Interactable = a_Interactable;
-    }
+	private Interactor interactor;
+	private InputAction inputAction;
 
-    private Interactor m_Interactor;
-    private Interactable m_Interactable;
+
+	public void SetupInteraction(Interactable interactable, Interactor interactor, InputAction inputAction)
+	{
+		this.interactable = interactable;
+		this.interactor = interactor;
+		this.inputAction = inputAction;
+
+		inputAction.started += OnInteractStarted;
+		inputAction.canceled += OnInteractCanceled;
+	}
+	public void DestroyInteraction()
+	{
+		inputAction.started -= OnInteractStarted;
+		inputAction.canceled -= OnInteractCanceled;
+	}
+
+	private void OnInteractStarted(InputAction.CallbackContext context)
+	{
+		interactable.Interaction_Start(interactor);
+	}
+	private void OnInteractCanceled(InputAction.CallbackContext context)
+	{
+		interactable.Interaction_Stop(interactor);
+	}
 }

@@ -1,145 +1,97 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class Interactable : MonoBehaviour
+public abstract class Interactable : MonoBehaviour
 {
-    public UnityEvent< Interactor > Selected;
-    public UnityEvent< Interactor > Deselected;
-    public UnityEvent< InteractionCallback > Interacted;
+	// All interactors we are in range of (registered and unregistered)
+	private List<Interactor> interactors = new List<Interactor>();
+	// Only interactors we have registered with
+	private List<Interactor> registeredInteractors = new List<Interactor>();
 
-    public Interactor LastInteractedBy => m_LastInteractedBy;
-    public List< Interactor > SelectedBy
-    {
-        get
-        {
-            List< Interactor > selectedBy = new List< Interactor >();
 
-            foreach ( Interactor interactor in m_InteractorsActive )
-            {
-                if ( ReferenceEquals( interactor.Selected, this ) )
-                {
-                    selectedBy.Add( interactor );
-                }
-            }
 
-            return selectedBy;
-        }
-    }
-    public bool IsSelected => m_SelectedCount > 0;
-    public bool IsActive
-    {
-        get
-        {
-            return m_IsActive;
-        }
-        set
-        {
-            if ( m_IsActive != value )
-            {
-                m_IsActive = value;
+	// Called when we have the option of registering with an interactor
+	internal void Notify_Register(Interactor interactor)
+	{
+		if (!interactors.Contains(interactor))
+			interactors.Add(interactor);
+		
+		// Derived logic determines if we should register and what button to use
+		if (enabled && ShouldRegister(interactor, out Player.Control button))
+		{
+			interactor.RegisterInteractable(this, button);
 
-                foreach ( Interactor interactor in m_InteractorsActive )
-                {
-                    interactor.DeregisterInteractable( this, !m_IsActive );
-                    interactor.RegisterInteractable( this, m_IsActive );
-                }
+			if (registeredInteractors.Count == 0)
+			{
+				OnSelectStart();
+			}
+			if (!registeredInteractors.Contains(interactor))
+				registeredInteractors.Add(interactor);
+		}
+	}
+	// Called when we have been removed from an interactor (not just unregistered)
+	internal void Notify_Removed(Interactor interactor)
+	{
+		interactors.Remove(interactor);
+		registeredInteractors.Remove(interactor);
 
-                foreach ( Interactor interactor in m_InteractorsInactive )
-                {
-                    interactor.DeregisterInteractable( this, !m_IsActive );
-                    interactor.RegisterInteractable( this, m_IsActive );
-                }
-            }
-        }
-    }
+		if (registeredInteractors.Count == 0)
+		{
+			OnSelectStop();
+		}
+	}
 
-    public bool Interact( Interactor a_Interactor )
-    {
-        if ( !IsActive || a_Interactor == null )
-        {
-            return false;
-        }
+    internal void Interaction_Start(Interactor interactor)
+	{
+		OnInteractStart(interactor);
+	}
+	internal void Interaction_Stop(Interactor interactor)
+	{
+		OnInteractStop(interactor);
+	}
 
-        m_LastInteractedBy = a_Interactor;
-        OnInteract( new InteractionCallback( a_Interactor, this ) );
-        Interacted.Invoke( new InteractionCallback( a_Interactor, this ) );
-        return true;
-    }
-    
-    internal void RegisterInteractor( Interactor a_Interactor, bool a_Active )
-    {
-        if ( a_Active )
-        {
-            m_InteractorsActive.Add( a_Interactor );
-            ++m_SelectedCount;
-            OnSelected( a_Interactor );
-            Selected.Invoke( a_Interactor );
-        }
-        else
-        {
-            m_InteractorsInactive.Add( a_Interactor );
-        }
-    }
 
-    internal void DeregisterInteractor( Interactor a_Interactor, bool a_Active )
-    {
-        if ( a_Active )
-        {
-            bool wasSelected = a_Interactor.Selected == this;
-            m_InteractorsActive.Remove( a_Interactor );
-            m_SelectedCount -= wasSelected ? 1 : 0;
-            OnDeselected( a_Interactor );
-            Deselected.Invoke( a_Interactor );
-        }
-        else
-        {
-            m_InteractorsInactive.Remove( a_Interactor );
-        }
-    }
+	/// <summary>
+	/// Should we register with the interactor?
+	/// </summary>
+	/// <param name="interactor">The interactor to register with</param>
+	/// <param name="button">The button that the interactor will use to interact</param>
+	protected abstract bool ShouldRegister(Interactor interactor, out Player.Control button);
+	protected virtual void OnInteractStart(Interactor interactor) { }
+	protected virtual void OnInteractStop(Interactor interactor) { }
+	protected virtual void OnSelectStart() { }
+	protected virtual void OnSelectStop() { }
 
-    protected virtual void OnInteract( InteractionCallback a_Interaction ) { }
-    
-    protected virtual void OnSelected( Interactor a_SelectedBy ) { }
 
-    protected virtual void OnDeselected( Interactor a_DeselectedBy ) { }
+	void OnEnable()
+	{
+		// Attempt to register with all interactors
+		foreach (var interactor in interactors)
+		{
+			Notify_Register(interactor);
+		}
+	}
 
-    private void Awake()
-    {
-        m_IsActive = m_IsActiveOnStart;
-    }
+	void OnDisable()
+	{
+		// Unregister from all interactors
+		foreach (var interactor in registeredInteractors)
+		{
+			interactor.UnregisterInteractable(this);
+		}
+		registeredInteractors.Clear();
 
-    private void OnTriggerEnter( Collider a_Other )
-    {
-        if ( a_Other.TryGetComponent( out Interactor interactor ) )
-        {
-            interactor.RegisterInteractable( this, m_IsActive );
-            RegisterInteractor( interactor, interactor.IsActive );
-        }
-    }
+		OnSelectStop();
+	}
 
-    private void OnTriggerExit( Collider a_Other )
-    {
-        if ( a_Other.TryGetComponent( out Interactor interactor ) )
-        {
-            DeregisterInteractor( interactor, interactor.IsActive );
-            interactor.DeregisterInteractable( this, m_IsActive );
-        }
-    }
-
-    private void OnDestroy()
-    {
-        m_InteractorsActive.ForEach( interactor => interactor.DeregisterInteractable( this, m_IsActive ) );
-        m_InteractorsInactive.ForEach( interactor => interactor.DeregisterInteractable( this, m_IsActive ) );
-    }
-
-    [ SerializeField ] private bool m_IsActiveOnStart;
-    private List< Interactor > m_InteractorsActive = new List< Interactor >();
-    private List< Interactor > m_InteractorsInactive = new List< Interactor >();
-    private Interactor m_LastInteractedBy;
-    private bool m_IsActive;
-    private int m_SelectedCount;
+	void OnDestroy()
+	{
+		// Unregister and remove this from all interactors
+		foreach (var interactor in interactors)
+		{
+			interactor.UnregisterInteractable(this);
+			interactor.interactables.Remove(this);
+		}
+	}
 }

@@ -1,9 +1,9 @@
 {
-    "name": "Interaction",
+    "name": "Player",
     "rootNamespace": "",
     "references": [
-        "Unity.InputSystem",
-        "Player"
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:a756e91352ba685439372dea8e1b4105"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

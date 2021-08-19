@@ -33,8 +33,8 @@ public class EngineStation : Interactable
 		SoundManager.Instance.Play("Engine", true);
 	}
 
-	protected override void OnInteract(InteractionCallback _)
-    {
+	protected override void OnInteractStart(Interactor interactor)
+	{
         // Increase power level, looping
         powerLevel++;
 
@@ -70,5 +70,11 @@ public class EngineStation : Interactable
 		// Set text and color
 		powerLabel.text = (powerLevel + 1).ToString();
 		powerLabel.color = color;
+	}
+
+	protected override bool ShouldRegister(Interactor interactor, out Player.Control button)
+	{
+		button = Player.Control.A_PRESSED;
+		return true;
 	}
 }

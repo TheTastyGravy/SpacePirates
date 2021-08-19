@@ -112,10 +112,7 @@ public class RoomManager : MonoBehaviour
         // If level is low enough, damage players in this room
         if (oxygenLevel < oxygenDamageLevel)
 		{
-            foreach (var player in players)
-			{
-                player.ApplyHealthModifier(-playerDamagePerSecond * Time.deltaTime);
-			}
+            
         }
     }
 

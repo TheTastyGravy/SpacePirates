@@ -1134,11 +1134,9 @@ GameObject:
   - component: {fileID: 6327325929235713761}
   - component: {fileID: 6666732367417627737}
   - component: {fileID: 6666732367417627738}
-  - component: {fileID: 6666732367417627743}
   - component: {fileID: 6666732367417627736}
   - component: {fileID: 6666732367417627740}
-  - component: {fileID: 6666732367417627742}
-  - component: {fileID: 2728967066245303500}
+  - component: {fileID: 2426432919226054633}
   m_Layer: 0
   m_Name: RoboFish
   m_TagString: Player
@@ -1195,19 +1193,6 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
---- !u!135 &6666732367417627743
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6666732367417627739}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!54 &6666732367417627736
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1240,10 +1225,7 @@ MonoBehaviour:
   m_Renderer: {fileID: 2483823542368781240}
   MoveSpeed: 7.5
   TurnSpeed: 10
-  m_Health: 100
-  m_HealthMax: 100
-  m_HealthOnRevive: 25
---- !u!114 &6666732367417627742
+--- !u!114 &2426432919226054633
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1252,26 +1234,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6666732367417627739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbf2aba68525cd94f922e0be709b7b80, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b536a0c5710fd341a01f40cdb7e8969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IsActiveOnStart: 0
-  NumberOfInteractions: 3
---- !u!114 &2728967066245303500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6666732367417627739}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a82bae481166412429e4fa198709fa27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IsActiveOnStart: 1
-  Attach: {fileID: 777432540409091836}
-  DropOnInteract: 1
+  grabAttach: {fileID: 5278279078487571703}
+  heldGrabbable: {fileID: 0}
 --- !u!1 &6913195361811537205
 GameObject:
   m_ObjectHideFlags: 0
