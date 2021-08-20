@@ -4,21 +4,11 @@ using UnityEngine;
 
 public class HullHoleStation : Interactable
 {
-    public delegate void BasicDelegate();
-    public BasicDelegate destroied;
-
-    public float minAngle, maxAngle;
-    public float randomAngleVarience = 10;
-    public float startDist = 0.5f;
-    public float velocity = 5;
-
     [System.Serializable]
     public struct DamageLevel
 	{
         public float oxygenLossRate;
         public int repairCount;
-
-        public int minShrapnel, maxShrapnel;
 	}
     [Space]
     public DamageLevel[] damageLevels;
@@ -29,6 +19,11 @@ public class HullHoleStation : Interactable
 
     private int size = 0;
     private int currentRepairCount = 0;
+
+    [HideInInspector]
+    public RoomManager room;
+    [HideInInspector]
+    public int holeIndex;
 
 
 
@@ -58,13 +53,14 @@ public class HullHoleStation : Interactable
         oxygenLossRate = damageLevels[size].oxygenLossRate;
         repairCount = damageLevels[0].repairCount;
         currentRepairCount = 0;
+        room.RecalculateOxygenDrain();
     }
     private void DecreaseHoleSize()
 	{
         size--;
         if (size < 0)
 		{
-            destroied();
+            room.OnHoleDestroied(holeIndex);
             Destroy(gameObject);
         }
 		else
@@ -72,6 +68,7 @@ public class HullHoleStation : Interactable
             oxygenLossRate = damageLevels[size].oxygenLossRate;
             repairCount = damageLevels[0].repairCount;
             currentRepairCount = 0;
+            room.RecalculateOxygenDrain();
         }
 	}
 

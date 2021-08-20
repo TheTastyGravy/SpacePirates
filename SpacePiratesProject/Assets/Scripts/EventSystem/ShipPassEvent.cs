@@ -14,10 +14,10 @@ public class ShipPassEvent : Event
 	private float t = 0;
 
 	private Vector3 startPos, endPos;
-	private float lastZPos;
+	//private float lastZPos;
 
 	private int targetRegion;
-	private RoomManager targetRoom;
+	//private RoomManager targetRoom;
 
 
 
@@ -41,13 +41,13 @@ public class ShipPassEvent : Event
 		shipInstance.transform.position = Vector3.Lerp(startPos, endPos, t / time);
 
 		//if the last x was on the other side of the room last update, we have just passed the player
-		if ((lastZPos < targetRoom.transform.position.z) !=
-			(shipInstance.transform.position.z < targetRoom.transform.position.z))
-		{
-			targetRoom.DamageRoom();
-			SoundManager.Instance.Play("ShipPassing", false);
-		}
-		lastZPos = shipInstance.transform.position.z;
+		//if ((lastZPos < targetRoom.transform.position.z) !=
+		//	(shipInstance.transform.position.z < targetRoom.transform.position.z))
+		//{
+		//	targetRoom.DamageRoom();
+		//	SoundManager.Instance.Play("ShipPassing", false);
+		//}
+		//lastZPos = shipInstance.transform.position.z;
 		
 		if (t >= time)
 		{
@@ -65,7 +65,7 @@ public class ShipPassEvent : Event
 			validTarget = !EventManager.Instance.regions[targetRegion];
 		}
 		//get random room from region to attack
-		targetRoom = HullManager.Instance.GetRandomRoom(targetRegion);
+		//targetRoom = HullManager.Instance.GetRandomRoom(targetRegion);
 		//ocupy region
 		EventManager.Instance.regions[targetRegion] = true;
 
@@ -84,7 +84,7 @@ public class ShipPassEvent : Event
 		}
 
 		shipInstance = Object.Instantiate(shipPrefab, startPos, Quaternion.identity);
-		lastZPos = startPos.z;
+		//lastZPos = startPos.z;
 	}
 
 	protected override void OnStop()

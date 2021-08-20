@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Other scripts still use the function, so this script will remain for now
 public class HullManager : Singleton<HullManager>
 {
 	public RoomManager[] leftRooms;
@@ -28,15 +29,4 @@ public class HullManager : Singleton<HullManager>
 			return rightRooms[index];
 		}
 	}
-
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 }

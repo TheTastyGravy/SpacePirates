@@ -75,12 +75,12 @@ public class AstroidEvent : Event
 
 	protected override void OnStop()
 	{
+		// Apply damage
+		ShipManager.Instance.DamageShipAtPosition(astroidInstance.transform.position);
+
 		Object.Destroy(astroidInstance);
 		//free region
 		EventManager.Instance.regions[targetRegion] = false;
-
-		//apply damage
-		targetRoom.DamageRoom();
 
 		SoundManager.Instance.Play("Impact", false);
 	}
