@@ -13,17 +13,14 @@ public class HullHoleStation : Interactable
     [Space]
     public DamageLevel[] damageLevels;
 
-    [HideInInspector]
-    public float oxygenLossRate;
+    internal float oxygenLossRate;
     private int repairCount;
 
     private int size = 0;
     private int currentRepairCount = 0;
 
-    [HideInInspector]
-    public RoomManager room;
-    [HideInInspector]
-    public int holeIndex;
+    internal RoomManager room;
+    internal int holeIndex;
 
 
 
@@ -44,7 +41,7 @@ public class HullHoleStation : Interactable
 		}
 	}
 
-    public void IncreaseHoleSize()
+    internal void IncreaseHoleSize()
 	{
         size++;
         if (size >= damageLevels.Length)

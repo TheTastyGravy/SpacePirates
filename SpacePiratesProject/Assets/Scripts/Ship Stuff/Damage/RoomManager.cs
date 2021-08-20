@@ -92,13 +92,13 @@ public class RoomManager : MonoBehaviour
 		RecalculateOxygenDrain();
 	}
     // Called when a hole has been reparied
-    public void OnHoleDestroied(int index)
+    internal void OnHoleDestroied(int index)
 	{
         holes[index] = null;
 		RecalculateOxygenDrain();
 	}
 
-	public void RecalculateOxygenDrain()
+	internal void RecalculateOxygenDrain()
 	{
 		localOxygenDrain = 0;
 

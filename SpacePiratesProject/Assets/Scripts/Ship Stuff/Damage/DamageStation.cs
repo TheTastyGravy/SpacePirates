@@ -13,6 +13,9 @@ public class DamageStation : Interactable
 	private int currentRepairCount = 0;
 	private ParticleSystem effect;
 
+	public BasicDelegate OnDamageTaken;
+	public BasicDelegate OnDamageRepaired;
+
 
 
 	void Start()
@@ -25,11 +28,12 @@ public class DamageStation : Interactable
 
 	public void Damage()
 	{
-		damageLevel++;
-		if (damageLevel > maxDamageLevel)
-			damageLevel = maxDamageLevel;
+		if (damageLevel >= maxDamageLevel)
+			return;
 
+		damageLevel++;
 		enabled = true;
+		OnDamageTaken.Invoke();
 
 		if (effect != null)
 		{
@@ -46,6 +50,7 @@ public class DamageStation : Interactable
 		{
 			currentRepairCount = 0;
 			damageLevel--;
+			OnDamageRepaired.Invoke();
 
 			if (damageLevel <= 0)
 			{

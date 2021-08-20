@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Reactor
   - HolePosition
+  - Fuel
   layers:
   - Default
   - TransparentFX

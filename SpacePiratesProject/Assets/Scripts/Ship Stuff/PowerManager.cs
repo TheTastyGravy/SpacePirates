@@ -39,10 +39,10 @@ public class PowerManager : Singleton<PowerManager>
 
 			// Get total energy usage
 			int powerUsage = tempEnergyUsage;
-			foreach (var obj in engines)
-			{
-				powerUsage += obj.PowerLevel;
-			}
+			//foreach (var obj in engines)
+			//{
+			//	powerUsage += obj.PowerLevel;
+			//}
 
 			// If energy usage is over the max, roll a chance to take damage
 			if (powerUsage > maxPower)

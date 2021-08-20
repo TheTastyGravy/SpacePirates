@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class ShipManager : Singleton<ShipManager>
 {
+    [Header("Oxygen")]
     public float maxOxygenLevel = 100;
     public float passiveOxygenLoss = 1;
 
-    private float oxygenLevel;
-
+    
     //reactors
     private EngineStation[] engines;
     private RoomManager[] rooms;
+
+    private float oxygenLevel;
 
 
 
@@ -38,6 +40,18 @@ public class ShipManager : Singleton<ShipManager>
         }
         holeData.room.DamageRoom(holeData);
     }
+
+    public float GetShipSpeed()
+	{
+        // Accumulate speed from engines
+        float speed = 0;
+        foreach (var engine in engines)
+		{
+            speed += engine.CurrentSpeed;
+		}
+
+        return speed;
+	}
 
 
     void Update()

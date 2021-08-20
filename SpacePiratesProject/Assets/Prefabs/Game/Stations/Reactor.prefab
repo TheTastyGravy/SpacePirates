@@ -25,7 +25,6 @@ GameObject:
   - component: {fileID: 4971588652983193434}
   - component: {fileID: 4971588652983193436}
   - component: {fileID: 4971588652983193437}
-  - component: {fileID: 5124923122201143275}
   m_Layer: 0
   m_Name: Reactor
   m_TagString: Reactor
@@ -74,31 +73,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4dbd84b849d95b409737c65deafc047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prompt: {fileID: 4971588653421845737}
-  _collider: {fileID: 4971588652983193436}
-  interactors: []
   maxDamageLevel: 5
   repairCount: 2
---- !u!114 &5124923122201143275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4971588652983193435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9700aa738320da4abaefbdb2b5b67da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colors:
-  - {r: 0, g: 1, b: 0, a: 1}
-  - {r: 0.60726786, g: 1, b: 0, a: 1}
-  - {r: 1, g: 1, b: 0, a: 1}
-  - {r: 1, g: 0.59, b: 0, a: 1}
-  - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 1, g: 0, b: 0, a: 1}
-  render: {fileID: 7558440376550421463}
 --- !u!1 &4971588653421845737
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,11 +240,6 @@ PrefabInstance:
 --- !u!4 &6402475714011495409 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 23423d51aa65ecd42bfabeac1d581632, type: 3}
-  m_PrefabInstance: {fileID: 6868148586149125146}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &7558440376550421463 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -5209422621874786355, guid: 23423d51aa65ecd42bfabeac1d581632, type: 3}
   m_PrefabInstance: {fileID: 6868148586149125146}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2841435059417389933 stripped
