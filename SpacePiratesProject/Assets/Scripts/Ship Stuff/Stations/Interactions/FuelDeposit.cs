@@ -10,7 +10,7 @@ public class FuelDeposit : Interactable
     private Interactor currentInteractor = null;
     private float timePassed = 0;
 
-    public BasicDelegate OnFuelDeposited;
+    internal BasicDelegate OnFuelDeposited;
 
 
 
@@ -39,7 +39,7 @@ public class FuelDeposit : Interactable
         currentInteractor.UpdateRegistry();
         currentInteractor = null;
 
-        OnFuelDeposited.Invoke();
+        OnFuelDeposited?.Invoke();
     }
 
 

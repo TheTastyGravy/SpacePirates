@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class EngineSwitch : Interactable
 {
-
-    [HideInInspector]
-    public EngineStation engine;
+    internal EngineStation engine;
 
     // Invoked when we have been turned on or off
-    public BasicDelegate OnActivated;
+    internal BasicDelegate OnActivated;
 
 
 
@@ -18,12 +16,12 @@ public class EngineSwitch : Interactable
         if (engine.IsTurnedOn)
 		{
             // Turn the engine off
-            OnActivated.Invoke();
+            OnActivated?.Invoke();
 		}
 		else
 		{
             //start minigame to turn on
-            OnActivated.Invoke();
+            OnActivated?.Invoke();
         }
 	}
 

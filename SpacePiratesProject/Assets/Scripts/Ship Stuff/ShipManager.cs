@@ -8,8 +8,8 @@ public class ShipManager : Singleton<ShipManager>
     public float maxOxygenLevel = 100;
     public float passiveOxygenLoss = 1;
 
-    
-    //reactors
+
+    private ReactorStation[] reactors;
     private EngineStation[] engines;
     private RoomManager[] rooms;
 
@@ -19,6 +19,7 @@ public class ShipManager : Singleton<ShipManager>
 
     void Start()
     {
+        reactors = GetComponentsInChildren<ReactorStation>();
         engines = GetComponentsInChildren<EngineStation>();
         rooms = GetComponentsInChildren<RoomManager>();
 
@@ -70,9 +71,12 @@ public class ShipManager : Singleton<ShipManager>
         // Decrease level by loss rate
         oxygenLevel -= oxygenLossRate * Time.deltaTime;
 
-        //get regen rate from reactors
+        // Find the regen rate and apply it
         float oxygenRegenRate = 0;
-
+        foreach (var reactor in reactors)
+		{
+            oxygenRegenRate += reactor.CurrentOxygenRegen;
+		}
         oxygenLevel += oxygenRegenRate * Time.deltaTime;
         if (oxygenLevel > maxOxygenLevel)
             oxygenLevel = maxOxygenLevel;

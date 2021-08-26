@@ -28,6 +28,17 @@ public class GameManager : Singleton< GameManager >
 
             if ( Instance.m_CurrentState != GameState.NONE )
             {
+                // When moving from the game scene, move players to DontDestroyOnLoad so inputs can still be used
+                if (Instance.m_CurrentState == GameState.GAME)
+				{
+                    foreach (var player in PlayerInput.all)
+					{
+                        (player as Player).Character.gameObject.SetActive(false);
+                        player.transform.parent = null;
+                        DontDestroyOnLoad(player.gameObject);
+                    }
+				}
+
                 SceneManager.UnloadSceneAsync( Instance.m_CurrentState.ToString() ).completed += asyncOperation => 
                 { 
                     SceneManager.LoadSceneAsync( value.ToString(), LoadSceneMode.Additive ).completed += asyncOperation =>

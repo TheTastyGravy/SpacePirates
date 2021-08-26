@@ -33,7 +33,7 @@ public class DamageStation : Interactable
 
 		damageLevel++;
 		enabled = true;
-		OnDamageTaken.Invoke();
+		OnDamageTaken?.Invoke();
 
 		if (effect != null)
 		{
@@ -50,7 +50,7 @@ public class DamageStation : Interactable
 		{
 			currentRepairCount = 0;
 			damageLevel--;
-			OnDamageRepaired.Invoke();
+			OnDamageRepaired?.Invoke();
 
 			if (damageLevel <= 0)
 			{

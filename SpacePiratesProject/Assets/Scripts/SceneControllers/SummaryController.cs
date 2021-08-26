@@ -12,7 +12,7 @@ public class SummaryController : Singleton<SummaryController>
 
 	public Button menuButton;
 	public Button trackSelectButton;
-	public Button playAgianButton;
+	public Button playAgainButton;
 
 
 
@@ -30,7 +30,7 @@ public class SummaryController : Singleton<SummaryController>
 		EventSystem.current.SetSelectedGameObject(menuButton.gameObject);
 		menuButton.onClick.AddListener(OnMenuButton);
 		trackSelectButton.onClick.AddListener(OnTrackSelectButton);
-		playAgianButton.onClick.AddListener(OnPlayAgainButton);
+		playAgainButton.onClick.AddListener(OnPlayAgainButton);
 	}
 
     private void OnMenuButton()

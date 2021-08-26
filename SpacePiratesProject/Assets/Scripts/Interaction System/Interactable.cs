@@ -51,6 +51,27 @@ public abstract class Interactable : MonoBehaviour
 		OnInteractStop(interactor);
 	}
 
+	/// <summary>
+	/// Unregister and attempt to reregister with all interactors
+	/// </summary>
+	protected void ReregisterInteractions()
+	{
+		// Unregister from all interactors
+		foreach (var interactor in registeredInteractors)
+		{
+			interactor.UnregisterInteractable(this);
+		}
+		registeredInteractors.Clear();
+
+		OnSelectStop();
+
+		// Attempt to register with all interactors
+		foreach (var interactor in interactors)
+		{
+			Notify_Register(interactor);
+		}
+	}
+
 
 	/// <summary>
 	/// Should we register with the interactor?
