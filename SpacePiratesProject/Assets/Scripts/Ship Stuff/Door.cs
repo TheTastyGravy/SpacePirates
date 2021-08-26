@@ -33,7 +33,7 @@ public class Door : MonoBehaviour
 
 	private void OnTriggerEnter(Collider a_Other)
 	{
-		if (a_Other.gameObject.TryGetComponent(out Character _))
+		if (a_Other.gameObject.CompareTag("Player"))
 		{
 			++PlayersNearby;
 		}
@@ -41,7 +41,7 @@ public class Door : MonoBehaviour
 
 	private void OnTriggerExit(Collider a_Other)
 	{
-		if (a_Other.gameObject.TryGetComponent(out Character _))
+		if (a_Other.gameObject.CompareTag("Player"))
 		{
 			--PlayersNearby;
 		}

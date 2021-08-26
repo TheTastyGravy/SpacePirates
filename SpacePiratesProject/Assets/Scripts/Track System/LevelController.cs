@@ -10,9 +10,6 @@ public class LevelController : Singleton<LevelController>
     public Track track;
     public Ship ship;
 
-	[Space]
-	//temp for event
-	public GameObject shipPrefab;
 
 	private Ship.Position playerShip;
     private AIManager ai;
@@ -54,9 +51,6 @@ public class LevelController : Singleton<LevelController>
             newAiShips.Add(GetNewShipPos(ai.ships[i], ai.engineEfficiencies[i]));
         }
 
-        // Check if the player has any passes
-        CheckForPasses(newPlayerShip, newAiShips);
-
 		// Play alert if the player in on a new segment
 		if (newPlayerShip.TrackSegment != playerShip.TrackSegment)
 		{
@@ -95,41 +89,5 @@ public class LevelController : Singleton<LevelController>
         }
 
         return shipPos;
-	}
-
-    private void CheckForPasses(in Ship.Position newPlayerShip, in List<Ship.Position> newAiShips)
-	{
-        for (int i = 0; i < ai.aiCount; i++)
-		{
-            //determine last state
-            bool wasBehind = true;
-            if (playerShip.TrackSegment < ai.ships[i].TrackSegment)
-			{
-                wasBehind = false;
-			}
-            else if (playerShip.TrackSegment == ai.ships[i].TrackSegment)
-			{
-                wasBehind = playerShip.SegmentPosition > ai.ships[i].SegmentPosition;
-			}
-            //determine current state
-            bool isBehind = true;
-            if (newPlayerShip.TrackSegment < newAiShips[i].TrackSegment)
-			{
-                isBehind = false;
-			}
-            else if (newPlayerShip.TrackSegment == newAiShips[i].TrackSegment)
-			{
-                isBehind = newPlayerShip.SegmentPosition > newAiShips[i].SegmentPosition;
-			}
-
-
-            if (isBehind != wasBehind)
-			{
-				ShipPassEvent _event = new ShipPassEvent();
-				_event.shipPrefab = shipPrefab;
-				_event.isPassing = !isBehind;
-				EventManager.Instance.AddEventToQueue(_event, 100);
-			}
-		}
 	}
 }

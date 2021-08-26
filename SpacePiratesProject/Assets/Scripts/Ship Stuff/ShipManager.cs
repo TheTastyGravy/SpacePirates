@@ -7,6 +7,9 @@ public class ShipManager : Singleton<ShipManager>
     [Header("Oxygen")]
     public float maxOxygenLevel = 100;
     public float passiveOxygenLoss = 1;
+    [Header("Avoidance")]
+    [Range(0,1)]
+    public float maxAvoidance = 0.25f;
 
 
     private ReactorStation[] reactors;
@@ -52,6 +55,18 @@ public class ShipManager : Singleton<ShipManager>
 		}
 
         return speed;
+	}
+
+    public float GetShipAvoidance()
+	{
+        int active = 0;
+        foreach (var obj in engines)
+		{
+            if (obj.IsTurnedOn)
+                active++;
+		}
+
+        return maxAvoidance * (active / engines.Length);
 	}
 
 

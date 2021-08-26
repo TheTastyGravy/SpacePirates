@@ -1,0 +1,17 @@
+{
+    "name": "AstroidSystem",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a756e91352ba685439372dea8e1b4105",
+        "GUID:14c716eedcffe964d98efa0cadb97a48"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
