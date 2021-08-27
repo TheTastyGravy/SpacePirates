@@ -4758,7 +4758,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -4915,27 +4915,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5d5b7266ec393441acbbb23504ea376, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IsActiveOnStart: 1
-  shrapnelPrefab: {fileID: 6366491747031843224, guid: 1dba4b221130c704f843bb31de78201b, type: 3}
-  minAngle: 0
-  maxAngle: 180
-  randomAngleVarience: 10
-  startDist: 0.5
-  velocity: 5
   damageLevels:
   - oxygenLossRate: 5
     repairCount: 1
-    minShrapnel: 1
-    maxShrapnel: 2
   - oxygenLossRate: 10
     repairCount: 1
-    minShrapnel: 2
-    maxShrapnel: 3
   - oxygenLossRate: 15
     repairCount: 1
-    minShrapnel: 3
-    maxShrapnel: 5
-  oxygenLossRate: 0
 --- !u!1 &7164245676777462958
 GameObject:
   m_ObjectHideFlags: 0
