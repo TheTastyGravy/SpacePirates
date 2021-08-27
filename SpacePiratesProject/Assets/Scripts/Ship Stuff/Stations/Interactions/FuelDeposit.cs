@@ -10,7 +10,7 @@ public class FuelDeposit : Interactable
     private Interactor currentInteractor = null;
     private float timePassed = 0;
 
-    internal BasicDelegate OnFuelDeposited;
+    public BasicDelegate OnFuelDeposited;
 
 
 

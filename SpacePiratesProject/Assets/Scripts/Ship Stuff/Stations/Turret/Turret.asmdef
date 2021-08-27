@@ -1,0 +1,22 @@
+{
+    "name": "Turret",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a756e91352ba685439372dea8e1b4105",
+        "GUID:4073451d57b799b4dbdcefda400b23e6",
+        "GUID:eca309c1a9993264fb23e6bd51f6e2a9",
+        "GUID:d66015bb2dfdd8c47877ccac2a8c8f74",
+        "GUID:3805532deffd6874bbf00083691ef843",
+        "GUID:5aa245b597980024b83c5cf97ee39720",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
