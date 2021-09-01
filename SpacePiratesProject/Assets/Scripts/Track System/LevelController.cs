@@ -21,11 +21,8 @@ public class LevelController : Singleton<LevelController>
         track = Track.GetTrack( GameManager.SelectedTrack );
         ship = Ship.GetShip( GameManager.SelectedShip );
         Instantiate( ship.ShipPrefab );
-        HUDController.Instance.ManeuverDisplay.UpdateCards();
+        //HUDController.Instance.ManeuverDisplay.UpdateCards();
 		ai = AIManager.Instance;
-		ai.CreateAi(AIManager.AIDifficulty.Easy);
-		ai.CreateAi(AIManager.AIDifficulty.Medium);
-		ai.CreateAi(AIManager.AIDifficulty.Hard);
 	}
 
     void Update()
@@ -37,12 +34,12 @@ public class LevelController : Singleton<LevelController>
 		Ship.Position newPlayerShip = GetNewShipPos(playerShip, playerEngine);
         
         int timeRemaining = GetSecondsRemaining( playerEngine );
-        HUDController.Instance.ManeuverDisplay.UpdateETADisplay( timeRemaining );
+        //HUDController.Instance.ManeuverDisplay.UpdateETADisplay( timeRemaining );
 
         // Track change, push to ManeuverDisplay
         if ( newPlayerShip.TrackSegment > playerShip.TrackSegment )
         {
-            HUDController.Instance.ManeuverDisplay.TriggerSlide();
+            //HUDController.Instance.ManeuverDisplay.TriggerSlide();
         }
 
         List<Ship.Position> newAiShips = new List<Ship.Position>();

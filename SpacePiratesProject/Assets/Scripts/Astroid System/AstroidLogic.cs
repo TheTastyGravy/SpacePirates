@@ -10,6 +10,7 @@ public class AstroidLogic : MonoBehaviour
 
 	private Vector3 direction;
 	private float speed = 10;
+	private bool hasHitShip = false;
 
 
 
@@ -39,8 +40,13 @@ public class AstroidLogic : MonoBehaviour
 		}
 		else
 		{
+			// Prevent multiple collisions being registered
+			if (hasHitShip)
+				return;
+
 			// If we hit something else, damage the ship
 			ShipManager.Instance.DamageShipAtPosition(transform.position);
+			hasHitShip = true;
 			Destroy(gameObject);
 		}
 	}

@@ -17,6 +17,7 @@ public class ShipManager : Singleton<ShipManager>
     private RoomManager[] rooms;
 
     private float oxygenLevel;
+    private OxygenBar oxygenBar;
 
 
 
@@ -27,6 +28,8 @@ public class ShipManager : Singleton<ShipManager>
         rooms = GetComponentsInChildren<RoomManager>();
 
         oxygenLevel = maxOxygenLevel;
+        oxygenBar = FindObjectOfType<OxygenBar>();
+        oxygenBar.MaxValue = maxOxygenLevel;
     }
 
     public void DamageShipAtPosition(Vector3 position)  //prob change from position to astroid script
@@ -96,9 +99,13 @@ public class ShipManager : Singleton<ShipManager>
         if (oxygenLevel > maxOxygenLevel)
             oxygenLevel = maxOxygenLevel;
 
+        // Update the UI
+        oxygenBar.value = oxygenLevel;
+
 
         if (oxygenLevel <= 0)
         {
+            oxygenLevel = 0;
             //game over
         }
     }

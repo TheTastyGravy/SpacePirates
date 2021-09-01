@@ -58,6 +58,8 @@ public class ReactorStation : MonoBehaviour
 
 	private void OnSwitchUsed()
 	{
+		Debug.Log("Switch used. Time between use: " + (Time.time - lastSwitchTime));
+
 		if (lastSwitchTime + timeBetweenSwitches >= Time.time)
 		{
 			if (isTurnedOn)

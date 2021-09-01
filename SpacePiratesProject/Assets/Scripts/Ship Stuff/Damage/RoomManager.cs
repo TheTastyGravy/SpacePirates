@@ -89,7 +89,7 @@ public class RoomManager : MonoBehaviour
 		hole.room = this;
 		hole.holeIndex = index;
 
-		RecalculateOxygenDrain();
+		Invoke("RecalculateOxygenDrain", 0);
 	}
     // Called when a hole has been reparied
     internal void OnHoleDestroied(int index)

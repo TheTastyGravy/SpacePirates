@@ -1,11 +1,11 @@
 {
-    "name": "Ship",
+    "name": "UI",
     "rootNamespace": "",
     "references": [
+        "GUID:75469ad4d38634e559750d17036d5f7c",
         "GUID:a756e91352ba685439372dea8e1b4105",
-        "GUID:3805532deffd6874bbf00083691ef843",
-        "GUID:4073451d57b799b4dbdcefda400b23e6",
-        "GUID:7c01b23a34db97a4a885177228d7acb7"
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:5aa245b597980024b83c5cf97ee39720"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
