@@ -13,11 +13,41 @@ public class AstroidManager : Singleton<AstroidManager>
 	private float timePassed = 0;
 
 
+	public float uiEdgeRadius = 25;
+	public GameObject uiPrefab;
+	public Transform canvas;
+	public PolygonCollider2D uiBoundry;
+
+
 
 	void Start()
 	{
 		regions = GetComponentsInChildren<BoxCollider>();
 		maxAngleVariance *= 0.5f;
+
+		// Shrink the boundry by the edge radius
+		Vector2[] points = uiBoundry.points;
+		for (int i = 0; i < points.Length; i++)
+		{
+			Vector2 dir1 = uiBoundry.points[Loop(i - 1, points.Length)] - points[i];
+			Vector2 dir2 = uiBoundry.points[Loop(i + 1, points.Length)] - points[i];
+			Vector2 diff = (dir1.normalized + dir2.normalized) * uiEdgeRadius;
+
+			// Either add or subtract depending if concave or convex
+			if (Vector2.SignedAngle(dir1, dir2) > 0)
+				points[i] -= diff;
+			else
+				points[i] += diff;
+		}
+		uiBoundry.points = points;
+	}
+
+	int Loop(int i, int size)
+	{
+		if (i < 0)
+			i += size;
+		
+		return i % size;
 	}
 
 	void Update()
@@ -58,6 +88,16 @@ public class AstroidManager : Singleton<AstroidManager>
 				iter++;
 			} while (Physics.Raycast(pos, dir, 100, raycastMask, QueryTriggerInteraction.Ignore) != willHit || iter < 10);
 
+
+			// Get astroid info in screen space to generate a raycast
+			Vector2 screenPoint = Camera.main.WorldToScreenPoint(pos);
+			Vector2 screenDir = (Vector2)Camera.main.WorldToScreenPoint(pos + dir) - screenPoint;
+			RaycastHit2D rayHit = Physics2D.Raycast(screenPoint, screenDir);
+			// Create UI element
+			GameObject uiObj = Instantiate(uiPrefab, canvas);
+			(uiObj.transform as RectTransform).position = rayHit.point;
+			(uiObj.transform as RectTransform).right = screenDir;
+			Destroy(uiObj, 3);
 
 			// Create astroid
 			AstroidLogic astroid = Instantiate(astroidPrefab).GetComponent<AstroidLogic>();
