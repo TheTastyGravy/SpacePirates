@@ -38,9 +38,8 @@ public class Character : ICharacter
     {
         Player.GetInput( Player.Control.LEFT_STICK, out Vector3 movement );
 
-        // Move using the rigidbody, constraining the y component
-		Vector3 newPos = m_Rigidbody.position + MoveSpeed * Time.fixedDeltaTime * movement;
-		m_Rigidbody.MovePosition( newPos );
+        // Set velocity directly
+        m_Rigidbody.velocity = MoveSpeed * movement;
 
 		// Rotate over time towards the direction of movement
 		Vector3 forward = Vector3.Slerp( transform.forward, movement, Time.fixedDeltaTime * TurnSpeed );
