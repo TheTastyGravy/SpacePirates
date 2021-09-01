@@ -20,6 +20,9 @@ public class Interactor : MonoBehaviour
 	private Grabbable heldGrabbable = null;
 	public Grabbable HeldGrabbable => heldGrabbable;
 
+	private bool isActive = true;
+	public bool IsActive => isActive;
+
 
 
 	void Start()
@@ -27,12 +30,23 @@ public class Interactor : MonoBehaviour
 		player = GetComponentInParent<Player>();
 	}
 
+	// Enable or disable the interactor
+	public void SetActive(bool value)
+	{
+		isActive = value;
+		UpdateRegistry();
+	}
+
 
 	/// <summary>
 	/// Register an interactable to be interacted with by a button
 	/// </summary>
-	public void RegisterInteractable(Interactable interactable, Player.Control button)
+	/// <returns>Returns true if the interaction was registered</returns>
+	public bool RegisterInteractable(Interactable interactable, Player.Control button)
 	{
+		if (!isActive)
+			return false;
+
 		// Get input action for the button
 		InputAction inputAction = player.GetInputAction(button);
 
@@ -41,6 +55,7 @@ public class Interactor : MonoBehaviour
 		interaction.SetupInteraction(interactable, this, inputAction);
 
 		registeredInteractions.Add(interaction);
+		return true;
 	}
 	/// <summary>
 	/// Unregister an interactable to not be interacted with

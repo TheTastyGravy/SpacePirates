@@ -20,7 +20,11 @@ public abstract class Interactable : MonoBehaviour
 		// Derived logic determines if we should register and what button to use
 		if (enabled && ShouldRegister(interactor, out Player.Control button))
 		{
-			interactor.RegisterInteractable(this, button);
+			if (!interactor.RegisterInteractable(this, button))
+			{
+				// The interaction failed to register
+				return;
+			}
 
 			if (registeredInteractors.Count == 0)
 			{
