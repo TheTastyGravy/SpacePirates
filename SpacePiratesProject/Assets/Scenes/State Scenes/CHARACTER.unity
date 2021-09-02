@@ -819,7 +819,7 @@ MonoBehaviour:
   m_Grid:
     x: 0
     y: 0
-    width: 3
+    width: 4
     height: 1
 --- !u!4 &1276405771
 Transform:
