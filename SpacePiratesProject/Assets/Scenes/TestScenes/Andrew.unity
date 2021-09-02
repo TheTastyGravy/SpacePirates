@@ -509,6 +509,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HMSDebbie
       objectReference: {fileID: 0}
+    - target: {fileID: 6707386950761864410, guid: 2cf02f61682ce09459b1895a6092a80b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2cf02f61682ce09459b1895a6092a80b, type: 3}
 --- !u!1001 &7022917716977399572
