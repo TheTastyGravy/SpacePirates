@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
+	public GameObject interactionPrompt;
+
 	// All interactors we are in range of (registered and unregistered)
 	private List<Interactor> interactors = new List<Interactor>();
 	// Only interactors we have registered with
@@ -28,7 +30,7 @@ public abstract class Interactable : MonoBehaviour
 
 			if (registeredInteractors.Count == 0)
 			{
-				OnSelectStart();
+				Selection_Start();
 			}
 			if (!registeredInteractors.Contains(interactor))
 				registeredInteractors.Add(interactor);
@@ -42,7 +44,7 @@ public abstract class Interactable : MonoBehaviour
 
 		if (registeredInteractors.Count == 0)
 		{
-			OnSelectStop();
+			Selection_Stop();
 		}
 	}
 
@@ -54,6 +56,26 @@ public abstract class Interactable : MonoBehaviour
 	{
 		OnInteractStop(interactor);
 	}
+
+	private void Selection_Start()
+	{
+		if (interactionPrompt != null)
+		{
+			interactionPrompt.SetActive(true);
+		}
+
+		OnSelectStart();
+	}
+	private void Selection_Stop()
+	{
+		if (interactionPrompt != null)
+		{
+			interactionPrompt.SetActive(false);
+		}
+
+		OnSelectStop();
+	}
+
 
 	/// <summary>
 	/// Unregister and attempt to reregister with all interactors
@@ -67,7 +89,7 @@ public abstract class Interactable : MonoBehaviour
 		}
 		registeredInteractors.Clear();
 
-		OnSelectStop();
+		Selection_Stop();
 
 		// Attempt to register with all interactors
 		foreach (var interactor in interactors)
@@ -107,7 +129,7 @@ public abstract class Interactable : MonoBehaviour
 		}
 		registeredInteractors.Clear();
 
-		OnSelectStop();
+		Selection_Stop();
 	}
 
 	void OnDestroy()
