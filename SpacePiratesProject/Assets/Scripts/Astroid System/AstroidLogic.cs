@@ -18,6 +18,7 @@ public class AstroidLogic : MonoBehaviour
 	{
 		transform.position = startPos;
 		this.direction = direction.normalized;
+		Destroy(gameObject, 5);
 	}
 
 
