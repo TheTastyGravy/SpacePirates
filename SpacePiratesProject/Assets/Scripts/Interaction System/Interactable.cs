@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Interactable : MonoBehaviour
 {
-	public GameObject interactionPrompt;
+	public Image interactionPrompt;
 
 	// All interactors we are in range of (registered and unregistered)
 	private List<Interactor> interactors = new List<Interactor>();
@@ -61,7 +62,7 @@ public abstract class Interactable : MonoBehaviour
 	{
 		if (interactionPrompt != null)
 		{
-			interactionPrompt.SetActive(true);
+			interactionPrompt.enabled = true;
 		}
 
 		OnSelectStart();
@@ -70,7 +71,7 @@ public abstract class Interactable : MonoBehaviour
 	{
 		if (interactionPrompt != null)
 		{
-			interactionPrompt.SetActive(false);
+			interactionPrompt.enabled = false;
 		}
 
 		OnSelectStop();
