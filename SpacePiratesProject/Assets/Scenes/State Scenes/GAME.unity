@@ -10041,6 +10041,7 @@ MonoBehaviour:
   raycastMask:
     serializedVersion: 2
     m_Bits: 55
+  raycastYOffset: 0.5
   uiEdgeRadius: 75
   uiPrefab: {fileID: 74858401}
   canvas: {fileID: 1324750617}

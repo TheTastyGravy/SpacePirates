@@ -8,6 +8,7 @@ public class AstroidManager : Singleton<AstroidManager>
 	public float timeBetweenAstroids = 5;
 	public float maxAngleVariance = 45;
 	public LayerMask raycastMask;
+	public float raycastYOffset = 1;
 
 	private BoxCollider[] regions;
 	private float timePassed = 0;
@@ -78,6 +79,8 @@ public class AstroidManager : Singleton<AstroidManager>
 			}
 			// Get a random direction until we find one that either hits or misses the ship
 			Vector3 dir = Vector3.zero;
+			Vector3 rayOrigin = pos;
+			rayOrigin.y += raycastYOffset;
 			int iter = 0;
 			do
 			{
@@ -85,9 +88,8 @@ public class AstroidManager : Singleton<AstroidManager>
 				// Get angle as a direction
 				dir.x = baseDirection.x * Mathf.Cos(lookAngle) - baseDirection.z * Mathf.Sin(lookAngle);
 				dir.z = baseDirection.x * Mathf.Sin(lookAngle) + baseDirection.z * Mathf.Cos(lookAngle);
-				iter++;
-			} while (Physics.Raycast(pos, dir, 100, raycastMask, QueryTriggerInteraction.Ignore) != willHit || iter < 10);
-
+				++iter;
+			} while (Physics.Raycast(rayOrigin, dir, 100, raycastMask, QueryTriggerInteraction.Ignore) != willHit && iter <= 10);
 
 			// Get astroid info in screen space to generate a raycast
 			Vector2 screenPoint = Camera.main.WorldToScreenPoint(pos);
