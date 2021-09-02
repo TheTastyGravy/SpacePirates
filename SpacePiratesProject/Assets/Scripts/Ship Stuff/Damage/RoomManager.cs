@@ -22,15 +22,21 @@ public class RoomManager : MonoBehaviour
 
 	void Awake()
 	{
-		// Get hole positions
+		// Get hole positions using recursive search
 		List<Transform> transforms = new List<Transform>();
-		for (int i = 0; i < transform.childCount; i++)
+		void Recursive(Transform trans)
 		{
-			if (transform.GetChild(i).CompareTag("HolePosition"))
+			for (int i = 0; i < trans.childCount; i++)
 			{
-				transforms.Add(transform.GetChild(i));
+				// If the child is a hole position, add it to the list, else go deeper
+				Transform child = trans.GetChild(i);
+				if (child.CompareTag("HolePosition"))
+					transforms.Add(child);
+				else if (child.childCount > 0)
+					Recursive(child);
 			}
 		}
+		Recursive(transform);
 		holePositions = transforms.ToArray();
 
 		// There are the same number of posible holes as hole positions

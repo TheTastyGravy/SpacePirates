@@ -9,24 +9,38 @@ public class AstroidManager : Singleton<AstroidManager>
 	public float maxAngleVariance = 45;
 	public LayerMask raycastMask;
 	public float raycastYOffset = 1;
-
-	private BoxCollider[] regions;
-	private float timePassed = 0;
-
-
+	[Space]
 	public float uiEdgeRadius = 25;
 	public GameObject uiPrefab;
 	public Transform canvas;
 	public PolygonCollider2D uiBoundry;
 
 
+	private BoxCollider[] regions;
+	private float timePassed = 0;
+
+
 
 	void Start()
 	{
-		regions = GetComponentsInChildren<BoxCollider>();
 		maxAngleVariance *= 0.5f;
 
+		ShrinkBoundry();
+		Invoke("SetupRegions", 0.1f);
+	}
+
+	private void ShrinkBoundry()
+	{
+		int Loop(int i, int size)
+		{
+			if (i < 0)
+				i += size;
+
+			return i % size;
+		}
+
 		// Shrink the boundry by the edge radius
+		// Note that this is not a full solution, and only works in cases with corners
 		Vector2[] points = uiBoundry.points;
 		for (int i = 0; i < points.Length; i++)
 		{
@@ -43,13 +57,47 @@ public class AstroidManager : Singleton<AstroidManager>
 		uiBoundry.points = points;
 	}
 
-	int Loop(int i, int size)
+	private void SetupRegions()
 	{
-		if (i < 0)
-			i += size;
-		
-		return i % size;
+		List<BoxCollider> boxes = new List<BoxCollider>();
+		Camera cam = Camera.main;
+		Plane plane = new Plane(Vector3.up, 0);
+		float boxDepth = 5;
+		float extraDist = 2;
+
+		float ySize = cam.orthographicSize;
+		float xSize = ySize * cam.aspect;
+		float extraSize = 3;
+
+
+		void CreateBox(string name, Vector2 viewCoord, Vector3 boxSize)
+		{
+			// Get position from viewport on plane
+			Ray ray = cam.ViewportPointToRay(viewCoord);
+			plane.Raycast(ray, out float enter);
+			Vector3 position = ray.GetPoint(enter);
+			// Add offset in direction relitive to camera
+			Vector3 dir = cam.transform.TransformPoint(viewCoord - new Vector2(.5f, .5f)) - cam.transform.position;
+			dir.y = 0;
+			position += dir.normalized * (boxDepth * 0.5f + extraDist);
+
+			// Create object with box collider
+			GameObject obj = new GameObject(name);
+			obj.transform.parent = transform;
+			obj.transform.position = position;
+			obj.transform.eulerAngles = new Vector3(0, 45, 0);
+			BoxCollider box = obj.AddComponent<BoxCollider>();
+			box.size = boxSize;
+			box.isTrigger = true;
+			boxes.Add(box);
+		}
+
+		CreateBox("Top", new Vector2(.5f, 1), new Vector3(boxDepth, 1, xSize * 2 + extraSize));
+		CreateBox("Left", new Vector2(0, .5f), new Vector3(ySize * 2 + extraSize, 1, boxDepth));
+		CreateBox("Right", new Vector2(1, .5f), new Vector3(ySize * 2 + extraSize, 1, boxDepth));
+		regions = boxes.ToArray();
 	}
+	
 
 	void Update()
 	{
@@ -60,7 +108,6 @@ public class AstroidManager : Singleton<AstroidManager>
 			SpawnAstroids(1);
 		}
 	}
-
 
 	public void SpawnAstroids(int count, bool canMiss = false)
 	{
