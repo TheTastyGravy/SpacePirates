@@ -7,6 +7,7 @@ public class AstroidManager : Singleton<AstroidManager>
 	public GameObject astroidPrefab;
 	public float timeBetweenAstroids = 5;
 	public float maxAngleVariance = 45;
+	public float astroidSpawnDelay = 1.5f;
 	public LayerMask raycastMask;
 	public float raycastYOffset = 1;
 	[Space]
@@ -14,6 +15,7 @@ public class AstroidManager : Singleton<AstroidManager>
 	public GameObject uiPrefab;
 	public Transform canvas;
 	public PolygonCollider2D uiBoundry;
+	public float uiExtraTime = 0.5f;
 
 
 	private BoxCollider[] regions;
@@ -146,11 +148,11 @@ public class AstroidManager : Singleton<AstroidManager>
 			GameObject uiObj = Instantiate(uiPrefab, canvas);
 			(uiObj.transform as RectTransform).position = rayHit.point;
 			(uiObj.transform as RectTransform).right = screenDir;
-			Destroy(uiObj, 3);
+			Destroy(uiObj, astroidSpawnDelay + uiExtraTime);
 
 			// Create astroid
 			AstroidLogic astroid = Instantiate(astroidPrefab).GetComponent<AstroidLogic>();
-			astroid.Setup(pos, dir);
+			astroid.Setup(pos, dir, astroidSpawnDelay);
 		}
 	}
 

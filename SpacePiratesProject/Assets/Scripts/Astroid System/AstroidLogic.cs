@@ -12,19 +12,27 @@ public class AstroidLogic : MonoBehaviour
 	private float speed = 10;
 	private bool hasHitShip = false;
 
+	private float currentSpeed = 0;
 
 
-	internal void Setup(Vector3 startPos, Vector3 direction)
+
+	internal void Setup(Vector3 startPos, Vector3 direction, float delay)
 	{
 		transform.position = startPos;
 		this.direction = direction.normalized;
+
+		Invoke(nameof(Delay), delay);
+	}
+
+	private void Delay()
+	{
+		currentSpeed = speed;
 		Destroy(gameObject, 5);
 	}
 
-
 	void Update()
 	{
-		transform.position += speed * Time.deltaTime * direction;
+		transform.position += currentSpeed * Time.deltaTime * direction;
 	}
 
 	void OnCollisionEnter(Collision collision)
