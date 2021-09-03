@@ -36,7 +36,23 @@ public class Character : ICharacter
 
     void FixedUpdate()
     {
-        Player.GetInput( Player.Control.LEFT_STICK, out Vector3 movement );
+        Player.GetInput( Player.Control.LEFT_STICK, out Vector3 input );
+
+        Vector3 movement;
+        if (Camera.main != null)
+		{
+            // Get camera directions on the Y plane
+            Vector3 camForward = Camera.main.transform.forward;
+            camForward.y = 0;
+            Vector3 camRight = Camera.main.transform.right;
+            camRight.y = 0;
+            // Calculate movement using the camera
+            movement = camForward.normalized * input.z + camRight.normalized * input.x;
+        }
+        else
+		{
+            movement = input;
+		}
 
         // Set velocity directly
         m_Rigidbody.velocity = MoveSpeed * movement;

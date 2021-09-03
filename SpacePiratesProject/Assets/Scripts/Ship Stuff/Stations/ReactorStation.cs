@@ -9,6 +9,8 @@ public class ReactorStation : MonoBehaviour
 	[Tooltip("The ammount of time allowed between activating the switches")]
 	public float timeBetweenSwitches = 0.25f;
 
+	public Light stateLight;
+
 
 	private ReactorSwitch[] reactorSwitches;
 	private ReactorFuelGen fuelGen;
@@ -46,6 +48,9 @@ public class ReactorStation : MonoBehaviour
 		isTurnedOn = true;
 		currentOxygenRegen = baseOxygenRegenRate;
 		fuelGen.isActive = true;
+
+		stateLight.color = Color.green;
+		stateLight.intensity = 0.5f;
 	}
 
 	private void TurnOff()
@@ -53,6 +58,9 @@ public class ReactorStation : MonoBehaviour
 		isTurnedOn = false;
 		currentOxygenRegen = 0;
 		fuelGen.isActive = false;
+
+		stateLight.color = Color.red;
+		stateLight.intensity = 2;
 	}
 
 

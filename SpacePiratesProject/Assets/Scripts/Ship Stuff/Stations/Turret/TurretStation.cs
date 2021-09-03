@@ -15,6 +15,8 @@ public class TurretStation : MonoBehaviour
     public float projectileSpeed = 10;
     public float minAngle, maxAngle;
 
+    public GameObject turretHud;
+
 
     private TurretActivate turretActivate;
     private DamageStation damage;
@@ -80,6 +82,7 @@ public class TurretStation : MonoBehaviour
 
         currentInteractor = interactor;
         turretActivate.enabled = false;
+        turretHud.SetActive(true);
         AddPlayer();
     }
     // Called when a player in the turret exits
@@ -87,6 +90,7 @@ public class TurretStation : MonoBehaviour
 	{
         RemovePlayer();
         currentInteractor = null;
+        turretHud.SetActive(false);
 
         if (isTurnedOn)
 		{
