@@ -7,11 +7,11 @@ public class AstroidLogic : MonoBehaviour
 {
 	[Tooltip("How many times it can be hit by a turret before being destroied")]
 	public int health = 1;
+	[Tooltip("This is how fast the asteroid moves in space")]
+	public float speed = 10;
 
 	private Vector3 direction;
-	private float speed = 10;
 	private bool hasHitShip = false;
-
 	private float currentSpeed = 0;
 
 

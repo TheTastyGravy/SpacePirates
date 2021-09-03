@@ -31,7 +31,6 @@ Transform:
   m_Children:
   - {fileID: 6541301094781912855}
   - {fileID: 6669012735692864998}
-  - {fileID: 271375160293056590}
   m_Father: {fileID: 542185539467758891}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -145,9 +144,9 @@ MonoBehaviour:
   turretBase: {fileID: 6898532475189813285}
   firePos: {fileID: 4383644457941815753}
   projectilePrefab: {fileID: 6203124041145230643, guid: 2cf2a750ad9d68c47a39e323631cc834, type: 3}
-  shotsPerFuel: 5
-  maxShots: 5
-  projectileSpeed: 10
+  shotsPerFuel: 10
+  maxShots: 10
+  projectileSpeed: 40
   minAngle: -70
   maxAngle: 70
   turretHud: {fileID: 70271754899933138}
@@ -267,12 +266,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4550483523098207449}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
-  m_Father: {fileID: 3326923868756294672}
-  m_RootOrder: 2
+  m_Father: {fileID: 6669012735692864998}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3821845816393595217
 MeshFilter:
@@ -576,7 +575,8 @@ Transform:
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 0.099999994, y: 0.10000001, z: 0.10000001}
-  m_Children: []
+  m_Children:
+  - {fileID: 271375160293056590}
   m_Father: {fileID: 3326923868756294672}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -5398,7 +5398,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 431273649295362382, guid: 75a6b3b7b3f303746b852c37425778db, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 431273649295362382, guid: 75a6b3b7b3f303746b852c37425778db, type: 3}
       propertyPath: m_SizeDelta.y
