@@ -15,8 +15,9 @@ public class ReactorStation : MonoBehaviour
 	private ReactorSwitch[] reactorSwitches;
 	private ReactorFuelGen fuelGen;
 	private DamageStation damage;
+	public DamageStation Damage => damage;
 
-    private bool isTurnedOn = true;
+	private bool isTurnedOn = true;
     public bool IsTurnedOn => isTurnedOn;
     private float currentOxygenRegen;
     public float CurrentOxygenRegen => currentOxygenRegen;

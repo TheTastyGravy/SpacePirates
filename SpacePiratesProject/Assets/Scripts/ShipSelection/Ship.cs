@@ -23,11 +23,4 @@ public class Ship : ScriptableObject
     }
 
     private static Ship[] m_Ships;
-
-    [ Serializable ]
-    public struct Position
-	{
-        public int TrackSegment;
-        public float SegmentPosition;
-	}
 }

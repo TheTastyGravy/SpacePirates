@@ -16,6 +16,7 @@ public class EngineStation : MonoBehaviour
 	private EngineSwitch engineSwitch;
 	private FuelDeposit fuelDepo;
 	private DamageStation damage;
+	public DamageStation Damage => damage;
 
 	private bool isTurnedOn = false;
 	public bool IsTurnedOn => isTurnedOn;

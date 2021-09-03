@@ -10770,6 +10770,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5063274434833239890}
   - component: {fileID: 5063274434833239917}
+  - component: {fileID: 5063274434833239919}
   m_Layer: 0
   m_Name: LevelController
   m_TagString: Untagged
@@ -10777,6 +10778,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &5063274434833239919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5063274434833239918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc0ebf9880b61c34081a462e5353ad1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeBetweenWaves: 4
+  astroidsPerWave: 4
+  timeBetweenDamage: 1
+  shipPrefab: {fileID: 0}
 --- !u!224 &8446962670521705872
 RectTransform:
   m_ObjectHideFlags: 0

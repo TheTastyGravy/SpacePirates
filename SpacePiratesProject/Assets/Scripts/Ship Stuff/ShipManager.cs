@@ -32,7 +32,7 @@ public class ShipManager : Singleton<ShipManager>
         oxygenBar.MaxValue = maxOxygenLevel;
     }
 
-    public void DamageShipAtPosition(Vector3 position)  //prob change from position to astroid script
+    public void DamageShipAtPosition(Vector3 position)
     {
         HoleData holeData = new HoleData
         {
@@ -50,6 +50,10 @@ public class ShipManager : Singleton<ShipManager>
 
     public float GetShipSpeed()
 	{
+        // Its possible for this function to be called before start
+        if (engines == null)
+            return 0;
+
         // Accumulate speed from engines
         float speed = 0;
         foreach (var engine in engines)
@@ -70,6 +74,29 @@ public class ShipManager : Singleton<ShipManager>
 		}
 
         return maxAvoidance * (active / engines.Length);
+	}
+
+    public DamageStation GetRandomActiveStation()
+	{
+        List<DamageStation> stations = new List<DamageStation>();
+        // Add active reactors
+        foreach (var obj in reactors)
+		{
+            if (obj.IsTurnedOn)
+			{
+                stations.Add(obj.Damage);
+			}
+		}
+        // Add active engines
+        foreach (var obj in engines)
+		{
+            if (obj.IsTurnedOn)
+			{
+                stations.Add(obj.Damage);
+			}
+		}
+
+        return stations[Random.Range(0, stations.Count)];
 	}
 
 
