@@ -41,6 +41,7 @@ public class TurretStation : MonoBehaviour
         damage = GetComponentInChildren<DamageStation>();
         fuelDepo = GetComponentInChildren<FuelDeposit>();
 
+        turretActivate.enabled = false;
         turretHud.SetActive(false);
 
         // Setup callbacks
@@ -84,7 +85,6 @@ public class TurretStation : MonoBehaviour
 
         currentInteractor = interactor;
         turretActivate.enabled = false;
-        turretHud.SetActive(true);
         AddPlayer();
     }
     // Called when a player in the turret exits
@@ -92,7 +92,6 @@ public class TurretStation : MonoBehaviour
 	{
         RemovePlayer();
         currentInteractor = null;
-        turretHud.SetActive(false);
 
         if (isTurnedOn)
 		{
@@ -117,6 +116,9 @@ public class TurretStation : MonoBehaviour
     // Used to setup a players controls to use the turret
     private void AddPlayer()
 	{
+        // Display HUD
+        turretHud.SetActive(true);
+
         currentInteractor.SetActive(false);
         //disable controls
         (currentInteractor.Player.Character as Character).IsKinematic = true;
@@ -135,6 +137,9 @@ public class TurretStation : MonoBehaviour
     // Used to remove a players controls to use the turret
     private void RemovePlayer()
 	{
+        // Hide HUD
+        turretHud.SetActive(false);
+
         //remove turret controls
         currentInteractor.Player.RemoveInputListener(Player.Control.A_PRESSED, Fire);
         currentInteractor.Player.RemoveInputListener(Player.Control.B_PRESSED, OnDeactivate);
@@ -160,6 +165,8 @@ public class TurretStation : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, firePos.position, firePos.rotation);
         projectile.GetComponent<Rigidbody>().AddForce(turretBase.forward * projectileSpeed, ForceMode.Impulse);
         Destroy(projectile, 5);
+
+        fuelDepo.enabled = true;
 
         shotsRemaining--;
         if (shotsRemaining == 0)

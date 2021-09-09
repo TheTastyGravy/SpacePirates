@@ -16,7 +16,12 @@ public class ReactorFuelGen : Interactable
 
 
 
-    void Update()
+	void Start()
+	{
+        interactionPrompt.enabled = false;
+	}
+
+	void Update()
     {
         if (isActive && !hasFuel)
 		{
@@ -26,6 +31,7 @@ public class ReactorFuelGen : Interactable
 			{
                 fuelTimePassed = 0;
                 hasFuel = true;
+                interactionPrompt.enabled = true;
                 ReregisterInteractions();
 			}
 		}
@@ -35,11 +41,11 @@ public class ReactorFuelGen : Interactable
 	protected override void OnInteractStart(Interactor interactor)
 	{
         interactionPrompt.Pop();
+        interactionPrompt.enabled = false;
 
         Grabbable fuelGrabbable = Instantiate(fuelPrefab).GetComponent<Grabbable>();
         interactor.Pickup(fuelGrabbable);
         
-
         hasFuel = false;
         ReregisterInteractions();
 	}

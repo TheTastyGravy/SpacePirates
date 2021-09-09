@@ -9,40 +9,36 @@ public class ReactorSwitch : Interactable
     [Tooltip("How long the switch is disabled for after being used")]
     public float interactionCooldown = 1;
 
-    private float timePassed;
 
 
 
 	void Start()
 	{
-		timePassed = interactionCooldown;
+		
 	}
 
-	void Update()
-	{
-		if (timePassed < interactionCooldown)
-		{
-			timePassed += Time.deltaTime;
+	
 
-			if (timePassed >= interactionCooldown)
-			{
-				ReregisterInteractions();
-			}
-		}
+	private void Reenable()
+	{
+		enabled = true;
 	}
 
 
 	protected override void OnInteractStart(Interactor interactor)
 	{
         OnActivated?.Invoke();
-		timePassed = 0;
+
 		interactionPrompt.Pop();
-		ReregisterInteractions();
+		enabled = false;
+		//ReregisterInteractions();
+
+		Invoke(nameof(Reenable), interactionCooldown);
 	}
 
 	protected override bool ShouldRegister(Interactor interactor, out Player.Control button)
     {
         button = Player.Control.A_PRESSED;
-        return timePassed >= interactionCooldown;
+        return true;
     }
 }

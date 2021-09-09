@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InteractionPromptLogic : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class InteractionPromptLogic : MonoBehaviour
     public float progressLossRate = 3;
     public float popScale = 2;
     public float popTime = 0.25f;
-    public GameObject _text;
+    public TextMeshProUGUI _text;
 
     [HideInInspector]
     public float interactionProgress = 0;
@@ -24,7 +25,6 @@ public class InteractionPromptLogic : MonoBehaviour
 
     void Awake()
     {
-        promptImage.enabled = false;
         progressImage.fillAmount = 0;
     }
 
@@ -53,6 +53,7 @@ public class InteractionPromptLogic : MonoBehaviour
     private IEnumerator ExpandAndFade()
 	{
         isPoping = true;
+        _text.enabled = false;
 
         Color trans = new Color(1, 1, 1, 0);
 
@@ -69,38 +70,54 @@ public class InteractionPromptLogic : MonoBehaviour
             timePassed += Time.deltaTime;
             yield return null;
 		}
+        // Make fully transparent and wait a moment before resetting
+        promptImage.color = trans;
+        progressImage.color = trans;
+        yield return new WaitForSeconds(0.2f);
 
-        //reset images
+        // Reset images
         promptImage.color = Color.white;
         promptImage.transform.localScale = Vector3.one;
-        promptImage.enabled = false;
         progressImage.color = Color.white;
         progressImage.transform.localScale = Vector3.one;
-        progressImage.enabled = false;
+        // Reset progress
+        progressImage.fillAmount = 0;
+        actualProgress = 0;
+        // If we have been disabled, hide the images
+        if (!enabled)
+		{
+            promptImage.enabled = false;
+            progressImage.enabled = false;
+        }
+		else
+		{
+            _text.enabled = true;
+        }
 
         isPoping = false;
+        isBeingUsed = false;
     }
 
 
     public void InteractStart()
     {
         isBeingUsed = true;
-        _text.SetActive(false);
+        _text.enabled = false;
         interactionProgress = 0;
     }
 
     public void InteractStop()
     {
         isBeingUsed = false;
-        _text.SetActive(true);
+
+        if (!isPoping && enabled)
+		{
+            _text.enabled = true;
+        }
     }
 
     public void SelectStart()
 	{
-        promptImage.enabled = true;
-        progressImage.enabled = true;
-        progressImage.fillAmount = 0;
-        actualProgress = 0;
     }
 
     public void SelectStop()
@@ -108,9 +125,25 @@ public class InteractionPromptLogic : MonoBehaviour
         if (isPoping)
             return;
 
-        promptImage.enabled = false;
-        progressImage.enabled = false;
-        _text.SetActive(false);
         isBeingUsed = false;
+    }
+
+
+	void OnEnable()
+	{
+        promptImage.enabled = true;
+        progressImage.enabled = true;
+        _text.enabled = true;
+    }
+
+    void OnDisable()
+	{
+        if (!isPoping)
+		{
+            promptImage.enabled = false;
+            progressImage.enabled = false;
+        }
+        
+        _text.enabled = false;
     }
 }

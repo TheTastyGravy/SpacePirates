@@ -63,6 +63,7 @@ public class HullHoleStation : Interactable
 	{
         // Unlock the player and update the interactor
         interactionPrompt.Pop();
+        enabled = false;
         currentInteractor.Player.Character.enabled = true;
         currentInteractor.UpdateRegistry();
         currentInteractor = null;

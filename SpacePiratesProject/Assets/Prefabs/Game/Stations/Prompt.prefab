@@ -300,7 +300,7 @@ MonoBehaviour:
   progressLossRate: 5
   popScale: 1.25
   popTime: 0.15
-  _text: {fileID: 829902176668167892}
+  _text: {fileID: 6584085094076655843}
   interactionProgress: 0
 --- !u!1 &6615408427867016391
 GameObject:

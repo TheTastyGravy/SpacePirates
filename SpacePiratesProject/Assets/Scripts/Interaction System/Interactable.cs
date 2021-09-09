@@ -123,6 +123,9 @@ public abstract class Interactable : MonoBehaviour
 
 	void OnEnable()
 	{
+		if (interactionPrompt != null)
+			interactionPrompt.enabled = true;
+
 		// Attempt to register with all interactors
 		foreach (var interactor in interactors)
 		{
@@ -140,6 +143,8 @@ public abstract class Interactable : MonoBehaviour
 		registeredInteractors.Clear();
 
 		Selection_Stop();
+		if (interactionPrompt != null)
+			interactionPrompt.enabled = false;
 	}
 
 	void OnDestroy()
