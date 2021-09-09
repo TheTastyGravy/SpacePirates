@@ -4936,11 +4936,11 @@ MonoBehaviour:
   interactionPrompt: {fileID: 4320273058663745643}
   damageLevels:
   - oxygenLossRate: 5
-    repairCount: 1
+    repairTime: 1
   - oxygenLossRate: 10
-    repairCount: 1
+    repairTime: 2
   - oxygenLossRate: 15
-    repairCount: 1
+    repairTime: 3
 --- !u!135 &2381245640068819612
 SphereCollider:
   m_ObjectHideFlags: 0

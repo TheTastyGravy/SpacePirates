@@ -8,16 +8,17 @@ public class HullHoleStation : Interactable
     public struct DamageLevel
 	{
         public float oxygenLossRate;
-        public int repairCount;
+        public float repairTime;
 	}
     [Space]
     public DamageLevel[] damageLevels;
 
     internal float oxygenLossRate;
-    private int repairCount;
+    private float repairTime;
 
     private int size = 0;
-    private int currentRepairCount = 0;
+    private Interactor currentInteractor;
+    private float timePassed = 0;
 
     internal RoomManager room;
     internal int holeIndex;
@@ -27,47 +28,74 @@ public class HullHoleStation : Interactable
     void Start()
     {
         oxygenLossRate = damageLevels[0].oxygenLossRate;
-        repairCount = damageLevels[0].repairCount;
+        repairTime = damageLevels[0].repairTime;
 	}
 
-    protected override void OnInteractStart(Interactor interactor)
-	{
-        currentRepairCount++;
+    void Update()
+    {
+        // If we are being interacted with
+        if (currentInteractor != null)
+        {
+            timePassed += Time.deltaTime;
+            if (timePassed >= repairTime)
+            {
+                Repair();
+            }
 
-        // When fully repaired, reduce the hole size
-        if (currentRepairCount >= repairCount)
-		{
-            DecreaseHoleSize();
-		}
-	}
+            // Update interaction prompt progress
+            interactionPrompt.interactionProgress = timePassed / repairTime;
+        }
+    }
 
     internal void IncreaseHoleSize()
-	{
+    {
         size++;
         if (size >= damageLevels.Length)
             size = damageLevels.Length - 1;
 
         oxygenLossRate = damageLevels[size].oxygenLossRate;
-        repairCount = damageLevels[0].repairCount;
-        currentRepairCount = 0;
+        repairTime = damageLevels[size].repairTime;
+        timePassed = 0;
         room.RecalculateOxygenDrain();
     }
-    private void DecreaseHoleSize()
+
+    private void Repair()
 	{
-        size--;
-        if (size < 0)
+        // Unlock the player and update the interactor
+        interactionPrompt.Pop();
+        currentInteractor.Player.Character.enabled = true;
+        currentInteractor.UpdateRegistry();
+        currentInteractor = null;
+
+        // Repair hole
+        size = 0;
+        room.OnHoleDestroied(holeIndex);
+        // Hide visuals, and destroy after delay to keep prompt pop effect
+        foreach (var obj in GetComponentsInChildren<Renderer>())
 		{
-            room.OnHoleDestroied(holeIndex);
-            Destroy(gameObject);
-        }
-		else
-		{
-            oxygenLossRate = damageLevels[size].oxygenLossRate;
-            repairCount = damageLevels[0].repairCount;
-            currentRepairCount = 0;
-            room.RecalculateOxygenDrain();
-        }
+            obj.enabled = false;
+		}
+        GetComponentInChildren<ParticleSystem>().Stop();
+        Destroy(gameObject, 1);
+    }
+
+
+    protected override void OnInteractStart(Interactor interactor)
+	{
+        currentInteractor = interactor;
+        timePassed = 0;
+        // Lock the player
+        currentInteractor.Player.Character.enabled = false;
 	}
+	protected override void OnInteractStop(Interactor interactor)
+	{
+        if (currentInteractor == null)
+            return;
+
+        // Unlock player
+        currentInteractor.Player.Character.enabled = true;
+        currentInteractor = null;
+    }
 
     protected override bool ShouldRegister(Interactor interactor, out Player.Control button)
     {

@@ -84,6 +84,7 @@ public class InteractionPromptLogic : MonoBehaviour
     public void InteractStart()
     {
         isBeingUsed = true;
+        interactionProgress = 0;
     }
 
     public void InteractStop()
@@ -96,6 +97,7 @@ public class InteractionPromptLogic : MonoBehaviour
         promptImage.enabled = true;
         progressImage.enabled = true;
         progressImage.fillAmount = 0;
+        actualProgress = 0;
     }
 
     public void SelectStop()
@@ -105,5 +107,6 @@ public class InteractionPromptLogic : MonoBehaviour
 
         promptImage.enabled = false;
         progressImage.enabled = false;
+        isBeingUsed = false;
     }
 }

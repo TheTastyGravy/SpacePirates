@@ -69,6 +69,11 @@ public class Character : ICharacter
 		}
     }
 
+	void OnDisable()
+	{
+        m_Rigidbody.velocity = Vector3.zero;
+    }
 
-    private Rigidbody m_Rigidbody;
+
+	private Rigidbody m_Rigidbody;
 }

@@ -5,12 +5,13 @@ using UnityEngine;
 public class DamageStation : Interactable
 {
 	public int maxDamageLevel = 1;
-	public int repairCount = 2;
+	public float timeToRepair = 1;
 
     private int damageLevel = 0;
 	public int DamageLevel { get => damageLevel; }
 
-	private int currentRepairCount = 0;
+	private Interactor currentInteractor = null;
+	private float currentRepairTime = 0;
 	private ParticleSystem effect;
 
 	public BasicDelegate OnDamageTaken;
@@ -24,6 +25,41 @@ public class DamageStation : Interactable
 		enabled = false;
 
 		effect = GetComponentInChildren<ParticleSystem>();
+	}
+
+	void Update()
+	{
+		// If we are being interacted with
+		if (currentInteractor != null)
+		{
+			currentRepairTime += Time.deltaTime;
+			if (currentRepairTime >= timeToRepair)
+			{
+				damageLevel--;
+				OnDamageRepaired?.Invoke();
+
+				// Unlock the player and update the interactor
+				interactionPrompt.Pop();
+				currentInteractor.Player.Character.enabled = true;
+				currentInteractor.UpdateRegistry();
+				currentInteractor = null;
+
+				if (damageLevel <= 0)
+				{
+					enabled = false;
+				}
+
+				if (effect != null)
+				{
+					effect.Stop();
+				}
+
+				SoundManager.Instance.Play("Repair", false);
+			}
+
+			// Update interaction prompt progress
+			interactionPrompt.interactionProgress = currentRepairTime / timeToRepair;
+		}
 	}
 
 	public void Damage()
@@ -43,27 +79,20 @@ public class DamageStation : Interactable
 		SoundManager.Instance.Play("StationDamage", false);
 	}
 
+
 	protected override void OnInteractStart(Interactor interactor)
 	{
-		currentRepairCount++;
-		if (currentRepairCount >= repairCount)
-		{
-			currentRepairCount = 0;
-			damageLevel--;
-			OnDamageRepaired?.Invoke();
+		currentInteractor = interactor;
+		currentRepairTime = 0;
+		// Lock the player
+		currentInteractor.Player.Character.enabled = false;
+	}
 
-			if (damageLevel <= 0)
-			{
-				enabled = false;
-			}
-
-			if (effect != null)
-			{
-				effect.Stop();
-			}
-
-			SoundManager.Instance.Play("Repair", false);
-		}
+	protected override void OnInteractStop(Interactor interactor)
+	{
+		// Unlock player
+		currentInteractor.Player.Character.enabled = true;
+		currentInteractor = null;
 	}
 
 	protected override bool ShouldRegister(Interactor interactor, out Player.Control button)
