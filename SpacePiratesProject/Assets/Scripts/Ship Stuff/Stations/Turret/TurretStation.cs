@@ -41,6 +41,8 @@ public class TurretStation : MonoBehaviour
         damage = GetComponentInChildren<DamageStation>();
         fuelDepo = GetComponentInChildren<FuelDeposit>();
 
+        turretHud.SetActive(false);
+
         // Setup callbacks
         turretActivate.OnInteract += OnActivate;
         damage.OnDamageTaken += TurnOff;

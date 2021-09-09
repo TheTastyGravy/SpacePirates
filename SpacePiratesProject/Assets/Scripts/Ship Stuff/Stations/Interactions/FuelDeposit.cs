@@ -24,11 +24,15 @@ public class FuelDeposit : Interactable
 			{
                 OnDepositComplete();
 			}
+
+            interactionPrompt.interactionProgress = timePassed / timeToDeposit;
 		}
     }
 
     private void OnDepositComplete()
 	{
+        interactionPrompt.Pop();
+
         // Destroy the held object
         Grabbable held = currentInteractor.HeldGrabbable;
         currentInteractor.Drop();

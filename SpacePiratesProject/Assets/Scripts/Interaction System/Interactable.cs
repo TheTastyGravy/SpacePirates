@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class Interactable : MonoBehaviour
 {
-	public Image interactionPrompt;
+	public InteractionPromptLogic interactionPrompt;
 
 	// All interactors we are in range of (registered and unregistered)
 	private List<Interactor> interactors = new List<Interactor>();
@@ -51,10 +50,20 @@ public abstract class Interactable : MonoBehaviour
 
     internal void Interaction_Start(Interactor interactor)
 	{
+		if (interactionPrompt != null)
+		{
+			interactionPrompt.InteractStart();
+		}
+
 		OnInteractStart(interactor);
 	}
 	internal void Interaction_Stop(Interactor interactor)
 	{
+		if (interactionPrompt != null)
+		{
+			interactionPrompt.InteractStop();
+		}
+
 		OnInteractStop(interactor);
 	}
 
@@ -62,7 +71,7 @@ public abstract class Interactable : MonoBehaviour
 	{
 		if (interactionPrompt != null)
 		{
-			interactionPrompt.enabled = true;
+			interactionPrompt.SelectStart();
 		}
 
 		OnSelectStart();
@@ -71,7 +80,7 @@ public abstract class Interactable : MonoBehaviour
 	{
 		if (interactionPrompt != null)
 		{
-			interactionPrompt.enabled = false;
+			interactionPrompt.SelectStop();
 		}
 
 		OnSelectStop();

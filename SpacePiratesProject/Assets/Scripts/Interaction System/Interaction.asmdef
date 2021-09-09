@@ -3,7 +3,8 @@
     "rootNamespace": "",
     "references": [
         "Unity.InputSystem",
-        "Player"
+        "Player",
+        "UI"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

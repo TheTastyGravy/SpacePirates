@@ -17,11 +17,13 @@ public class EngineSwitch : Interactable
 		{
             // Turn the engine off
             OnActivated?.Invoke();
-		}
+            interactionPrompt.Pop();
+        }
 		else
 		{
             //start minigame to turn on
             OnActivated?.Invoke();
+            interactionPrompt.Pop();
         }
 	}
 

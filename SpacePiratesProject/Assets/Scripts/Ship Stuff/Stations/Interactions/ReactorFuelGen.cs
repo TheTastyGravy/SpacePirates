@@ -34,8 +34,11 @@ public class ReactorFuelGen : Interactable
 
 	protected override void OnInteractStart(Interactor interactor)
 	{
+        interactionPrompt.Pop();
+
         Grabbable fuelGrabbable = Instantiate(fuelPrefab).GetComponent<Grabbable>();
         interactor.Pickup(fuelGrabbable);
+        
 
         hasFuel = false;
         ReregisterInteractions();

@@ -11,6 +11,7 @@ public class TurretActivate : Interactable
 
 	protected override void OnInteractStart(Interactor interactor)
 	{
+        interactionPrompt.Pop();
         OnInteract?.Invoke(interactor);
 	}
 

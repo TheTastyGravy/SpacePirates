@@ -36,7 +36,8 @@ public class ReactorSwitch : Interactable
 	{
         OnActivated?.Invoke();
 		timePassed = 0;
-        ReregisterInteractions();
+		interactionPrompt.Pop();
+		ReregisterInteractions();
 	}
 
 	protected override bool ShouldRegister(Interactor interactor, out Player.Control button)
