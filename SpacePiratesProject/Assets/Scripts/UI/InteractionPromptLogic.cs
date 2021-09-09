@@ -10,6 +10,7 @@ public class InteractionPromptLogic : MonoBehaviour
     public float progressLossRate = 3;
     public float popScale = 2;
     public float popTime = 0.25f;
+    public GameObject _text;
 
     [HideInInspector]
     public float interactionProgress = 0;
@@ -84,12 +85,14 @@ public class InteractionPromptLogic : MonoBehaviour
     public void InteractStart()
     {
         isBeingUsed = true;
+        _text.SetActive(false);
         interactionProgress = 0;
     }
 
     public void InteractStop()
     {
         isBeingUsed = false;
+        _text.SetActive(true);
     }
 
     public void SelectStart()
@@ -107,6 +110,7 @@ public class InteractionPromptLogic : MonoBehaviour
 
         promptImage.enabled = false;
         progressImage.enabled = false;
+        _text.SetActive(false);
         isBeingUsed = false;
     }
 }
