@@ -48,6 +48,7 @@ MonoBehaviour:
   holePrefabs:
   - {fileID: 3854229849652578900, guid: cd754eadd9184a6409307abbb48dc0c7, type: 3}
   chanceToDamageStation: 0.1
+  distanceToDamageStation: 7.5
   localOxygenDrain: 0
 --- !u!1 &4122176639161992799
 GameObject:

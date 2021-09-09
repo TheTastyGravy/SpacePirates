@@ -7,6 +7,8 @@ public class RoomManager : MonoBehaviour
     // The possible hole prefabs to create
     public GameObject[] holePrefabs;
     public float chanceToDamageStation = 0.1f;
+	[Tooltip("The max distance a station can be from an astroid and be damaged")]
+	public float distanceToDamageStation = 10;
 
 	// All the positions a hole can be created at
 	private Transform[] holePositions;
@@ -78,6 +80,12 @@ public class RoomManager : MonoBehaviour
         // Random chance to damage each station
         foreach (var obj in damageStations)
 		{
+			// If the station is too far away, skip it
+			if (Vector3.SqrMagnitude(holeData.hitPos - obj.transform.position) > distanceToDamageStation * distanceToDamageStation)
+			{
+				continue;
+			}
+
             if (Random.Range(0f, 1f) < chanceToDamageStation)
 			{
                 obj.Damage();
