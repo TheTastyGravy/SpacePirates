@@ -71,6 +71,11 @@ public class AstroidManager : Singleton<AstroidManager>
 		float xSize = ySize * cam.aspect;
 		float extraSize = 3;
 
+		// Determine the Y rotation for each box
+		Vector3 camForward = cam.transform.forward;
+		camForward.y = 0;
+		float rotation = Vector3.SignedAngle(Vector3.forward, camForward, Vector3.up) + 90;
+
 
 		void CreateBox(string name, Vector2 viewCoord, Vector3 boxSize)
 		{
@@ -87,7 +92,7 @@ public class AstroidManager : Singleton<AstroidManager>
 			GameObject obj = new GameObject(name);
 			obj.transform.parent = transform;
 			obj.transform.position = position;
-			obj.transform.eulerAngles = new Vector3(0, 45, 0);
+			obj.transform.eulerAngles = new Vector3(0, rotation, 0);
 			BoxCollider box = obj.AddComponent<BoxCollider>();
 			box.size = boxSize;
 			box.isTrigger = true;
@@ -130,6 +135,7 @@ public class AstroidManager : Singleton<AstroidManager>
 			Vector3 dir = Vector3.zero;
 			Vector3 rayOrigin = pos;
 			rayOrigin.y += raycastYOffset;
+			bool hasHit;
 			int iter = 0;
 			do
 			{
@@ -137,8 +143,17 @@ public class AstroidManager : Singleton<AstroidManager>
 				// Get angle as a direction
 				dir.x = baseDirection.x * Mathf.Cos(lookAngle) - baseDirection.z * Mathf.Sin(lookAngle);
 				dir.z = baseDirection.x * Mathf.Sin(lookAngle) + baseDirection.z * Mathf.Cos(lookAngle);
+				hasHit = Physics.Raycast(rayOrigin, dir, 100, raycastMask, QueryTriggerInteraction.Ignore);
 				++iter;
-			} while (Physics.Raycast(rayOrigin, dir, 100, raycastMask, QueryTriggerInteraction.Ignore) != willHit && iter <= 10);
+			} while (hasHit != willHit && iter <= 10);
+
+			// If we should hit but missed, target (0, 0)
+			if (willHit && !hasHit)
+			{
+				dir = -pos;
+				dir.y = 0;
+				dir.Normalize();
+			}
 
 			// Get astroid info in screen space to generate a raycast
 			Vector2 screenPoint = Camera.main.WorldToScreenPoint(pos);
