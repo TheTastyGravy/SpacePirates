@@ -10,6 +10,8 @@ public class AstroidLogic : MonoBehaviour
 	[Tooltip("This is how fast the asteroid moves in space")]
 	public float speed = 10;
 
+	public GameObject explosion;
+
 	private Vector3 direction;
 	private bool hasHitShip = false;
 	private float currentSpeed = 0;
@@ -57,6 +59,9 @@ public class AstroidLogic : MonoBehaviour
 			ShipManager.Instance.DamageShipAtPosition(transform.position);
 			hasHitShip = true;
 			Destroy(gameObject);
+
+			GameObject obj = Instantiate(explosion, collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
+			Destroy(obj, 3);
 		}
 	}
 }
