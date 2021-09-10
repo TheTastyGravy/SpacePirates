@@ -61,3 +61,4 @@ MonoBehaviour:
   m_DefaultActionMap: PlayerControls
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+  characterPrefab: {fileID: 4005133880014119638, guid: ef3adaebb1e74d64dae37f9a913faa23, type: 3}

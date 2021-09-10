@@ -5,6 +5,8 @@ using UnityEngine.InputSystem.Utilities;
 
 public class Player : PlayerInput
 {
+    public GameObject characterPrefab;
+
     public PlayerSlot Slot => ( PlayerSlot )playerIndex;
     public ControlStage Stage => m_ControlStage;
     public InputDevice Device => m_InputDevice;
@@ -65,7 +67,7 @@ public class Player : PlayerInput
 
     public void ChangeCharacter( int a_VariantIndex )
     {
-        m_Character.VariantIndex = a_VariantIndex;
+        m_Character.SetVariant(a_VariantIndex);
     }
 
     public void ChangeCharacter( int a_CharacterIndex, int a_VariantIndex )
@@ -78,42 +80,21 @@ public class Player : PlayerInput
             }
             else
             {
-                m_Character.VariantIndex = a_VariantIndex;
+                m_Character.SetVariant(a_VariantIndex);
             }
         }
         else
         {
             if ( m_Character != null )
             {
-                Destroy( m_Character.gameObject );
-            }
-
-            m_Character = CharacterManager.CreateCharacter( this, a_CharacterIndex, a_VariantIndex );
-        }
-    }
-
-    public void ChangeCharacter( string a_CharacterName, int a_VariantIndex )
-    {
-        if ( m_Character != null && m_Character.CharacterName == a_CharacterName )
-        {
-            if ( m_Character.VariantIndex == a_VariantIndex )
-            {
+                m_Character.SetCharacter(a_CharacterIndex);
+                m_Character.SetVariant(a_VariantIndex);
                 return;
             }
-            else
-            {
-                m_Character.VariantIndex = a_VariantIndex;
-            }
-        }
-        else
-        {
-            if ( m_Character != null )
-            {
-                Destroy( m_Character.gameObject );
-            }
 
-            m_Character = CharacterManager.CreateCharacter( this, a_CharacterName, a_VariantIndex );
-            typeof( ICharacter ).GetProperty( "m_Player" ).SetValue( m_Character, this );
+            // Create new character. This will use (0, 0)
+            m_Character = Instantiate(characterPrefab, transform).GetComponent<ICharacter>();
+            m_Character.Player = this;
         }
     }
 

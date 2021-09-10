@@ -25,8 +25,10 @@ public class Character : ICharacter
         }
     }
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+
         m_Rigidbody = GetComponent< Rigidbody >();
 		animator = GetComponent<Animator>();
         IsKinematic = true;
@@ -72,6 +74,10 @@ public class Character : ICharacter
 	void OnDisable()
 	{
         m_Rigidbody.velocity = Vector3.zero;
+        if (animator != null)
+        {
+            animator.SetFloat("Speed", 0);
+        }
     }
 
 

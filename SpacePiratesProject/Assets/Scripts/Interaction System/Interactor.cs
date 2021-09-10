@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class Interactor : MonoBehaviour
 {
-	public Transform grabAttach;
+	private Transform grabAttach;
 
 	// All interactables in range (registered and unregistered)
 	// Destroied interactables will remove themself from this list after unregistering
@@ -100,6 +100,12 @@ public class Interactor : MonoBehaviour
 	/// </summary>
 	public void Pickup(Grabbable grabbable)
 	{
+		// Try to get the characters grab trans
+		if (grabAttach == null)
+		{
+			grabAttach = GetComponent<ICharacter>().GetCharacter().grabTransform;
+		}
+
 		if (heldGrabbable != null)
 			return;
 		

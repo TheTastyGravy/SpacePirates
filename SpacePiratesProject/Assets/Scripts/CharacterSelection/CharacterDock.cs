@@ -140,8 +140,8 @@ public class CharacterDock : MonoBehaviour
         {
             return;
         }
-
-        int variantCount = CharacterManager.GetVariantCount( m_AssignedPlayer.Character.CharacterIndex );
+        
+        int variantCount = m_AssignedPlayer.Character.GetVariantCount();
 
         if ( m_AssignedPlayer.Character.VariantIndex == variantCount - 1 && !a_Loop )
         {
@@ -155,7 +155,7 @@ public class CharacterDock : MonoBehaviour
             characterVariant = 0;
         }
 
-        m_AssignedPlayer.Character.VariantIndex = characterVariant;
+        m_AssignedPlayer.Character.SetVariant(characterVariant);
     }
 
     private void DecrementVariant( bool a_Loop = false )
@@ -165,7 +165,7 @@ public class CharacterDock : MonoBehaviour
             return;
         }
 
-        int variantCount = CharacterManager.GetVariantCount( m_AssignedPlayer.Character.CharacterIndex );
+        int variantCount = m_AssignedPlayer.Character.GetVariantCount();
 
         if ( m_AssignedPlayer.Character.VariantIndex == 0 && !a_Loop )
         {
@@ -179,7 +179,7 @@ public class CharacterDock : MonoBehaviour
             characterVariant = variantCount - 1;
         }
 
-        m_AssignedPlayer.Character.VariantIndex = characterVariant;
+        m_AssignedPlayer.Character.SetVariant(characterVariant);
     }
 
     private void OnDPADPressed( InputAction.CallbackContext a_CallbackContext )
