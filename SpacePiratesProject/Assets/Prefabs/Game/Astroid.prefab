@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: -1333400739666996677}
   - component: {fileID: 3741990067152262413}
   - component: {fileID: 534072522444278082}
-  - component: {fileID: 5210895443863284519}
   m_Layer: 7
   m_Name: Astroid
   m_TagString: Untagged
@@ -47,6 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855adb66445927c40b45ce3e16af7bfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  visuals:
+  - {fileID: 8121488711508503008}
+  - {fileID: 2524606926438085910}
+  - {fileID: 1179392493213341775}
+  minScaleFactor: 0.8
+  maxScaleFactor: 1.2
+  updateCollider: 0
   health: 1
   speed: 5
   explosion: {fileID: 7894892668884435334, guid: 33825a87e5aa9194aa1508cc53ebe6cf, type: 3}
@@ -80,22 +86,6 @@ CapsuleCollider:
   m_Height: 10
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5210895443863284519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1177453880813799770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 795c354d33c60d64a81ccc88ee3c86f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Visuals:
-  - {fileID: 8121488711508503008}
-  - {fileID: 2524606926438085910}
-  - {fileID: 1179392493213341775}
 --- !u!1 &8797573917955337743
 GameObject:
   m_ObjectHideFlags: 0
