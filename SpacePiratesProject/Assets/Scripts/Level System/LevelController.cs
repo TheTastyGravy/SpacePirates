@@ -11,6 +11,7 @@ public class LevelController : Singleton<LevelController>
     private int lastEventIndex = -1;
     private Level.Event currentEvent = null;
     private EventManager eventManager;
+    private TimelineController timeline;
 
 
 
@@ -21,6 +22,8 @@ public class LevelController : Singleton<LevelController>
         Instantiate( ship.ShipPrefab );
 
         eventManager = EventManager.Instance;
+        timeline = TimelineController.Instance;
+        timeline.Setup(level);
     }
 
     void Update()

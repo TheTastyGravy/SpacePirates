@@ -7,7 +7,6 @@ using System;
 
 public class HUDController : Singleton< HUDController >
 {
-    //public HUDManeuverDisplay ManeuverDisplay;
     public HUDOptionsMenu OptionsMenu;
 
 
