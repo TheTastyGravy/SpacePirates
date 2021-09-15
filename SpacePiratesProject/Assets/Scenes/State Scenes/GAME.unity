@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 97637a2a763b7f24b8da4e139e4144ca, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 23c3da1851f9ece409fd4f1b2077fd37, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0008510157, g: 0.0018434842, b: 0.054547586, a: 1}
+  m_IndirectSpecularColor: {r: 0.14453027, g: 0.14613533, b: 0.14453027, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9916,6 +9916,7 @@ MonoBehaviour:
   astroidPrefab: {fileID: 1177453880813799770, guid: 5a69b7a24e7d7024eabe93c3a92d22fd, type: 3}
   timeBetweenAstroids: 5
   maxAngleVariance: 90
+  astroidSpawnDelay: 1.5
   raycastMask:
     serializedVersion: 2
     m_Bits: 55
@@ -9924,6 +9925,7 @@ MonoBehaviour:
   uiPrefab: {fileID: 436706070783350855, guid: a2995ec5e5b49e4479c4b55570dfb1d8, type: 3}
   canvas: {fileID: 1324750617}
   uiBoundry: {fileID: 1116524946}
+  uiExtraTime: 0.5
 --- !u!114 &819356480 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3038163083733792040, guid: 9b4867d725271e947a70672c29d5b895, type: 3}
