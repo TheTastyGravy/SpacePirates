@@ -189,7 +189,15 @@ public class TurretStation : MonoBehaviour
             currentInteractor.Player.GetInput(Player.Control.LEFT_STICK, out Vector3 left);
             currentInteractor.Player.GetInput(Player.Control.RIGHT_STICK, out Vector3 right);
             direction = (left.sqrMagnitude > right.sqrMagnitude) ? left : right;
-		}
+
+            // Get camera directions on the Y plane
+            Vector3 camForward = Camera.main.transform.forward;
+            camForward.y = 0;
+            Vector3 camRight = Camera.main.transform.right;
+            camRight.y = 0;
+            // Calculate movement using the camera
+            direction = camForward.normalized * direction.z + camRight.normalized * direction.x;
+        }
 		else // Player is using keyboard
 		{
             // Cast ray from cursor to plane

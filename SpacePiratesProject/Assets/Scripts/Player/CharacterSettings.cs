@@ -7,4 +7,15 @@ public class CharacterSettings : MonoBehaviour
     public string characterName;
     public Material[] variants;
     public Transform grabTransform;
+
+
+	// Called by ICharacter in Awake. Avoids race events
+	internal void Init()
+	{
+		if (variants.Length == 0)
+		{
+			variants = new Material[1];
+			variants[0] = GetComponentInChildren<Renderer>().material;
+		}
+	}
 }
