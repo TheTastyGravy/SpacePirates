@@ -36,6 +36,7 @@ public class ICharacter : MonoBehaviour
             }
 
             CharacterSettings settings = obj.GetComponent<CharacterSettings>();
+            settings.Init();
             CharacterData data = new CharacterData
             {
                 characterName = settings.characterName,
