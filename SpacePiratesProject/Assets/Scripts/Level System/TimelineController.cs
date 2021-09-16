@@ -9,12 +9,25 @@ public class TimelineController : Singleton<TimelineController>
     public GameObject[] eventIconPrefabs;
     [Tooltip("Prefab that is used as the icon for the player ship")]
     public GameObject playerShipIconPrefab;
+    [Tooltip("Prefab that is used for the ping effect")]
+    public GameObject pingEffectPrefab;
+    [Space]
+    public float pingDistance = 40;
+    public float pingTime = 1.5f;
+    [Space]
+    public float pingEffectFadeInTime = 0.2f;
+    public float pingEffectFadeOutTime = 0.3f;
+    public float flashFadeInTime = 0.2f;
+    public float flashDisplayTime = 0.1f;
+    public float flashFadeOutTime = 1;
 
 
     private RectTransform timelineBase;
     private Level level;
     // Inverse length of the level
     private float invLength;
+    private float iconSize;
+    private float pingSpeed;
 
     private struct EventIcon
 	{
@@ -24,6 +37,9 @@ public class TimelineController : Singleton<TimelineController>
 	}
     private EventIcon[] icons;
     private Image playerShipIcon;
+    private RectTransform playerShipRectTrans;
+    private Image pingEffect;
+    private RectTransform pingEffectRectTrans;
 
 
 
@@ -32,6 +48,8 @@ public class TimelineController : Singleton<TimelineController>
         timelineBase = transform as RectTransform;
         this.level = level;
         invLength = 1.0f / level.length;
+        iconSize = timelineBase.rect.height;
+        pingSpeed = pingDistance / pingTime;
 
         // Setup event icons
         icons = new EventIcon[level.events.Length];
@@ -46,38 +64,153 @@ public class TimelineController : Singleton<TimelineController>
             GameObject iconObject = Instantiate(eventIconPrefabs[(int)_event.type], timelineBase);
             RectTransform rectTrans = iconObject.transform as RectTransform;
             // Set hight to match the parent
-            rectTrans.sizeDelta = new Vector2(0, timelineBase.rect.height);
+            rectTrans.sizeDelta = new Vector2(0, iconSize);
             // Set position and size on X axis relitive to the left edge
-            rectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, timelineBase.rect.width * icons[i].position * invLength, timelineBase.rect.height);
+            rectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * icons[i].position * invLength, iconSize);
 
             // Make image transparent
-            icons[i].image = iconObject.GetComponent<Image>();
+            icons[i].image = iconObject.GetComponentInChildren<Image>();
             icons[i].image.color = Color.clear;
         }
 
         // Setup player ship icon
-        GameObject shipIconObj = Instantiate(playerShipIconPrefab, timelineBase);
-        RectTransform rect = shipIconObj.transform as RectTransform;
-        // Set hight to match the parent
-        rect.sizeDelta = new Vector2(0, timelineBase.rect.height);
-        // Set position and size on X axis relitive to the left edge
-        rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, timelineBase.rect.height);
+        {
+            // Create icon
+            GameObject shipIconObj = Instantiate(playerShipIconPrefab, timelineBase);
+            playerShipRectTrans = shipIconObj.transform as RectTransform;
+            // Set hight to match the parent
+            playerShipRectTrans.sizeDelta = new Vector2(0, iconSize);
+            // Set position and size on X axis relitive to the left edge
+            playerShipRectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, iconSize);
 
-        // Make image transparent
-        playerShipIcon = shipIconObj.GetComponent<Image>();
-        playerShipIcon.color = Color.clear;
+            // Make image transparent
+            playerShipIcon = shipIconObj.GetComponentInChildren<Image>();
+            playerShipIcon.color = Color.clear;
+        }
+
+        // Setup ping effect
+        {
+            // Create object
+            GameObject pingObject = Instantiate(pingEffectPrefab, timelineBase);
+            pingEffectRectTrans = pingObject.transform as RectTransform;
+            // Set hight to match the parent
+            pingEffectRectTrans.sizeDelta = new Vector2(0, iconSize);
+            // Set position and size on X axis relitive to the left edge
+            pingEffectRectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, iconSize);
+
+            // Make image transparent
+            pingEffect = pingObject.GetComponentInChildren<Image>();
+            pingEffect.color = Color.clear;
+        }
     }
 
-    void Update()
-    {
-        
-    }
 
-
-    public void UpdateTimeline()
+    public void Ping()
 	{
+        StartCoroutine(PingTimeline());
+    }
 
+    private IEnumerator PingTimeline()
+    {
+        float playerPos = LevelController.Instance.PlayerPosition;
 
+        // Update player ship icon position
+        playerShipRectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * playerPos * invLength, iconSize);
+        // Flash the player ship
+        StartCoroutine(FlashIcon(playerShipIcon));
+        // Fade in the ping effect
+        StartCoroutine(FadePingEffect(true));
 
+        // Find the first icon that will be pinged
+        int index = icons.Length;
+        for (int i = 0; i < icons.Length; i++)
+        {
+            if (icons[i].position > playerPos)
+            {
+                index = i;
+                break;
+            }
+        }
+
+        float time = 0;
+        float dist = playerPos;
+        bool fadeOutFlag = false;
+        while (time < pingTime)
+		{
+            // If the ping is ending, fade out the ping effect
+            if (!fadeOutFlag && time >= pingTime - pingEffectFadeOutTime)
+            {
+                fadeOutFlag = true;
+                StartCoroutine(FadePingEffect(false));
+            }
+
+            // Update ping effect position
+            pingEffectRectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * dist * invLength, iconSize);
+            // Flash icons as we pass them
+            if (index < icons.Length && dist >= icons[index].position)
+			{
+                StartCoroutine(FlashIcon(icons[index].image));
+                index++;
+			}
+
+            // Update time and distance
+            time += Time.deltaTime;
+            dist += pingSpeed * Time.deltaTime;
+            // If we have reached the end of the level, fade out the ping effect and exit
+            if (dist >= level.length)
+            {
+                if (!fadeOutFlag)
+                    StartCoroutine(FadePingEffect(false));
+                break;
+            }
+            yield return null;
+		}
+    }
+
+    private IEnumerator FlashIcon(Image image)
+	{
+        Color blank = new Color(1, 1, 1, 0);
+        float time = 0;
+
+        // Fade in
+        while (time < flashFadeInTime)
+		{
+            image.color = Color.Lerp(blank, Color.white, time / flashFadeInTime);
+            time += Time.deltaTime;
+            yield return null;
+		}
+
+        // Display
+        image.color = Color.white;
+        yield return new WaitForSeconds(flashDisplayTime);
+        time = 0;
+
+        // Fade out
+        while (time < flashFadeOutTime)
+		{
+            image.color = Color.Lerp(Color.white, blank, time / flashFadeOutTime);
+            time += Time.deltaTime;
+            yield return null;
+		}
+
+        image.color = blank;
+    }
+
+    private IEnumerator FadePingEffect(bool fadeIn)
+	{
+        Color start = fadeIn ? new Color(1, 1, 1, 0) : Color.white;
+        Color end = fadeIn ? Color.white : new Color(1, 1, 1, 0);
+        float totalTime = fadeIn ? pingEffectFadeInTime : pingEffectFadeOutTime;
+
+        float time = 0;
+        while (time < totalTime)
+		{
+            pingEffect.color = Color.Lerp(start, end, time / totalTime);
+
+            time += Time.deltaTime;
+            yield return null;
+		}
+
+        pingEffect.color = end;
 	}
 }

@@ -12,7 +12,7 @@ public class ReactorStation : MonoBehaviour
 	public Light stateLight;
 
 
-	private ReactorSwitch[] reactorSwitches;
+	private BasicSwitch[] reactorSwitches;
 	private ReactorFuelGen fuelGen;
 	private DamageStation damage;
 	public DamageStation Damage => damage;
@@ -29,7 +29,7 @@ public class ReactorStation : MonoBehaviour
 
     void Start()
     {
-		reactorSwitches = GetComponentsInChildren<ReactorSwitch>();
+		reactorSwitches = GetComponentsInChildren<BasicSwitch>();
 		fuelGen = GetComponentInChildren<ReactorFuelGen>();
         damage = GetComponentInChildren<DamageStation>();
 

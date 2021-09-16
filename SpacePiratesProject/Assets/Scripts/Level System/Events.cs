@@ -65,7 +65,12 @@ public class PlasmaStorm : Event
 		if (timePassed >= timeBetweenDamage)
 		{
 			timePassed -= timeBetweenDamage;
-			shipManager.GetRandomActiveStation().Damage();
+
+			DamageStation station = shipManager.GetRandomActiveStation();
+			if (station != null)
+			{
+				station.Damage();
+			}
 			//play some effect at station (lightning? sparks?)
 		}
 	}

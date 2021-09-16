@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReactorSwitch : Interactable
+public class BasicSwitch : Interactable
 {
-    internal BasicDelegate OnActivated;
+    public BasicDelegate OnActivated;
 
     [Tooltip("How long the switch is disabled for after being used")]
     public float interactionCooldown = 1;
