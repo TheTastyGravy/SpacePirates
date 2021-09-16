@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0af9b499dc21ee49a67dcae10ce0e85, type: 3}
   m_Name: Ship2
   m_EditorClassIdentifier: 
-  ShipPrefab: {fileID: 4960618490189769071, guid: 8f905d7762f446945b5d1b1f12afbf76, type: 3}
+  ShipPrefab: {fileID: 6707386950761864410, guid: 2cf02f61682ce09459b1895a6092a80b, type: 3}
