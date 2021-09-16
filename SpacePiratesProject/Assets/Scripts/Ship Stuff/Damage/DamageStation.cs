@@ -82,17 +82,23 @@ public class DamageStation : Interactable
 
 	protected override void OnInteractStart(Interactor interactor)
 	{
-		currentInteractor = interactor;
-		currentRepairTime = 0;
-		// Lock the player
-		currentInteractor.Player.Character.enabled = false;
+		if (currentInteractor == null)
+		{
+			currentInteractor = interactor;
+			currentRepairTime = 0;
+			// Lock the player
+			currentInteractor.Player.Character.enabled = false;
+		}
 	}
 
 	protected override void OnInteractStop(Interactor interactor)
 	{
 		// Unlock player
-		currentInteractor.Player.Character.enabled = true;
-		currentInteractor = null;
+		if (currentInteractor != null)
+		{
+			currentInteractor.Player.Character.enabled = true;
+			currentInteractor = null;
+		}
 	}
 
 	protected override bool ShouldRegister(Interactor interactor, out Player.Control button)

@@ -96,7 +96,14 @@ public class ShipManager : Singleton<ShipManager>
 			}
 		}
 
-        return stations[Random.Range(0, stations.Count)];
+        if (stations.Count > 0)
+		{
+            return stations[Random.Range(0, stations.Count)];
+        }
+		else
+		{
+            return null;
+		}
 	}
 
 

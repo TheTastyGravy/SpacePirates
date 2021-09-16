@@ -8,6 +8,7 @@ public class LevelController : Singleton<LevelController>
     public Ship ship;
 
     private float playerPos = 0;
+    public float PlayerPosition => playerPos;
     private int lastEventIndex = -1;
     private Level.Event currentEvent = null;
     private EventManager eventManager;
