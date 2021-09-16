@@ -5290,7 +5290,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &759928038
 Transform:
   m_ObjectHideFlags: 0
@@ -5299,8 +5299,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 759928037}
   m_LocalRotation: {x: -0.12966998, y: 0.3664291, z: -0.3073698, w: 0.8685847}
-  m_LocalPosition: {x: -9.69, y: -18.8, z: 10.2}
-  m_LocalScale: {x: 2.989136, y: 2.9891357, z: 2.9891355}
+  m_LocalPosition: {x: -12.2, y: -23.3, z: 12.8}
+  m_LocalScale: {x: 5.2525096, y: 5.252509, z: 5.252509}
   m_Children: []
   m_Father: {fileID: 549923043}
   m_RootOrder: 0
@@ -5338,7 +5338,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100004, guid: fdc7d8dffa381b54cb7740b8761d54c0, type: 3}
+  - {fileID: 2100000, guid: 752b95ab65895b34db3f037bff3b25e3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11322,7 +11322,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &2077940294
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -11356,7 +11356,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5808bb2f065ea2045aad3859000e960d, type: 2}
+  - {fileID: 2100000, guid: 201c0927836fe2e4abe9d2c3d4590c32, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11393,10 +11393,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2077940293}
-  m_LocalRotation: {x: -0.30448666, y: -0.32455492, z: -0.13630256, w: 0.885084}
+  m_LocalRotation: {x: -0.109058924, y: -0.8531912, z: 0.31527242, w: -0.40096673}
   m_LocalPosition: {x: -8.185732, y: -16.146433, z: 8.677517}
-  m_LocalScale: {x: 3.0629673, y: 3.0629673, z: 3.062967}
+  m_LocalScale: {x: 3.21617, y: 3.21617, z: 3.2161698}
   m_Children: []
   m_Father: {fileID: 549923043}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: -38.864, y: -39.142, z: -3.212}
+  m_LocalEulerAnglesHint: {x: 38.714, y: -232.068, z: -4.906}
