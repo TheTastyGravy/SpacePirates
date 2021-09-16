@@ -8,11 +8,19 @@ Shader "Unlit/ParallaxTest"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { 
+            
+            "RenderType"="Transparent" 
+            "Order" = "Transparent" 
+            }
         LOD 100
 
         Pass
         {
+            //Cull Off
+            //ZWrite Off
+            //Blend One One
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -55,7 +63,9 @@ Shader "Unlit/ParallaxTest"
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
 
+                float testVal = col.r + col.g + col.b - 0.001;
 
+                clip(testVal);
                 
                 return col;
             }
