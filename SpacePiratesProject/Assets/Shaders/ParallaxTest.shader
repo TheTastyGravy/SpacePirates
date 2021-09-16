@@ -5,6 +5,10 @@ Shader "Unlit/ParallaxTest"
         _MainTex ("Texture", 2D) = "white" {}
         _XSpeed ("X Scroll Speed", Range(0, 10)) = 1
         _YSpeed ("Y Scroll Speed", Range(0, 10)) = 1
+        _ClipThreshold ("Clip Threshold", Range(0, 1)) = 0.01
+        _UseTransparency ("Use Transparency", Int) = 0
+        _BaseAlpha ("Base Alpha", Range(0, 1)) = 0
+        _AlphaMult ("Alpha Multiplyer", float) = 1
     }
     SubShader
     {
@@ -14,6 +18,8 @@ Shader "Unlit/ParallaxTest"
             "Order" = "Transparent" 
             }
         LOD 100
+
+        Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
@@ -29,6 +35,10 @@ Shader "Unlit/ParallaxTest"
 
             float _XSpeed;
             float _YSpeed;
+            float _ClipThreshold;
+            fixed _UseTransparency;
+            float _BaseAlpha;
+            float _AlphaMult;
 
             struct Meshdata
             {
@@ -63,10 +73,15 @@ Shader "Unlit/ParallaxTest"
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
 
-                float testVal = col.r + col.g + col.b - 0.001;
+                float maxValue = max(max(col.r, col.g), col.b);
 
-                clip(testVal);
-                
+                clip(maxValue - _ClipThreshold);
+
+                if (_UseTransparency == 1)
+                {
+                    col.a = maxValue * _AlphaMult + _BaseAlpha;
+                }
+
                 return col;
             }
             ENDCG

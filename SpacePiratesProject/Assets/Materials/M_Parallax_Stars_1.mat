@@ -24,7 +24,11 @@ Material:
         m_Scale: {x: 4, y: 4}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AlphaMult: 1
+    - _BaseAlpha: 0
+    - _ClipThreshold: 0.005
     - _Speed: 1
+    - _UseTransparency: 1
     - _XSpeed: 0.01
     - _YSpeed: 0.01
     m_Colors: []
