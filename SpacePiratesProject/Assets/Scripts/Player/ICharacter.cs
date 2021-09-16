@@ -11,29 +11,39 @@ public class ICharacter : MonoBehaviour
         public Renderer renderer;
         public Material[] variants;
         public Transform grabTransform;
+        public Animator animator;
 	}
     private CharacterData[] characters;
-    private CharacterData currentCharacter = null;
+    protected CharacterData currentCharacter = null;
 
 
-    // Material used when there are no variants
-    public Material fallbackMaterial;
+    // Grab transform used when not set in character settings
     public Transform fallbackGrabTransform;
 
 
 
     protected virtual void Awake()
 	{
+        Animator baseAnim = GetComponent<Animator>();
+
         // Get characters
         characters = new CharacterData[transform.childCount];
         for (int i = 0; i < transform.childCount; i++)
 		{
             // Get child and clean it
             Transform obj = transform.GetChild(i);
-            if (obj.TryGetComponent(out Animator animator))
-            {
-                Destroy(animator);
-            }
+
+            // Get or create an animator, and set to to use the base animators settings
+            Animator anim = obj.GetComponent<Animator>();
+            if (anim == null)
+			{
+                anim = obj.gameObject.AddComponent<Animator>();
+			}
+            anim.applyRootMotion = baseAnim.applyRootMotion;
+            anim.avatar = baseAnim.avatar;
+            anim.runtimeAnimatorController = baseAnim.runtimeAnimatorController;
+            anim.enabled = false;
+
 
             CharacterSettings settings = obj.GetComponent<CharacterSettings>();
             settings.Init();
@@ -43,10 +53,13 @@ public class ICharacter : MonoBehaviour
                 character = obj.gameObject,
                 renderer = obj.GetComponentInChildren<Renderer>(),
                 variants = settings.variants,
-                grabTransform = settings.grabTransform != null ? settings.grabTransform : fallbackGrabTransform
+                grabTransform = settings.grabTransform != null ? settings.grabTransform : fallbackGrabTransform,
+                animator = anim
             };
 			characters[i] = data;
         }
+
+        Destroy(baseAnim);
 
         // Disable all characters, and activate the first one
         foreach (var it in characters)
@@ -84,12 +97,13 @@ public class ICharacter : MonoBehaviour
         if (currentCharacter != null)
 		{
             currentCharacter.character.SetActive(false);
+            currentCharacter.animator.enabled = false;
 		}
 
-        // Setup the new character, making it the first sibling so the animator works
+        // Setup the new character
         currentCharacter = characters[index];
         currentCharacter.character.SetActive(true);
-        currentCharacter.character.transform.SetAsFirstSibling();
+        characters[index].animator.enabled = true;
         m_CharacterIndex = index;
         m_CharacterName = currentCharacter.characterName;
         SetVariant(0);
@@ -102,19 +116,9 @@ public class ICharacter : MonoBehaviour
             return;
         }
 
-        int variantCount = GetVariantCount();
-        // If there are no variants, use the fallback
-        if (variantCount == 0)
-		{
-            currentCharacter.renderer.material = fallbackMaterial;
-            m_VariantIndex = 0;
-        }
-		else
-		{
-            index = Mathf.Clamp(index, 0, variantCount);
-            currentCharacter.renderer.material = currentCharacter.variants[index];
-            m_VariantIndex = index;
-        }
+        index = Mathf.Clamp(index, 0, GetVariantCount());
+        currentCharacter.renderer.material = currentCharacter.variants[index];
+        m_VariantIndex = index;
     }
 
 

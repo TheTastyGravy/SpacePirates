@@ -10,8 +10,6 @@ public class Character : ICharacter
     public float MoveSpeed = 1;
     public float TurnSpeed = 10;
 
-	private Animator animator;
-
     public bool IsKinematic
     {
         get
@@ -30,7 +28,6 @@ public class Character : ICharacter
         base.Start();
 
         m_Rigidbody = GetComponent< Rigidbody >();
-		animator = GetComponent<Animator>();
         IsKinematic = true;
         enabled = false;
     }
@@ -65,19 +62,13 @@ public class Character : ICharacter
 		m_Rigidbody.MoveRotation( m_Rigidbody.rotation * quat );
 
 		// Set animator value
-		if (animator != null)
-		{
-			animator.SetFloat("Speed", movement.magnitude);
-		}
+        currentCharacter.animator.SetFloat("Speed", movement.magnitude);
     }
 
 	void OnDisable()
 	{
         m_Rigidbody.velocity = Vector3.zero;
-        if (animator != null)
-        {
-            animator.SetFloat("Speed", 0);
-        }
+        currentCharacter.animator.SetFloat("Speed", 0);
     }
 
 
