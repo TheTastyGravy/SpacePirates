@@ -7,6 +7,7 @@ using System;
 public class Ship : ScriptableObject
 {
     public GameObject ShipPrefab;
+    public float heightOffset = 0;
 
     public static Ship[] All
     {

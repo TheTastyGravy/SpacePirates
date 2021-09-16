@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Ship2
   m_EditorClassIdentifier: 
   ShipPrefab: {fileID: 6707386950761864410, guid: 2cf02f61682ce09459b1895a6092a80b, type: 3}
+  heightOffset: -1.5

@@ -20,7 +20,7 @@ public class LevelController : Singleton<LevelController>
     {
         level = Level.GetLevel( GameManager.SelectedTrack );
         ship = Ship.GetShip( GameManager.SelectedShip );
-        Instantiate( ship.ShipPrefab );
+        Instantiate(ship.ShipPrefab, new Vector3(0, ship.heightOffset, 0), Quaternion.identity);
 
         eventManager = EventManager.Instance;
         timeline = TimelineController.Instance;
