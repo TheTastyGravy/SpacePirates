@@ -11,6 +11,7 @@ public class CharacterDock : MonoBehaviour
     public GameObject PressStartToJoin;
     public GameObject PressBToLeave;
     public GameObject PressXToCycleVariant;
+    public GameObject ReadyIndicator;
 
     public Phase ConnectPhase
     {
@@ -48,13 +49,21 @@ public class CharacterDock : MonoBehaviour
                         PressXToCycleVariant?.SetActive( false );
                         m_AssignedPlayer.RemoveInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
                         m_AssignedPlayer.RemoveInputListener( Player.Control.X_PRESSED, OnXPressed );
+                        m_AssignedPlayer.RemoveInputListener(Player.Control.A_PRESSED, OnReady);
 
                         if ( m_AssignedPlayer.Slot != Player.PlayerSlot.P1 )
                         {
                             m_AssignedPlayer.RemoveInputListener( Player.Control.B_PRESSED, OnBPressed );
                             PressBToLeave?.SetActive( false );
                         }
-                        
+                    }
+                    break;
+                case Phase.PLAYER_READY:
+                    {
+                        if (ReadyIndicator != null)
+                            ReadyIndicator.SetActive(false);
+                        m_AssignedPlayer.RemoveInputListener(Player.Control.A_PRESSED, OnUnready);
+                        m_AssignedPlayer.RemoveInputListener(Player.Control.B_PRESSED, OnUnready);
                     }
                     break;
             }
@@ -84,12 +93,21 @@ public class CharacterDock : MonoBehaviour
                         PressXToCycleVariant?.SetActive( true );
                         m_AssignedPlayer.AddInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
                         m_AssignedPlayer.AddInputListener( Player.Control.X_PRESSED, OnXPressed );
+                        m_AssignedPlayer.AddInputListener(Player.Control.A_PRESSED, OnReady);
 
                         if ( m_AssignedPlayer.Slot != Player.PlayerSlot.P1 )
                         {                            
                             m_AssignedPlayer.AddInputListener( Player.Control.B_PRESSED, OnBPressed );
                             PressBToLeave?.SetActive( true );
                         }
+                    }
+                    break;
+                case Phase.PLAYER_READY:
+					{
+                        if (ReadyIndicator != null)
+                            ReadyIndicator.SetActive(true);
+                        m_AssignedPlayer.AddInputListener(Player.Control.A_PRESSED, OnUnready);
+                        m_AssignedPlayer.AddInputListener(Player.Control.B_PRESSED, OnUnready);
                     }
                     break;
             }
@@ -109,11 +127,17 @@ public class CharacterDock : MonoBehaviour
         {
             m_AssignedPlayer.RemoveInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
             m_AssignedPlayer.RemoveInputListener( Player.Control.X_PRESSED, OnXPressed );
+            m_AssignedPlayer.RemoveInputListener(Player.Control.A_PRESSED, OnReady);
 
             if ( m_AssignedPlayer.Slot != Player.PlayerSlot.P1 )
             {
                 m_AssignedPlayer.RemoveInputListener( Player.Control.B_PRESSED, OnBPressed );
             }
+        }
+        else if (ConnectPhase == Phase.PLAYER_READY)
+		{
+            m_AssignedPlayer.RemoveInputListener(Player.Control.A_PRESSED, OnUnready);
+            m_AssignedPlayer.RemoveInputListener(Player.Control.B_PRESSED, OnUnready);
         }
     }
 
@@ -215,15 +239,30 @@ public class CharacterDock : MonoBehaviour
 
     private void OnBPressed( InputAction.CallbackContext _ )
     {
+        // Disconnect player
         CharacterSelector.DestroySelector( m_AssignedPlayer.Slot );
         Destroy( m_AssignedPlayer.gameObject );
         ConnectPhase = Phase.WAIT_ON_JOIN;
+        // Check if other players are ready
+        CharacterSelector.Instance.CheckReadyState();
     }
 
     private void OnXPressed( InputAction.CallbackContext _ )
     {
         IncrementVariant( true );
     }
+
+    private void OnReady(InputAction.CallbackContext _)
+	{
+        ConnectPhase = Phase.PLAYER_READY;
+        CharacterSelector.Instance.CheckReadyState();
+    }
+
+    private void OnUnready(InputAction.CallbackContext _)
+	{
+        ConnectPhase = Phase.CHOOSE_CHARACTER;
+    }
+
 
     private Player m_AssignedPlayer;
     private Phase m_CurrentStage;
@@ -234,6 +273,7 @@ public class CharacterDock : MonoBehaviour
         WAIT_ON_DEVICE,   // No device connected.
         WAIT_ON_RECONNECT,// Device disconnected on player.
         WAIT_ON_JOIN,     // Device not joined.
-        CHOOSE_CHARACTER  // Selecting Character.
+        CHOOSE_CHARACTER, // Selecting Character.
+        PLAYER_READY      // Player is ready to continue
     }
 }

@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 4522752636240937880}
   - component: {fileID: 6899204882810796589}
   - component: {fileID: 8946261230250153844}
+  - component: {fileID: 9161674349071311623}
   m_Layer: 0
   m_Name: Activate
   m_TagString: Untagged
@@ -211,6 +212,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPrompt: {fileID: 5373389852624146217}
+--- !u!65 &9161674349071311623
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3195700653289833742}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 0.8}
+  m_Center: {x: 0, y: 0.5, z: -0.1}
 --- !u!1 &4441038924020924072
 GameObject:
   m_ObjectHideFlags: 0
@@ -497,6 +511,7 @@ GameObject:
   - component: {fileID: 6106859117707159342}
   - component: {fileID: 7714479140403123899}
   - component: {fileID: 2800797568485122822}
+  - component: {fileID: 5845477501372767040}
   m_Layer: 0
   m_Name: FuelDepo
   m_TagString: Untagged
@@ -547,6 +562,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionPrompt: {fileID: 7704006442477591440}
   timeToDeposit: 1
+--- !u!65 &5845477501372767040
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6431382870527476156}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.75, y: 1, z: 1.15}
+  m_Center: {x: 0, y: 0.5, z: 0.1}
 --- !u!1 &8589990899082010137
 GameObject:
   m_ObjectHideFlags: 0
@@ -5682,11 +5710,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dac1f5d1f95abf4882a1fb545bab1e3, type: 3}
---- !u!224 &3651617783063937874 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8537431630326817330, guid: 8dac1f5d1f95abf4882a1fb545bab1e3, type: 3}
-  m_PrefabInstance: {fileID: 4960200226659295584}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7704006442477591440 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3331549755160689392, guid: 8dac1f5d1f95abf4882a1fb545bab1e3, type: 3}
@@ -5698,6 +5721,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4df83d5957353f843abd7596ca2334c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &3651617783063937874 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8537431630326817330, guid: 8dac1f5d1f95abf4882a1fb545bab1e3, type: 3}
+  m_PrefabInstance: {fileID: 4960200226659295584}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5495253116249917005
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5869,6 +5897,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dac1f5d1f95abf4882a1fb545bab1e3, type: 3}
+--- !u!224 &1357021191724718059 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8537431630326817330, guid: 8dac1f5d1f95abf4882a1fb545bab1e3, type: 3}
+  m_PrefabInstance: {fileID: 7254761614035760601}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5373389852624146217 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3331549755160689392, guid: 8dac1f5d1f95abf4882a1fb545bab1e3, type: 3}
@@ -5880,11 +5913,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4df83d5957353f843abd7596ca2334c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &1357021191724718059 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8537431630326817330, guid: 8dac1f5d1f95abf4882a1fb545bab1e3, type: 3}
-  m_PrefabInstance: {fileID: 7254761614035760601}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7510730812331556352
 PrefabInstance:
   m_ObjectHideFlags: 0

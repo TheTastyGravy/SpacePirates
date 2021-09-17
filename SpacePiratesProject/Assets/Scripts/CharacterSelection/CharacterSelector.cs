@@ -29,6 +29,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
         m_CharacterTiles = new CharacterTile[ CharacterTiles.Length ];
         m_CharacterDocks = new CharacterDock[ GameManager.MaxPlayers ];
 
+        // Only allow new players if not over max players
         if ( PlayerInput.all.Count < GameManager.MaxPlayers )
         {
             PlayerInputManager.instance.EnableJoining();
@@ -43,6 +44,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
         PopulateCharacterTiles();
         PopulateCharacterDocks();
 
+        // Setup characters for each player
         for ( int i = 0; i < Mathf.Min( PlayerInput.all.Count, m_CharacterDocks.Length ); ++i )
         {
             Player player = PlayerInput.all[ i ] as Player;
@@ -59,7 +61,6 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
         m_DefaultActionMap = GameManager.DefaultActionMap;
         int countCompatible = 0;
-
         foreach( InputDevice inputDevice in InputSystem.devices )
         {
             if ( m_DefaultActionMap.IsUsableWithDevice( inputDevice ) )
@@ -67,28 +68,26 @@ public class CharacterSelector : Singleton< CharacterSelector >
                 ++countCompatible;
             }
         }
-
         for ( int i = PlayerInput.all.Count; i < Mathf.Min( countCompatible, m_CharacterDocks.Length ); ++i )
         {
             m_CharacterDocks[ i ].ConnectPhase = CharacterDock.Phase.WAIT_ON_JOIN;
         }
-
         for ( int i = countCompatible; i < GameManager.MaxPlayers; ++i )
         {
             m_CharacterDocks[ i ].ConnectPhase = CharacterDock.Phase.WAIT_ON_DEVICE;
         }
 
+        // Setup listeners
         InputSystem.onDeviceChange += OnDeviceChange;
         Player primaryPlayer = Player.GetPlayerBySlot( Player.PlayerSlot.P1 );
-        primaryPlayer.AddInputListener( Player.Control.A_PRESSED, OnAPressedByP1 );
         primaryPlayer.AddInputListener( Player.Control.B_PRESSED, OnBPressedByP1 );
     }
 
     private void OnDestroy()
     {
+        // Remove listeners
         InputSystem.onDeviceChange -= OnDeviceChange;
         Player primaryPlayer = Player.GetPlayerBySlot( Player.PlayerSlot.P1 );
-        primaryPlayer.RemoveInputListener( Player.Control.A_PRESSED, OnAPressedByP1 );
         primaryPlayer.RemoveInputListener( Player.Control.B_PRESSED, OnBPressedByP1 );
         PlayerInputManager.instance.onPlayerJoined -= OnPlayerJoined;
         PlayerInputManager.instance.onPlayerLeft -= OnPlayerLeft;
@@ -337,6 +336,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
     private void OnPlayerLeft( PlayerInput _ )
     {
         PlayerInputManager.instance.EnableJoining();
+        CheckReadyState();
     }
 
     private void OnDeviceChange( InputDevice a_InputDevice, InputDeviceChange a_InputDeviceChange )
@@ -398,36 +398,49 @@ public class CharacterSelector : Singleton< CharacterSelector >
         }
     }
 
-    private void OnAPressedByP1( InputAction.CallbackContext _ )
-    {
-        PlayerInputManager.instance.DisableJoining();
-
-        foreach ( PlayerInput playerInput in PlayerInput.all )
-        {
-            playerInput.transform.parent = null;
-
-            (playerInput as Player).Character.SetUseCharacterSelectAnimations(false);
-            ( playerInput as Player ).Character.gameObject.SetActive( false );
-            playerInput.transform.SetPositionAndRotation( Vector3.zero, Quaternion.identity );
-            DontDestroyOnLoad( playerInput.gameObject );
-        }
-        
-        GameManager.CurrentState = GameManager.GameState.TRACK;
-    }
-
     private void OnBPressedByP1( InputAction.CallbackContext _ )
     {
+        // Destroy all other players (players can only join in character select)
         for ( int i = 1; i < PlayerInput.all.Count; ++i )
         {
             Destroy( PlayerInput.all[ i ].gameObject );
         }
 
+        // Reset player 1 and return to ship select
         Player primaryPlayer = PlayerInput.all[ 0 ] as Player;
         primaryPlayer.DestroyCharacter();
         primaryPlayer.transform.parent = null;
         DontDestroyOnLoad( primaryPlayer.gameObject );
         GameManager.CurrentState = GameManager.GameState.SHIP;
     }
+
+    public void CheckReadyState()
+	{
+        foreach (var obj in m_CharacterDocks)
+		{
+            // A player is choosing their character, so all players are not ready
+            if (obj.AssignedPlayer != null && obj.ConnectPhase == CharacterDock.Phase.CHOOSE_CHARACTER)
+			{
+                return;
+			}
+		}
+
+        // All players are ready, so we can continue to track select
+        PlayerInputManager.instance.DisableJoining();
+        // Setup players to change scene
+        foreach (PlayerInput playerInput in PlayerInput.all)
+        {
+            playerInput.transform.parent = null;
+
+            (playerInput as Player).Character.SetUseCharacterSelectAnimations(false);
+            (playerInput as Player).Character.gameObject.SetActive(false);
+            playerInput.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+            DontDestroyOnLoad(playerInput.gameObject);
+        }
+
+        GameManager.CurrentState = GameManager.GameState.TRACK;
+    }
+
 
     private SelectorTile[] m_SelectorTiles;
     private CharacterTile[] m_CharacterTiles;
