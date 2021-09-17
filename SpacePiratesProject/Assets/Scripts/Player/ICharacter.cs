@@ -16,9 +16,10 @@ public class ICharacter : MonoBehaviour
     private CharacterData[] characters;
     protected CharacterData currentCharacter = null;
 
-
     // Grab transform used when not set in character settings
     public Transform fallbackGrabTransform;
+
+    private bool useCharacterSelectAnimations = false;
 
 
 
@@ -103,9 +104,11 @@ public class ICharacter : MonoBehaviour
         // Setup the new character
         currentCharacter = characters[index];
         currentCharacter.character.SetActive(true);
-        characters[index].animator.enabled = true;
         m_CharacterIndex = index;
         m_CharacterName = currentCharacter.characterName;
+        currentCharacter.animator.enabled = true;
+        currentCharacter.animator.Play(useCharacterSelectAnimations ? "Base Layer.CharSelect_" + currentCharacter.characterName : "Base Layer.Blend Tree", 0, 0);
+        
         SetVariant(0);
     }
 
@@ -120,6 +123,21 @@ public class ICharacter : MonoBehaviour
         currentCharacter.renderer.material = currentCharacter.variants[index];
         m_VariantIndex = index;
     }
+
+    public void SetUseCharacterSelectAnimations(bool value)
+	{
+        if (useCharacterSelectAnimations == value)
+		{
+            return;
+		}
+        useCharacterSelectAnimations = value;
+
+
+        if (currentCharacter != null)
+		{
+            currentCharacter.animator.Play(value ? "Base Layer.CharSelect_" + currentCharacter.characterName : "Base Layer.Blend Tree", 0, 0);
+        }
+	}
 
 
     public int GetCharacterCount() => characters.Length;

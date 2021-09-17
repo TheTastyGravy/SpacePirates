@@ -130,6 +130,7 @@ MonoBehaviour:
   variants:
   - {fileID: 2100000, guid: f8aa37b21b8dd284d92cc51795803d02, type: 2}
   grabTransform: {fileID: 0}
+  characterSelectAnimation: {fileID: 1827226128182048838, guid: 21f982b4e78b49f4eabd137c283faadd, type: 3}
 --- !u!114 &3430822767040703162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,6 +147,7 @@ MonoBehaviour:
   variants:
   - {fileID: 2100000, guid: ab60c6933c119d7439c15cff16206a89, type: 2}
   grabTransform: {fileID: 0}
+  characterSelectAnimation: {fileID: 0}
 --- !u!114 &5376293821871732175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,8 +161,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: Dog
-  variants: []
+  variants:
+  - {fileID: 2100000, guid: 7fe566cdfa284d749bd00818f32255e8, type: 2}
   grabTransform: {fileID: 0}
+  characterSelectAnimation: {fileID: 0}
 --- !u!1001 &3797408905805590316
 PrefabInstance:
   m_ObjectHideFlags: 0
