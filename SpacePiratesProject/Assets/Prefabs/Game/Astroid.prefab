@@ -52,6 +52,8 @@ MonoBehaviour:
   - {fileID: 1179392493213341775}
   minScaleFactor: 0.8
   maxScaleFactor: 1.2
+  minRotationSpeed: 0.15
+  maxRotationSpeed: 0.35
   updateCollider: 0
   health: 1
   speed: 5

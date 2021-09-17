@@ -9,6 +9,8 @@ public class AstroidLogic : MonoBehaviour
 	public GameObject[] visuals;
 	public float minScaleFactor = 0.8f;
 	public float maxScaleFactor = 1.2f;
+	public float minRotationSpeed = 0.25f;
+	public float maxRotationSpeed = 0.75f;
 	[Tooltip("Update the capsule collider to try and get it to contain the astroid. Error prone")]
 	public bool updateCollider = true;
 
@@ -24,6 +26,11 @@ public class AstroidLogic : MonoBehaviour
 	private Vector3 direction;
 	private bool hasHitShip = false;
 	private float currentSpeed = 0;
+
+	private Transform visualTrans;
+	private Vector3 visualCenter;
+	private float rotAngle;
+	private Vector3 rotAxis;
 
 
 
@@ -45,15 +52,22 @@ public class AstroidLogic : MonoBehaviour
 		}
 		// Select a random visual to use
 		GameObject selected = visuals[Random.Range(0, visuals.Length)];
+		visualTrans = selected.transform;
 		selected.SetActive(true);
 		Renderer renderer = selected.GetComponent<Renderer>();
 
 		// Apply random rotation about the center of the mesh
-		Vector3 center = renderer.bounds.center;
+		visualCenter = renderer.bounds.center;
 		Random.rotation.ToAngleAxis(out float angle, out Vector3 axis);
-		selected.transform.RotateAround(center, axis, angle);
+		selected.transform.RotateAround(visualCenter, axis, angle);
 		// Scale by random factor
 		selected.transform.localScale *= Random.Range(minScaleFactor, maxScaleFactor);
+
+		// Get a random angle and axis for rotation
+		rotAngle = 360f * Random.Range(minRotationSpeed, maxRotationSpeed);
+		rotAxis = Random.onUnitSphere;
+		// Convert center point from world to local of the base transform
+		visualCenter -= transform.position;
 
 
 		if (updateCollider)
@@ -76,7 +90,10 @@ public class AstroidLogic : MonoBehaviour
 
 	void Update()
 	{
+		// Update position
 		transform.position += currentSpeed * Time.deltaTime * direction;
+		// Rotate visual astroid
+		visualTrans.RotateAround(visualCenter + transform.position, rotAxis, rotAngle * Time.deltaTime);
 	}
 
 	void OnCollisionEnter(Collision collision)
