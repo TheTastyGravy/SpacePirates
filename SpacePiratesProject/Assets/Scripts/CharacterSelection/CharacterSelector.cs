@@ -54,6 +54,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
             m_CharacterDocks[ i ].SetPlayer( player );
             player.Character.gameObject.SetActive( true );
+            player.Character.SetUseCharacterSelectAnimations(true);
         }
 
         m_DefaultActionMap = GameManager.DefaultActionMap;
@@ -321,6 +322,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
                 Player newPlayer = a_PlayerInput as Player;
                 m_CharacterDocks[ i ].SetPlayer( newPlayer );
                 newPlayer.ChangeCharacter( 0, 0 );
+                newPlayer.Character.SetUseCharacterSelectAnimations(true);
                 ( newPlayer.Character as Character ).IsKinematic = false;
                 break;
             }
@@ -403,6 +405,8 @@ public class CharacterSelector : Singleton< CharacterSelector >
         foreach ( PlayerInput playerInput in PlayerInput.all )
         {
             playerInput.transform.parent = null;
+
+            (playerInput as Player).Character.SetUseCharacterSelectAnimations(false);
             ( playerInput as Player ).Character.gameObject.SetActive( false );
             playerInput.transform.SetPositionAndRotation( Vector3.zero, Quaternion.identity );
             DontDestroyOnLoad( playerInput.gameObject );
