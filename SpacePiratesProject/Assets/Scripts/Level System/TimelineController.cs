@@ -62,6 +62,10 @@ public class TimelineController : Singleton<TimelineController>
         for (int i = 0; i < icons.Length; i++)
 		{
             Level.Event _event = level.events[i];
+            // Check the event has an icon
+            if ((int)_event.type >= eventIconPrefabs.Length)
+                continue;
+
             // Set basic info
             icons[i].position = (_event.start + _event.end) * 0.5f;
             icons[i].eventType = _event.type;
