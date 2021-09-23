@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 1234440285}
   - component: {fileID: 1234440284}
   - component: {fileID: 1234440286}
+  - component: {fileID: 1234440288}
   - component: {fileID: 1234440287}
   m_Layer: 0
   m_Name: GameManager
@@ -314,3 +315,11 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!81 &1234440288
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1234440283}
+  m_Enabled: 1
