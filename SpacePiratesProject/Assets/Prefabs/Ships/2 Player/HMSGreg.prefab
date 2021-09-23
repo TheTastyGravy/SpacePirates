@@ -441,6 +441,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4823515249221474592}
     m_Modifications:
+    - target: {fileID: -9146375472375540955, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 19440738020f43e4bbf2c9734b309e84, type: 2}
     - target: {fileID: -8679921383154817045, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -451,7 +455,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.51
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
       propertyPath: m_LocalPosition.z
@@ -488,6 +492,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
       propertyPath: m_Name
       value: SM_ShipShell_001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7436673769898594167, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
