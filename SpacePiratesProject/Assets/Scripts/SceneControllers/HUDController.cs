@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using System;
 
 public class HUDController : Singleton< HUDController >
 {
@@ -11,7 +10,7 @@ public class HUDController : Singleton< HUDController >
 
 
 
-    private void Awake()
+    private void Start()
     {
         foreach ( PlayerInput playerInput in PlayerInput.all )
         {
@@ -22,11 +21,20 @@ public class HUDController : Singleton< HUDController >
 
     private void OnStartPressed( Player a_Player )
     {
-        if ( OptionsMenu.gameObject.activeSelf )
+        if (OptionsMenu != null && OptionsMenu.gameObject.activeSelf)
         {
             return;
         }
 
         OptionsMenu.ShowOptions( a_Player );
+    }
+
+	void OnDestroy()
+	{
+        foreach (PlayerInput playerInput in PlayerInput.all)
+        {
+            Player player = playerInput as Player;
+            player.RemoveInputListener(Player.Control.START_PRESSED, callback => OnStartPressed(player));
+        }
     }
 }

@@ -155,6 +155,9 @@ public class CharacterDock : MonoBehaviour
         a_Player.transform.parent = DockTransform;
         a_Player.transform.localPosition = Vector3.zero;
         a_Player.transform.localRotation = Quaternion.identity;
+        a_Player.Character.transform.localPosition = Vector3.zero;
+        a_Player.Character.transform.localRotation = Quaternion.identity;
+        (a_Player.Character as Character).IsKinematic = true;
         CharacterSelector.InstantiateSelector( m_AssignedPlayer.Slot, a_Player.Character != null ? a_Player.Character.CharacterIndex : 0 );
     }
 
