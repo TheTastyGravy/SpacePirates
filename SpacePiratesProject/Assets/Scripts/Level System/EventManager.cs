@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class EventManager : Singleton<EventManager>
 {
@@ -20,11 +21,17 @@ public class EventManager : Singleton<EventManager>
 	private Event currentEvent;
 
 
+	public TextMeshProUGUI currentEventText;
+	private string baseText = "Current Event: ";
 
-    public void StartEvent(Level.Event newEvent)
+
+
+	public void StartEvent(Level.Event newEvent)
 	{
+		currentEventText.text = baseText + newEvent.type.ToString();
+
 		// Create event, passing relevent paramiters
-        switch (newEvent.type)
+		switch (newEvent.type)
 		{
 			case Level.Event.Type.AstroidField:
 				currentEvent = new AstroidField()
@@ -54,6 +61,8 @@ public class EventManager : Singleton<EventManager>
 	{
 		currentEvent.Stop();
         currentEvent = null;
+
+		currentEventText.text = baseText + "null";
 	}
 
     public void UpdateEvent()

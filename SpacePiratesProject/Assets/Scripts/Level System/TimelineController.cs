@@ -20,6 +20,9 @@ public class TimelineController : Singleton<TimelineController>
     public float flashFadeInTime = 0.2f;
     public float flashDisplayTime = 0.1f;
     public float flashFadeOutTime = 1;
+    [Space]
+    [Tooltip("The period between flashes. Set to 0 to disable")]
+    public float playerShipFlashPeriod = 1.2f;
 
 
     private RectTransform timelineBase;
@@ -40,6 +43,9 @@ public class TimelineController : Singleton<TimelineController>
     private RectTransform playerShipRectTrans;
     private Image pingEffect;
     private RectTransform pingEffectRectTrans;
+
+    private float playerPos;
+    private Coroutine playerFlashRoutine;
 
 
 
@@ -83,9 +89,12 @@ public class TimelineController : Singleton<TimelineController>
             // Set position and size on X axis relitive to the left edge
             playerShipRectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, iconSize);
 
-            // Make image transparent
+            // Make image transparent if flashing
             playerShipIcon = shipIconObj.GetComponentInChildren<Image>();
-            playerShipIcon.color = Color.clear;
+            if (playerShipFlashPeriod > 0)
+			{
+                playerShipIcon.color = Color.clear;
+            }
         }
 
         // Setup ping effect
@@ -105,19 +114,43 @@ public class TimelineController : Singleton<TimelineController>
     }
 
 
-    public void Ping()
+    float time = 0;
+	void LateUpdate()
+	{
+        playerPos = LevelController.Instance.PlayerPosition;
+
+        if (playerShipFlashPeriod > 0)
+		{
+            time += Time.deltaTime;
+            if (time > playerShipFlashPeriod)
+            {
+                time = 0;
+
+                // Update player ship icon position
+                playerShipRectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * playerPos * invLength, iconSize);
+                // Flash the ship
+                if (playerFlashRoutine != null)
+                {
+                    StopCoroutine(playerFlashRoutine);
+                }
+                playerFlashRoutine = StartCoroutine(FlashIcon(playerShipIcon));
+            }
+        }
+        else
+		{
+            // Update player ship icon position
+            playerShipRectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * playerPos * invLength, iconSize);
+        }
+    }
+
+
+	public void Ping()
 	{
         StartCoroutine(PingTimeline());
     }
 
     private IEnumerator PingTimeline()
     {
-        float playerPos = LevelController.Instance.PlayerPosition;
-
-        // Update player ship icon position
-        playerShipRectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * playerPos * invLength, iconSize);
-        // Flash the player ship
-        StartCoroutine(FlashIcon(playerShipIcon));
         // Fade in the ping effect
         StartCoroutine(FadePingEffect(true));
 
@@ -194,6 +227,11 @@ public class TimelineController : Singleton<TimelineController>
 		}
 
         image.color = blank;
+        // If we are flashing the player, clear the routine ref
+        if (image == playerShipIcon)
+		{
+            playerFlashRoutine = null;
+        }
     }
 
     private IEnumerator FadePingEffect(bool fadeIn)
