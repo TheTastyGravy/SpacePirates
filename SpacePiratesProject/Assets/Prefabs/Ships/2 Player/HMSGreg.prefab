@@ -129,6 +129,66 @@ Transform:
   m_Father: {fileID: 4823515249221474592}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3772164066794083920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3953370435381079016}
+  m_Layer: 0
+  m_Name: Firepoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3953370435381079016
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3772164066794083920}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.09, z: 2.379}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5717970033428589190}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4230105035616310460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9049752888427954023}
+  m_Layer: 0
+  m_Name: Firepoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9049752888427954023
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4230105035616310460}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0.09, z: -2.379}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3140344247571184579}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &4960618490189769071
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,6 +287,36 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &7689313532235619491
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5615664112611832747}
+  m_Layer: 0
+  m_Name: Firepoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5615664112611832747
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7689313532235619491}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.09, z: 2.379}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4910704442383049840}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8047532387724153931
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,9 +589,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
+--- !u!4 &4910704442383049840 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4479147391964856530, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
+  m_PrefabInstance: {fileID: 427996453105671006}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &178514495285558453 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
+  m_PrefabInstance: {fileID: 427996453105671006}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3140344247571184579 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3342852854964969629, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
+  m_PrefabInstance: {fileID: 427996453105671006}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5717970033428589190 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5380328153001193944, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
   m_PrefabInstance: {fileID: 427996453105671006}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &657391340621567237
@@ -680,13 +785,25 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
+      propertyPath: firePos
+      value: 
+      objectReference: {fileID: 9049752888427954023}
+    - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: maxAngle
-      value: 50
+      value: 230
       objectReference: {fileID: 0}
     - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: minAngle
-      value: -50
+      value: 130
       objectReference: {fileID: 0}
+    - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
+      propertyPath: baseAngle
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
+      propertyPath: turretBase
+      value: 
+      objectReference: {fileID: 3140344247571184579}
     - target: {fileID: 3096247956045384335, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: m_Name
       value: Butt Turret
@@ -706,6 +823,10 @@ PrefabInstance:
     - target: {fileID: 4522752636240937880, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.627
+      objectReference: {fileID: 0}
+    - target: {fileID: 5990339974410332460, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6106859117707159342, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2704,13 +2825,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
+      propertyPath: firePos
+      value: 
+      objectReference: {fileID: 5615664112611832747}
+    - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: maxAngle
-      value: 110
+      value: 170
       objectReference: {fileID: 0}
     - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: minAngle
-      value: -95
+      value: -35
       objectReference: {fileID: 0}
+    - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
+      propertyPath: turretBase
+      value: 
+      objectReference: {fileID: 4910704442383049840}
     - target: {fileID: 3096247956045384335, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: m_Name
       value: Right Turret
@@ -2750,6 +2879,10 @@ PrefabInstance:
     - target: {fileID: 4522752636240937880, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 31.041
+      objectReference: {fileID: 0}
+    - target: {fileID: 5990339974410332460, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6106859117707159342, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3110,11 +3243,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 716f020d0bc664b4a9efb0d4953319ed, type: 3}
---- !u!4 &2317879726911526246 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4640641731883555947, guid: 716f020d0bc664b4a9efb0d4953319ed, type: 3}
-  m_PrefabInstance: {fileID: 6938952212246808845}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1090987758709966481 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8029895955456511900, guid: 716f020d0bc664b4a9efb0d4953319ed, type: 3}
@@ -3123,6 +3251,11 @@ Transform:
 --- !u!4 &5534040453788510243 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3206774302927315246, guid: 716f020d0bc664b4a9efb0d4953319ed, type: 3}
+  m_PrefabInstance: {fileID: 6938952212246808845}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2317879726911526246 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4640641731883555947, guid: 716f020d0bc664b4a9efb0d4953319ed, type: 3}
   m_PrefabInstance: {fileID: 6938952212246808845}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7022415689619076656
@@ -3367,13 +3500,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
+      propertyPath: firePos
+      value: 
+      objectReference: {fileID: 3953370435381079016}
+    - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: maxAngle
-      value: 100
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: minAngle
-      value: -100
+      value: -160
       objectReference: {fileID: 0}
+    - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
+      propertyPath: turretBase
+      value: 
+      objectReference: {fileID: 5717970033428589190}
     - target: {fileID: 3096247956045384335, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: m_Name
       value: Left Turret
@@ -3413,6 +3554,10 @@ PrefabInstance:
     - target: {fileID: 4522752636240937880, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: -20.156
+      objectReference: {fileID: 0}
+    - target: {fileID: 5990339974410332460, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6106859117707159342, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: m_LocalPosition.x

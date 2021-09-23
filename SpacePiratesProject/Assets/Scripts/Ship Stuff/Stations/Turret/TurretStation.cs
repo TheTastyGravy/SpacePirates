@@ -14,6 +14,8 @@ public class TurretStation : MonoBehaviour
     public int maxShots = 5;
     public float projectileSpeed = 10;
     public float minAngle, maxAngle;
+    [Tooltip("The angle that the turret begins at. Used for custom models")]
+    public float baseAngle = 0;
 
     public GameObject turretHud;
 
@@ -32,6 +34,7 @@ public class TurretStation : MonoBehaviour
 
     private int shotsRemaining = 0;
     private bool firstFire;
+    private Vector3 relitiveForward;
 
 
 
@@ -43,6 +46,10 @@ public class TurretStation : MonoBehaviour
 
         turretActivate.enabled = false;
         turretHud.SetActive(false);
+
+        // Get a direction to use as forward for aiming the turret
+        relitiveForward = Vector3.forward;
+        RotateDirection(ref relitiveForward, baseAngle * Mathf.Deg2Rad);
 
         // Setup callbacks
         turretActivate.OnInteract += OnActivate;
@@ -163,7 +170,7 @@ public class TurretStation : MonoBehaviour
 
         // Shoot projectile in direction of turretBase
         GameObject projectile = Instantiate(projectilePrefab, firePos.position, firePos.rotation);
-        projectile.GetComponent<Rigidbody>().AddForce(turretBase.forward * projectileSpeed, ForceMode.Impulse);
+        projectile.GetComponent<Rigidbody>().AddForce(firePos.forward * projectileSpeed, ForceMode.Impulse);
         Destroy(projectile, 5);
 
         fuelDepo.enabled = true;
@@ -211,13 +218,16 @@ public class TurretStation : MonoBehaviour
         if (direction.sqrMagnitude < 0.15f)
             return;
 
+        direction.Normalize();
+        
         // Limit the angle of the direction
-        float angle = Vector3.SignedAngle(transform.forward, direction, Vector3.up);
+        float angle = Vector3.SignedAngle(relitiveForward, direction, Vector3.up) + baseAngle;
         if (angle < minAngle)
             RotateDirection(ref direction, (angle - minAngle) * Mathf.Deg2Rad);
         else if (angle > maxAngle)
             RotateDirection(ref direction, (angle - maxAngle) * Mathf.Deg2Rad);
 
+        RotateDirection(ref direction, baseAngle * Mathf.Deg2Rad);
         turretBase.forward = direction;
 	}
 
