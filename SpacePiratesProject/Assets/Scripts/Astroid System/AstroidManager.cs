@@ -161,9 +161,13 @@ public class AstroidManager : Singleton<AstroidManager>
 			RaycastHit2D rayHit = Physics2D.Raycast(screenPoint, screenDir);
 			// Create UI element
 			GameObject uiObj = Instantiate(uiPrefab, canvas);
-			(uiObj.transform as RectTransform).position = rayHit.point;
-			(uiObj.transform as RectTransform).right = screenDir;
 			Destroy(uiObj, astroidSpawnDelay + uiExtraTime);
+			RectTransform rectTrans = uiObj.transform as RectTransform;
+			// Set its position on the canvas
+			rectTrans.position = Camera.main.ScreenToWorldPoint(rayHit.point);
+			rectTrans.localPosition = new Vector3(rectTrans.localPosition.x, rectTrans.localPosition.y, 0);
+			// Orientate the object with the canvas
+			rectTrans.rotation = Quaternion.LookRotation(canvas.forward, Vector3.Cross(canvas.forward, canvas.transform.TransformDirection(screenDir)));
 
 			// Create astroid
 			AstroidLogic astroid = Instantiate(astroidPrefab).GetComponent<AstroidLogic>();

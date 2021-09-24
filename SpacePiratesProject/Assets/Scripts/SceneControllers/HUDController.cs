@@ -17,6 +17,17 @@ public class HUDController : Singleton< HUDController >
             Player player = playerInput as Player;
             player.AddInputListener( Player.Control.START_PRESSED, callback => OnStartPressed( player ) );
         }
+
+        // Delay by a frame
+        Invoke(nameof(GetCamera), 0);
+    }
+
+    private void GetCamera()
+	{
+        // Setup canvas to use camera space so post processing effect can be applied
+        Canvas canvas = GetComponent<Canvas>();
+        canvas.worldCamera = Camera.allCameras[1];
+        canvas.planeDistance = 1;
     }
 
     private void OnStartPressed( Player a_Player )
