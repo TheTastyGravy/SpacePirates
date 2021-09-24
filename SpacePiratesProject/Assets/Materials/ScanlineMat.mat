@@ -31,7 +31,7 @@ Material:
     - _ColorIntensity: 1
     - _Hardness: 0.975
     - _Intensity: 0.805
-    - _LineWidth: 2
-    - _Speed: 0
+    - _LineWidth: 4
+    - _Speed: 0.025
     m_Colors: []
   m_BuildTextureStacks: []
