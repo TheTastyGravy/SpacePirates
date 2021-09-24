@@ -2,20 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class InteractionPromptLogic : MonoBehaviour
 {
-    public Image promptImage;
+    public GameObject promptRoot;
     public Image progressImage;
     public float progressLossRate = 3;
     public float popScale = 2;
     public float popTime = 0.25f;
-    public TextMeshProUGUI _text;
 
     [HideInInspector]
     public float interactionProgress = 0;
 
+    private Image[] promptImages;
 
     private bool isBeingUsed = false;
     private bool isPoping = false;
@@ -25,6 +24,7 @@ public class InteractionPromptLogic : MonoBehaviour
 
     void Awake()
     {
+        promptImages = promptRoot.GetComponentsInChildren<Image>();
         progressImage.fillAmount = 0;
     }
 
@@ -53,7 +53,6 @@ public class InteractionPromptLogic : MonoBehaviour
     private IEnumerator ExpandAndFade()
 	{
         isPoping = true;
-        _text.enabled = false;
 
         Color trans = new Color(1, 1, 1, 0);
 
@@ -62,8 +61,11 @@ public class InteractionPromptLogic : MonoBehaviour
 		{
             // Lerp transparency and scale
             float val = timePassed / popTime;
-            promptImage.color = Color.Lerp(Color.white, trans, val);
-            promptImage.transform.localScale = Vector3.Lerp(Vector3.one, Vector3.one * popScale, val);
+            foreach (var obj in promptImages)
+			{
+                obj.color = Color.Lerp(Color.white, trans, val);
+                obj.transform.localScale = Vector3.Lerp(Vector3.one, Vector3.one * popScale, val);
+            }
             progressImage.color = Color.Lerp(Color.white, trans, val);
             progressImage.transform.localScale = Vector3.Lerp(Vector3.one, Vector3.one * popScale, val);
 
@@ -71,13 +73,19 @@ public class InteractionPromptLogic : MonoBehaviour
             yield return null;
 		}
         // Make fully transparent and wait a moment before resetting
-        promptImage.color = trans;
+        foreach (var obj in promptImages)
+        {
+            obj.color = trans;
+        }
         progressImage.color = trans;
         yield return new WaitForSeconds(0.2f);
 
         // Reset images
-        promptImage.color = Color.white;
-        promptImage.transform.localScale = Vector3.one;
+        foreach (var obj in promptImages)
+        {
+            obj.color = Color.white;
+            obj.transform.localScale = Vector3.one;
+        }
         progressImage.color = Color.white;
         progressImage.transform.localScale = Vector3.one;
         // Reset progress
@@ -86,12 +94,11 @@ public class InteractionPromptLogic : MonoBehaviour
         // If we have been disabled, hide the images
         if (!enabled)
 		{
-            promptImage.enabled = false;
+            foreach (var obj in promptImages)
+            {
+                obj.enabled = false;
+            }
             progressImage.enabled = false;
-        }
-		else
-		{
-            _text.enabled = true;
         }
 
         isPoping = false;
@@ -102,18 +109,12 @@ public class InteractionPromptLogic : MonoBehaviour
     public void InteractStart()
     {
         isBeingUsed = true;
-        _text.enabled = false;
         interactionProgress = 0;
     }
 
     public void InteractStop()
     {
         isBeingUsed = false;
-
-        if (!isPoping && enabled)
-		{
-            _text.enabled = true;
-        }
     }
 
     public void SelectStart()
@@ -131,19 +132,22 @@ public class InteractionPromptLogic : MonoBehaviour
 
 	void OnEnable()
 	{
-        promptImage.enabled = true;
+        foreach (var obj in promptImages)
+        {
+            obj.enabled = true;
+        }
         progressImage.enabled = true;
-        _text.enabled = true;
     }
 
     void OnDisable()
 	{
         if (!isPoping)
 		{
-            promptImage.enabled = false;
+            foreach (var obj in promptImages)
+            {
+                obj.enabled = false;
+            }
             progressImage.enabled = false;
         }
-        
-        _text.enabled = false;
     }
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4839685821777481981}
   - component: {fileID: 1822875344685822135}
   - component: {fileID: 7599183869472498411}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: TurretHUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &1822875344685822135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 182825148634237233}
   - component: {fileID: 3022355278953191022}
   - component: {fileID: 2026043222202681359}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Fire Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 9037290987629967866}
   - component: {fileID: 3878380814806676183}
   - component: {fileID: 7118568839545527792}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Left Stick Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 4412148336191446342}
   - component: {fileID: 3648790579682025516}
   - component: {fileID: 3863609985818394041}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Leave Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -352,7 +352,7 @@ GameObject:
   - component: {fileID: 1122721121381431196}
   - component: {fileID: 7397289998785129985}
   - component: {fileID: 5269868768687677944}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Right Stick Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
