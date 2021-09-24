@@ -84,6 +84,10 @@ public class ShipAttack : Event
 	public float exitTime;
 	public float firePeriod;
 	public float spreadAngle;
+	public float wanderFrequency = 1;
+	public float wanderDist = 0.75f;
+	public float wanderSpeed = 3;
+	public float wanderAcceleration = 1;
 
 
 	private GameObject playerShip;
@@ -94,7 +98,11 @@ public class ShipAttack : Event
 	private Vector3 offScreenPos;
 	// Flag used to determine when to fire at the player
 	private bool shipIsOnScreen = false;
-	private float timePassed = 0;
+	private float fireTimePassed = 0;
+	private float wanderTimePassed = 0;
+
+	private Vector3 wanderPos;
+	private Vector3 velocity = Vector3.zero;
 
 
 	public override void Start()
@@ -114,6 +122,8 @@ public class ShipAttack : Event
 		// The firepoint is expected to be the first child
 		firepoint = shipObject.transform.GetChild(0);
 		spreadAngle *= Mathf.Deg2Rad * 0.5f;
+		// Get initial wander pos
+		wanderPos = followPos + Random.insideUnitSphere * wanderDist;
 	}
 
 	public override void Stop()
@@ -130,10 +140,10 @@ public class ShipAttack : Event
 		}
 
 
-		timePassed += Time.deltaTime;
-		if (timePassed >= firePeriod)
+		fireTimePassed += Time.deltaTime;
+		if (fireTimePassed >= firePeriod)
 		{
-			timePassed = 0;
+			fireTimePassed = 0;
 
 			// Get direction with random angle
 			Vector3 dir = Vector3.zero;
@@ -143,6 +153,18 @@ public class ShipAttack : Event
 			// Instantiate missile with direction
 			Object.Instantiate(missilePrefab, firepoint.position, Quaternion.FromToRotation(Vector3.forward, dir));
 		}
+
+		wanderTimePassed += Time.deltaTime;
+		if (wanderTimePassed >= wanderFrequency)
+		{
+			wanderTimePassed = 0;
+			// Get new wander pos
+			wanderPos = followPos + Random.insideUnitSphere * wanderDist;
+		}
+
+		// Adjust velocity with a sort of steering force, and apply to ship position
+		velocity = Vector3.Lerp(velocity, (wanderPos - shipObject.transform.position).normalized * wanderSpeed, Time.deltaTime * wanderAcceleration);
+		shipObject.transform.position += velocity * Time.deltaTime;
 	}
 
 

@@ -21,6 +21,12 @@ public class EventManager : Singleton<EventManager>
 	public float exitTime = 1;
 	public float firePeriod = 1;
 	public float spreadAngle = 45;
+	[Space]
+	[Tooltip("How often to change the wander target")]
+	public float wanderFrequency = 1;
+	public float wanderDist = 0.75f;
+	public float wanderSpeed = 3;
+	public float wanderAcceleration = 1;
 
 
 	private Event currentEvent;
@@ -59,7 +65,11 @@ public class EventManager : Singleton<EventManager>
 					enterTime = enterTime,
 					exitTime = exitTime,
 					firePeriod = firePeriod,
-					spreadAngle = spreadAngle
+					spreadAngle = spreadAngle,
+					wanderFrequency = wanderFrequency,
+					wanderDist = wanderDist,
+					wanderSpeed = wanderSpeed,
+					wanderAcceleration = wanderAcceleration
 				};
 				break;
 		}
