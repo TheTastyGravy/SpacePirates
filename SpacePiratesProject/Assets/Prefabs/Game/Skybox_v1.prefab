@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3706624314909975710}
   - component: {fileID: 3706624314909975711}
   - component: {fileID: 3706624314909975696}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3706624315001952404}
   - component: {fileID: 1662791747}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Skybox_v1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 3706624315127111232}
   - component: {fileID: 3706624315127111233}
   - component: {fileID: 3706624315127111234}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Starfield_Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 3706624316160977471}
   - component: {fileID: 3706624316160977456}
   - component: {fileID: 3706624316160977457}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Starfield_Base (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 3706624316727205461}
   - component: {fileID: 3706624316727205462}
   - component: {fileID: 3706624316727205463}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Starfield_Base (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
