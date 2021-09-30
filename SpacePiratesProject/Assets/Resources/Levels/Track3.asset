@@ -12,5 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee4887b6bf477a24faf45579ca3133b4, type: 3}
   m_Name: Track3
   m_EditorClassIdentifier: 
-  length: 100
-  events: []
+  difficulty: 2
+  useRandomEvents: 1
+  generateRandomLevelNow: 0
+  length: 250
+  events:
+  - start: 39.5164
+    end: 53.095615
+    type: 1
+  - start: 55.678608
+    end: 67.852066
+    type: 0
+  - start: 122.39944
+    end: 133.82271
+    type: 0
+  - start: 167.52176
+    end: 187.38089
+    type: 1
+  - start: 232.14241
+    end: 242.38087
+    type: 0

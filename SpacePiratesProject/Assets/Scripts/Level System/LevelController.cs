@@ -19,6 +19,7 @@ public class LevelController : Singleton<LevelController>
 	void Start()
     {
         level = Level.GetLevel( GameManager.SelectedTrack );
+        level.Setup();
         ship = Ship.GetShip( GameManager.SelectedShip );
         Instantiate(ship.ShipPrefab, new Vector3(0, ship.heightOffset, 0), Quaternion.identity);
 
