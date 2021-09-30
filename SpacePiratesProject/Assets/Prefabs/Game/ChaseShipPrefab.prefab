@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8869856626171566194}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Firepoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30,6 +30,50 @@ Transform:
   m_Father: {fileID: 6161450435761203984}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4580494799076956832
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 259950520011081610}
+  - component: {fileID: 3792253914184564595}
+  m_Layer: 10
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &259950520011081610
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4580494799076956832}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6161450435761203984}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!65 &3792253914184564595
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4580494799076956832}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 12.237332, y: 9.74556, z: 14.703486}
+  m_Center: {x: 0.8, y: 0, z: 0}
 --- !u!1 &6161450435761204015
 GameObject:
   m_ObjectHideFlags: 0
@@ -39,7 +83,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6161450435761203984}
-  m_Layer: 0
+  - component: {fileID: 1216073644446438822}
+  - component: {fileID: 6299108741606740615}
+  m_Layer: 10
   m_Name: ChaseShipPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,9 +105,51 @@ Transform:
   m_Children:
   - {fileID: 8869856626171566194}
   - {fileID: 5911933267847734904}
+  - {fileID: 259950520011081610}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1216073644446438822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6161450435761204015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a0a1ff72a75b414d997cb739b0e76cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  missilePrefab: {fileID: 5795167540847266017, guid: 898819c832f56054ebc18670b0b8b7d7, type: 3}
+  explosionPrefab: {fileID: 7894892668884435334, guid: 33825a87e5aa9194aa1508cc53ebe6cf, type: 3}
+  firePoint: {fileID: 8869856626171566194}
+  meshFilter: {fileID: 1108118375429608802}
+  moveOnScreenTime: 1
+  moveOffScreenTime: 2
+  firePeriod: 1
+  spreadAngle: 90
+  wanderFrequency: 1
+  wanderDist: 0.75
+  wanderSpeed: 3
+  wanderAcceleration: 1
+  timeBetweenExplosions: 0.1
+--- !u!54 &6299108741606740615
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6161450435761204015}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1001 &6161450434530476435
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -125,14 +213,55 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6030175629505179039, guid: 575d64c57d4309e4b9b8bf5302202d9a, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -6020014173148278474, guid: 575d64c57d4309e4b9b8bf5302202d9a, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -5788818497390502992, guid: 575d64c57d4309e4b9b8bf5302202d9a, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 89279738579891054, guid: 575d64c57d4309e4b9b8bf5302202d9a, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 420510899587786478, guid: 575d64c57d4309e4b9b8bf5302202d9a, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 575d64c57d4309e4b9b8bf5302202d9a, type: 3}
       propertyPath: m_Name
       value: SM_PoliceVehicle
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 575d64c57d4309e4b9b8bf5302202d9a, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3311351953678965306, guid: 575d64c57d4309e4b9b8bf5302202d9a, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055516343071590707, guid: 575d64c57d4309e4b9b8bf5302202d9a, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4666121301080545031, guid: 575d64c57d4309e4b9b8bf5302202d9a, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 575d64c57d4309e4b9b8bf5302202d9a, type: 3}
 --- !u!4 &5911933267847734904 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 575d64c57d4309e4b9b8bf5302202d9a, type: 3}
+  m_PrefabInstance: {fileID: 6161450434530476435}
+  m_PrefabAsset: {fileID: 0}
+--- !u!33 &1108118375429608802 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 6548529953708512497, guid: 575d64c57d4309e4b9b8bf5302202d9a, type: 3}
   m_PrefabInstance: {fileID: 6161450434530476435}
   m_PrefabAsset: {fileID: 0}
