@@ -32,26 +32,25 @@ public class ReactorFuelGen : Interactable
                 fuelTimePassed = 0;
                 hasFuel = true;
                 interactionPrompt.enabled = true;
-                ReregisterInteractions();
 			}
 		}
     }
 
-
-	protected override void OnInteractStart(Interactor interactor)
+	protected override void OnInteractionStart()
 	{
         interactionPrompt.Pop();
         interactionPrompt.enabled = false;
 
         Grabbable fuelGrabbable = Instantiate(fuelPrefab).GetComponent<Grabbable>();
-        interactor.Pickup(fuelGrabbable);
+        currentInteractor.Pickup(fuelGrabbable);
         
         hasFuel = false;
-        ReregisterInteractions();
+
+        currentInteractor.EndInteraction();
 	}
 
-	protected override bool ShouldRegister(Interactor interactor, out Player.Control button)
-    {
+    protected override bool CanBeUsed(Interactor interactor, out Player.Control button)
+	{
         button = Player.Control.A_PRESSED;
         return hasFuel && interactor.HeldGrabbable == null;
     }

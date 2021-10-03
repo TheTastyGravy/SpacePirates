@@ -17,7 +17,6 @@ public class HullHoleStation : Interactable
     private float repairTime;
 
     private int size = 0;
-    private Interactor currentInteractor;
     private float timePassed = 0;
 
     internal RoomManager room;
@@ -34,7 +33,7 @@ public class HullHoleStation : Interactable
     void Update()
     {
         // If we are being interacted with
-        if (currentInteractor != null)
+        if (IsBeingUsed)
         {
             timePassed += Time.deltaTime;
             if (timePassed >= repairTime)
@@ -64,9 +63,7 @@ public class HullHoleStation : Interactable
         // Unlock the player and update the interactor
         interactionPrompt.Pop();
         enabled = false;
-        currentInteractor.Player.Character.enabled = true;
-        currentInteractor.UpdateRegistry();
-        currentInteractor = null;
+        currentInteractor.EndInteraction();
 
         // Repair hole
         size = 0;
@@ -80,25 +77,17 @@ public class HullHoleStation : Interactable
         Destroy(gameObject, 1);
     }
 
-
-    protected override void OnInteractStart(Interactor interactor)
+    protected override void OnInteractionStart()
 	{
-        currentInteractor = interactor;
         timePassed = 0;
-        // Lock the player
-        currentInteractor.Player.Character.enabled = false;
 	}
-	protected override void OnInteractStop(Interactor interactor)
-	{
-        if (currentInteractor == null)
-            return;
 
-        // Unlock player
-        currentInteractor.Player.Character.enabled = true;
-        currentInteractor = null;
+	protected override void OnButtonUp()
+	{
+        currentInteractor.EndInteraction();
     }
 
-    protected override bool ShouldRegister(Interactor interactor, out Player.Control button)
+    protected override bool CanBeUsed(Interactor interactor, out Player.Control button)
     {
         button = Player.Control.A_PRESSED;
         return true;

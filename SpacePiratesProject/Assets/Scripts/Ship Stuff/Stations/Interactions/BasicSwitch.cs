@@ -9,8 +9,6 @@ public class BasicSwitch : Interactable
     [Tooltip("How long the switch is disabled for after being used")]
     public float interactionCooldown = 1;
 
-	private bool canBeUsed = true;
-
 
 
 	private void Reenable()
@@ -18,25 +16,25 @@ public class BasicSwitch : Interactable
 		if (enabled)
 			interactionPrompt.enabled = true;
 
-		canBeUsed = true;
-		ReregisterInteractions();
+		enabled = true;
 	}
 
-	protected override void OnInteractStart(Interactor interactor)
+	protected override void OnInteractionStart()
 	{
         OnActivated?.Invoke();
-		canBeUsed = false;
-		ReregisterInteractions();
-
+		
 		// Pop interaction prompt, and start cooldown
 		interactionPrompt.Pop();
-		interactionPrompt.enabled = false;
+		
+		currentInteractor.EndInteraction();
+
+		enabled = false;
 		Invoke(nameof(Reenable), interactionCooldown);
 	}
 
-	protected override bool ShouldRegister(Interactor interactor, out Player.Control button)
-    {
+	protected override bool CanBeUsed(Interactor interactor, out Player.Control button)
+	{
         button = Player.Control.A_PRESSED;
-        return canBeUsed;
+        return true;
     }
 }

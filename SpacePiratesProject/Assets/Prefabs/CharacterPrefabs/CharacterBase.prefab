@@ -109,11 +109,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4005133880014119638}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b536a0c5710fd341a01f40cdb7e8969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropPositionOffset: {x: 0, y: 0.5, z: 0.55}
 --- !u!114 &7336295493554507889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,7 +131,6 @@ MonoBehaviour:
   variants:
   - {fileID: 2100000, guid: f8aa37b21b8dd284d92cc51795803d02, type: 2}
   grabTransform: {fileID: 0}
-  characterSelectAnimation: {fileID: 1827226128182048838, guid: 21f982b4e78b49f4eabd137c283faadd, type: 3}
 --- !u!114 &3430822767040703162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +147,6 @@ MonoBehaviour:
   variants:
   - {fileID: 2100000, guid: ab60c6933c119d7439c15cff16206a89, type: 2}
   grabTransform: {fileID: 0}
-  characterSelectAnimation: {fileID: 0}
 --- !u!114 &5376293821871732175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,7 +163,6 @@ MonoBehaviour:
   variants:
   - {fileID: 2100000, guid: 7fe566cdfa284d749bd00818f32255e8, type: 2}
   grabTransform: {fileID: 0}
-  characterSelectAnimation: {fileID: 0}
 --- !u!1001 &3797408905805590316
 PrefabInstance:
   m_ObjectHideFlags: 0

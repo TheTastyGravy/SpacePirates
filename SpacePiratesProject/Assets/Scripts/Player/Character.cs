@@ -53,8 +53,9 @@ public class Character : ICharacter
             movement = input;
 		}
 
-        // Set velocity directly
-        m_Rigidbody.velocity = MoveSpeed * movement;
+        movement *= MoveSpeed;
+        // Set velocity directly, keeping the y component when its negitive
+        m_Rigidbody.velocity = new Vector3(movement.x, Mathf.Min(m_Rigidbody.velocity.y, 0), movement.z);
 
 		// Rotate over time towards the direction of movement
 		Vector3 forward = Vector3.Slerp( transform.forward, movement, Time.fixedDeltaTime * TurnSpeed );

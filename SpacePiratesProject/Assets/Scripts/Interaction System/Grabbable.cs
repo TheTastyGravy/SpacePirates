@@ -11,61 +11,46 @@ public class Grabbable : Interactable
 
 	private Rigidbody rb;
 
-	private bool isHeld = false;
-	public bool IsHeld => isHeld;
 
 
-
-	protected virtual void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		rb = GetComponent<Rigidbody>();
 		if (attach == null)
 			attach = transform;
 	}
 
-	protected sealed override void OnInteractStart(Interactor interactor)
-	{
-		if (isHeld)
-		{
-			interactor.Drop();
-		}
-		else
-		{
-			interactor.Pickup(this);
-		}
-	}
-	protected sealed override void OnInteractStop(Interactor interactor) { }
-
-	protected override bool ShouldRegister(Interactor interactor, out Player.Control button)
+	protected override bool CanBeUsed(Interactor interactor, out Player.Control button)
 	{
 		button = pickupButton;
-		return interactor.HeldGrabbable == null && !isHeld;
+		return interactor.HeldGrabbable == null && !IsBeingUsed;
 	}
-
 
 	internal void Pickup(Interactor interactor)
 	{
+		if (IsBeingUsed)
+			return;
+
+		currentInteractor = interactor;
 		rb.isKinematic = true;
 		rb.detectCollisions = false;
-		isHeld = true;
-		// Unregister from everything, then register to drop
 		enabled = false;
-		interactor.RegisterInteractable(this, dropButton);
-
-		OnPickup(interactor);
+		OnPickup();
 	}
+
 	internal void Drop(Interactor interactor)
 	{
+		if (!IsBeingUsed || interactor != currentInteractor)
+			return;
+
 		rb.isKinematic = false;
 		rb.detectCollisions = true;
-		isHeld = false;
-		// Unregister drop interaction, then register to everything
-		interactor.UnregisterInteractable(this);
 		enabled = true;
-
-		OnDrop(interactor);
+		OnDrop();
+		currentInteractor = null;
 	}
 
-	protected virtual void OnPickup(Interactor interactor) { }
-	protected virtual void OnDrop(Interactor interactor) { }
+	protected virtual void OnPickup() { }
+	protected virtual void OnDrop() { }
 }

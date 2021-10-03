@@ -10,7 +10,6 @@ public class DamageStation : Interactable
     private int damageLevel = 0;
 	public int DamageLevel { get => damageLevel; }
 
-	private Interactor currentInteractor = null;
 	private float currentRepairTime = 0;
 	private ParticleSystem effect;
 
@@ -30,7 +29,7 @@ public class DamageStation : Interactable
 	void Update()
 	{
 		// If we are being interacted with
-		if (currentInteractor != null)
+		if (IsBeingUsed)
 		{
 			currentRepairTime += Time.deltaTime;
 			if (currentRepairTime >= timeToRepair)
@@ -40,9 +39,7 @@ public class DamageStation : Interactable
 
 				// Unlock the player and update the interactor
 				interactionPrompt.Pop();
-				currentInteractor.Player.Character.enabled = true;
-				currentInteractor.UpdateRegistry();
-				currentInteractor = null;
+				currentInteractor.EndInteraction();
 
 				if (damageLevel <= 0)
 				{
@@ -79,29 +76,17 @@ public class DamageStation : Interactable
 		SoundManager.Instance.Play("StationDamage", false);
 	}
 
-
-	protected override void OnInteractStart(Interactor interactor)
+	protected override void OnInteractionStart()
 	{
-		if (currentInteractor == null)
-		{
-			currentInteractor = interactor;
-			currentRepairTime = 0;
-			// Lock the player
-			currentInteractor.Player.Character.enabled = false;
-		}
+		currentRepairTime = 0;
 	}
 
-	protected override void OnInteractStop(Interactor interactor)
+	protected override void OnButtonUp()
 	{
-		// Unlock player
-		if (currentInteractor != null)
-		{
-			currentInteractor.Player.Character.enabled = true;
-			currentInteractor = null;
-		}
+		currentInteractor.EndInteraction();
 	}
 
-	protected override bool ShouldRegister(Interactor interactor, out Player.Control button)
+	protected override bool CanBeUsed(Interactor interactor, out Player.Control button)
 	{
 		button = Player.Control.A_PRESSED;
 		return true;

@@ -2,122 +2,189 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
 public class Interactor : MonoBehaviour
 {
+	public Vector3 dropPositionOffset;
+
 	private Transform grabAttach;
-
-	// All interactables in range (registered and unregistered)
-	// Destroied interactables will remove themself from this list after unregistering
-	internal List<Interactable> interactables = new List<Interactable>();
-	// Interactions for interactables that have been registered
-	private List<Interaction> registeredInteractions = new List<Interaction>();
-
 	private Player player;
 	public Player Player => player;
 
+	private Interactable currentInteractable = null;
+	private Player.Control controlUsed;
+	public bool IsInteracting => currentInteractable != null;
+
 	private Grabbable heldGrabbable = null;
+	private Player.Control dropButton;
 	public Grabbable HeldGrabbable => heldGrabbable;
 
-	private bool isActive = true;
-	public bool IsActive => isActive;
 
 
-
-	void Start()
+	void Awake()
 	{
 		player = GetComponentInParent<Player>();
+		SceneManager.activeSceneChanged += OnSceneChanged;
 	}
 
-	// Enable or disable the interactor
-	public void SetActive(bool value)
+	private void OnSceneChanged(Scene current, Scene next)
 	{
-		isActive = value;
-		UpdateRegistry();
-	}
-
-
-	/// <summary>
-	/// Register an interactable to be interacted with by a button
-	/// </summary>
-	/// <returns>Returns true if the interaction was registered</returns>
-	public bool RegisterInteractable(Interactable interactable, Player.Control button)
-	{
-		if (!isActive)
-			return false;
-
-		// Get input action for the button
-		InputAction inputAction = player.GetInputAction(button);
-
-		// Setup an interaction instance
-		Interaction interaction = new Interaction();
-		interaction.SetupInteraction(interactable, this, inputAction);
-
-		registeredInteractions.Add(interaction);
-		return true;
-	}
-	/// <summary>
-	/// Unregister an interactable to not be interacted with
-	/// </summary>
-	public void UnregisterInteractable(Interactable interactable)
-	{
-		// Find the interaction for the interactable and destroy it
-		foreach (var interaction in registeredInteractions)
+		if (current.name == "GAME")
 		{
-			if (interaction.interactable == interactable)
+			ExitGame();
+		}
+		else if (next.name == "GAME")
+		{
+			// Wait a frame
+			Invoke(nameof(EnterGame), 0);
+		}
+	}
+	
+	public void EnterGame()
+	{
+		InteractionManager.Instance.interactors.Add(this);
+		grabAttach = GetComponent<ICharacter>().GetCharacter().grabTransform;
+		// Setup input callbacks
+		InputAction aAction = Player.GetInputAction(Player.Control.A_PRESSED);
+		aAction.started += OnInteractionInput;
+		aAction.canceled += OnInteractionInput;
+		InputAction bAction = Player.GetInputAction(Player.Control.B_PRESSED);
+		bAction.started += OnInteractionInput;
+		bAction.canceled += OnInteractionInput;
+
+		enabled = true;
+	}
+
+	public void ExitGame()
+	{
+		InteractionManager.Instance.interactors.Remove(this);
+		// Remove input callbacks
+		InputAction aAction = Player.GetInputAction(Player.Control.A_PRESSED);
+		aAction.started -= OnInteractionInput;
+		aAction.canceled -= OnInteractionInput;
+		InputAction bAction = Player.GetInputAction(Player.Control.B_PRESSED);
+		bAction.started -= OnInteractionInput;
+		bAction.canceled -= OnInteractionInput;
+
+		Drop();
+		enabled = false;
+	}
+
+	void OnDisable()
+	{
+		EndInteraction();
+	}
+
+	private void OnInteractionInput(InputAction.CallbackContext context)
+	{
+		if (!isActiveAndEnabled)
+			return;
+
+		// Currently the only interaction buttons are A and B, so this works despite being dumb
+		Player.Control control = context.action == Player.GetInputAction(Player.Control.A_PRESSED) ? Player.Control.A_PRESSED : Player.Control.B_PRESSED;
+
+		if (context.started)
+		{
+			if (IsInteracting)
 			{
-				interaction.DestroyInteraction();
-				registeredInteractions.Remove(interaction);
+				if (controlUsed == control)
+				{
+					currentInteractable.ButtonDown(this);
+				}
+
 				return;
 			}
+
+			Interactable interactable = FindClosestUsableInteractable(control);
+			if (interactable != null)
+			{
+				if (interactable is Grabbable)
+				{
+					Pickup(interactable as Grabbable);
+				}
+				else
+				{
+					currentInteractable = interactable;
+					controlUsed = control;
+
+					player.Character.enabled = false;
+					(player.Character as Character).IsKinematic = true;
+					currentInteractable.StartInteraction(this);
+				}
+			}
+			// If we found nothing to interact with, check if we can drop a held grabbable
+			else if (heldGrabbable != null && dropButton == control)
+			{
+				Drop();
+			}
 		}
+		else //context.ended
+		{
+			if (!IsInteracting || controlUsed != control)
+				return;
+
+			currentInteractable.ButtonUp(this);
+		}
+	}
+
+	internal Interactable FindClosestUsableInteractable(Player.Control control)
+	{
+		float closestSqrDist = float.PositiveInfinity;
+		Interactable interactable = null;
+		foreach (var obj in InteractionManager.Instance.interactables)
+		{
+			// If we cant use the interactable, continue
+			if (!obj.CanBeUsed(this, control))
+			{
+				continue;
+			}
+
+			Vector3 diff = obj.InteractionCenter - transform.position;
+			// Ignore height
+			diff.y = 0;
+			float sqrDist = diff.sqrMagnitude;
+			if (sqrDist < obj.interactionRadius * obj.interactionRadius && sqrDist < closestSqrDist)
+			{
+				closestSqrDist = sqrDist;
+				interactable = obj;
+			}
+		}
+
+		return interactable;
 	}
 
 	/// <summary>
-	/// Re-register all interactables
+	/// End an ongoing interaction
 	/// </summary>
-	public void UpdateRegistry()
+	public void EndInteraction()
 	{
-		// Destroy all interactions
-		for (int i = 0; i < registeredInteractions.Count; i++)
-		{
-			registeredInteractions[i].DestroyInteraction();
-		}
-		registeredInteractions.Clear();
+		if (!IsInteracting)
+			return;
 
-		// Notify all interactables to re-register
-		foreach (var interactable in interactables)
-		{
-			interactable.Notify_Removed(this);
-			interactable.Notify_Register(this);
-		}
+		currentInteractable.StopInteraction(this);
+		player.Character.enabled = true;
+		(player.Character as Character).IsKinematic = false;
+
+		currentInteractable = null;
 	}
-
 
 	/// <summary>
 	/// Pickup a grabbable item
 	/// </summary>
 	public void Pickup(Grabbable grabbable)
 	{
-		// Try to get the characters grab trans
-		if (grabAttach == null)
-		{
-			grabAttach = GetComponent<ICharacter>().GetCharacter().grabTransform;
-		}
-
-		if (heldGrabbable != null)
+		if (heldGrabbable != null && !grabbable.IsBeingUsed)
 			return;
-		
-
-		grabbable.attach.SetParent(grabAttach);
-		grabbable.attach.SetPositionAndRotation(grabAttach.position, grabAttach.rotation);
 
 		heldGrabbable = grabbable;
-		UpdateRegistry();
-
-		grabbable.Pickup(this);
+		dropButton = heldGrabbable.dropButton;
+		heldGrabbable.attach.SetParent(grabAttach);
+		heldGrabbable.attach.SetPositionAndRotation(grabAttach.position, grabAttach.rotation);
+		heldGrabbable.Pickup(this);
 	}
+
 	/// <summary>
 	/// Drop the currently held item
 	/// </summary>
@@ -126,69 +193,10 @@ public class Interactor : MonoBehaviour
 		if (heldGrabbable == null)
 			return;
 
-
 		heldGrabbable.attach.SetParent(null);
+		heldGrabbable.attach.SetPositionAndRotation(transform.position + transform.rotation * dropPositionOffset, transform.rotation);
 		heldGrabbable.Drop(this);
-
 		heldGrabbable = null;
-		UpdateRegistry();
-	}
-
-
-	void OnTriggerEnter(Collider other)
-	{
-		if (other.TryGetComponent(out Interactable interactable))
-		{
-			if (interactables.Contains(interactable))
-				return;
-
-			interactables.Add(interactable);
-			// Notify interactable that it can register
-			interactable.Notify_Register(this);
-		}
-	}
-	void OnTriggerExit(Collider other)
-	{
-		if (other.TryGetComponent(out Interactable interactable))
-		{
-			UnregisterInteractable(interactable);
-			interactables.Remove(interactable);
-			// Notify interactable that it has been removed
-			interactable.Notify_Removed(this);
-		}
-	}
-}
-
-internal class Interaction
-{
-	// The interactable that this belongs to
-	public Interactable interactable;
-
-	private Interactor interactor;
-	private InputAction inputAction;
-
-
-	public void SetupInteraction(Interactable interactable, Interactor interactor, InputAction inputAction)
-	{
-		this.interactable = interactable;
-		this.interactor = interactor;
-		this.inputAction = inputAction;
-
-		inputAction.started += OnInteractStarted;
-		inputAction.canceled += OnInteractCanceled;
-	}
-	public void DestroyInteraction()
-	{
-		inputAction.started -= OnInteractStarted;
-		inputAction.canceled -= OnInteractCanceled;
-	}
-
-	private void OnInteractStarted(InputAction.CallbackContext context)
-	{
-		interactable.Interaction_Start(interactor);
-	}
-	private void OnInteractCanceled(InputAction.CallbackContext context)
-	{
-		interactable.Interaction_Stop(interactor);
+		dropButton = 0;
 	}
 }

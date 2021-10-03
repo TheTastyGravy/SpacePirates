@@ -1,159 +1,155 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public abstract class Interactable : MonoBehaviour
 {
 	public InteractionPromptLogic interactionPrompt;
+	public float interactionRadius = 1;
+	[SerializeField]
+	private Vector3 interactionOffset;
 
-	// All interactors we are in range of (registered and unregistered)
-	private List<Interactor> interactors = new List<Interactor>();
-	// Only interactors we have registered with
-	private List<Interactor> registeredInteractors = new List<Interactor>();
+	public Vector3 InteractionCenter { get => transform.position + transform.rotation * interactionOffset; }
+
+	protected Interactor currentInteractor = null;
+	public bool IsBeingUsed => currentInteractor != null;
 
 
 
-	// Called when we have the option of registering with an interactor
-	internal void Notify_Register(Interactor interactor)
+	protected virtual void Awake()
 	{
-		if (!interactors.Contains(interactor))
-			interactors.Add(interactor);
-		
-		// Derived logic determines if we should register and what button to use
-		if (enabled && ShouldRegister(interactor, out Player.Control button))
-		{
-			if (!interactor.RegisterInteractable(this, button))
-			{
-				// The interaction failed to register
-				return;
-			}
-
-			if (registeredInteractors.Count == 0)
-			{
-				Selection_Start();
-			}
-			if (!registeredInteractors.Contains(interactor))
-				registeredInteractors.Add(interactor);
-		}
-	}
-	// Called when we have been removed from an interactor (not just unregistered)
-	internal void Notify_Removed(Interactor interactor)
-	{
-		interactors.Remove(interactor);
-		registeredInteractors.Remove(interactor);
-
-		if (registeredInteractors.Count == 0)
-		{
-			Selection_Stop();
-		}
+		InteractionManager.Instance.interactables.Add(this);
 	}
 
-    internal void Interaction_Start(Interactor interactor)
+	void OnDestroy()
 	{
-		if (interactionPrompt != null)
-		{
-			interactionPrompt.InteractStart();
-		}
-
-		OnInteractStart(interactor);
+		if (InteractionManager.Instance != null)
+			InteractionManager.Instance.interactables.Remove(this);
 	}
-	internal void Interaction_Stop(Interactor interactor)
-	{
-		if (interactionPrompt != null)
-		{
-			interactionPrompt.InteractStop();
-		}
-
-		OnInteractStop(interactor);
-	}
-
-	private void Selection_Start()
-	{
-		if (interactionPrompt != null)
-		{
-			interactionPrompt.SelectStart();
-		}
-
-		OnSelectStart();
-	}
-	private void Selection_Stop()
-	{
-		if (interactionPrompt != null)
-		{
-			interactionPrompt.SelectStop();
-		}
-
-		OnSelectStop();
-	}
-
-
-	/// <summary>
-	/// Unregister and attempt to reregister with all interactors
-	/// </summary>
-	protected void ReregisterInteractions()
-	{
-		// Unregister from all interactors
-		foreach (var interactor in registeredInteractors)
-		{
-			interactor.UnregisterInteractable(this);
-		}
-		registeredInteractors.Clear();
-
-		Selection_Stop();
-
-		// Attempt to register with all interactors
-		foreach (var interactor in interactors)
-		{
-			Notify_Register(interactor);
-		}
-	}
-
-
-	/// <summary>
-	/// Should we register with the interactor?
-	/// </summary>
-	/// <param name="interactor">The interactor to register with</param>
-	/// <param name="button">The button that the interactor will use to interact</param>
-	protected abstract bool ShouldRegister(Interactor interactor, out Player.Control button);
-	protected virtual void OnInteractStart(Interactor interactor) { }
-	protected virtual void OnInteractStop(Interactor interactor) { }
-	protected virtual void OnSelectStart() { }
-	protected virtual void OnSelectStop() { }
-
 
 	void OnEnable()
 	{
 		if (interactionPrompt != null)
 			interactionPrompt.enabled = true;
-
-		// Attempt to register with all interactors
-		foreach (var interactor in interactors)
-		{
-			Notify_Register(interactor);
-		}
 	}
 
 	void OnDisable()
 	{
-		// Unregister from all interactors
-		foreach (var interactor in registeredInteractors)
-		{
-			interactor.UnregisterInteractable(this);
-		}
-		registeredInteractors.Clear();
-
-		Selection_Stop();
 		if (interactionPrompt != null)
 			interactionPrompt.enabled = false;
 	}
 
-	void OnDestroy()
+	/// <summary>
+	/// Returns true if the interactor can interact with the control
+	/// </summary>
+	internal bool CanBeUsed(Interactor interactor, Player.Control control)
 	{
-		// Unregister and remove this from all interactors
-		foreach (var interactor in interactors)
-		{
-			interactor.UnregisterInteractable(this);
-			interactor.interactables.Remove(this);
-		}
+		return isActiveAndEnabled && !IsBeingUsed && CanBeUsed(interactor, out Player.Control outControl) && outControl == control;
 	}
+
+	/// <summary>
+	/// Can we be interacted with by the interactor?
+	/// </summary>
+	/// <param name="button">The button that the interactor will use to interact</param>
+	protected virtual bool CanBeUsed(Interactor interactor, out Player.Control button)
+	{
+		// Basic implementation
+		button = Player.Control.A_PRESSED;
+		return true;
+	}
+
+	internal void StartInteraction(Interactor interactor)
+	{
+		if (IsBeingUsed)
+			return;
+
+		currentInteractor = interactor;
+		OnInteractionStart();
+		OnButtonDown();
+
+		if (interactionPrompt != null)
+			interactionPrompt.InteractStart();
+	}
+
+	internal void StopInteraction(Interactor interactor)
+	{
+		if (!IsBeingUsed || interactor != currentInteractor)
+			return;
+
+		OnInteractionStop();
+		currentInteractor = null;
+
+		if (interactionPrompt != null)
+			interactionPrompt.InteractStop();
+	}
+
+	internal void ButtonDown(Interactor interactor)
+	{
+		if (!IsBeingUsed || interactor != currentInteractor)
+			return;
+
+		OnButtonDown();
+	}
+
+	internal void ButtonUp(Interactor interactor)
+	{
+		if (!IsBeingUsed || interactor != currentInteractor)
+			return;
+
+		OnButtonUp();
+	}
+
+	protected virtual void OnInteractionStart() { }
+	protected virtual void OnInteractionStop() { }
+	protected virtual void OnButtonDown() { }
+	protected virtual void OnButtonUp() { }
+
+#if UNITY_EDITOR
+	[DrawGizmo(GizmoType.InSelectionHierarchy, typeof(Interactable))]
+	private static void DrawGizmos(Interactable interactable, GizmoType gizmoType)
+	{
+		if (!interactable.enabled)
+			return;
+
+		// Setup rotation matrix to rotate the sphere without affecting its position
+		Handles.matrix = Matrix4x4.Rotate(interactable.transform.rotation);
+		Vector3 position = Handles.inverseMatrix.MultiplyPoint(interactable.InteractionCenter);
+
+		// Set values used for outer disc depending on camera
+		Vector3 normal;
+		float sqrMagnitude, num0, num1;
+		if (Camera.current.orthographic)
+		{
+			normal = -Handles.inverseMatrix.MultiplyVector(Camera.current.transform.forward);
+			sqrMagnitude = 1;
+			num0 = interactable.interactionRadius * interactable.interactionRadius;
+			num1 = interactable.interactionRadius;
+		}
+		else
+		{
+			normal = position - Handles.inverseMatrix.MultiplyPoint(Camera.current.transform.position);
+			sqrMagnitude = normal.sqrMagnitude;
+			num0 = interactable.interactionRadius * interactable.interactionRadius;
+			num1 = Mathf.Sqrt(num0 - (num0 * num0 / sqrMagnitude));
+		}
+
+
+		void DrawSphere()
+		{
+			Handles.DrawWireDisc(position, Vector3.right, interactable.interactionRadius);
+			Handles.DrawWireDisc(position, Vector3.up, interactable.interactionRadius);
+			Handles.DrawWireDisc(position, Vector3.forward, interactable.interactionRadius);
+			Handles.DrawWireDisc(position - num0 * normal / sqrMagnitude, normal, num1);
+		}
+		// First pass: lines in front get normal alpha
+		Handles.zTest = UnityEngine.Rendering.CompareFunction.LessEqual;
+		Handles.color = new Color(1, 1, 0.5f, 1);
+		DrawSphere();
+		// Second pass: lines behind get lower alpha
+		Handles.zTest = UnityEngine.Rendering.CompareFunction.Greater;
+		Handles.color = new Color(1, 1, 0.5f, 0.1f);
+		DrawSphere();
+	}
+#endif
 }

@@ -117,19 +117,6 @@ public class InteractionPromptLogic : MonoBehaviour
         isBeingUsed = false;
     }
 
-    public void SelectStart()
-	{
-    }
-
-    public void SelectStop()
-	{
-        if (isPoping)
-            return;
-
-        isBeingUsed = false;
-    }
-
-
 	void OnEnable()
 	{
         foreach (var obj in promptImages)

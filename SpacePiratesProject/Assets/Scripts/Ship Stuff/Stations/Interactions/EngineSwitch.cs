@@ -11,7 +11,7 @@ public class EngineSwitch : Interactable
 
 
 
-	protected override void OnInteractStart(Interactor interactor)
+	protected override void OnInteractionStart()
 	{
         if (engine.IsTurnedOn)
 		{
@@ -25,9 +25,11 @@ public class EngineSwitch : Interactable
             OnActivated?.Invoke();
             interactionPrompt.Pop();
         }
+
+        currentInteractor.EndInteraction();
 	}
 
-	protected override bool ShouldRegister(Interactor interactor, out Player.Control button)
+    protected override bool CanBeUsed(Interactor interactor, out Player.Control button)
     {
         button = Player.Control.A_PRESSED;
         return true;

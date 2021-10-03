@@ -9,13 +9,13 @@ public class TurretActivate : Interactable
 
 
 
-	protected override void OnInteractStart(Interactor interactor)
+	protected override void OnInteractionStart()
 	{
         interactionPrompt.Pop();
-        OnInteract?.Invoke(interactor);
+        OnInteract?.Invoke(currentInteractor);
 	}
 
-	protected override bool ShouldRegister(Interactor interactor, out Player.Control button)
+    protected override bool CanBeUsed(Interactor interactor, out Player.Control button)
     {
         button = Player.Control.A_PRESSED;
         return true;

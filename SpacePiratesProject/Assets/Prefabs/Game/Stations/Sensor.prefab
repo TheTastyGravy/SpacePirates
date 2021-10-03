@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2516605981721417296}
-  - component: {fileID: 2474615616232535891}
   - component: {fileID: 9059770270631468734}
   - component: {fileID: 5241238829815736068}
   m_Layer: 0
@@ -35,19 +34,6 @@ Transform:
   m_Father: {fileID: 5503383575632185362}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &2474615616232535891
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 334761266326274585}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &9059770270631468734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,6 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPrompt: {fileID: 716748351161431411}
+  interactionRadius: 0.8
+  interactionOffset: {x: 0, y: 0, z: 0}
   interactionCooldown: 3
 --- !u!65 &5241238829815736068
 BoxCollider:
@@ -5032,7 +5020,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3479699902446549648}
-  - component: {fileID: 132642854853954396}
   - component: {fileID: 2755196020792942403}
   m_Layer: 0
   m_Name: RepairStation
@@ -5057,19 +5044,6 @@ Transform:
   m_Father: {fileID: 5503383575632185362}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &132642854853954396
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7335460244160259562}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2755196020792942403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5083,6 +5057,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPrompt: {fileID: 3539073413064632244}
+  interactionRadius: 0.8
+  interactionOffset: {x: 0, y: 0, z: 0}
   maxDamageLevel: 1
   timeToRepair: 1
 --- !u!1001 &2243173446636494148

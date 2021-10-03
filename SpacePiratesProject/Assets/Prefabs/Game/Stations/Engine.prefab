@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2543889148672187095}
-  - component: {fileID: 2785180347993389275}
   - component: {fileID: 6307381350979255894}
   - component: {fileID: 829531518841039444}
   m_Layer: 0
@@ -35,19 +34,6 @@ Transform:
   m_Father: {fileID: 1546285970719843229}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &2785180347993389275
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 774142491633125458}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.86
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6307381350979255894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,6 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPrompt: {fileID: 970588814944868411}
+  interactionRadius: 1.16
+  interactionOffset: {x: 0, y: 0, z: 0}
 --- !u!65 &829531518841039444
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -135,7 +123,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1546285971365547615}
-  - component: {fileID: 4263260676253005952}
   - component: {fileID: 1546285971365547613}
   m_Layer: 0
   m_Name: Damage Station
@@ -160,19 +147,6 @@ Transform:
   m_Father: {fileID: 1546285970719843229}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &4263260676253005952
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1546285971365547614}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1546285971365547613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +160,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPrompt: {fileID: 274620937415510846}
+  interactionRadius: 0.8
+  interactionOffset: {x: 0, y: 0, z: 0}
   maxDamageLevel: 1
   timeToRepair: 1
 --- !u!1 &2058598940388255359
@@ -197,7 +173,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2915885000734896033}
-  - component: {fileID: 4515478199211984876}
   - component: {fileID: 5218762150366954547}
   - component: {fileID: 573118024978715669}
   m_Layer: 0
@@ -223,19 +198,6 @@ Transform:
   m_Father: {fileID: 1546285970719843229}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &4515478199211984876
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2058598940388255359}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.79
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5218762150366954547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,6 +211,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPrompt: {fileID: 2748676743343105736}
+  interactionRadius: 1.09
+  interactionOffset: {x: 0, y: 0, z: 0}
   timeToDeposit: 1
 --- !u!65 &573118024978715669
 BoxCollider:
@@ -298,7 +262,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 33.75, y: -67.5}
   m_SizeDelta: {x: 67.5, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7641561328270631162
@@ -5201,7 +5165,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 33.75, y: -67.5}
   m_SizeDelta: {x: 67.5, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5138639099235253784

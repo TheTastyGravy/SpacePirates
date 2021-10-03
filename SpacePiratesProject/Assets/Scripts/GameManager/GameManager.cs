@@ -41,15 +41,35 @@ public class GameManager : Singleton< GameManager >
                     }
 				}
 
+                // Make the INIT scene active for now
+                SceneManager.SetActiveScene(Instance.gameObject.scene);
+
+                // Unload and load at the same time, and set the active scene after both are done
+                bool isOtherLoaded = false;
                 SceneManager.UnloadSceneAsync( Instance.m_CurrentState.ToString() ).completed += asyncOperation => 
                 { 
-                    SceneManager.LoadSceneAsync( value.ToString(), LoadSceneMode.Additive ).completed += asyncOperation =>
+                    if (isOtherLoaded)
+					{
+                        SceneManager.SetActiveScene(SceneManager.GetSceneByName(value.ToString()));
+                    }
+                    else
                     {
-                        SceneManager.SetActiveScene( SceneManager.GetSceneByName( value.ToString() ) );
-                    };
-
-                    Instance.m_CurrentState = value;
+                        isOtherLoaded = true;
+                    }
                 };
+                SceneManager.LoadSceneAsync(value.ToString(), LoadSceneMode.Additive).completed += asyncOperation =>
+                {
+                    if (isOtherLoaded)
+					{
+                        SceneManager.SetActiveScene(SceneManager.GetSceneByName(value.ToString()));
+                    }
+					else
+					{
+                        isOtherLoaded = true;
+                    }
+                };
+
+                Instance.m_CurrentState = value;
 
                 return;
             }

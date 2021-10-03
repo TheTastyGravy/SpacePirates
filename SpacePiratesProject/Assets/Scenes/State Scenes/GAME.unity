@@ -1632,6 +1632,7 @@ GameObject:
   - component: {fileID: 5063274434833239890}
   - component: {fileID: 5063274434833239917}
   - component: {fileID: 5063274434833239919}
+  - component: {fileID: 5063274434833239920}
   m_Layer: 0
   m_Name: LevelController
   m_TagString: Untagged
@@ -1655,16 +1656,20 @@ MonoBehaviour:
   astroidsPerWave: 4
   timeBetweenDamage: 1
   shipPrefab: {fileID: 6161450435761204015, guid: 16e746287e4911f41abeabf5546bea79, type: 3}
-  missilePrefab: {fileID: 5795167540847266017, guid: 898819c832f56054ebc18670b0b8b7d7, type: 3}
-  enterTime: 1
-  exitTime: 1
-  firePeriod: 1.25
-  spreadAngle: 90
-  wanderFrequency: 1
-  wanderDist: 0.75
-  wanderSpeed: 3
-  wanderAcceleration: 1
+  shipHealth: 10
   currentEventText: {fileID: 1031555159}
+--- !u!114 &5063274434833239920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5063274434833239918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 197bad202946aef42b643d0cead7d1e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6661497440788994546
 PrefabInstance:
   m_ObjectHideFlags: 0

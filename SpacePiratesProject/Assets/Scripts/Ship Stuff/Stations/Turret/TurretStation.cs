@@ -126,10 +126,6 @@ public class TurretStation : MonoBehaviour
         // Display HUD
         turretHud.SetActive(true);
 
-        currentInteractor.SetActive(false);
-        //disable controls
-        (currentInteractor.Player.Character as Character).IsKinematic = true;
-        (currentInteractor.Player.Character as Character).enabled = false;
         //get info
         playerPos = currentInteractor.Player.Character.transform.position;
         playerRot = currentInteractor.Player.Character.transform.rotation;
@@ -150,13 +146,10 @@ public class TurretStation : MonoBehaviour
         //remove turret controls
         currentInteractor.Player.RemoveInputListener(Player.Control.A_PRESSED, Fire);
         currentInteractor.Player.RemoveInputListener(Player.Control.B_PRESSED, OnDeactivate);
-        
         //reset player info
         currentInteractor.Player.Character.transform.SetPositionAndRotation(playerPos, playerRot);
-        //activate controls
-        (currentInteractor.Player.Character as Character).IsKinematic = false;
-        (currentInteractor.Player.Character as Character).enabled = true;
-        currentInteractor.SetActive(true);
+
+        currentInteractor.EndInteraction();
     }
 
     private void Fire(InputAction.CallbackContext _)

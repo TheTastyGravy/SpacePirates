@@ -6,8 +6,6 @@ public class FuelDeposit : Interactable
 {
     public float timeToDeposit = 1;
 
-    // If not null, we are being interacted with
-    private Interactor currentInteractor = null;
     private float timePassed = 0;
 
     public BasicDelegate OnFuelDeposited;
@@ -17,7 +15,7 @@ public class FuelDeposit : Interactable
     void Update()
     {
         // If we are being interacted with
-        if (currentInteractor != null)
+        if (IsBeingUsed)
 		{
             timePassed += Time.deltaTime;
             if (timePassed >= timeToDeposit)
@@ -38,30 +36,22 @@ public class FuelDeposit : Interactable
         currentInteractor.Drop();
         Destroy(held.gameObject);
 
-        // Unlock the player and update the interactor
-        currentInteractor.Player.Character.enabled = true;
-        currentInteractor.UpdateRegistry();
-        currentInteractor = null;
+        currentInteractor.EndInteraction();
 
         OnFuelDeposited?.Invoke();
     }
 
-
-	protected override void OnInteractStart(Interactor interactor)
+	protected override void OnInteractionStart()
 	{
-        currentInteractor = interactor;
         timePassed = 0;
-        // Lock the player
-        currentInteractor.Player.Character.enabled = false;
-    }
-	protected override void OnInteractStop(Interactor interactor)
-	{
-        // Unlock player
-        currentInteractor.Player.Character.enabled = true;
-        currentInteractor = null;
     }
 
-	protected override bool ShouldRegister(Interactor interactor, out Player.Control button)
+	protected override void OnButtonUp()
+	{
+        currentInteractor.EndInteraction();
+	}
+
+    protected override bool CanBeUsed(Interactor interactor, out Player.Control button)
     {
         button = Player.Control.A_PRESSED;
         // Players can only interact if they are holding fuel
