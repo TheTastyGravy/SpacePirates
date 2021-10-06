@@ -121,14 +121,14 @@ public class GameManager : Singleton< GameManager >
 
     public enum GameState
     {
-        NONE,
-        SPLASH,
-        START,
-        MENU,
-        SHIP,
-        CHARACTER,
-        TRACK,
-        GAME,
-        SUMMARY
+        NONE = 0,
+        SPLASH = 1,
+        START = 2,
+        MENU = 4,
+        SHIP = 8,
+        CHARACTER = 16,
+        TRACK = 32,
+        GAME = 64,
+        SUMMARY = 128
     }
 }

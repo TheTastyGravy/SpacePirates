@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MusicManager : Singleton<MusicManager>
 {
-    [Tooltip("The music that will be played")]
-    public FMODUnity.EventReference eventName;
+    public MusicData data;
     public bool printBeatLogs = false;
+
 
     public int CurrentBar => timelineInfo.currentMusicBar;
     public int CurrentBeat => timelineInfo.currentMusicBeat;
@@ -36,19 +37,36 @@ public class MusicManager : Singleton<MusicManager>
 	}
     private List<Entry> beatEvents = new List<Entry>();
 
+    private MusicData.MusicInfo musicInfo;
 
 
-    void Start()
+
+    void Awake()
     {
+        // Wait a frame
+        Invoke(nameof(InitSetup), 0);
+    }
+
+    private void InitSetup()
+	{
+        // Get the music info for the current scene
+        musicInfo = data.GetInfo(GameManager.CurrentState);
+
         timelineInfo = new TimelineInfo();
         timelineInfo.onBeat += OnBeat;
         timelineInfo.onMessage += OnMessage;
-
         // Explicitly create the delegate object and assign it to a member so it doesn't get freed
         // by the garbage collected while it's being used
         beatCallback = new FMOD.Studio.EVENT_CALLBACK(BeatEventCallback);
+        // Callback used for changing music
+        SceneManager.activeSceneChanged += OnSceneChanged;
 
-        musicInstance = FMODUnity.RuntimeManager.CreateInstance(eventName);
+        SetupMusic();
+    }
+
+    private void SetupMusic()
+	{
+        musicInstance = FMODUnity.RuntimeManager.CreateInstance(musicInfo.musicEvent);
 
         // Pin the class that will store the data modified during the callback
         timelineHandle = GCHandle.Alloc(timelineInfo);
@@ -57,13 +75,14 @@ public class MusicManager : Singleton<MusicManager>
         // Setup callback for beats and markers
         musicInstance.setCallback(beatCallback, FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_BEAT | FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_MARKER);
         if (enabled)
-		{
+        {
             musicInstance.start();
         }
     }
 
     void OnDestroy()
     {
+        SceneManager.activeSceneChanged -= OnSceneChanged;
         musicInstance.setUserData(IntPtr.Zero);
         musicInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         musicInstance.release();
@@ -81,6 +100,31 @@ public class MusicManager : Singleton<MusicManager>
     void OnDisable()
 	{
         musicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+    }
+
+    private void OnSceneChanged(Scene current, Scene next)
+    {
+        MusicData.MusicInfo newInfo = data.GetInfo(GameManager.CurrentState);
+        if (newInfo != musicInfo)
+		{
+            StartCoroutine(ChangeMusic(newInfo));
+        }
+    }
+
+    private IEnumerator ChangeMusic(MusicData.MusicInfo newMusicInfo)
+	{
+        // Stop with fade
+        musicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        yield return new WaitForSeconds(musicInfo.fadeTime);
+
+        // Hard stop and destroy everything
+        musicInstance.setUserData(IntPtr.Zero);
+        musicInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        musicInstance.release();
+        timelineHandle.Free();
+        // Setup using the new info
+        musicInfo = newMusicInfo;
+        SetupMusic();
     }
 
 
