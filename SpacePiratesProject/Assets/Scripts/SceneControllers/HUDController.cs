@@ -26,7 +26,25 @@ public class HUDController : Singleton< HUDController >
 	{
         // Setup canvas to use camera space so post processing effect can be applied
         Canvas canvas = GetComponent<Canvas>();
-        canvas.worldCamera = Camera.main.transform.GetChild(0).GetComponent<Camera>();
+
+        // Get the UI camera from the camera with multiple children. This is nessesary becasue of scene loading stuff
+        Camera cam = null;
+        if (Camera.main.transform.childCount > 0)
+		{
+            cam = Camera.main.transform.GetChild(0).GetComponent<Camera>();
+        }
+		else
+		{
+            foreach (var obj in Camera.allCameras)
+			{
+                if (obj.transform.childCount > 0)
+				{
+                    cam = obj.transform.GetChild(0).GetComponent<Camera>();
+                    break;
+                }
+            }
+		}
+        canvas.worldCamera = cam;
         canvas.planeDistance = 1;
     }
 
