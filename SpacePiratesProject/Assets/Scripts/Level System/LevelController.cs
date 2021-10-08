@@ -62,7 +62,7 @@ public class LevelController : Singleton<LevelController>
         if (playerPos >= level.length)
 		{
             //win state
-            GameManager.CurrentState = GameManager.GameState.SUMMARY;
+            GameManager.ChangeState(GameManager.GameState.SUMMARY);
         }
     }
 }

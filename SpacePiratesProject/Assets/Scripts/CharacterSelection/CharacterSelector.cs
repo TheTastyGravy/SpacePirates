@@ -24,7 +24,14 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
     private void Start()
     {
-        Canvas.worldCamera = Camera.main;
+        // Edge case
+        if (PlayerInputManager.instance.playerCount == 0)
+        {
+            GameManager.ChangeState(GameManager.GameState.START);
+            return;
+        }
+
+        //Canvas.worldCamera = Camera.main;
         m_SelectorTiles = new SelectorTile[ ( int )Player.PlayerSlot.COUNT ];
         m_CharacterTiles = new CharacterTile[ CharacterTiles.Length ];
         m_CharacterDocks = new CharacterDock[ GameManager.MaxPlayers ];
@@ -88,7 +95,8 @@ public class CharacterSelector : Singleton< CharacterSelector >
         // Remove listeners
         InputSystem.onDeviceChange -= OnDeviceChange;
         Player primaryPlayer = Player.GetPlayerBySlot( Player.PlayerSlot.P1 );
-        primaryPlayer.RemoveInputListener( Player.Control.B_PRESSED, OnBPressedByP1 );
+        if (primaryPlayer != null)
+            primaryPlayer.RemoveInputListener( Player.Control.B_PRESSED, OnBPressedByP1 );
         PlayerInputManager.instance.onPlayerJoined -= OnPlayerJoined;
         PlayerInputManager.instance.onPlayerLeft -= OnPlayerLeft;
     }
@@ -411,7 +419,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
         primaryPlayer.DestroyCharacter();
         primaryPlayer.transform.parent = null;
         DontDestroyOnLoad( primaryPlayer.gameObject );
-        GameManager.CurrentState = GameManager.GameState.SHIP;
+        GameManager.ChangeState(GameManager.GameState.SHIP);
     }
 
     public void CheckReadyState()
@@ -428,17 +436,26 @@ public class CharacterSelector : Singleton< CharacterSelector >
         // All players are ready, so we can continue to track select
         PlayerInputManager.instance.DisableJoining();
         // Setup players to change scene
-        foreach (PlayerInput playerInput in PlayerInput.all)
+        foreach (var dock in m_CharacterDocks)
         {
-            playerInput.transform.parent = null;
+            Player player = dock.AssignedPlayer;
+            if (player == null)
+                continue;
 
-            (playerInput as Player).Character.SetUseCharacterSelectAnimations(false);
-            (playerInput as Player).Character.gameObject.SetActive(false);
-            playerInput.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-            DontDestroyOnLoad(playerInput.gameObject);
+            player.transform.parent = null;
+            // Fix scale to prevent weirdness
+            player.transform.localScale = Vector3.one;
+
+            if (player.Character)
+			{
+                player.Character.SetUseCharacterSelectAnimations(false);
+                player.Character.gameObject.SetActive(false);
+            }
+            player.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+            DontDestroyOnLoad(player.gameObject);
         }
 
-        GameManager.CurrentState = GameManager.GameState.TRACK;
+        GameManager.ChangeState(GameManager.GameState.TRACK);
     }
 
 

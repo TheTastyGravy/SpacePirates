@@ -10,6 +10,19 @@ public class TrackSelector : Singleton< TrackSelector >
 
     private void Start()
     {
+        // Edge case
+        if (PlayerInputManager.instance.playerCount == 0)
+        {
+            GameManager.ChangeState(GameManager.GameState.START, true);
+            return;
+        }
+        // Another edge case
+        if (Player.GetPlayerBySlot(Player.PlayerSlot.P1).Character == null)
+		{
+            GameManager.ChangeState(GameManager.GameState.CHARACTER, true);
+            return;
+		}
+
         Player primaryPlayer = Player.GetPlayerBySlot( Player.PlayerSlot.P1 );
         primaryPlayer.AddInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
         primaryPlayer.AddInputListener( Player.Control.A_PRESSED, OnAPressed );
@@ -40,20 +53,20 @@ public class TrackSelector : Singleton< TrackSelector >
 
     private void OnAPressed( InputAction.CallbackContext _ )
     {
-        GameManager.RegisterSelectedTrack( m_CurrentTrackIndex );
-        GameManager.CurrentState = GameManager.GameState.GAME;
-
-        foreach ( PlayerInput playerInput in PlayerInput.all )
+        // Check again incase the one in Start failed
+        if (Player.GetPlayerBySlot(Player.PlayerSlot.P1).Character == null || Player.GetPlayerBySlot(Player.PlayerSlot.P1).Character.gameObject == null)
         {
-            Player player = playerInput as Player;
-            player.Character.gameObject.SetActive( true );
-            player.Character.enabled = true;
+            GameManager.ChangeState(GameManager.GameState.CHARACTER, true);
+            return;
         }
+
+        GameManager.RegisterSelectedTrack( m_CurrentTrackIndex );
+        GameManager.ChangeState(GameManager.GameState.GAME);
     }
 
     private void OnBPressed( InputAction.CallbackContext _ )
     {
-        GameManager.CurrentState = GameManager.GameState.CHARACTER;
+        GameManager.ChangeState(GameManager.GameState.CHARACTER);
     }
 
     public void SetTrackIndex( int a_Index )

@@ -17,6 +17,13 @@ public class MenuController : Singleton< MenuController >
 
     private void Start()
     {
+        // Edge case
+        if (PlayerInputManager.instance.playerCount == 0)
+        {
+            GameManager.ChangeState(GameManager.GameState.START);
+            return;
+        }
+
         EventSystem.current.SetSelectedGameObject( MenuButtonPlay.gameObject );
         MenuButtonPlay.onClick.AddListener( OnButtonPlay );
         MenuButtonOptions.onClick.AddListener( OnButtonOptions );
@@ -28,11 +35,18 @@ public class MenuController : Singleton< MenuController >
     private void OnDestroy()
     {
         ( EventSystem.current.currentInputModule as InputSystemUIInputModule ).cancel.action.performed -= OnMenuCancel;
+        (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed -= OnOptionsCancel;
+
+        MenuButtonPlay.onClick.RemoveAllListeners();
+        MenuButtonOptions.onClick.RemoveAllListeners();
+        MenuButtonExit.onClick.RemoveAllListeners();
+        OptionsButtonSetting1.onClick.RemoveAllListeners();
+        //OptionsButtonSetting2.onClick.RemoveAllListeners();
     }
 
     private void OnButtonPlay()
     {
-        GameManager.CurrentState = GameManager.GameState.SHIP;
+        GameManager.ChangeState(GameManager.GameState.SHIP);
     }
 
     private void OnButtonOptions()
@@ -54,8 +68,9 @@ public class MenuController : Singleton< MenuController >
 
     private void OnMenuCancel( InputAction.CallbackContext _ )
     {
-        Destroy( Player.GetPlayerBySlot( Player.PlayerSlot.P1 ).gameObject );
-        GameManager.CurrentState = GameManager.GameState.START;
+        if (Player.GetPlayerBySlot(Player.PlayerSlot.P1) != null)
+            Destroy( Player.GetPlayerBySlot( Player.PlayerSlot.P1 ).gameObject );
+        GameManager.ChangeState(GameManager.GameState.START);
     }
 
     private void OnOptionsCancel( InputAction.CallbackContext _ )

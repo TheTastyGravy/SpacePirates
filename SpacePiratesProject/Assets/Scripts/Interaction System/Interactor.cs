@@ -26,26 +26,33 @@ public class Interactor : MonoBehaviour
 	void Awake()
 	{
 		player = GetComponentInParent<Player>();
-		SceneManager.activeSceneChanged += OnSceneChanged;
+		GameManager.OnStartTransition += ExitGame;
+		GameManager.OnEndTransition += EnterGame;
 	}
 
-	private void OnSceneChanged(Scene current, Scene next)
+	void OnDestroy()
 	{
-		if (current.name == "GAME")
+		GameManager.OnStartTransition -= ExitGame;
+		GameManager.OnEndTransition -= EnterGame;
+
+		if (player != null)
 		{
-			ExitGame();
-		}
-		else if (next.name == "GAME")
-		{
-			// Wait a frame
-			Invoke(nameof(EnterGame), 0);
+			InputAction aAction = Player.GetInputAction(Player.Control.A_PRESSED);
+			aAction.started -= OnInteractionInput;
+			aAction.canceled -= OnInteractionInput;
+			InputAction bAction = Player.GetInputAction(Player.Control.B_PRESSED);
+			bAction.started -= OnInteractionInput;
+			bAction.canceled -= OnInteractionInput;
 		}
 	}
 	
-	public void EnterGame()
+	public void EnterGame(Scene scene, GameManager.GameState otherScene)
 	{
+		if (scene.name != "GAME")
+			return;
+
 		InteractionManager.Instance.interactors.Add(this);
-		grabAttach = GetComponent<ICharacter>().GetCharacter().grabTransform;
+		grabAttach = player.Character.GetCharacter().grabTransform;
 		// Setup input callbacks
 		InputAction aAction = Player.GetInputAction(Player.Control.A_PRESSED);
 		aAction.started += OnInteractionInput;
@@ -57,9 +64,14 @@ public class Interactor : MonoBehaviour
 		enabled = true;
 	}
 
-	public void ExitGame()
+	public void ExitGame(Scene scene, GameManager.GameState otherScene)
 	{
-		InteractionManager.Instance.interactors.Remove(this);
+		if (scene.name != "GAME")
+			return;
+		
+		// Menu spam fix
+		if (InteractionManager.Instance != null)
+			InteractionManager.Instance.interactors.Remove(this);
 		// Remove input callbacks
 		InputAction aAction = Player.GetInputAction(Player.Control.A_PRESSED);
 		aAction.started -= OnInteractionInput;

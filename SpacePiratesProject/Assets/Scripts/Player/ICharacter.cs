@@ -132,8 +132,7 @@ public class ICharacter : MonoBehaviour
 		}
         useCharacterSelectAnimations = value;
 
-
-        if (currentCharacter != null)
+        if (currentCharacter != null && currentCharacter.animator != null)
 		{
             currentCharacter.animator.Play(value ? "Base Layer.CharSelect_" + currentCharacter.characterName : "Base Layer.Blend Tree", 0, 0);
         }

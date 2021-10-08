@@ -41,16 +41,16 @@ public class SummaryController : Singleton<SummaryController>
 		Destroy(Player.GetPlayerBySlot(Player.PlayerSlot.P3));
 		Destroy(Player.GetPlayerBySlot(Player.PlayerSlot.P4));
 
-		GameManager.CurrentState = GameManager.GameState.MENU;
+		GameManager.ChangeState(GameManager.GameState.MENU);
 	}
 
 	private void OnTrackSelectButton()
 	{
-		GameManager.CurrentState = GameManager.GameState.TRACK;
+		GameManager.ChangeState(GameManager.GameState.TRACK);
 	}
 
 	private void OnPlayAgainButton()
 	{
-		GameManager.CurrentState = GameManager.GameState.GAME;
+		GameManager.ChangeState(GameManager.GameState.GAME);
 	}
 }

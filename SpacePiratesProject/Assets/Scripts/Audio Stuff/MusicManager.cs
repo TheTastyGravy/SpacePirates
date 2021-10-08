@@ -59,7 +59,7 @@ public class MusicManager : Singleton<MusicManager>
         // by the garbage collected while it's being used
         beatCallback = new FMOD.Studio.EVENT_CALLBACK(BeatEventCallback);
         // Callback used for changing music
-        SceneManager.activeSceneChanged += OnSceneChanged;
+        GameManager.OnStartTransition += OnSceneExit;
 
         SetupMusic();
     }
@@ -82,7 +82,7 @@ public class MusicManager : Singleton<MusicManager>
 
     void OnDestroy()
     {
-        SceneManager.activeSceneChanged -= OnSceneChanged;
+        GameManager.OnStartTransition -= OnSceneExit;
         musicInstance.setUserData(IntPtr.Zero);
         musicInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         musicInstance.release();
@@ -102,11 +102,11 @@ public class MusicManager : Singleton<MusicManager>
         musicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
-    private void OnSceneChanged(Scene current, Scene next)
-    {
-        MusicData.MusicInfo newInfo = data.GetInfo(GameManager.CurrentState);
+    private void OnSceneExit(Scene scene, GameManager.GameState otherScene)
+	{
+        MusicData.MusicInfo newInfo = data.GetInfo(otherScene);
         if (newInfo != musicInfo)
-		{
+        {
             StartCoroutine(ChangeMusic(newInfo));
         }
     }

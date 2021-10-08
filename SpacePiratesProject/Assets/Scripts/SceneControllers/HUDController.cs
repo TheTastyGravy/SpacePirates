@@ -8,14 +8,19 @@ public class HUDController : Singleton< HUDController >
 {
     public HUDOptionsMenu OptionsMenu;
 
+    private List<System.Action<InputAction.CallbackContext>> actions;
+
 
 
     private void Start()
     {
+        actions = new List<System.Action<InputAction.CallbackContext>>();
         foreach ( PlayerInput playerInput in PlayerInput.all )
         {
             Player player = playerInput as Player;
-            player.AddInputListener( Player.Control.START_PRESSED, callback => OnStartPressed( player ) );
+            System.Action<InputAction.CallbackContext> action = callback => OnStartPressed(player);
+            player.AddInputListener(Player.Control.START_PRESSED, action);
+            actions.Add(action);
         }
 
         // Delay by a frame
@@ -60,10 +65,12 @@ public class HUDController : Singleton< HUDController >
 
 	void OnDestroy()
 	{
-        foreach (PlayerInput playerInput in PlayerInput.all)
-        {
-            Player player = playerInput as Player;
-            player.RemoveInputListener(Player.Control.START_PRESSED, callback => OnStartPressed(player));
+        int count = Mathf.Max(PlayerInput.all.Count, actions.Count);
+        for (int i = 0; i < count; i++)
+		{
+            Player player = PlayerInput.all[i] as Player;
+            player.RemoveInputListener(Player.Control.START_PRESSED, actions[i]);
         }
+        actions.Clear();
     }
 }

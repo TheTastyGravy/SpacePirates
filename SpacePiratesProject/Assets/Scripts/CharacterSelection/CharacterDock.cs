@@ -148,6 +148,9 @@ public class CharacterDock : MonoBehaviour
             return;
         }
 
+        // Fix scale before making it a child to prevent weirdness
+        a_Player.transform.localScale = Vector3.one;
+
         m_AssignedPlayer = a_Player;
         ConnectPhase = a_Player.IsDeviceConnected ? Phase.CHOOSE_CHARACTER : Phase.WAIT_ON_RECONNECT;
         a_Player.onDeviceLost += device => ConnectPhase = Phase.WAIT_ON_RECONNECT;
@@ -265,7 +268,6 @@ public class CharacterDock : MonoBehaviour
 	{
         ConnectPhase = Phase.CHOOSE_CHARACTER;
     }
-
 
     private Player m_AssignedPlayer;
     private Phase m_CurrentStage;

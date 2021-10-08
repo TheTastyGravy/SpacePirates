@@ -58,7 +58,7 @@ public class HUDOptionsMenu : MonoBehaviour
 
     private void ReturnToMenu()
 	{
-        GameManager.CurrentState = GameManager.GameState.MENU;
+        GameManager.ChangeState(GameManager.GameState.MENU);
 	}
 
 

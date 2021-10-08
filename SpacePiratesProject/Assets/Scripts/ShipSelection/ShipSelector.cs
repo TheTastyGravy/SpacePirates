@@ -10,6 +10,13 @@ public class ShipSelector : Singleton< ShipSelector >
 
     private void Start()
     {
+        // Edge case
+        if (PlayerInputManager.instance.playerCount == 0)
+        {
+            GameManager.ChangeState(GameManager.GameState.START);
+            return;
+        }
+
         Player primaryPlayer = Player.GetPlayerBySlot( Player.PlayerSlot.P1 );
         primaryPlayer.AddInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
         primaryPlayer.AddInputListener( Player.Control.A_PRESSED, OnAPressed );
@@ -21,6 +28,8 @@ public class ShipSelector : Singleton< ShipSelector >
     private void OnDestroy()
     {
         Player primaryPlayer = Player.GetPlayerBySlot( Player.PlayerSlot.P1 );
+        if (primaryPlayer == null)
+            return;
         primaryPlayer.RemoveInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
         primaryPlayer.RemoveInputListener( Player.Control.A_PRESSED, OnAPressed );
         primaryPlayer.RemoveInputListener( Player.Control.B_PRESSED, OnBPressed );
@@ -43,12 +52,12 @@ public class ShipSelector : Singleton< ShipSelector >
     private void OnAPressed( InputAction.CallbackContext _ )
     {
         GameManager.RegisterSelectedShip( m_CurrentShipIndex, ShipTiles[ m_CurrentShipIndex ].MaxPlayers );
-        GameManager.CurrentState = GameManager.GameState.CHARACTER;
+        GameManager.ChangeState(GameManager.GameState.CHARACTER);
     }
 
     private void OnBPressed( InputAction.CallbackContext _ )
     {
-        GameManager.CurrentState = GameManager.GameState.MENU;
+        GameManager.ChangeState(GameManager.GameState.MENU);
     }
 
     public void SetShipIndex( int a_Index )

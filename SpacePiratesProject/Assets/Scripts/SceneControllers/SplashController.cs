@@ -15,15 +15,19 @@ public class SplashController : Singleton< SplashController >
         InputSystem.onEvent += OnInput;
     }
 
-    private void OnInput( UnityEngine.InputSystem.LowLevel.InputEventPtr _, InputDevice a_InputDevice )
+	private void OnDestroy()
+	{
+        InputSystem.onEvent -= OnInput;
+    }
+
+	private void OnInput( UnityEngine.InputSystem.LowLevel.InputEventPtr _, InputDevice a_InputDevice )
     {
         if ( a_InputDevice is Mouse )
         {
             return;
         }
 
-        InputSystem.onEvent -= OnInput;
-        GameManager.CurrentState = GameManager.GameState.START;
+        GameManager.ChangeState(GameManager.GameState.START);
     }
 
     private IEnumerator SplashFade()
@@ -49,7 +53,7 @@ public class SplashController : Singleton< SplashController >
             Filter.color = new Color( 0.0f, 0.0f, 0.0f, alpha );
         }
 
-        GameManager.CurrentState = GameManager.GameState.START;
+        GameManager.ChangeState(GameManager.GameState.START);
     }
 
     private IEnumerator Splash()
