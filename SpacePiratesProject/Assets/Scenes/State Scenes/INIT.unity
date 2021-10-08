@@ -230,6 +230,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d89bf0d2e4846740ba61bc73319405b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeInTime: 0.15
+  fadeOutTime: 0.15
+  shouldFade: 0
   m_DefaultActionAsset: {fileID: -944628639613478452, guid: 66637995c6492454c88311f2533856d4, type: 3}
 --- !u!4 &1234440285
 Transform:

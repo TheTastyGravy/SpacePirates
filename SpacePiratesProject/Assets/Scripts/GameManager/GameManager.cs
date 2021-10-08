@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -5,6 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton< GameManager >
 {
+    public float fadeInTime = 0.5f;
+    public float fadeOutTime = 0.5f;
+
     public static InputActionMap DefaultActionMap => Instance.m_DefaultActionAsset.actionMaps.Count > 0 ? Instance.m_DefaultActionAsset.actionMaps[0] : null;
     public static int SelectedShip => Instance.m_SelectedShip;
 	public static int SelectedTrack => Instance.m_SelectedTrack;
@@ -44,43 +49,45 @@ public class GameManager : Singleton< GameManager >
                 // Make the INIT scene active for now
                 SceneManager.SetActiveScene(Instance.gameObject.scene);
 
-                // Unload and load at the same time, and set the active scene after both are done
-                bool isOtherLoaded = false;
-                SceneManager.UnloadSceneAsync( Instance.m_CurrentState.ToString() ).completed += asyncOperation => 
-                { 
-                    if (isOtherLoaded)
-					{
-                        SceneManager.SetActiveScene(SceneManager.GetSceneByName(value.ToString()));
-                    }
-                    else
-                    {
-                        isOtherLoaded = true;
-                    }
-                };
+                // This will do the transition with a fade, but kind of looks crap...
+                //Instance.StartCoroutine(LoadUnload(Instance.m_CurrentState, value));
+                // ...so just keep doing it like this instead
+                GameState oldState = Instance.m_CurrentState;
                 SceneManager.LoadSceneAsync(value.ToString(), LoadSceneMode.Additive).completed += asyncOperation =>
                 {
-                    if (isOtherLoaded)
-					{
-                        SceneManager.SetActiveScene(SceneManager.GetSceneByName(value.ToString()));
-                    }
-					else
-					{
-                        isOtherLoaded = true;
-                    }
+                    SceneManager.UnloadSceneAsync(oldState.ToString());
+                    SceneManager.SetActiveScene(SceneManager.GetSceneByName(value.ToString()));
                 };
-
                 Instance.m_CurrentState = value;
-
-                return;
             }
-            
-            SceneManager.LoadSceneAsync( value.ToString(), LoadSceneMode.Additive ).completed += asyncOperation =>
-            {
-                SceneManager.SetActiveScene( SceneManager.GetSceneByName( value.ToString() ) );
-            };
-            
-            Instance.m_CurrentState = value;
+			else
+			{
+                SceneManager.LoadSceneAsync(value.ToString(), LoadSceneMode.Additive).completed += asyncOperation =>
+                {
+                    SceneManager.SetActiveScene(SceneManager.GetSceneByName(value.ToString()));
+                };
+                Instance.m_CurrentState = value;
+            }
         }
+    }
+
+    private static IEnumerator LoadUnload(GameState oldState, GameState newState)
+	{
+        // Start loading the new scene, then wait for fade
+        AsyncOperation loadOp = SceneManager.LoadSceneAsync(newState.ToString(), LoadSceneMode.Additive);
+        loadOp.allowSceneActivation = false;
+        shouldFade = true;
+        yield return new WaitForSeconds(Instance.fadeInTime);
+
+        // Finish loading and start unloading, then wait for them to finish
+        SceneManager.UnloadSceneAsync(oldState.ToString());
+        loadOp.completed += asyncOperation =>
+        {
+            // Fade in and set active scene
+            shouldFade = false;
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(newState.ToString()));
+        };
+        loadOp.allowSceneActivation = true;
     }
 
     private void Start()
@@ -109,6 +116,28 @@ public class GameManager : Singleton< GameManager >
 		Instance.m_HasFinished = a_HasFinished;
 	}
 
+	void OnGUI()
+	{
+        // We dont need to draw anything
+        if (!shouldFade && fadeTimePassed < 0)
+            return;
+
+        // State has changed, so we need to update fadeTimePassed
+        if (wasFading != shouldFade)
+        {
+            fadeTimePassed = shouldFade ? 0 : fadeOutTime;
+            wasFading = shouldFade;
+        }
+        fadeTimePassed += UnityEngine.Time.deltaTime * (shouldFade ? 1 : -1);
+        float alpha = fadeTimePassed / (shouldFade ? fadeInTime : fadeOutTime);
+
+        // Fade texture using alpha and draw it over the screen
+        Texture2D texture = new Texture2D(1, 1);
+        texture.SetPixel(0, 0, new Color(0, 0, 0, alpha));
+        texture.Apply();
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), texture);
+    }
+
     private int m_SelectedShip;
     private int m_SelectedTrack;
     private int m_MaxPlayers;
@@ -116,6 +145,10 @@ public class GameManager : Singleton< GameManager >
 	private float m_Time;
 	private bool m_HasFinished;
     private GameState m_CurrentState;
+
+    private static bool shouldFade = false;
+    private bool wasFading = false;
+    private float fadeTimePassed = 0;
 
     [ SerializeField ] private InputActionAsset m_DefaultActionAsset;
 
