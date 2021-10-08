@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Voxel_Hexelate
+  m_Name: HexBlurMat
   m_Shader: {fileID: 4800000, guid: da29ab58ff81b894497fb41e2801d8f1, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
