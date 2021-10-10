@@ -167,7 +167,6 @@ public class AstroidManager : Singleton<AstroidManager>
 			GameObject uiObj = Instantiate(uiPrefab, canvas);
 			Destroy(uiObj, astroidSpawnDelay + uiExtraTime);
 			RectTransform rectTrans = uiObj.transform as RectTransform;
-			rectTrans.localScale *= screenScale;
 			// Set its position on the canvas
 			rectTrans.position = Camera.main.ScreenToWorldPoint(rayHit.point);
 			rectTrans.localPosition = new Vector3(rectTrans.localPosition.x, rectTrans.localPosition.y, 0);
