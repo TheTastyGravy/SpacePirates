@@ -20,12 +20,14 @@ public class AstroidManager : Singleton<AstroidManager>
 
 	private BoxCollider[] regions;
 	private float timePassed = 0;
+	private Vector2 screenScale;
 
 
 
 	void Start()
 	{
 		maxAngleVariance *= 0.5f;
+		screenScale = Screen.safeArea.size * new Vector2(1f / 1920f, 1f / 1080f);
 
 		ShrinkBoundry();
 		Invoke("SetupRegions", 0.1f);
@@ -43,12 +45,14 @@ public class AstroidManager : Singleton<AstroidManager>
 
 		// Shrink the boundry by the edge radius
 		// Note that this is not a full solution, and only works in cases with corners
+		Vector2 posScale = screenScale * uiEdgeRadius;
 		Vector2[] points = uiBoundry.points;
 		for (int i = 0; i < points.Length; i++)
 		{
-			Vector2 dir1 = uiBoundry.points[Loop(i - 1, points.Length)] - points[i];
-			Vector2 dir2 = uiBoundry.points[Loop(i + 1, points.Length)] - points[i];
-			Vector2 diff = (dir1.normalized + dir2.normalized) * uiEdgeRadius;
+			points[i] *= screenScale;
+			Vector2 dir1 = (uiBoundry.points[Loop(i - 1, points.Length)] * screenScale) - points[i];
+			Vector2 dir2 = (uiBoundry.points[Loop(i + 1, points.Length)] * screenScale) - points[i];
+			Vector2 diff = (dir1.normalized + dir2.normalized) * posScale;
 
 			// Either add or subtract depending if concave or convex
 			if (Vector2.SignedAngle(dir1, dir2) > 0)
@@ -163,6 +167,7 @@ public class AstroidManager : Singleton<AstroidManager>
 			GameObject uiObj = Instantiate(uiPrefab, canvas);
 			Destroy(uiObj, astroidSpawnDelay + uiExtraTime);
 			RectTransform rectTrans = uiObj.transform as RectTransform;
+			rectTrans.localScale *= screenScale;
 			// Set its position on the canvas
 			rectTrans.position = Camera.main.ScreenToWorldPoint(rayHit.point);
 			rectTrans.localPosition = new Vector3(rectTrans.localPosition.x, rectTrans.localPosition.y, 0);
