@@ -21,7 +21,7 @@ MonoBehaviour:
         Data2: 1217165032
         Data3: -261621348
         Data4: -48242944
-      Path: event:/Music/Level 01
+      Path: event:/Music/Intro
     fadeTime: 0
     removeFlag: 0
   - name: Game Music
