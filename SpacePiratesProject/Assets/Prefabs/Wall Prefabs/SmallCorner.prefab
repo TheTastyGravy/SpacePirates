@@ -215,7 +215,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7552e8abc9c86e343a621f5a527f3c25, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7552e8abc9c86e343a621f5a527f3c25, type: 3}
@@ -350,6 +350,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: facb4bec2bd8fc34ba8d1111262da678, type: 3}
       propertyPath: m_Name
       value: SM_WallCorner1x1_v02
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: facb4bec2bd8fc34ba8d1111262da678, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: facb4bec2bd8fc34ba8d1111262da678, type: 3}

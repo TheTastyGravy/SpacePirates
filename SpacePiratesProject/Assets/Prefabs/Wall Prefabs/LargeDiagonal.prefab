@@ -151,6 +151,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_WallAngled4x4_v02
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c6fc2a11144588d47bb775fc2420e1e1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6fc2a11144588d47bb775fc2420e1e1, type: 3}
 --- !u!1 &482915236106463454 stripped
@@ -217,6 +221,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 8da457ae3a6a17040921bf273cb349c9, type: 3}
       propertyPath: m_Name
       value: SM_WallAngled4x4_v03
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8da457ae3a6a17040921bf273cb349c9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8da457ae3a6a17040921bf273cb349c9, type: 3}
