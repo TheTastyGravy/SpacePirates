@@ -130,7 +130,7 @@ MonoBehaviour:
   characterName: Man
   variants:
   - {fileID: 2100000, guid: f8aa37b21b8dd284d92cc51795803d02, type: 2}
-  grabTransform: {fileID: 0}
+  grabTransform: {fileID: 7206984837165131670}
 --- !u!114 &3430822767040703162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
   characterName: Cat
   variants:
   - {fileID: 2100000, guid: ab60c6933c119d7439c15cff16206a89, type: 2}
-  grabTransform: {fileID: 0}
+  grabTransform: {fileID: 1811435115530457996}
 --- !u!114 &5376293821871732175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,7 +162,7 @@ MonoBehaviour:
   characterName: Dog
   variants:
   - {fileID: 2100000, guid: 7fe566cdfa284d749bd00818f32255e8, type: 2}
-  grabTransform: {fileID: 0}
+  grabTransform: {fileID: 3292275285974660149}
 --- !u!1001 &3797408905805590316
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -235,6 +235,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f68f361d7b2d8504482e8c1a58a09fdc, type: 3}
   m_PrefabInstance: {fileID: 3797408905805590316}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &7206984837165131670 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5816189743937407162, guid: f68f361d7b2d8504482e8c1a58a09fdc, type: 3}
+  m_PrefabInstance: {fileID: 3797408905805590316}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5302077488396262198
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -300,6 +305,11 @@ GameObject:
 --- !u!4 &5629070858590436573 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ea984bae740594b48a24e59c9d41f603, type: 3}
+  m_PrefabInstance: {fileID: 5302077488396262198}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1811435115530457996 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5816189743937407162, guid: ea984bae740594b48a24e59c9d41f603, type: 3}
   m_PrefabInstance: {fileID: 5302077488396262198}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9009384174850276495
@@ -371,5 +381,10 @@ GameObject:
 --- !u!4 &8830848933262826340 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c64a3d6eac3a88349bc1c6105b849be6, type: 3}
+  m_PrefabInstance: {fileID: 9009384174850276495}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3292275285974660149 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5816189743937407162, guid: c64a3d6eac3a88349bc1c6105b849be6, type: 3}
   m_PrefabInstance: {fileID: 9009384174850276495}
   m_PrefabAsset: {fileID: 0}

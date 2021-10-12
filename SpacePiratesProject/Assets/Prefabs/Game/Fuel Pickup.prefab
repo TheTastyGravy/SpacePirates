@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3672689518888850784}
   - component: {fileID: 3672689518888850785}
   - component: {fileID: 3672689518888850790}
-  - component: {fileID: 3672689518888850787}
   m_Layer: 0
   m_Name: Fuel Pickup
   m_TagString: Fuel
@@ -62,22 +61,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8cc1da4fbca5349982564dc5ee45eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionPrompt: {fileID: 0}
+  interactionRadius: 1
+  interactionOffset: {x: 0, y: 0, z: 0}
   attach: {fileID: 0}
   pickupButton: 7
   dropButton: 8
---- !u!135 &3672689518888850787
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3672689518888850791}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3672689519437989843
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,7 +127,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: a11e7d94b19b59a488f9a93f43a0e2f5, type: 3}
+  - {fileID: 2100000, guid: 29f4f5d92557c1b49873df4dfd8882b2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
