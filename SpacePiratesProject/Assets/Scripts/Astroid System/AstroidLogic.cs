@@ -22,6 +22,7 @@ public class AstroidLogic : MonoBehaviour
 
 	[Space]
 	public GameObject explosion;
+	public Transform magicCollider;
 
 	private Vector3 direction;
 	private bool hasHitShip = false;
@@ -36,6 +37,9 @@ public class AstroidLogic : MonoBehaviour
 
 	internal void Setup(Vector3 startPos, Vector3 direction, float delay)
 	{
+		// Allign collider with camera
+		magicCollider.rotation = Camera.main.transform.rotation;
+
 		transform.position = startPos;
 		this.direction = direction.normalized;
 		SetupVisuals();

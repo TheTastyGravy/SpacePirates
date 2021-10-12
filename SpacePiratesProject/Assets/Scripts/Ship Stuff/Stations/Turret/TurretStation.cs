@@ -165,6 +165,8 @@ public class TurretStation : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, firePos.position, firePos.rotation);
         projectile.GetComponent<Rigidbody>().AddForce(firePos.forward * projectileSpeed, ForceMode.Impulse);
         Destroy(projectile, 5);
+        // Rotate child containing collider to align with camera. This is to create more consistant collisions visualy
+        projectile.transform.GetChild(0).rotation = Camera.main.transform.rotation;
 
         fuelDepo.enabled = true;
 
