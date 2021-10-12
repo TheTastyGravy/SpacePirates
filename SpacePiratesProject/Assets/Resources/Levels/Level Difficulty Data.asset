@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82ff963c44ceebd47a5a43d41fdfce03, type: 3}
+  m_Name: Level Difficulty Data
+  m_EditorClassIdentifier: 
+  edgeboundry: 7.5
+  easy:
+    minEventCount: 2
+    maxEventCount: 2
+    minEventLength: 5
+    maxEventLength: 10
+  medium:
+    minEventCount: 3
+    maxEventCount: 4
+    minEventLength: 7.5
+    maxEventLength: 15
+  hard:
+    minEventCount: 4
+    maxEventCount: 6
+    minEventLength: 10
+    maxEventLength: 20

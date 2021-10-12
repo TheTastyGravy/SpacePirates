@@ -6,12 +6,6 @@ using System;
 [CreateAssetMenu(fileName = "NewLevel", menuName = "", order = 1)]
 public class Level : ScriptableObject
 {
-    public enum Difficulty
-    {
-        Easy,
-        Medium,
-        Hard
-    }
     [Serializable]
     public class Event
     {
@@ -26,8 +20,10 @@ public class Level : ScriptableObject
         }
     }
 
+    public LevelDificultyData diffData;
+
     [Tooltip("The difficulty preset used when generating a level")]
-    public Difficulty difficulty;
+    public LevelDificultyData.Difficulty difficulty;
     [Tooltip("Generate a random level when the game starts")]
     public bool useRandomEvents = false;
     [Tooltip("Generate a random level now")]
@@ -36,43 +32,6 @@ public class Level : ScriptableObject
     public float length = 100;
     public Event[] events;
 
-    // How close to the ends of a level events can be placed
-    private static float edgeboundry = 7.5f;
-    private class DiffSetting
-    {
-        public int minEventCount;
-        public int maxEventCount;
-        public float minEventLength;
-        public float maxEventLength;
-    }
-    private static DiffSetting[] diffSettings = new DiffSetting[]
-    {
-        // EASY
-        new DiffSetting
-        { 
-            minEventCount = 2,
-            maxEventCount = 2,
-            minEventLength = 5,
-            maxEventLength = 10
-        },
-        // MEDIUM
-        new DiffSetting
-        {
-            minEventCount = 3,
-            maxEventCount = 4,
-            minEventLength = 7.5f,
-            maxEventLength = 15
-        },
-        // HARD
-        new DiffSetting
-        {
-            minEventCount = 4,
-            maxEventCount = 6,
-            minEventLength = 10,
-            maxEventLength = 20
-        }
-    };
-
 
 
     // Called by LevelController.Start()
@@ -80,6 +39,12 @@ public class Level : ScriptableObject
 	{
         if (useRandomEvents)
 		{
+            if (diffData == null)
+            {
+                Debug.LogError("Level needs a LevelDificultyData assigned to generate random levels");
+                return;
+            }
+
             GenerateRandomLevel();
 		}
     }
@@ -90,31 +55,37 @@ public class Level : ScriptableObject
         if (generateRandomLevelNow)
 		{
             generateRandomLevelNow = false;
+            if (diffData == null)
+            {
+                Debug.LogError("Level needs a LevelDificultyData assigned to generate random levels");
+                return;
+            }
+
             GenerateRandomLevel();
 		}
 	}
 
     private void GenerateRandomLevel()
 	{
-        DiffSetting settings = diffSettings[(int)difficulty];
+        LevelDificultyData.DiffSetting settings = diffData.GetSetting(difficulty);
 
         int eventCount = UnityEngine.Random.Range(settings.minEventCount, settings.maxEventCount + 1);
         events = new Event[eventCount];
         // The area an event can be created within
-        float eventArea = (length - edgeboundry * 2) / eventCount;
+        float eventArea = (length - diffData.edgeBoundry * 2) / eventCount;
 
         for (int i = 0; i < eventCount; i++)
         {
             float halfLength = UnityEngine.Random.Range(settings.minEventLength, settings.maxEventLength) * 0.5f;
-            float pos = UnityEngine.Random.Range(halfLength, eventArea - halfLength) + edgeboundry + eventArea * i;
+            float pos = UnityEngine.Random.Range(halfLength, eventArea - halfLength) + diffData.edgeBoundry + eventArea * i;
 
             float start = pos - halfLength;
             float end = pos + halfLength;
             // Prevent events from overlapping or going outside the boundry
-            start = Mathf.Max(start, i > 0 ? events[i - 1].end : edgeboundry);
+            start = Mathf.Max(start, i > 0 ? events[i - 1].end : diffData.edgeBoundry);
             if (i == eventCount - 1)
 			{
-                end = Mathf.Min(end, length - edgeboundry);
+                end = Mathf.Min(end, length - diffData.edgeBoundry);
 			}
 
             events[i] = new Event()
