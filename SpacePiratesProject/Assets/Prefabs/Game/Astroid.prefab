@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -1333400739666996677}
   - component: {fileID: 3741990067152262413}
   - component: {fileID: 534072522444278082}
+  - component: {fileID: 4180864619201719886}
   m_Layer: 7
   m_Name: Astroid
   m_TagString: Untagged
@@ -85,10 +86,23 @@ CapsuleCollider:
   m_GameObject: {fileID: 1177453880813799770}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.75
   m_Height: 5
   m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &4180864619201719886
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177453880813799770}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.75
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6954077171790590926
 GameObject:
