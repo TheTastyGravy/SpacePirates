@@ -68,8 +68,8 @@ public class TimelineController : Singleton<TimelineController>
 
             iconsTemp.Add(new EventIcon());
             // Set basic info
-            iconsTemp[i].position = (_event.start + _event.end) * 0.5f;
-            iconsTemp[i].eventType = _event.type;
+            iconsTemp[iconsTemp.Count - 1].position = (_event.start + _event.end) * 0.5f;
+            iconsTemp[iconsTemp.Count - 1].eventType = _event.type;
 
             // Create icon for event
             GameObject iconObject = Instantiate(eventIconPrefabs[(int)_event.type], timelineBase);
@@ -77,11 +77,11 @@ public class TimelineController : Singleton<TimelineController>
             // Set hight to match the parent
             rectTrans.sizeDelta = new Vector2(0, iconSize);
             // Set position and size on X axis relitive to the left edge
-            rectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * iconsTemp[i].position * invLength, iconSize);
+            rectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * iconsTemp[iconsTemp.Count - 1].position * invLength, iconSize);
 
             // Make image transparent
-            iconsTemp[i].image = iconObject.GetComponentInChildren<Image>();
-            iconsTemp[i].image.color = Color.clear;
+            iconsTemp[iconsTemp.Count - 1].image = iconObject.GetComponentInChildren<Image>();
+            iconsTemp[iconsTemp.Count - 1].image.color = Color.clear;
         }
         icons = iconsTemp.ToArray();
 

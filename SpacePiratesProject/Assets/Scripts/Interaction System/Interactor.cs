@@ -141,7 +141,7 @@ public class Interactor : MonoBehaviour
 		}
 	}
 
-	internal Interactable FindClosestUsableInteractable(Player.Control control)
+	internal Interactable FindClosestUsableInteractable(Player.Control control, bool updateManager = false)
 	{
 		float closestSqrDist = float.PositiveInfinity;
 		Interactable interactable = null;
@@ -161,6 +161,11 @@ public class Interactor : MonoBehaviour
 			{
 				closestSqrDist = sqrDist;
 				interactable = obj;
+			}
+
+			if (updateManager && sqrDist < obj.interactionRadius * obj.interactionRadius && !InteractionManager.Instance.interactablesInRange.Contains(obj))
+			{
+				InteractionManager.Instance.interactablesInRange.Add(obj);
 			}
 		}
 
