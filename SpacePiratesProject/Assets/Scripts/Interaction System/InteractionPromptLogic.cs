@@ -122,7 +122,6 @@ public class InteractionPromptLogic : MonoBehaviour
         routine = null;
     }
 
-
     public void InteractStart()
     {
         isBeingUsed = true;
@@ -142,7 +141,6 @@ public class InteractionPromptLogic : MonoBehaviour
 		{
             if (!enabled)
                 return;
-			
             StopCoroutine(routine);
         }
         routine = StartCoroutine(NewFade(false, true));
@@ -151,12 +149,13 @@ public class InteractionPromptLogic : MonoBehaviour
     public void Unselected()
 	{
         isSelected = false;
+        if (isBeingUsed)
+            return;
 
         if (routine != null)
         {
             if (!enabled)
                 return;
-
             StopCoroutine(routine);
         }
         routine = StartCoroutine(NewFade(true, false));
@@ -172,8 +171,6 @@ public class InteractionPromptLogic : MonoBehaviour
 
     void OnDisable()
 	{
-        isBeingUsed = false;
-
         if (gameObject.activeInHierarchy)
 		{
             if (routine != null)

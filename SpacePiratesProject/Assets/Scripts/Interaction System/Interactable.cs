@@ -64,12 +64,12 @@ public abstract class Interactable : MonoBehaviour
 		if (IsBeingUsed)
 			return;
 
+		if (interactionPrompt != null)
+			interactionPrompt.InteractStart();
+
 		currentInteractor = interactor;
 		OnInteractionStart();
 		OnButtonDown();
-
-		if (interactionPrompt != null)
-			interactionPrompt.InteractStart();
 	}
 
 	internal void StopInteraction(Interactor interactor)
