@@ -32,7 +32,7 @@ public class TimelineController : Singleton<TimelineController>
     private float iconSize;
     private float pingSpeed;
 
-    private struct EventIcon
+    private class EventIcon
 	{
         public Image image;
         public float position;
@@ -58,17 +58,18 @@ public class TimelineController : Singleton<TimelineController>
         pingSpeed = pingDistance / pingTime;
 
         // Setup event icons
-        icons = new EventIcon[level.events.Length];
-        for (int i = 0; i < icons.Length; i++)
+        List<EventIcon> iconsTemp = new List<EventIcon>();
+        for (int i = 0; i < level.events.Length; i++)
 		{
             Level.Event _event = level.events[i];
             // Check the event has an icon
             if ((int)_event.type >= eventIconPrefabs.Length)
                 continue;
 
+            iconsTemp.Add(new EventIcon());
             // Set basic info
-            icons[i].position = (_event.start + _event.end) * 0.5f;
-            icons[i].eventType = _event.type;
+            iconsTemp[i].position = (_event.start + _event.end) * 0.5f;
+            iconsTemp[i].eventType = _event.type;
 
             // Create icon for event
             GameObject iconObject = Instantiate(eventIconPrefabs[(int)_event.type], timelineBase);
@@ -76,12 +77,13 @@ public class TimelineController : Singleton<TimelineController>
             // Set hight to match the parent
             rectTrans.sizeDelta = new Vector2(0, iconSize);
             // Set position and size on X axis relitive to the left edge
-            rectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * icons[i].position * invLength, iconSize);
+            rectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * iconsTemp[i].position * invLength, iconSize);
 
             // Make image transparent
-            icons[i].image = iconObject.GetComponentInChildren<Image>();
-            icons[i].image.color = Color.clear;
+            iconsTemp[i].image = iconObject.GetComponentInChildren<Image>();
+            iconsTemp[i].image.color = Color.clear;
         }
+        icons = iconsTemp.ToArray();
 
         // Setup player ship icon
         {
