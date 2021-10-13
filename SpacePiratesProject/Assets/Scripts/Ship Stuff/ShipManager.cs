@@ -7,6 +7,7 @@ public class ShipManager : Singleton<ShipManager>
     [Header("Oxygen")]
     public float maxOxygenLevel = 100;
     public float passiveOxygenLoss = 1;
+    public float timeToGameOver = 0.5f;
     [Header("Avoidance")]
     [Range(0,1)]
     public float maxAvoidance = 0.25f;
@@ -18,6 +19,8 @@ public class ShipManager : Singleton<ShipManager>
 
     private float oxygenLevel;
     private OxygenBar oxygenBar;
+
+    private float gameOverTimmer;
 
 
 
@@ -133,14 +136,23 @@ public class ShipManager : Singleton<ShipManager>
         if (oxygenLevel > maxOxygenLevel)
             oxygenLevel = maxOxygenLevel;
 
-        // Update the UI
-        oxygenBar.value = oxygenLevel;
-
-
         if (oxygenLevel <= 0)
         {
             oxygenLevel = 0;
-            //game over
+            // Start timmer to game over
+            gameOverTimmer += Time.deltaTime;
+            if (gameOverTimmer >= timeToGameOver)
+			{
+                GameManager.SetGameOverInfo(false);
+                GameManager.ChangeState(GameManager.GameState.SUMMARY);
+			}
         }
+		else
+		{
+            gameOverTimmer = 0;
+		}
+
+        // Update the UI
+        oxygenBar.value = oxygenLevel;
     }
 }

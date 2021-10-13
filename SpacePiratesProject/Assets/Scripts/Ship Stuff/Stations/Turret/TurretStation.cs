@@ -233,4 +233,12 @@ public class TurretStation : MonoBehaviour
         newVec.z = vec.x * Mathf.Sin(angle) + vec.z * Mathf.Cos(angle);
         vec = newVec;
     }
+
+	void OnDestroy()
+	{
+        if (currentInteractor != null)
+		{
+            RemovePlayer();
+        }
+	}
 }

@@ -7,7 +7,7 @@ using TMPro;
 
 public class SummaryController : Singleton<SummaryController>
 {
-	public TextMeshProUGUI placementLabel;
+	public TextMeshProUGUI titleLabel;
 	public TextMeshProUGUI timeLabel;
 
 	public Button menuButton;
@@ -18,19 +18,20 @@ public class SummaryController : Singleton<SummaryController>
 
     void Start()
     {
-		if (GameManager.HasFinished)
-		{
-			placementLabel.gameObject.SetActive(true);
-			timeLabel.gameObject.SetActive(true);
-
-			placementLabel.text += GameManager.Placement.ToString();
-			timeLabel.text += GameManager.Time.ToString("0");
-		}
+		titleLabel.text = GameManager.HasWon ? "You Win!" : "Ship Destroyed";
+		// Format time as min:sec
+		timeLabel.text += ((int)GameManager.Time / 60).ToString("0") + ":" + (GameManager.Time % 60f).ToString("00");
 
 		EventSystem.current.SetSelectedGameObject(menuButton.gameObject);
 		menuButton.onClick.AddListener(OnMenuButton);
 		trackSelectButton.onClick.AddListener(OnTrackSelectButton);
 		playAgainButton.onClick.AddListener(OnPlayAgainButton);
+
+		// Reset characters
+		foreach (Player iter in Player.all)
+		{
+			iter.Character.transform.SetPositionAndRotation(iter.transform.position, Quaternion.identity);
+		}
 	}
 
     private void OnMenuButton()

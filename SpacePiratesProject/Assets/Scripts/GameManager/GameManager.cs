@@ -18,9 +18,8 @@ public class GameManager : Singleton<GameManager>
     public static int SelectedShip => Instance.m_SelectedShip;
     public static int SelectedTrack => Instance.m_SelectedTrack;
     public static int MaxPlayers => Instance.m_MaxPlayers;
-    public static int Placement => Instance.m_Placement;
     public static float Time => Instance.m_Time;
-    public static bool HasFinished => Instance.m_HasFinished;
+    public static bool HasWon => Instance.m_HasWon;
     public static bool IsLoadingScene => Instance.m_IsLoadingScene;
     public static GameState CurrentState => Instance.m_CurrentState;
 
@@ -67,6 +66,10 @@ public class GameManager : Singleton<GameManager>
                     DontDestroyOnLoad(player.gameObject);
                 }
             }
+            if (newState == GameState.GAME)
+			{
+                Instance.m_Time = 0;
+			}
 
             // Make the INIT scene active for now
             SceneManager.SetActiveScene(Instance.gameObject.scene);
@@ -148,12 +151,10 @@ public class GameManager : Singleton<GameManager>
         Instance.m_SelectedTrack = a_Index;
     }
 
-	public static void RegisterFinalGameState( bool a_HasFinished, int a_Placement, float a_Time )
+    public static void SetGameOverInfo(bool hasWon)
 	{
-		Instance.m_Placement = a_Placement;
-		Instance.m_Time = a_Time;
-		Instance.m_HasFinished = a_HasFinished;
-	}
+        Instance.m_HasWon = hasWon;
+    }
 
 	void OnGUI()
 	{
@@ -177,12 +178,20 @@ public class GameManager : Singleton<GameManager>
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), texture);
     }
 
-    private int m_SelectedShip;
+	void Update()
+	{
+        // While in the game scene, track the time
+		if (m_CurrentState == GameState.GAME && !m_IsLoadingScene)
+		{
+            m_Time += UnityEngine.Time.deltaTime;
+        }
+	}
+
+	private int m_SelectedShip;
     private int m_SelectedTrack;
     private int m_MaxPlayers;
-	private int m_Placement;
 	private float m_Time;
-	private bool m_HasFinished;
+	private bool m_HasWon;
     private GameState m_CurrentState;
     private bool m_IsLoadingScene = false;
 

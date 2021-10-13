@@ -61,7 +61,7 @@ public class LevelController : Singleton<LevelController>
         // Check if the player has reached the end of the level
         if (playerPos >= level.length)
 		{
-            //win state
+            GameManager.SetGameOverInfo(true);
             GameManager.ChangeState(GameManager.GameState.SUMMARY);
         }
     }

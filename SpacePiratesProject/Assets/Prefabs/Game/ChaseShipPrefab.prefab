@@ -124,7 +124,7 @@ MonoBehaviour:
   missilePrefab: {fileID: 5795167540847266017, guid: 898819c832f56054ebc18670b0b8b7d7, type: 3}
   explosionPrefab: {fileID: 7894892668884435334, guid: 33825a87e5aa9194aa1508cc53ebe6cf, type: 3}
   firePoint: {fileID: 8869856626171566194}
-  meshFilter: {fileID: 1108118375429608802}
+  meshFilter: {fileID: 2283005444457688869}
   moveOnScreenTime: 1
   moveOffScreenTime: 2
   firePeriod: 1
@@ -260,8 +260,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 575d64c57d4309e4b9b8bf5302202d9a, type: 3}
   m_PrefabInstance: {fileID: 6161450434530476435}
   m_PrefabAsset: {fileID: 0}
---- !u!33 &1108118375429608802 stripped
+--- !u!33 &2283005444457688869 stripped
 MeshFilter:
-  m_CorrespondingSourceObject: {fileID: 6548529953708512497, guid: 575d64c57d4309e4b9b8bf5302202d9a, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5345495533025980086, guid: 575d64c57d4309e4b9b8bf5302202d9a, type: 3}
   m_PrefabInstance: {fileID: 6161450434530476435}
   m_PrefabAsset: {fileID: 0}
