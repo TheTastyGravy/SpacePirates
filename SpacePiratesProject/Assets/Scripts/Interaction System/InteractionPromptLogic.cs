@@ -20,7 +20,9 @@ public class InteractionPromptLogic : MonoBehaviour
     private bool isSelected = false;
     private float actualProgress = 0;
     private Coroutine routine;
-    
+    private bool IsBaseVisible => baseImages.Length > 0 && baseImages[0].color.a > 0;
+    private bool IsSelectedVisible => selectedImages.Length > 0 && selectedImages[0].color.a > 0;
+
 
 
     void Awake()
@@ -71,8 +73,8 @@ public class InteractionPromptLogic : MonoBehaviour
         Color trans = new Color(1, 1, 1, 0);
         Vector3 shrunkScale = Vector3.one - Vector3.one * popScale;
         // Dont hide what is already hidden
-        bool useSelected = showSelected || selectedImages.Length > 0 && selectedImages[0].color.a > 0;
-        bool useBase = showBase || baseImages.Length > 0 && baseImages[0].color.a > 0;
+        bool useSelected = showSelected || IsSelectedVisible;
+        bool useBase = showBase || IsBaseVisible;
         if (!useSelected && !useBase)
             yield break;
 
@@ -120,6 +122,11 @@ public class InteractionPromptLogic : MonoBehaviour
         }
 
         routine = null;
+        // If everything was just hiden but we are still enabled, show a prompt
+        if (!showSelected && !showBase && enabled)
+		{
+            routine = StartCoroutine(NewFade(!isSelected, isSelected));
+		}
     }
 
     public void InteractStart()
@@ -130,12 +137,20 @@ public class InteractionPromptLogic : MonoBehaviour
 
     public void InteractStop()
     {
-        isBeingUsed = false;
+        IEnumerator SetNextFrame()
+        {
+            yield return new WaitForEndOfFrame();
+            isBeingUsed = false;
+        }
+        // Wait a frame to set isBeingUsed. This is becasue InteractionManager uses LateUpdate to determine selection
+        StartCoroutine(SetNextFrame());
     }
 
-	public void Selected()
+    public void Selected()
 	{
         isSelected = true;
+        if (isBeingUsed && IsSelectedVisible)
+            return;
 
         if (routine != null)
 		{

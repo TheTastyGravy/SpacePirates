@@ -16,8 +16,8 @@ public class ScannerStation : MonoBehaviour
 
         activateSwitch.OnActivated += OnSwitchUsed;
         // The switch can not be used while damaged
-		damage.OnDamageTaken += () => activateSwitch.enabled = false;
-		damage.OnDamageRepaired += () => activateSwitch.enabled = true;
+		damage.OnDamageTaken += () => { activateSwitch.enabled = false; activateSwitch.forceDisabled = true; };
+		damage.OnDamageRepaired += () => { activateSwitch.enabled = true; activateSwitch.forceDisabled = false; };
 	}
 
     private void OnSwitchUsed()
