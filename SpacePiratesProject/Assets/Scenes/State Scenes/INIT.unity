@@ -232,7 +232,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeInTime: 0.15
   fadeOutTime: 0.15
-  shouldFade: 0
   m_DefaultActionAsset: {fileID: -944628639613478452, guid: 66637995c6492454c88311f2533856d4, type: 3}
 --- !u!4 &1234440285
 Transform:
@@ -286,11 +285,11 @@ MonoBehaviour:
     m_UseReference: 0
     m_Action:
       m_Name: Join
-      m_Type: 0
-      m_ExpectedControlType: 
+      m_Type: 1
+      m_ExpectedControlType: Button
       m_Id: 217aab2e-ed87-4dc0-8570-48400be3d79d
       m_Processors: 
-      m_Interactions: 
+      m_Interactions: Press
       m_SingletonActionBindings:
       - m_Name: 
         m_Id: 5bee84b2-bf31-4f9c-b1ed-ee29550ed2ca
@@ -301,7 +300,7 @@ MonoBehaviour:
         m_Action: Join
         m_Flags: 0
       - m_Name: 
-        m_Id: 3d8de642-8914-4f04-8369-018598c1b070
+        m_Id: ca60fa49-d9b0-4090-b2fd-80199ca3f212
         m_Path: <Keyboard>/e
         m_Interactions: 
         m_Processors: 

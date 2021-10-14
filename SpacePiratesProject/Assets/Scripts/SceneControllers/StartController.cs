@@ -8,12 +8,6 @@ public class StartController : Singleton< StartController >
 
     private void Awake()
     {
-        // Use delay to prevent skip splash bug
-        Invoke(nameof(Init), 0.05f);
-    }
-
-    private void Init()
-	{
         m_PressStart = StartCoroutine(PressStart());
 
         // Edge case

@@ -327,10 +327,10 @@ public class CharacterSelector : Singleton< CharacterSelector >
             if ( m_CharacterDocks[ i ].AssignedPlayer == null )
             {
                 Player newPlayer = a_PlayerInput as Player;
-                m_CharacterDocks[ i ].SetPlayer( newPlayer );
                 newPlayer.ChangeCharacter( 0, 0 );
                 newPlayer.Character.SetUseCharacterSelectAnimations(true);
                 ( newPlayer.Character as Character ).IsKinematic = false;
+                m_CharacterDocks[i].SetPlayer(newPlayer);
                 break;
             }
         }

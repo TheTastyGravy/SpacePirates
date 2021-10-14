@@ -22,12 +22,12 @@ public class SplashController : Singleton< SplashController >
 
 	private void OnInput( UnityEngine.InputSystem.LowLevel.InputEventPtr _, InputDevice a_InputDevice )
     {
-        if ( a_InputDevice is Mouse )
-        {
-            return;
+        // Skip splash with E key or A button
+        if (a_InputDevice is Keyboard && (a_InputDevice as Keyboard).eKey.isPressed || 
+            a_InputDevice is Gamepad && (a_InputDevice as Gamepad).aButton.isPressed)
+		{
+            GameManager.ChangeState(GameManager.GameState.START);
         }
-
-        GameManager.ChangeState(GameManager.GameState.START);
     }
 
     private IEnumerator SplashFade()
