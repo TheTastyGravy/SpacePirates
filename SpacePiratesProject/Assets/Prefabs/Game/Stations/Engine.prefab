@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2543889148672187095}
   - component: {fileID: 6307381350979255894}
   - component: {fileID: 829531518841039444}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Engine Switch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1546285970719843229}
   - component: {fileID: 6622523496131535666}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Engine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1546285971365547615}
   - component: {fileID: 1546285971365547613}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Damage Station
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 2915885000734896033}
   - component: {fileID: 5218762150366954547}
   - component: {fileID: 573118024978715669}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fuel Depo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 6066700593532113839}
   - component: {fileID: 1812748957875492443}
   - component: {fileID: 8921582291770935406}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5049,7 +5049,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4537416217249071248}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5395,6 +5395,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Console_001
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1f7bda1481ec7d342a299fac6820c3cd, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f7bda1481ec7d342a299fac6820c3cd, type: 3}
 --- !u!4 &2501268314723090084 stripped
@@ -5597,6 +5601,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: c80ff55c128d5a043a67bb6cc366b795, type: 3}
       propertyPath: m_Name
       value: SM_FuelTank
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c80ff55c128d5a043a67bb6cc366b795, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c80ff55c128d5a043a67bb6cc366b795, type: 3}
