@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 140, y: 140}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2941044139834225725
 CanvasRenderer:
@@ -169,6 +169,7 @@ MonoBehaviour:
   - {fileID: 8293702055812029762}
   selectedImages:
   - {fileID: 9199561318880756788}
+  - {fileID: 5034069212896856447}
   interactionProgress: 0
 --- !u!1 &6615408427867016391
 GameObject:
@@ -280,7 +281,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 140, y: 140}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3036881312160988114
 CanvasRenderer:

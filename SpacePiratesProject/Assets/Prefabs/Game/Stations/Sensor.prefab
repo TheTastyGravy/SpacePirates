@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2516605981721417296}
   - component: {fileID: 9059770270631468734}
   - component: {fileID: 5241238829815736068}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Switch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5503383575632185362}
   - component: {fileID: 8587753810811458069}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 6015462571081006781}
   - component: {fileID: 7909585173045252858}
   - component: {fileID: 7693353409235797721}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Smoke Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4931,7 +4931,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3479699902446549648}
   - component: {fileID: 2755196020792942403}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RepairStation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5295,6 +5295,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f68d532b79af07e4ea2f37751ca728e0, type: 3}
       propertyPath: m_Name
       value: Right Terminal
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f68d532b79af07e4ea2f37751ca728e0, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f68d532b79af07e4ea2f37751ca728e0, type: 3}

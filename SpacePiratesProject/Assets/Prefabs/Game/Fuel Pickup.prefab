@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3672689518888850784}
   - component: {fileID: 3672689518888850785}
   - component: {fileID: 3672689518888850790}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fuel Pickup
   m_TagString: Fuel
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 3672689519437989839}
   - component: {fileID: 3672689519437989836}
   - component: {fileID: 3672689519437989837}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Visual Placeholder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
