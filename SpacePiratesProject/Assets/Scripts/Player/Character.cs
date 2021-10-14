@@ -53,6 +53,9 @@ public class Character : ICharacter
             movement = input;
 		}
 
+        // Set animator value
+        currentCharacter.animator.SetFloat("Speed", movement.magnitude);
+
         movement *= MoveSpeed;
         // Set velocity directly, keeping the y component when its negitive
         m_Rigidbody.velocity = new Vector3(movement.x, Mathf.Min(m_Rigidbody.velocity.y, 0), movement.z);
@@ -61,9 +64,6 @@ public class Character : ICharacter
 		Vector3 forward = Vector3.Slerp( transform.forward, movement, Time.fixedDeltaTime * TurnSpeed );
 		Quaternion quat = Quaternion.FromToRotation( transform.forward, forward );
 		m_Rigidbody.MoveRotation( m_Rigidbody.rotation * quat );
-
-		// Set animator value
-        currentCharacter.animator.SetFloat("Speed", movement.magnitude);
     }
 
 	void OnDisable()

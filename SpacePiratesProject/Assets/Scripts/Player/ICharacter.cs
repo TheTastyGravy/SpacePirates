@@ -107,7 +107,7 @@ public class ICharacter : MonoBehaviour
         m_CharacterIndex = index;
         m_CharacterName = currentCharacter.characterName;
         currentCharacter.animator.enabled = true;
-        currentCharacter.animator.Play(useCharacterSelectAnimations ? "Base Layer.CharSelect_" + currentCharacter.characterName : "Base Layer.Blend Tree", 0, 0);
+        currentCharacter.animator.Play(useCharacterSelectAnimations ? "Base Layer.CharSelect_" + currentCharacter.characterName : "Base Layer.Idle", 0, 0);
         
         SetVariant(0);
     }
@@ -134,7 +134,7 @@ public class ICharacter : MonoBehaviour
 
         if (currentCharacter != null && currentCharacter.animator != null)
 		{
-            currentCharacter.animator.Play(value ? "Base Layer.CharSelect_" + currentCharacter.characterName : "Base Layer.Blend Tree", 0, 0);
+            currentCharacter.animator.Play(value ? "Base Layer.CharSelect_" + currentCharacter.characterName : "Base Layer.Idle", 0, 0);
         }
 	}
 
