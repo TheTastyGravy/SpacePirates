@@ -8,16 +8,22 @@ public class StartController : Singleton< StartController >
 
     private void Awake()
     {
-        m_PressStart = StartCoroutine( PressStart() );
+        // Use delay to prevent skip splash bug
+        Invoke(nameof(Init), 0.05f);
+    }
+
+    private void Init()
+	{
+        m_PressStart = StartCoroutine(PressStart());
 
         // Edge case
         playerExists = PlayerInputManager.instance.playerCount > 0;
         if (playerExists)
-		{
+        {
             (PlayerInput.GetPlayerByIndex(0) as Player).AddInputListener(Player.Control.A_PRESSED, OnStartPressed);
-		}
-		else
-		{
+        }
+        else
+        {
             PlayerInputManager.instance.EnableJoining();
             PlayerInputManager.instance.onPlayerJoined += OnPlayerJoined;
         }
