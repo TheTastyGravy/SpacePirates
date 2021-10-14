@@ -69,7 +69,11 @@ public class GameManager : Singleton<GameManager>
             if (newState == GameState.GAME)
 			{
                 Instance.m_Time = 0;
-			}
+                // Use a fade transition when entering the game scene because it has a longer load
+                Instance.StartCoroutine(LoadUnload(Instance.m_CurrentState, newState));
+                Instance.m_CurrentState = newState;
+                return;
+            }
 
             // Make the INIT scene active for now
             SceneManager.SetActiveScene(Instance.gameObject.scene);
@@ -121,6 +125,7 @@ public class GameManager : Singleton<GameManager>
         shouldFade = true;
         yield return new WaitForSeconds(Instance.fadeInTime);
 
+        SceneManager.SetActiveScene(Instance.gameObject.scene);
         // Finish loading and start unloading, then wait for them to finish
         SceneManager.UnloadSceneAsync(oldState.ToString());
         loadOp.completed += asyncOperation =>
@@ -128,6 +133,9 @@ public class GameManager : Singleton<GameManager>
             // Fade in and set active scene
             shouldFade = false;
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(newState.ToString()));
+            if (OnEndTransition != null)
+                OnEndTransition.Invoke(SceneManager.GetSceneByName(newState.ToString()), oldState);
+            Instance.m_IsLoadingScene = false;
         };
         loadOp.allowSceneActivation = true;
     }
