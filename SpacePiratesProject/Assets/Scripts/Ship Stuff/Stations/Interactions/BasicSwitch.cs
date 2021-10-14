@@ -5,16 +5,18 @@ using UnityEngine;
 public class BasicSwitch : Interactable
 {
     public BasicDelegate OnActivated;
-
     [Tooltip("How long the switch is disabled for after being used")]
     public float interactionCooldown = 1;
+
+	[HideInInspector]
+	public bool forceDisabled = false;
 
 
 
 	private void Reenable()
 	{
-		if (enabled)
-			interactionPrompt.enabled = true;
+		if (forceDisabled)
+			return;
 
 		enabled = true;
 	}
