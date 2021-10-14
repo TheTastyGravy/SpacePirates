@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ShipManager : Singleton<ShipManager>
 {
@@ -22,6 +23,11 @@ public class ShipManager : Singleton<ShipManager>
 
     private float gameOverTimmer;
 
+    private Player player;
+    private Player.Control[] cheatCode;
+    private int cheatIndex = 0;
+    private bool cheatActive = false;
+
 
 
     void Start()
@@ -33,9 +39,39 @@ public class ShipManager : Singleton<ShipManager>
         oxygenLevel = maxOxygenLevel;
         oxygenBar = FindObjectOfType<OxygenBar>();
         oxygenBar.MaxValue = maxOxygenLevel;
+
+        // Setup input callbacks for cheat code
+        player = Player.GetPlayerBySlot(Player.PlayerSlot.P1);
+        player.AddInputListener(Player.Control.DPAD_PRESSED, OnP1Input);
+        player.AddInputListener(Player.Control.B_PRESSED, OnP1Input);
+        player.AddInputListener(Player.Control.A_PRESSED, OnP1Input);
+        player.AddInputListener(Player.Control.START_PRESSED, OnP1Input);
+        // Illegal info
+        cheatCode = new Player.Control[]
+        {
+            Player.Control.COUNT + 0,
+            Player.Control.COUNT + 0,
+            Player.Control.COUNT + 2,
+            Player.Control.COUNT + 2,
+            Player.Control.COUNT + 3,
+            Player.Control.COUNT + 1,
+            Player.Control.COUNT + 3,
+            Player.Control.COUNT + 1,
+            Player.Control.B_PRESSED,
+            Player.Control.A_PRESSED,
+            Player.Control.START_PRESSED
+        };
     }
 
-    public void DamageShipAtPosition(Vector3 position)
+	void OnDestroy()
+	{
+        player.RemoveInputListener(Player.Control.DPAD_PRESSED, OnP1Input);
+        player.RemoveInputListener(Player.Control.B_PRESSED, OnP1Input);
+        player.RemoveInputListener(Player.Control.A_PRESSED, OnP1Input);
+        player.RemoveInputListener(Player.Control.START_PRESSED, OnP1Input);
+    }
+
+	public void DamageShipAtPosition(Vector3 position)
     {
         HoleData holeData = new HoleData
         {
@@ -117,6 +153,14 @@ public class ShipManager : Singleton<ShipManager>
 
     private void UpdateOxygen()
 	{
+        if (cheatActive)
+		{
+            //hacker man
+            oxygenLevel = 100;
+            oxygenBar.value = oxygenLevel;
+            return;
+        }
+
         // Find the total loss rate
         float oxygenLossRate = passiveOxygenLoss;
         foreach (var room in rooms)
@@ -154,5 +198,45 @@ public class ShipManager : Singleton<ShipManager>
 
         // Update the UI
         oxygenBar.value = oxygenLevel;
+    }
+
+    private void OnP1Input(InputAction.CallbackContext context)
+    {
+        // Get action, correcting for dpad
+        InputAction correctAction = player.GetInputAction(cheatCode[cheatIndex] >= Player.Control.COUNT ? Player.Control.DPAD_PRESSED : cheatCode[cheatIndex]);
+        if (context.action == correctAction)
+		{
+            // If its a direction, check dpad input
+            if (cheatCode[cheatIndex] >= Player.Control.COUNT)
+			{
+                Vector2 val = context.ReadValue<Vector2>();
+                if (!((val.y == 1 && cheatCode[cheatIndex] == Player.Control.COUNT + 0) ||//up
+                    (val.x == 1 && cheatCode[cheatIndex] == Player.Control.COUNT + 1) ||  //right
+                    (val.y == -1 && cheatCode[cheatIndex] == Player.Control.COUNT + 2) || //down
+                    (val.x == -1 && cheatCode[cheatIndex] == Player.Control.COUNT + 3)))  //left
+				{
+                    // Fail
+                    cheatIndex = 0;
+                    return;
+				}
+            }
+
+            // Continue with code
+            cheatIndex++;
+            if (cheatIndex == cheatCode.Length)
+			{
+                cheatActive = true;
+                Debug.Log("<size=15><color=red>CHEAT ACTIVATED</color></size>");
+                player.RemoveInputListener(Player.Control.DPAD_PRESSED, OnP1Input);
+                player.RemoveInputListener(Player.Control.B_PRESSED, OnP1Input);
+                player.RemoveInputListener(Player.Control.A_PRESSED, OnP1Input);
+                player.RemoveInputListener(Player.Control.START_PRESSED, OnP1Input);
+            }
+        }
+		else
+		{
+            // Fail
+            cheatIndex = 0;
+        }
     }
 }
