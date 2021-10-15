@@ -4,19 +4,31 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: -1774358203488090222
-    second: UI_Prompts_Sheet_0
+    second: UI_A_Button
   - first:
       213: -8870982140934157899
-    second: UI_Prompts_Sheet_1
+    second: UI_Dual_Action
   - first:
       213: -3422723325778700251
-    second: UI_Prompts_Sheet_2
+    second: UI_Repair
   - first:
       213: -833831286239002386
-    second: UI_Prompts_Sheet_3
+    second: UI_Fuel_Indicator_Icon
   - first:
       213: -7033292831062815649
-    second: UI_Prompts_Sheet_4
+    second: UI_Pickup_Fuel
+  - first:
+      213: -9194805096215162066
+    second: UI_Refuel_V1
+  - first:
+      213: 6667942953766095068
+    second: UI_Refuel_V2
+  - first:
+      213: -7151013690908376063
+    second: UI_Fuel_Indicator_Empty
+  - first:
+      213: -4305347878501534683
+    second: UI_Fuel_Indicator_Full
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -142,11 +154,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UI_Prompts_Sheet_0
+      name: UI_A_Button
       rect:
         serializedVersion: 2
         x: 220
-        y: 87
+        y: 675
         width: 196
         height: 196
       alignment: 0
@@ -163,11 +175,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Prompts_Sheet_1
+      name: UI_Dual_Action
       rect:
         serializedVersion: 2
         x: 637
-        y: 87
+        y: 675
         width: 196
         height: 196
       alignment: 0
@@ -184,11 +196,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Prompts_Sheet_2
+      name: UI_Repair
       rect:
         serializedVersion: 2
         x: 959
-        y: 86
+        y: 675
         width: 196
         height: 196
       alignment: 0
@@ -205,11 +217,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Prompts_Sheet_3
+      name: UI_Fuel_Indicator_Icon
       rect:
         serializedVersion: 2
-        x: 1288
-        y: 87
+        x: 846
+        y: 202
         width: 196
         height: 196
       alignment: 0
@@ -226,11 +238,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Prompts_Sheet_4
+      name: UI_Pickup_Fuel
       rect:
         serializedVersion: 2
-        x: 1587
-        y: 87
+        x: 1288
+        y: 675
         width: 196
         height: 196
       alignment: 0
@@ -242,6 +254,90 @@ TextureImporter:
       bones: []
       spriteID: f5c03332f69b46e90800000000000000
       internalID: -7033292831062815649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Refuel_V1
+      rect:
+        serializedVersion: 2
+        x: 1195
+        y: 202
+        width: 196
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e23d42d2b7d756080800000000000000
+      internalID: -9194805096215162066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Refuel_V2
+      rect:
+        serializedVersion: 2
+        x: 1535
+        y: 202
+        width: 196
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd80cc5c9ca498c50800000000000000
+      internalID: 6667942953766095068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Fuel_Indicator_Empty
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 99
+        width: 216
+        height: 386
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10483719fee72cc90800000000000000
+      internalID: -7151013690908376063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Fuel_Indicator_Full
+      rect:
+        serializedVersion: 2
+        x: 451
+        y: 99
+        width: 216
+        height: 386
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5243f6b4ae45044c0800000000000000
+      internalID: -4305347878501534683
       vertices: []
       indices: 
       edges: []
