@@ -27,6 +27,8 @@ public class TrackSelector : Singleton< TrackSelector >
         primaryPlayer.AddInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
         primaryPlayer.AddInputListener( Player.Control.A_PRESSED, OnAPressed );
         primaryPlayer.AddInputListener( Player.Control.B_PRESSED, OnBPressed );
+
+        TrackTiles[0].SetSelected(true);
     }
 
     private void OnDestroy()
@@ -88,12 +90,15 @@ public class TrackSelector : Singleton< TrackSelector >
             return;
         }
 
+        TrackTiles[m_CurrentTrackIndex].SetSelected(false);
+
         if ( ++m_CurrentTrackIndex >= TrackTiles.Length )
         {
             m_CurrentTrackIndex = 0;
         }
 
         SelectorTile.SetPosition( TrackTiles[ m_CurrentTrackIndex ].RectTransform.anchoredPosition );
+        TrackTiles[m_CurrentTrackIndex].SetSelected(true);
     }
 
     public void DecrementTrackIndex( bool a_LoopAround = false )
@@ -103,12 +108,15 @@ public class TrackSelector : Singleton< TrackSelector >
             return;
         }
 
+        TrackTiles[m_CurrentTrackIndex].SetSelected(false);
+
         if ( --m_CurrentTrackIndex < 0 )
         {
             m_CurrentTrackIndex = TrackTiles.Length - 1;
         }
         
         SelectorTile.SetPosition( TrackTiles[ m_CurrentTrackIndex ].RectTransform.anchoredPosition );
+        TrackTiles[m_CurrentTrackIndex].SetSelected(true);
     }
 
     private int m_CurrentTrackIndex;
