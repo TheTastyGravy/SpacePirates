@@ -177,6 +177,7 @@ MonoBehaviour:
   interactionRadius: 0.8
   interactionOffset: {x: 0, y: 0, z: 0}
   interactionCooldown: 1
+  forceDisabled: 0
 --- !u!65 &2595373407793022279
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5105,6 +5106,7 @@ MonoBehaviour:
   interactionRadius: 0.8
   interactionOffset: {x: 0, y: 0, z: 0}
   interactionCooldown: 1
+  forceDisabled: 0
 --- !u!65 &4255183461126900324
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5274,6 +5276,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f68d532b79af07e4ea2f37751ca728e0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 75ec066d654e80e4fabfa79c0da90ff3, type: 2}
+    - target: {fileID: -7511558181221131132, guid: f68d532b79af07e4ea2f37751ca728e0, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 75ec066d654e80e4fabfa79c0da90ff3, type: 2}
     - target: {fileID: 919132149155446097, guid: f68d532b79af07e4ea2f37751ca728e0, type: 3}
       propertyPath: m_Name
       value: Right Terminal
@@ -5648,6 +5658,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: eb9c6fb2f7b84a34d912726f3eace9c3, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2270328302be12c48a2b9c61bc2964bf, type: 2}
+    - target: {fileID: -7511558181221131132, guid: eb9c6fb2f7b84a34d912726f3eace9c3, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2270328302be12c48a2b9c61bc2964bf, type: 2}
     - target: {fileID: 919132149155446097, guid: eb9c6fb2f7b84a34d912726f3eace9c3, type: 3}
       propertyPath: m_Name
       value: SM_ReactorCore
@@ -5731,6 +5749,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f68d532b79af07e4ea2f37751ca728e0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 75ec066d654e80e4fabfa79c0da90ff3, type: 2}
+    - target: {fileID: -7511558181221131132, guid: f68d532b79af07e4ea2f37751ca728e0, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 75ec066d654e80e4fabfa79c0da90ff3, type: 2}
     - target: {fileID: 919132149155446097, guid: f68d532b79af07e4ea2f37751ca728e0, type: 3}
       propertyPath: m_Name
       value: Left Terminal
