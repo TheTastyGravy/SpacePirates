@@ -149,7 +149,7 @@ public class CharacterDock : MonoBehaviour
         }
 
         // Fix scale before making it a child to prevent weirdness
-        a_Player.transform.localScale = Vector3.one;
+        //a_Player.transform.localScale = Vector3.one;
 
         m_AssignedPlayer = a_Player;
         ConnectPhase = a_Player.IsDeviceConnected ? Phase.CHOOSE_CHARACTER : Phase.WAIT_ON_RECONNECT;
@@ -161,6 +161,7 @@ public class CharacterDock : MonoBehaviour
         a_Player.Character.transform.localPosition = Vector3.zero;
         a_Player.Character.transform.localRotation = Quaternion.identity;
         (a_Player.Character as Character).IsKinematic = true;
+        a_Player.transform.localScale = new Vector3(200, 200, 200);
         CharacterSelector.InstantiateSelector( m_AssignedPlayer.Slot, a_Player.Character != null ? a_Player.Character.CharacterIndex : 0 );
     }
 

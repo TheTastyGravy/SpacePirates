@@ -312,11 +312,11 @@ public class CharacterSelector : Singleton< CharacterSelector >
         Vector3 boundLeft = m_DockBoundLeft.position;
         Vector3 boundRight = m_DockBoundRight.position;
 
-        float increment = 1.0f / ( 1 + m_CharacterDocks.Length );
+        float increment = 1.0f / ( m_CharacterDocks.Length );
 
         for ( int i = 0; i < m_CharacterDocks.Length; ++i )
         {
-            m_CharacterDocks[ i ].transform.position = Vector3.Lerp( boundLeft, boundRight, ( i + 1 ) * increment );
+            m_CharacterDocks[ i ].transform.position = Vector3.Lerp( boundLeft, boundRight, ( i + 0.5f + (i / m_CharacterDocks.Length) ) * increment );
         }
     }
 
