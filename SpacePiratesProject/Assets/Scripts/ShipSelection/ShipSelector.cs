@@ -23,6 +23,11 @@ public class ShipSelector : Singleton< ShipSelector >
         primaryPlayer.AddInputListener( Player.Control.B_PRESSED, OnBPressed );
 
         SelectorTile.SetPosition( ShipTiles[ 0 ].RectTransform.anchoredPosition );
+        foreach (var obj in ShipTiles)
+		{
+            obj.Init();
+		}
+        ShipTiles[0].SetSelected(true);
     }
 
     private void OnDestroy()
@@ -79,12 +84,15 @@ public class ShipSelector : Singleton< ShipSelector >
             return;
         }
 
+        ShipTiles[m_CurrentShipIndex].SetSelected(false);
+
         if ( ++m_CurrentShipIndex >= ShipTiles.Length )
         {
             m_CurrentShipIndex = 0;
         }
 
         SelectorTile.SetPosition( ShipTiles[ m_CurrentShipIndex ].RectTransform.anchoredPosition );
+        ShipTiles[m_CurrentShipIndex].SetSelected(true);
     }
 
     public void DecrementShipIndex( bool a_LoopAround = false )
@@ -94,12 +102,15 @@ public class ShipSelector : Singleton< ShipSelector >
             return;
         }
 
+        ShipTiles[m_CurrentShipIndex].SetSelected(false);
+
         if ( --m_CurrentShipIndex < 0 )
         {
             m_CurrentShipIndex = ShipTiles.Length - 1;
         }
 
         SelectorTile.SetPosition( ShipTiles[m_CurrentShipIndex ].RectTransform.anchoredPosition );
+        ShipTiles[m_CurrentShipIndex].SetSelected(true);
     }
 
     private int m_CurrentShipIndex;
