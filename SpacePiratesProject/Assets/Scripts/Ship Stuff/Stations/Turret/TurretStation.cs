@@ -16,9 +16,9 @@ public class TurretStation : MonoBehaviour
     public float minAngle, maxAngle;
     [Tooltip("The angle that the turret begins at. Used for custom models")]
     public float baseAngle = 0;
-
+    [Space]
     public GameObject turretHud;
-
+    public FuelIndicator fuelIndicator;
 
     private TurretActivate turretActivate;
     private DamageStation damage;
@@ -110,11 +110,13 @@ public class TurretStation : MonoBehaviour
     private void OnFueled()
 	{
         shotsRemaining += shotsPerFuel;
-        if (shotsRemaining > maxShots)
+        if (shotsRemaining >= maxShots)
 		{
             shotsRemaining = maxShots;
             fuelDepo.enabled = false;
         }
+
+        fuelIndicator.SetFuelLevel((float)shotsRemaining / (float)maxShots * 100f);
 
         TryTurnOn();
 	}
@@ -175,7 +177,9 @@ public class TurretStation : MonoBehaviour
 		{
             TurnOff();
 		}
-	}
+
+        fuelIndicator.SetFuelLevel((float)shotsRemaining / (float)maxShots * 100f);
+    }
 
 	void Update()
 	{

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EngineStation : MonoBehaviour
 {
+	public FuelIndicator fuelIndicator;
 	public int maxFuel = 3;
 	[Tooltip("How long each fuel lasts")]
 	public float timePerFuel = 10;
@@ -11,7 +12,6 @@ public class EngineStation : MonoBehaviour
 	public float maxSpeed = 1;
 	public float speedAcceleration = 1;
 	public float speedDecay = 0.2f;
-
 
 	private EngineSwitch engineSwitch;
 	private FuelDeposit fuelDepo;
@@ -38,7 +38,6 @@ public class EngineStation : MonoBehaviour
 		engineSwitch.OnActivated += OnSwitchUsed;
 		fuelDepo.OnFuelDeposited += OnFueled;
 	}
-
 
 	void Update()
 	{
@@ -77,7 +76,6 @@ public class EngineStation : MonoBehaviour
 		}
 	}
 
-
 	private void OnSwitchUsed()
 	{
 		isTurnedOn = !isTurnedOn;
@@ -90,6 +88,8 @@ public class EngineStation : MonoBehaviour
 		{
 			fuelDepo.enabled = false;
 		}
+
+		fuelIndicator.SetFuelLevel((float)currentFuel / (float)maxFuel * 100f);
 	}
 
 	private void OnFuelUsed()
@@ -102,5 +102,7 @@ public class EngineStation : MonoBehaviour
 		{
 			isTurnedOn = false;
 		}
+
+		fuelIndicator.SetFuelLevel((float)currentFuel / (float)maxFuel * 100f);
 	}
 }
