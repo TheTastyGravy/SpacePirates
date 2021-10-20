@@ -32,7 +32,7 @@ MonoBehaviour:
         Data2: 1234949781
         Data3: 661987496
         Data4: 496157849
-      Path: event:/Music/Level 02
+      Path: event:/Music/Gameplay
     fadeTime: 0
     removeFlag: 0
   - name: Summary Music
