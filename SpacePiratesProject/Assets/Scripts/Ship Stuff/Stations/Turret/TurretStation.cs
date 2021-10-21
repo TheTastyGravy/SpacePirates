@@ -16,6 +16,8 @@ public class TurretStation : MonoBehaviour
     public float minAngle, maxAngle;
     [Tooltip("The angle that the turret begins at. Used for custom models")]
     public float baseAngle = 0;
+    [Tooltip("A value used for tweeking the snap direction")]
+    public float snapAngle = 0;
     [Space]
     public GameObject turretHud;
     public FuelIndicator fuelIndicator;
@@ -49,7 +51,7 @@ public class TurretStation : MonoBehaviour
 
         // Get a direction to use as forward for aiming the turret
         relitiveForward = Vector3.forward;
-        RotateDirection(ref relitiveForward, baseAngle * Mathf.Deg2Rad);
+        RotateDirection(ref relitiveForward, (baseAngle + snapAngle) * Mathf.Deg2Rad);
 
         // Setup callbacks
         turretActivate.OnInteract += OnActivate;
@@ -243,6 +245,28 @@ public class TurretStation : MonoBehaviour
         if (currentInteractor != null)
 		{
             RemovePlayer();
+        }
+	}
+
+	void OnDrawGizmosSelected()
+	{
+        Vector3 relForward = Vector3.forward;
+        RotateDirection(ref relForward, (baseAngle + snapAngle) * Mathf.Deg2Rad);
+
+        for (float ang = 0; ang < 360; ang += 5)
+		{
+            Vector3 dir = Quaternion.Euler(0, ang, 0) * Vector3.forward;
+
+            float angle = Vector3.SignedAngle(relForward, dir, Vector3.up) + baseAngle;
+            // Change the color depending on what is done with the direction
+            if (angle < minAngle)
+                Gizmos.color = Color.red;
+            else if (angle > maxAngle)
+                Gizmos.color = Color.green;
+            else
+                Gizmos.color = Color.white;
+            
+            Gizmos.DrawSphere(turretBase.position + dir * 2.5f, 0.1f);
         }
 	}
 }
