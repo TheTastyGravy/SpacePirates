@@ -9,16 +9,14 @@ public class MusicManager : Singleton<MusicManager>
 {
     public MusicData data;
     public bool printBeatLogs = false;
-
-
     public int CurrentBar => timelineInfo.currentMusicBar;
     public int CurrentBeat => timelineInfo.currentMusicBeat;
     
-
     private class TimelineInfo
     {
         public int currentMusicBar = 0;
         public int currentMusicBeat = 0;
+        public float tempo = 0;
         public FMOD.StringWrapper lastMarker = new FMOD.StringWrapper();
 
         public BasicDelegate onBeat;
@@ -28,7 +26,6 @@ public class MusicManager : Singleton<MusicManager>
     private GCHandle timelineHandle;
     private FMOD.Studio.EVENT_CALLBACK beatCallback;
     private FMOD.Studio.EventInstance musicInstance;
-
     private class Entry
 	{
         public BasicDelegate callback;
@@ -38,6 +35,8 @@ public class MusicManager : Singleton<MusicManager>
     private List<Entry> beatEvents = new List<Entry>();
 
     private MusicData.MusicInfo musicInfo;
+    private bool inGameScene = false;
+    private bool setIntensity = true;
 
 
 
@@ -60,6 +59,7 @@ public class MusicManager : Singleton<MusicManager>
         beatCallback = new FMOD.Studio.EVENT_CALLBACK(BeatEventCallback);
         // Callback used for changing music
         GameManager.OnStartTransition += OnSceneExit;
+        GameManager.OnEndTransition += OnSceneEnter;
 
         SetupMusic();
     }
@@ -83,6 +83,7 @@ public class MusicManager : Singleton<MusicManager>
     void OnDestroy()
     {
         GameManager.OnStartTransition -= OnSceneExit;
+        GameManager.OnEndTransition -= OnSceneEnter;
         musicInstance.setUserData(IntPtr.Zero);
         musicInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         musicInstance.release();
@@ -108,8 +109,33 @@ public class MusicManager : Singleton<MusicManager>
         if (newInfo != musicInfo)
         {
             StartCoroutine(ChangeMusic(newInfo));
+            if (otherScene != GameManager.GameState.GAME)
+			{
+                EventManager.Instance.OnEventChange -= OnEventChange;
+                inGameScene = false;
+            }
         }
     }
+
+    private void OnSceneEnter(Scene scene, GameManager.GameState otherScene)
+	{
+        // We have entered the game scene
+        if (scene.name == "GAME")
+		{
+            // Add callback next frame to ensure its not null
+            IEnumerator NextFrame()
+			{
+                yield return null;
+                EventManager.Instance.OnEventChange += OnEventChange;
+            }
+            StartCoroutine(NextFrame());
+            inGameScene = true;
+            setIntensity = true;
+            // TEMP
+            musicInstance.setParameterByName("Intensity", 0);
+            StartCoroutine(FadeIntensity(false));
+        }
+	}
 
     private IEnumerator ChangeMusic(MusicData.MusicInfo newMusicInfo)
 	{
@@ -125,6 +151,64 @@ public class MusicManager : Singleton<MusicManager>
         // Setup using the new info
         musicInfo = newMusicInfo;
         SetupMusic();
+    }
+
+    private void OnEventChange(Level.Event.Type eventType)
+	{
+        // Fade intensity to 0
+        StartCoroutine(FadeIntensity(true));
+
+        void SetArea()
+		{
+            // Get value for the event to set area
+            var val = eventType switch
+            {
+            	Level.Event.Type.AstroidField => 0.25f,
+                Level.Event.Type.PlasmaStorm => 0.5f,
+                Level.Event.Type.ShipAttack => 0.75f,
+            	_ => 0,
+            };
+            musicInstance.setParameterByName("Area", val);
+            // Fade intensity in
+            StartCoroutine(FadeIntensity(false));
+        }
+        AddBeatEvent(SetArea);
+    }
+
+    private IEnumerator FadeIntensity(bool fadeToZero)
+	{
+        FMOD.RESULT result = musicInstance.getParameterByName("Intensity", out float start);
+        if (result != FMOD.RESULT.OK || start == (fadeToZero ? 0 : 1))
+            yield break;
+    
+        setIntensity = false;
+        // Convert BPM to seconds per bar, then find the time remaining for this bar. This does not account for time left in the current beat
+        float barTime = 1f / (timelineInfo.tempo / 240f);
+        barTime *= (5 - timelineInfo.currentMusicBeat) / 4f;
+    
+        float t = 0;
+        while (t < barTime)
+        {
+            musicInstance.setParameterByName("Intensity", Mathf.Lerp(start, fadeToZero ? 0 : 1, t / barTime));
+    
+            t += Time.deltaTime;
+            yield return null;
+        }
+        setIntensity = true;
+    }
+
+	void Update()
+	{
+        if (!inGameScene)
+            return;
+
+        musicInstance.setParameterByName("Oxygen Low", 1 - (ShipManager.Instance.OxygenLevel / ShipManager.Instance.maxOxygenLevel));
+
+        if (setIntensity)
+		{
+            // TODO
+            //musicInstance.setParameterByName("Intensity", 0.5f);
+        }
     }
 
 
@@ -151,6 +235,7 @@ public class MusicManager : Singleton<MusicManager>
             Debug.Log("\tCurrent Bar: " + timelineInfo.currentMusicBar + "\n\t\tCurrent Beat: " + timelineInfo.currentMusicBeat);
         }
 
+        List<Entry> used = new List<Entry>();
         foreach (var obj in beatEvents)
 		{
             // The first beat of a bar
@@ -161,11 +246,15 @@ public class MusicManager : Singleton<MusicManager>
 
             if (obj.barDelay <= 0 && obj.beatCount <= timelineInfo.currentMusicBeat)
 			{
-                // Invoke event and remove it from the list
+                // Invoke event and mark it for removal
                 obj.callback.Invoke();
-                beatEvents.Remove(obj);
+                used.Add(obj);
 			}
 		}
+        foreach(var obj in used)
+		{
+            beatEvents.Remove(obj);
+        }
 	}
 
     private void OnMessage()
@@ -200,6 +289,7 @@ public class MusicManager : Singleton<MusicManager>
                         var parameter = (FMOD.Studio.TIMELINE_BEAT_PROPERTIES)Marshal.PtrToStructure(parameterPtr, typeof(FMOD.Studio.TIMELINE_BEAT_PROPERTIES));
                         timelineInfo.currentMusicBar = parameter.bar;
                         timelineInfo.currentMusicBeat = parameter.beat;
+                        timelineInfo.tempo = parameter.tempo;
                         timelineInfo.onBeat.Invoke();
                     }
                     break;

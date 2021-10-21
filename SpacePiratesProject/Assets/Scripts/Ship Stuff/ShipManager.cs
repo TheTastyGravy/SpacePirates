@@ -19,6 +19,7 @@ public class ShipManager : Singleton<ShipManager>
     private RoomManager[] rooms;
 
     private float oxygenLevel;
+    public float OxygenLevel => oxygenLevel;
     private OxygenBar oxygenBar;
 
     private float gameOverTimmer;

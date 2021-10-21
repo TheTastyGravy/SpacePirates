@@ -16,7 +16,8 @@ public class Level : ScriptableObject
         {
             AstroidField,
             PlasmaStorm,
-            ShipAttack
+            ShipAttack,
+            None
         }
     }
 
@@ -93,7 +94,7 @@ public class Level : ScriptableObject
                 start = start,
                 end = end,
                 // Get random int in range of enum count, and cast to Event.Type
-                type = (Event.Type)UnityEngine.Random.Range(0, Enum.GetValues(typeof(Event.Type)).Length)
+                type = (Event.Type)UnityEngine.Random.Range(0, Enum.GetValues(typeof(Event.Type)).Length - 1)
             };
         }
     }

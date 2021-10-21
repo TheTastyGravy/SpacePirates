@@ -20,6 +20,8 @@ public class EventManager : Singleton<EventManager>
 
 
 	private Event currentEvent;
+	public delegate void EventDelegate(Level.Event.Type eventType);
+	public EventDelegate OnEventChange;
 
 	[Space]
 	public TextMeshProUGUI currentEventText;
@@ -57,12 +59,14 @@ public class EventManager : Singleton<EventManager>
 		}
 
 		currentEvent.Start();
+		OnEventChange?.Invoke(newEvent.type);
 	}
 
     public void StopEvent()
 	{
 		if (currentEvent != null)
 		{
+			OnEventChange?.Invoke(Level.Event.Type.None);
 			currentEvent.Stop();
 			currentEvent = null;
 
