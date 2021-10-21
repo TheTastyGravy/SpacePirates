@@ -109,7 +109,7 @@ public class MusicManager : Singleton<MusicManager>
         if (newInfo != musicInfo)
         {
             StartCoroutine(ChangeMusic(newInfo));
-            if (otherScene != GameManager.GameState.GAME)
+            if (scene.name == "GAME")
 			{
                 EventManager.Instance.OnEventChange -= OnEventChange;
                 inGameScene = false;
