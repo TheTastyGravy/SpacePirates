@@ -22,13 +22,16 @@ TextureImporter:
     second: UI_Refuel_V1
   - first:
       213: 6667942953766095068
-    second: UI_Refuel_V2
+    second: UI_Generic_Arrow
   - first:
       213: -7151013690908376063
     second: UI_Fuel_Indicator_Empty
   - first:
       213: -4305347878501534683
     second: UI_Fuel_Indicator_Full
+  - first:
+      213: 8809231958089286812
+    second: UI_Dual_Action_One_Player
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -280,7 +283,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Refuel_V2
+      name: UI_Generic_Arrow
       rect:
         serializedVersion: 2
         x: 1535
@@ -338,6 +341,27 @@ TextureImporter:
       bones: []
       spriteID: 5243f6b4ae45044c0800000000000000
       internalID: -4305347878501534683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Dual_Action_One_Player
+      rect:
+        serializedVersion: 2
+        x: 1619
+        y: 676
+        width: 196
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c944ee5eacda04a70800000000000000
+      internalID: 8809231958089286812
       vertices: []
       indices: 
       edges: []
