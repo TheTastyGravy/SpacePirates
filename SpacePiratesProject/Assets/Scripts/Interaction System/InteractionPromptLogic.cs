@@ -31,13 +31,13 @@ public class InteractionPromptLogic : MonoBehaviour
 
         foreach (var obj in selectedImages)
 		{
-            obj.color = Color.clear;
+            obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
 		}
         if (!enabled)
 		{
             foreach (var obj in baseImages)
             {
-                obj.color = Color.clear;
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
             }
         }
     }
@@ -70,7 +70,6 @@ public class InteractionPromptLogic : MonoBehaviour
 
     private IEnumerator NewFade(bool showBase, bool showSelected)
     {
-        Color trans = new Color(1, 1, 1, 0);
         Vector3 shrunkScale = Vector3.one - Vector3.one * popScale;
         // Dont hide what is already hidden
         bool useSelected = showSelected || IsSelectedVisible;
@@ -86,7 +85,7 @@ public class InteractionPromptLogic : MonoBehaviour
             {
                 foreach (var obj in baseImages)
                 {
-                    obj.color = Color.Lerp(Color.white, trans, showBase ? 1 - val : val);
+                    obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, Mathf.Lerp(1, 0, showBase ? 1 - val : val));
                     obj.transform.localScale = Vector3.Lerp(Vector3.one, shrunkScale, showBase ? 1 - val : val);
                 }
             }
@@ -94,7 +93,7 @@ public class InteractionPromptLogic : MonoBehaviour
             {
                 foreach (var obj in selectedImages)
                 {
-                    obj.color = Color.Lerp(Color.white, trans, showSelected ? 1 - val : val);
+                    obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, Mathf.Lerp(1, 0, showSelected ? 1 - val : val));
                     obj.transform.localScale = Vector3.Lerp(Vector3.one, shrunkScale, showSelected ? 1 - val : val);
                 }
             }
@@ -108,7 +107,7 @@ public class InteractionPromptLogic : MonoBehaviour
         {
             foreach (var obj in baseImages)
             {
-                obj.color = showBase ? Color.white : trans;
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, showBase ? 1 : 0);
                 obj.transform.localScale = showBase ? Vector3.one : shrunkScale;
             }
         }
@@ -116,7 +115,7 @@ public class InteractionPromptLogic : MonoBehaviour
         {
             foreach (var obj in selectedImages)
             {
-                obj.color = showSelected ? Color.white : trans;
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, showSelected ? 1 : 0);
                 obj.transform.localScale = showSelected ? Vector3.one : shrunkScale;
             }
         }
@@ -143,7 +142,8 @@ public class InteractionPromptLogic : MonoBehaviour
             isBeingUsed = false;
         }
         // Wait a frame to set isBeingUsed. This is becasue InteractionManager uses LateUpdate to determine selection
-        StartCoroutine(SetNextFrame());
+        if (isActiveAndEnabled)
+            StartCoroutine(SetNextFrame());
     }
 
     public void Selected()
@@ -196,11 +196,11 @@ public class InteractionPromptLogic : MonoBehaviour
 		{
             foreach (var obj in baseImages)
             {
-                obj.color = Color.clear;
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
             }
             foreach (var obj in selectedImages)
             {
-                obj.color = Color.clear;
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
             }
         }
     }
