@@ -4,64 +4,88 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: 2701560246707535264
-    second: UI_Menu_SpriteSheet_0
+    second: UI_Menu_SpriteSheet_4P1
   - first:
       213: 4776966173195553886
-    second: UI_Menu_SpriteSheet_1
+    second: UI_Menu_SpriteSheet_Character
   - first:
       213: -4019437650185056241
-    second: UI_Menu_SpriteSheet_2
+    second: UI_Menu_SpriteSheet_Options2
   - first:
       213: 8297583233029868318
-    second: UI_Menu_SpriteSheet_3
+    second: UI_Menu_SpriteSheet_Options1
   - first:
       213: -8791604637450321536
-    second: UI_Menu_SpriteSheet_4
+    second: UI_Menu_SpriteSheet_Quit2
   - first:
       213: 8615792616709600836
-    second: UI_Menu_SpriteSheet_5
+    second: UI_Menu_SpriteSheet_Quit1
   - first:
       213: -4603199158255464602
-    second: UI_Menu_SpriteSheet_6
+    second: UI_Menu_SpriteSheet_Level
   - first:
       213: -3347424670509386320
-    second: UI_Menu_SpriteSheet_7
+    second: UI_Menu_SpriteSheet_2P1
   - first:
       213: -2569419554956537216
-    second: UI_Menu_SpriteSheet_8
+    second: UI_Menu_SpriteSheet_Ship
   - first:
       213: 6720867574395565244
-    second: UI_Menu_SpriteSheet_9
+    second: UI_Menu_SpriteSheet_3P1
   - first:
       213: -3919277035685303468
     second: UI_Menu_SpriteSheet_10
   - first:
       213: -4595763394599696707
-    second: UI_Menu_SpriteSheet_11
+    second: UI_Menu_SpriteSheet_4P2
   - first:
       213: -6465453719699039268
-    second: UI_Menu_SpriteSheet_12
+    second: UI_Menu_SpriteSheet_Easy2
   - first:
       213: 2568899701125631383
-    second: UI_Menu_SpriteSheet_13
+    second: UI_Menu_SpriteSheet_Easy1
   - first:
       213: -6663263124927865685
-    second: UI_Menu_SpriteSheet_14
+    second: UI_Menu_SpriteSheet_Start2
   - first:
       213: -2418554925040473898
-    second: UI_Menu_SpriteSheet_15
+    second: UI_Menu_SpriteSheet_Medium1
   - first:
       213: -5849360222433667577
     second: UI_Menu_SpriteSheet_16
   - first:
       213: 3722239698624764445
-    second: UI_Menu_SpriteSheet_17
+    second: UI_Menu_SpriteSheet_Hard1
   - first:
       213: 7236671367540491278
     second: UI_Menu_SpriteSheet_18
   - first:
       213: -6021018727823601721
     second: UI_Menu_SpriteSheet_19
+  - first:
+      213: 508671961674336595
+    second: UI_Menu_SpriteSheet_20
+  - first:
+      213: 4253753415472552661
+    second: UI_Menu_SpriteSheet_Left
+  - first:
+      213: 6141697539954127444
+    second: UI_Menu_SpriteSheet_Right
+  - first:
+      213: -6851193026322675327
+    second: UI_Menu_SpriteSheet_2P2
+  - first:
+      213: -4933142724674065109
+    second: UI_Menu_SpriteSheet_Start1
+  - first:
+      213: -2810967178557429219
+    second: UI_Menu_SpriteSheet_3P2
+  - first:
+      213: -6474059700371987133
+    second: UI_Menu_SpriteSheet_Medium2
+  - first:
+      213: -8655960535855409525
+    second: UI_Menu_SpriteSheet_Hard2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -151,13 +175,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_0
+      name: UI_Menu_SpriteSheet_4P1
       rect:
         serializedVersion: 2
-        x: 19
-        y: 962
-        width: 800
-        height: 100
+        x: 1018
+        y: 444
+        width: 438
+        height: 85
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,13 +196,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_1
+      name: UI_Menu_SpriteSheet_Character
       rect:
         serializedVersion: 2
-        x: 19
-        y: 856
-        width: 800
-        height: 100
+        x: 1542
+        y: 206
+        width: 1041
+        height: 101
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,13 +217,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_2
+      name: UI_Menu_SpriteSheet_Options2
       rect:
         serializedVersion: 2
-        x: 19
-        y: 752
-        width: 800
-        height: 100
+        x: 270
+        y: 757
+        width: 295
+        height: 88
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -214,13 +238,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_3
+      name: UI_Menu_SpriteSheet_Options1
       rect:
         serializedVersion: 2
-        x: 19
-        y: 646
-        width: 800
-        height: 100
+        x: 270
+        y: 653
+        width: 295
+        height: 88
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -235,12 +259,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_4
+      name: UI_Menu_SpriteSheet_Quit2
       rect:
         serializedVersion: 2
-        x: 19
+        x: 322
         y: 542
-        width: 800
+        width: 190
         height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -256,12 +280,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_5
+      name: UI_Menu_SpriteSheet_Quit1
       rect:
         serializedVersion: 2
-        x: 19
-        y: 436
-        width: 800
+        x: 322
+        y: 437
+        width: 190
         height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -277,13 +301,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_6
+      name: UI_Menu_SpriteSheet_Level
       rect:
         serializedVersion: 2
-        x: 838
-        y: 961
-        width: 800
-        height: 100
+        x: 248
+        y: 120
+        width: 1042
+        height: 102
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -298,12 +322,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_7
+      name: UI_Menu_SpriteSheet_2P1
       rect:
         serializedVersion: 2
-        x: 838
-        y: 856
-        width: 800
+        x: 1035
+        y: 857
+        width: 409
         height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -319,13 +343,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_8
+      name: UI_Menu_SpriteSheet_Ship
       rect:
         serializedVersion: 2
-        x: 838
-        y: 751
-        width: 800
-        height: 100
+        x: 73
+        y: 282
+        width: 1392
+        height: 110
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -340,13 +364,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_9
+      name: UI_Menu_SpriteSheet_3P1
       rect:
         serializedVersion: 2
-        x: 838
-        y: 646
-        width: 800
-        height: 100
+        x: 1000
+        y: 648
+        width: 480
+        height: 96
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -361,34 +385,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_10
+      name: UI_Menu_SpriteSheet_4P2
       rect:
         serializedVersion: 2
-        x: 838
-        y: 541
-        width: 800
-        height: 100
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 45ba1af1d4eeb99c0800000000000000
-      internalID: -3919277035685303468
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_11
-      rect:
-        serializedVersion: 2
-        x: 838
-        y: 436
-        width: 800
-        height: 100
+        x: 1018
+        y: 548
+        width: 438
+        height: 85
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -403,12 +406,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_12
+      name: UI_Menu_SpriteSheet_Easy2
       rect:
         serializedVersion: 2
-        x: 1657
+        x: 1961
         y: 961
-        width: 800
+        width: 190
         height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -424,12 +427,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_13
+      name: UI_Menu_SpriteSheet_Easy1
       rect:
         serializedVersion: 2
-        x: 1657
-        y: 856
-        width: 800
+        x: 1960
+        y: 857
+        width: 190
         height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -445,13 +448,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_14
+      name: UI_Menu_SpriteSheet_Start2
       rect:
         serializedVersion: 2
-        x: 1657
-        y: 751
-        width: 800
-        height: 100
+        x: 126
+        y: 971
+        width: 581
+        height: 82
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -466,13 +469,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_15
+      name: UI_Menu_SpriteSheet_Medium1
       rect:
         serializedVersion: 2
-        x: 1657
-        y: 646
-        width: 800
-        height: 100
+        x: 1927
+        y: 653
+        width: 260
+        height: 85
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -487,34 +490,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_16
+      name: UI_Menu_SpriteSheet_Hard1
       rect:
         serializedVersion: 2
-        x: 1657
-        y: 541
-        width: 800
-        height: 100
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7069a827ed5e2dea0800000000000000
-      internalID: -5849360222433667577
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_17
-      rect:
-        serializedVersion: 2
-        x: 1657
-        y: 437
-        width: 800
-        height: 100
+        x: 1965
+        y: 445
+        width: 185
+        height: 85
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -529,13 +511,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_18
+      name: UI_Menu_SpriteSheet_Left
       rect:
         serializedVersion: 2
-        x: 19
-        y: 261
-        width: 1500
-        height: 150
+        x: 1898
+        y: 71
+        width: 64
+        height: 85
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -543,20 +525,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e04cd7a6442dd6460800000000000000
-      internalID: 7236671367540491278
+      spriteID: 5da985ba13e580b30800000000000000
+      internalID: 4253753415472552661
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Menu_SpriteSheet_19
+      name: UI_Menu_SpriteSheet_Right
       rect:
         serializedVersion: 2
-        x: 19
-        y: 96
-        width: 1500
-        height: 150
+        x: 2154
+        y: 71
+        width: 63
+        height: 85
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -564,8 +546,113 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7cf89162e5b017ca0800000000000000
-      internalID: -6021018727823601721
+      spriteID: 4523bda5f51bb3550800000000000000
+      internalID: 6141697539954127444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Menu_SpriteSheet_2P2
+      rect:
+        serializedVersion: 2
+        x: 1035
+        y: 961
+        width: 409
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1894762ed3cabe0a0800000000000000
+      internalID: -6851193026322675327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Menu_SpriteSheet_Start1
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 865
+        width: 581
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2def7d24d4f98bb0800000000000000
+      internalID: -4933142724674065109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Menu_SpriteSheet_3P2
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 753
+        width: 480
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1a6dc68e307df8d0800000000000000
+      internalID: -2810967178557429219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Menu_SpriteSheet_Medium2
+      rect:
+        serializedVersion: 2
+        x: 1927
+        y: 760
+        width: 260
+        height: 86
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 345e7a8e0058726a0800000000000000
+      internalID: -6474059700371987133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Menu_SpriteSheet_Hard2
+      rect:
+        serializedVersion: 2
+        x: 1965
+        y: 546
+        width: 185
+        height: 87
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b86d98ef0c9dfd780800000000000000
+      internalID: -8655960535855409525
       vertices: []
       indices: 
       edges: []

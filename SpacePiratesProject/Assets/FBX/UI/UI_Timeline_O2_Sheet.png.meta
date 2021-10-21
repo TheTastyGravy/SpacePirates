@@ -1,7 +1,151 @@
 fileFormatVersion: 2
 guid: 034430e7df83aeb41b3f1706ac276aed
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 2499187216547653020
+    second: UI_Timeline_O2_Sheet_AsteroidIndicator
+  - first:
+      213: 4335586996183096687
+    second: UI_Timeline_O2_Sheet_AsteroidArrow
+  - first:
+      213: -3468735713840645686
+    second: UI_Timeline_O2_Sheet_ShipIcon
+  - first:
+      213: 2085603924369448058
+    second: UI_Timeline_O2_Sheet_PlasmaStorm
+  - first:
+      213: -2945097739102117987
+    second: UI_Timeline_O2_Sheet_AsteroidField
+  - first:
+      213: -3937178796189959176
+    second: UI_Timeline_O2_Sheet_EventBar
+  - first:
+      213: -3664841416852954154
+    second: UI_Timeline_O2_Sheet_O2
+  - first:
+      213: -8249627436385485082
+    second: UI_Timeline_O2_Sheet_7
+  - first:
+      213: 2579383466281564192
+    second: UI_Timeline_O2_Sheet_8
+  - first:
+      213: -2914651399831287897
+    second: UI_Timeline_O2_Sheet_9
+  - first:
+      213: -8714085079611503356
+    second: UI_Timeline_O2_Sheet_10
+  - first:
+      213: -268646226258133396
+    second: UI_Timeline_O2_Sheet_11
+  - first:
+      213: -7141378694758573899
+    second: UI_Timeline_O2_Sheet_12
+  - first:
+      213: -5930974416306999665
+    second: UI_Timeline_O2_Sheet_13
+  - first:
+      213: -4857936263181133158
+    second: UI_Timeline_O2_Sheet_14
+  - first:
+      213: 188688267960055182
+    second: UI_Timeline_O2_Sheet_15
+  - first:
+      213: -1624672757698218355
+    second: UI_Timeline_O2_Sheet_16
+  - first:
+      213: 2206473204968737671
+    second: UI_Timeline_O2_Sheet_17
+  - first:
+      213: -7863914380337125667
+    second: UI_Timeline_O2_Sheet_18
+  - first:
+      213: 6132647459643941312
+    second: UI_Timeline_O2_Sheet_19
+  - first:
+      213: -2478627436246977427
+    second: UI_Timeline_O2_Sheet_20
+  - first:
+      213: 1360333972682064723
+    second: UI_Timeline_O2_Sheet_21
+  - first:
+      213: 6963551905570461220
+    second: UI_Timeline_O2_Sheet_22
+  - first:
+      213: -3338022045913630028
+    second: UI_Timeline_O2_Sheet_23
+  - first:
+      213: 1541067627101401885
+    second: UI_Timeline_O2_Sheet_24
+  - first:
+      213: 1781647535558680854
+    second: UI_Timeline_O2_Sheet_25
+  - first:
+      213: 7046407517852228048
+    second: UI_Timeline_O2_Sheet_26
+  - first:
+      213: 6415547509126715433
+    second: UI_Timeline_O2_Sheet_27
+  - first:
+      213: -729051661652471658
+    second: UI_Timeline_O2_Sheet_28
+  - first:
+      213: 4736437552543332658
+    second: UI_Timeline_O2_Sheet_29
+  - first:
+      213: -7695205012274412421
+    second: UI_Timeline_O2_Sheet_30
+  - first:
+      213: -276221055129859387
+    second: UI_Timeline_O2_Sheet_31
+  - first:
+      213: -8595713220838598775
+    second: UI_Timeline_O2_Sheet_32
+  - first:
+      213: 5126091426882417978
+    second: UI_Timeline_O2_Sheet_33
+  - first:
+      213: -1552406211255464251
+    second: UI_Timeline_O2_Sheet_34
+  - first:
+      213: -4957261454891874117
+    second: UI_Timeline_O2_Sheet_35
+  - first:
+      213: -2400714521975086643
+    second: UI_Timeline_O2_Sheet_36
+  - first:
+      213: -3550825980941314754
+    second: UI_Timeline_O2_Sheet_37
+  - first:
+      213: -8403125424467461577
+    second: UI_Timeline_O2_Sheet_38
+  - first:
+      213: -1990065578895962313
+    second: UI_Timeline_O2_Sheet_39
+  - first:
+      213: -5378000157542309144
+    second: UI_Timeline_O2_Sheet_40
+  - first:
+      213: -9073403246456487598
+    second: UI_Timeline_O2_Sheet_EmptyBar
+  - first:
+      213: -6587599059481120526
+    second: UI_Timeline_O2_Sheet_BarEnd
+  - first:
+      213: 2636432342036603569
+    second: UI_Timeline_O2_Sheet_FullBar
+  - first:
+      213: 8548949488015291802
+    second: UI_Timeline_O2_Sheet_44
+  - first:
+      213: 5602114638032362523
+    second: UI_Timeline_O2_Sheet_45
+  - first:
+      213: -5953817905684445083
+    second: UI_Timeline_O2_Sheet_46
+  - first:
+      213: -8396216207880342154
+    second: UI_Timeline_O2_Sheet_47
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -41,8 +185,8 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
-  spriteExtrude: 1
+  spriteMode: 2
+  spriteExtrude: 0
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
@@ -87,9 +231,255 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: UI_Timeline_O2_Sheet_AsteroidIndicator
+      rect:
+        serializedVersion: 2
+        x: 172
+        y: 628
+        width: 298
+        height: 298
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c95258d3885eea220800000000000000
+      internalID: 2499187216547653020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Timeline_O2_Sheet_AsteroidArrow
+      rect:
+        serializedVersion: 2
+        x: 515
+        y: 706
+        width: 156
+        height: 156
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6ddb40f6691b2c30800000000000000
+      internalID: 4335586996183096687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Timeline_O2_Sheet_ShipIcon
+      rect:
+        serializedVersion: 2
+        x: 771
+        y: 628
+        width: 298
+        height: 298
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac931d41f339cdfc0800000000000000
+      internalID: -3468735713840645686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Timeline_O2_Sheet_PlasmaStorm
+      rect:
+        serializedVersion: 2
+        x: 1145
+        y: 628
+        width: 298
+        height: 298
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7c933e18bd81fc10800000000000000
+      internalID: 2085603924369448058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Timeline_O2_Sheet_AsteroidField
+      rect:
+        serializedVersion: 2
+        x: 1514
+        y: 628
+        width: 298
+        height: 298
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9f1308c539e027d0800000000000000
+      internalID: -2945097739102117987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Timeline_O2_Sheet_EventBar
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 432
+        width: 1483
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8fbb5e3beb45c59c0800000000000000
+      internalID: -3937178796189959176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Timeline_O2_Sheet_O2
+      rect:
+        serializedVersion: 2
+        x: 1499
+        y: 99
+        width: 235
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d32756062ed32dc0800000000000000
+      internalID: -3664841416852954154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Timeline_O2_Sheet_EmptyBar
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 201
+        width: 1206
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 251c51ff1dbc41280800000000000000
+      internalID: -9073403246456487598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Timeline_O2_Sheet_BarEnd
+      rect:
+        serializedVersion: 2
+        x: 1504
+        y: 188
+        width: 156
+        height: 156
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f03ee8de852494a0800000000000000
+      internalID: -6587599059481120526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Timeline_O2_Sheet_FullBar
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 69
+        width: 1164
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b261752f3d769420800000000000000
+      internalID: 2636432342036603569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []

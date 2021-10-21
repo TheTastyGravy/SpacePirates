@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -159,7 +159,7 @@ RectTransform:
   m_AnchorMin: {x: 0.42, y: 0.37}
   m_AnchorMax: {x: 0.42, y: 0.37}
   m_AnchoredPosition: {x: 153.60005, y: -65.367615}
-  m_SizeDelta: {x: 800.4494, y: 100}
+  m_SizeDelta: {x: 190.10674, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &120420214
 MonoBehaviour:
@@ -354,7 +354,7 @@ RectTransform:
   m_AnchorMin: {x: 0.42, y: 0.56}
   m_AnchorMax: {x: 0.42, y: 0.56}
   m_AnchoredPosition: {x: 153.60005, y: 0}
-  m_SizeDelta: {x: 800.4494, y: 100}
+  m_SizeDelta: {x: 581.32635, y: 82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &340735114
 MonoBehaviour:
@@ -385,9 +385,9 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 4776966173195553886, guid: 3192ab2573016c643bcdeab760323551, type: 3}
+    m_HighlightedSprite: {fileID: -4933142724674065109, guid: 3192ab2573016c643bcdeab760323551, type: 3}
     m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 2701560246707535264, guid: 3192ab2573016c643bcdeab760323551, type: 3}
+    m_SelectedSprite: {fileID: -6663263124927865685, guid: 3192ab2573016c643bcdeab760323551, type: 3}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -420,7 +420,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 4776966173195553886, guid: 3192ab2573016c643bcdeab760323551, type: 3}
+  m_Sprite: {fileID: -4933142724674065109, guid: 3192ab2573016c643bcdeab760323551, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1546,7 +1546,7 @@ RectTransform:
   m_AnchorMin: {x: 0.42, y: 0.465}
   m_AnchorMax: {x: 0.42, y: 0.465}
   m_AnchoredPosition: {x: 153.60005, y: -37.024597}
-  m_SizeDelta: {x: 800.4494, y: 100}
+  m_SizeDelta: {x: 295.16574, y: 88}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1676165294
 MonoBehaviour:

@@ -336,7 +336,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1031555158
 RectTransform:
   m_ObjectHideFlags: 0
@@ -517,10 +517,10 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 960, y: -540}
       - {x: 960, y: 540}
-      - {x: 560, y: 540}
-      - {x: 460, y: 345}
-      - {x: -460, y: 345}
-      - {x: -560, y: 540}
+      - {x: 735, y: 540}
+      - {x: 600, y: 280}
+      - {x: -600, y: 280}
+      - {x: -735, y: 540}
       - {x: -960, y: 540}
       - {x: -960, y: -540}
 --- !u!50 &1116524948
@@ -1634,7 +1634,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6661497440801657407, guid: 389d272e17489ec4fad5401f80909c58, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 6661497440801657407, guid: 389d272e17489ec4fad5401f80909c58, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1670,7 +1670,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6661497440801657407, guid: 389d272e17489ec4fad5401f80909c58, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -14
       objectReference: {fileID: 0}
     - target: {fileID: 6661497440801657407, guid: 389d272e17489ec4fad5401f80909c58, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

@@ -171,7 +171,10 @@ public class AstroidManager : Singleton<AstroidManager>
 			rectTrans.position = Camera.main.ScreenToWorldPoint(rayHit.point);
 			rectTrans.localPosition = new Vector3(rectTrans.localPosition.x, rectTrans.localPosition.y, 0);
 			// Orientate the object with the canvas
-			rectTrans.rotation = Quaternion.LookRotation(canvas.forward, Vector3.Cross(canvas.forward, canvas.transform.TransformDirection(screenDir)));
+			rectTrans.rotation = Quaternion.LookRotation(canvas.forward, canvas.up);
+			// Rotate and position the arrow
+			rectTrans.GetChild(1).rotation = Quaternion.LookRotation(canvas.forward, Vector3.Cross(canvas.forward, canvas.transform.TransformDirection(screenDir)));
+			rectTrans.GetChild(1).localPosition = screenDir.normalized * 70;
 
 			// Create astroid
 			AstroidLogic astroid = Instantiate(astroidPrefab).GetComponent<AstroidLogic>();

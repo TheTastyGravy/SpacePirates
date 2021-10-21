@@ -56,7 +56,7 @@ MonoBehaviour:
   image: {fileID: 7652677720877267814}
   textImage: {fileID: 8603596563750211543}
   baseTextImage: {fileID: 6720867574395565244, guid: 3192ab2573016c643bcdeab760323551, type: 3}
-  selectTextImage: {fileID: -2569419554956537216, guid: 3192ab2573016c643bcdeab760323551, type: 3}
+  selectTextImage: {fileID: -2810967178557429219, guid: 3192ab2573016c643bcdeab760323551, type: 3}
 --- !u!1 &4895866320775817756
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,7 +249,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: -35}
-  m_SizeDelta: {x: 800, y: 100}
+  m_SizeDelta: {x: 480.26965, y: 96}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &4830426519686228785
 CanvasRenderer:
