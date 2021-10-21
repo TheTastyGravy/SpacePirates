@@ -22,7 +22,7 @@ MonoBehaviour:
         Data3: -261621348
         Data4: -48242944
       Path: event:/Music/Intro
-    fadeTime: 0
+    fadeTime: 1
     removeFlag: 0
   - name: Game Music
     scenes: 64
