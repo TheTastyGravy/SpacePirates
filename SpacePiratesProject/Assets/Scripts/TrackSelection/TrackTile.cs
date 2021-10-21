@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class TrackTile : Tile
 {
+	public MenuButtonAngles angles;
 	[Header("Arrow")]
 	public Image image;
 	public Sprite baseImage;
@@ -19,5 +20,10 @@ public class TrackTile : Tile
 	{
 		image.sprite = selected ? selectImage : baseImage;
 		textImage.sprite = selected ? selectTextImage : baseTextImage;
+
+		if (selected)
+			angles.OnSelect(null);
+		else
+			angles.OnDeselect(null);
 	}
 }

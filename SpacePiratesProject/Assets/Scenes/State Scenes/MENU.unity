@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 120420216}
   - component: {fileID: 120420215}
   - component: {fileID: 120420214}
+  - component: {fileID: 120420217}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -243,6 +244,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 120420212}
   m_CullTransparentMesh: 1
+--- !u!114 &120420217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120420212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9caec3a6ea8a5384e902f15eebf9272c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnglePrefab: {fileID: 8705079989159349829, guid: f59a6b94015fde542bc6eb6474bda4e0, type: 3}
+  rightAnglePrefab: {fileID: 3171974105772091663, guid: 89f7c751379e282439a79880491c7243, type: 3}
 --- !u!1 &301395225
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,6 +345,7 @@ GameObject:
   - component: {fileID: 340735116}
   - component: {fileID: 340735115}
   - component: {fileID: 340735114}
+  - component: {fileID: 340735117}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: Untagged
@@ -438,6 +454,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 340735112}
   m_CullTransparentMesh: 1
+--- !u!114 &340735117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340735112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9caec3a6ea8a5384e902f15eebf9272c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnglePrefab: {fileID: 8705079989159349829, guid: f59a6b94015fde542bc6eb6474bda4e0, type: 3}
+  rightAnglePrefab: {fileID: 3171974105772091663, guid: 89f7c751379e282439a79880491c7243, type: 3}
 --- !u!1 &507745544
 GameObject:
   m_ObjectHideFlags: 0
@@ -1522,6 +1552,7 @@ GameObject:
   - component: {fileID: 1676165296}
   - component: {fileID: 1676165295}
   - component: {fileID: 1676165294}
+  - component: {fileID: 1676165297}
   m_Layer: 5
   m_Name: OptionsButton
   m_TagString: Untagged
@@ -1630,6 +1661,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1676165292}
   m_CullTransparentMesh: 1
+--- !u!114 &1676165297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676165292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9caec3a6ea8a5384e902f15eebf9272c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnglePrefab: {fileID: 8705079989159349829, guid: f59a6b94015fde542bc6eb6474bda4e0, type: 3}
+  rightAnglePrefab: {fileID: 3171974105772091663, guid: 89f7c751379e282439a79880491c7243, type: 3}
 --- !u!1 &1890041804
 GameObject:
   m_ObjectHideFlags: 0

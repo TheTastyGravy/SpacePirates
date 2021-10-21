@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RectTransform: {fileID: 4427755708587693019}
+  angles: {fileID: 5191061191135254935}
   image: {fileID: 8789998615918366916}
   baseImage: {fileID: 4983772662734726528, guid: e9f5e64034c7cd44582a44da4e93c7e8, type: 3}
   selectImage: {fileID: -7245970425855108596, guid: e9f5e64034c7cd44582a44da4e93c7e8, type: 3}
@@ -183,6 +184,7 @@ GameObject:
   - component: {fileID: 6444392702759469171}
   - component: {fileID: 2229319662471225401}
   - component: {fileID: 5585254657839682783}
+  - component: {fileID: 5191061191135254935}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -199,16 +201,16 @@ RectTransform:
   m_GameObject: {fileID: 6815690066948079595}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0000305, y: 1.0000305, z: 1.0000305}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4427755708587693019}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -35}
+  m_AnchoredPosition: {x: 0, y: -77.500015}
   m_SizeDelta: {x: 185.10393, y: 85}
-  m_Pivot: {x: 0.5, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2229319662471225401
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -247,3 +249,17 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5191061191135254935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6815690066948079595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9caec3a6ea8a5384e902f15eebf9272c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnglePrefab: {fileID: 8705079989159349829, guid: f59a6b94015fde542bc6eb6474bda4e0, type: 3}
+  rightAnglePrefab: {fileID: 3171974105772091663, guid: 89f7c751379e282439a79880491c7243, type: 3}

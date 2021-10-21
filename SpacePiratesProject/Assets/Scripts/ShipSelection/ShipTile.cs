@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ShipTile : Tile
 {
+	public MenuButtonAngles angles;
     [ Range( 1, 4 ) ] public int MaxPlayers = 1;
 	[Header("Ship")]
 	public SpriteRenderer image;
@@ -29,5 +30,10 @@ public class ShipTile : Tile
 		propertyBlock.SetFloat("_EffectAmount", selected ? 0 : 1);
 		image.SetPropertyBlock(propertyBlock);
 		textImage.sprite = selected ? selectTextImage : baseTextImage;
+
+		if (selected)
+			angles.OnSelect(null);
+		else
+			angles.OnDeselect(null);
 	}
 }
