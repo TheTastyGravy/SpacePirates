@@ -138,12 +138,12 @@ public class InteractionPromptLogic : MonoBehaviour
     {
         IEnumerator SetNextFrame()
         {
-            yield return new WaitForEndOfFrame();
-            isBeingUsed = false;
+            yield return null;
+            if (isActiveAndEnabled)
+                isBeingUsed = false;
         }
         // Wait a frame to set isBeingUsed. This is becasue InteractionManager uses LateUpdate to determine selection
-        if (isActiveAndEnabled)
-            StartCoroutine(SetNextFrame());
+        StartCoroutine(SetNextFrame());
     }
 
     public void Selected()
@@ -186,6 +186,7 @@ public class InteractionPromptLogic : MonoBehaviour
 
     void OnDisable()
 	{
+        isBeingUsed = false;
         if (gameObject.activeInHierarchy)
 		{
             if (routine != null)
