@@ -15,12 +15,15 @@ public class ShipManager : Singleton<ShipManager>
 
 
     private ReactorStation[] reactors;
+    public ReactorStation Reactor => reactors.Length > 0 ? reactors[0] : null;
     private EngineStation[] engines;
     private RoomManager[] rooms;
 
     private float oxygenLevel;
     public float OxygenLevel => oxygenLevel;
     private OxygenBar oxygenBar;
+    [HideInInspector]
+    public float oxygenDrain = 0;
 
     private float gameOverTimmer;
 
@@ -159,6 +162,7 @@ public class ShipManager : Singleton<ShipManager>
             //hacker man
             oxygenLevel = 100;
             oxygenBar.value = oxygenLevel;
+            oxygenDrain = 0;
             return;
         }
 
@@ -199,6 +203,7 @@ public class ShipManager : Singleton<ShipManager>
 
         // Update the UI
         oxygenBar.value = oxygenLevel;
+        oxygenDrain = oxygenRegenRate - oxygenLossRate;
     }
 
     private void OnP1Input(InputAction.CallbackContext context)

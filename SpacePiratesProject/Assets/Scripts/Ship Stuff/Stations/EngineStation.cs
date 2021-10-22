@@ -24,6 +24,7 @@ public class EngineStation : MonoBehaviour
 	public float CurrentSpeed => currentSpeed;
 
 	private int currentFuel = 0;
+	public int CurrentFuel => currentFuel;
 	private float fuelTime = 0;
 
 

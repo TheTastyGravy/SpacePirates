@@ -35,6 +35,7 @@ public class TurretStation : MonoBehaviour
     private Quaternion playerRot;
 
     private int shotsRemaining = 0;
+    public int ShotsRemaining => shotsRemaining;
     private bool firstFire;
     private Vector3 relitiveForward;
 
