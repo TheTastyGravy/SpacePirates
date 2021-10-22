@@ -51,11 +51,9 @@ public class TurretStation : MonoBehaviour
         turretActivate.enabled = false;
         if (turretHud != null)
             turretHud.SetActive(false);
-
+        
         shotsRemaining = startShots;
-        if (shotsRemaining >= maxShots)
-            fuelDepo.enabled = false;
-        fuelIndicator.SetFuelLevel((float)shotsRemaining / (float)maxShots * 100f);
+        Invoke(nameof(FixFuelIndicator), 0.1f);
         // Get a direction to use as forward for aiming the turret
         relitiveForward = Vector3.forward;
         RotateDirection(ref relitiveForward, (baseAngle + snapAngle) * Mathf.Deg2Rad);
@@ -65,6 +63,13 @@ public class TurretStation : MonoBehaviour
         damage.OnDamageTaken += TurnOff;
         damage.OnDamageRepaired += TryTurnOn;
         fuelDepo.OnFuelDeposited += OnFueled;
+    }
+
+    private void FixFuelIndicator()
+	{
+        fuelIndicator.SetFuelLevel((float)shotsRemaining / (float)maxShots * 100f);
+        if (shotsRemaining >= maxShots)
+            fuelDepo.enabled = false;
     }
 
     private void TurnOff()

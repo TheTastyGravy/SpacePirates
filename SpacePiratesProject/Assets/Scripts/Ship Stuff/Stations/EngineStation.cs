@@ -41,9 +41,14 @@ public class EngineStation : MonoBehaviour
 		fuelDepo.OnFuelDeposited += OnFueled;
 
 		currentFuel = startFuel;
+		Invoke(nameof(FixFuelIndicator), 0.1f);
+	}
+
+	private void FixFuelIndicator()
+	{
+		fuelIndicator.SetFuelLevel((float)currentFuel / (float)maxFuel * 100f);
 		if (currentFuel >= maxFuel)
 			fuelDepo.enabled = false;
-		fuelIndicator.SetFuelLevel((float)currentFuel / (float)maxFuel * 100f);
 	}
 
 	void Update()
