@@ -221,7 +221,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 270
-        y: 757
+        y: 755
         width: 295
         height: 88
       alignment: 0
@@ -242,7 +242,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 270
-        y: 653
+        y: 650
         width: 295
         height: 88
       alignment: 0
@@ -451,8 +451,8 @@ TextureImporter:
       name: UI_Menu_SpriteSheet_Start2
       rect:
         serializedVersion: 2
-        x: 126
-        y: 971
+        x: 125
+        y: 972
         width: 581
         height: 82
       alignment: 0
