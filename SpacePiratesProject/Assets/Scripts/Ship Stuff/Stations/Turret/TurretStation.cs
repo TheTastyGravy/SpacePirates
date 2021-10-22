@@ -48,7 +48,8 @@ public class TurretStation : MonoBehaviour
         fuelDepo = GetComponentInChildren<FuelDeposit>();
 
         turretActivate.enabled = false;
-        turretHud.SetActive(false);
+        if (turretHud != null)
+            turretHud.SetActive(false);
 
         // Get a direction to use as forward for aiming the turret
         relitiveForward = Vector3.forward;
@@ -129,7 +130,8 @@ public class TurretStation : MonoBehaviour
     private void AddPlayer()
 	{
         // Display HUD
-        turretHud.SetActive(true);
+        if (turretHud != null)
+            turretHud.SetActive(true);
 
         //get info
         playerPos = currentInteractor.Player.Character.transform.position;
@@ -146,7 +148,8 @@ public class TurretStation : MonoBehaviour
     private void RemovePlayer()
 	{
         // Hide HUD
-        turretHud.SetActive(false);
+        if (turretHud != null)
+            turretHud.SetActive(false);
 
         //remove turret controls
         currentInteractor.Player.RemoveInputListener(Player.Control.A_PRESSED, Fire);
