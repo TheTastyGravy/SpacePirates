@@ -47,6 +47,7 @@ public class EngineStation : MonoBehaviour
 	private void FixFuelIndicator()
 	{
 		fuelIndicator.SetFuelLevel((float)currentFuel / (float)maxFuel * 100f);
+		engineSwitch.enabled = currentFuel > 0 && damage.DamageLevel == 0;
 		if (currentFuel >= maxFuel)
 			fuelDepo.enabled = false;
 	}

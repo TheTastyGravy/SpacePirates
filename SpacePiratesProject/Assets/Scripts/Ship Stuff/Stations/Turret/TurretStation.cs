@@ -48,7 +48,6 @@ public class TurretStation : MonoBehaviour
         damage = GetComponentInChildren<DamageStation>();
         fuelDepo = GetComponentInChildren<FuelDeposit>();
 
-        turretActivate.enabled = false;
         if (turretHud != null)
             turretHud.SetActive(false);
         
@@ -57,6 +56,8 @@ public class TurretStation : MonoBehaviour
         // Get a direction to use as forward for aiming the turret
         relitiveForward = Vector3.forward;
         RotateDirection(ref relitiveForward, (baseAngle + snapAngle) * Mathf.Deg2Rad);
+
+        turretActivate.enabled = shotsRemaining > 0;
 
         // Setup callbacks
         turretActivate.OnInteract += OnActivate;
