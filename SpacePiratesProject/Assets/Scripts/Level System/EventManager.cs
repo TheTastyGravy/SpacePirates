@@ -23,16 +23,10 @@ public class EventManager : Singleton<EventManager>
 	public delegate void EventDelegate(Level.Event.Type eventType);
 	public EventDelegate OnEventChange;
 
-	[Space]
-	public TextMeshProUGUI currentEventText;
-	private string baseText = "Current Event: ";
-
 
 
 	public void StartEvent(Level.Event newEvent)
 	{
-		currentEventText.text = baseText + newEvent.type.ToString();
-
 		// Create event, passing relevent paramiters
 		switch (newEvent.type)
 		{
@@ -69,8 +63,6 @@ public class EventManager : Singleton<EventManager>
 			OnEventChange?.Invoke(Level.Event.Type.None);
 			currentEvent.Stop();
 			currentEvent = null;
-
-			currentEventText.text = baseText + "null";
 		}
 	}
 
