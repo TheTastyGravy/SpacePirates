@@ -14,13 +14,11 @@ public class EngineStation : MonoBehaviour
 	public float speedAcceleration = 1;
 	public float speedDecay = 0.2f;
 
-	private EngineSwitch engineSwitch;
 	private FuelDeposit fuelDepo;
 	private DamageStation damage;
 	public DamageStation Damage => damage;
 
-	private bool isTurnedOn = false;
-	public bool IsTurnedOn => isTurnedOn;
+	public bool IsTurnedOn => currentFuel > 0 && damage.DamageLevel == 0;
 	private float currentSpeed = 0;
 	public float CurrentSpeed => currentSpeed;
 
@@ -32,12 +30,8 @@ public class EngineStation : MonoBehaviour
 
 	void Awake()
 	{
-		engineSwitch = GetComponentInChildren<EngineSwitch>();
 		fuelDepo = GetComponentInChildren<FuelDeposit>();
 		damage = GetComponentInChildren<DamageStation>();
-
-		engineSwitch.engine = this;
-		engineSwitch.OnActivated += OnSwitchUsed;
 		fuelDepo.OnFuelDeposited += OnFueled;
 
 		currentFuel = startFuel;
@@ -47,22 +41,14 @@ public class EngineStation : MonoBehaviour
 	private void FixFuelIndicator()
 	{
 		fuelIndicator.SetFuelLevel((float)currentFuel / (float)maxFuel * 100f);
-		engineSwitch.enabled = currentFuel > 0 && damage.DamageLevel == 0;
 		if (currentFuel >= maxFuel)
 			fuelDepo.enabled = false;
 	}
 
 	void Update()
 	{
-		if (isTurnedOn)
+		if (IsTurnedOn)
 		{
-			// If we have taken damage, turn off
-			if (damage.DamageLevel > 0)
-			{
-				isTurnedOn = false;
-				return;
-			}
-
 			// Use fuel
 			fuelTime += Time.deltaTime;
 			if (fuelTime >= timePerFuel)
@@ -78,20 +64,12 @@ public class EngineStation : MonoBehaviour
 		}
 		else
 		{
-			// We can only be turned on if we have fuel and arnt damaged
-			engineSwitch.enabled = currentFuel > 0 && damage.DamageLevel == 0;
-
 			// Decay speed with cap
 			if (currentSpeed > 0)
 				currentSpeed -= speedDecay * Time.deltaTime;
 			else
 				currentSpeed = 0;
 		}
-	}
-
-	private void OnSwitchUsed()
-	{
-		isTurnedOn = !isTurnedOn;
 	}
 
 	private void OnFueled()
@@ -110,11 +88,6 @@ public class EngineStation : MonoBehaviour
 		currentFuel--;
 		fuelTime = 0;
 		fuelDepo.enabled = true;
-
-		if (currentFuel == 0)
-		{
-			isTurnedOn = false;
-		}
 
 		fuelIndicator.SetFuelLevel((float)currentFuel / (float)maxFuel * 100f);
 	}
