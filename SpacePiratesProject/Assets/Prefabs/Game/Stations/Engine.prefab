@@ -111,6 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fuelIndicator: {fileID: 2850478033500377654}
   maxFuel: 3
+  startFuel: 3
   timePerFuel: 10
   maxSpeed: 1
   speedAcceleration: 1
@@ -214,7 +215,7 @@ MonoBehaviour:
   interactionPrompt: {fileID: 7204514091386560863}
   interactionRadius: 1.09
   interactionOffset: {x: 0, y: 0, z: 0}
-  timeToDeposit: 1
+  timeToDeposit: 0.5
 --- !u!65 &573118024978715669
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -461,10 +461,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07d5b192f40c64140a883c2b3d7e90a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxOxygenLevel: 100
+  maxOxygenLevel: 150
   passiveOxygenLoss: 1
   timeToGameOver: 0.5
   maxAvoidance: 0.25
+  oxygenDrain: 0
 --- !u!1 &5612222698191068139
 GameObject:
   m_ObjectHideFlags: 0
@@ -21967,11 +21968,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 17722888792846974, guid: b8bcad26c8e3c874380bb735af37331c, type: 3}
       propertyPath: orthographic size
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3507740206039859664, guid: b8bcad26c8e3c874380bb735af37331c, type: 3}
       propertyPath: orthographic size
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5636033695555912637, guid: b8bcad26c8e3c874380bb735af37331c, type: 3}
       propertyPath: m_Name
@@ -21983,15 +21984,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5636033695555912638, guid: b8bcad26c8e3c874380bb735af37331c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.59
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 5636033695555912638, guid: b8bcad26c8e3c874380bb735af37331c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 13.61
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5636033695555912638, guid: b8bcad26c8e3c874380bb735af37331c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.11
+      value: -2.5
       objectReference: {fileID: 0}
     - target: {fileID: 5636033695555912638, guid: b8bcad26c8e3c874380bb735af37331c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -22023,7 +22024,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5636033695555912639, guid: b8bcad26c8e3c874380bb735af37331c, type: 3}
       propertyPath: orthographic size
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8bcad26c8e3c874380bb735af37331c, type: 3}

@@ -134,6 +134,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 6203124041145230643, guid: 2cf2a750ad9d68c47a39e323631cc834, type: 3}
   shotsPerFuel: 10
   maxShots: 10
+  startShots: 3
   projectileSpeed: 40
   minAngle: -70
   maxAngle: 70
@@ -447,7 +448,7 @@ MonoBehaviour:
   interactionPrompt: {fileID: 3955991588180696571}
   interactionRadius: 0.99
   interactionOffset: {x: 0, y: 0, z: 0}
-  timeToDeposit: 1
+  timeToDeposit: 0.5
 --- !u!65 &5845477501372767040
 BoxCollider:
   m_ObjectHideFlags: 0

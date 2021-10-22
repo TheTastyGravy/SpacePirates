@@ -6,6 +6,7 @@ public class EngineStation : MonoBehaviour
 {
 	public FuelIndicator fuelIndicator;
 	public int maxFuel = 3;
+	public int startFuel = 0;
 	[Tooltip("How long each fuel lasts")]
 	public float timePerFuel = 10;
 	[Tooltip("The speed allied to the ship when turned on")]
@@ -38,6 +39,11 @@ public class EngineStation : MonoBehaviour
 		engineSwitch.engine = this;
 		engineSwitch.OnActivated += OnSwitchUsed;
 		fuelDepo.OnFuelDeposited += OnFueled;
+
+		currentFuel = startFuel;
+		if (currentFuel >= maxFuel)
+			fuelDepo.enabled = false;
+		fuelIndicator.SetFuelLevel((float)currentFuel / (float)maxFuel * 100f);
 	}
 
 	void Update()

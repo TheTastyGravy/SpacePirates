@@ -12,6 +12,7 @@ public class TurretStation : MonoBehaviour
     [Space]
     public int shotsPerFuel = 5;
     public int maxShots = 5;
+    public int startShots = 0;
     public float projectileSpeed = 10;
     public float minAngle, maxAngle;
     [Tooltip("The angle that the turret begins at. Used for custom models")]
@@ -51,6 +52,10 @@ public class TurretStation : MonoBehaviour
         if (turretHud != null)
             turretHud.SetActive(false);
 
+        shotsRemaining = startShots;
+        if (shotsRemaining >= maxShots)
+            fuelDepo.enabled = false;
+        fuelIndicator.SetFuelLevel((float)shotsRemaining / (float)maxShots * 100f);
         // Get a direction to use as forward for aiming the turret
         relitiveForward = Vector3.forward;
         RotateDirection(ref relitiveForward, (baseAngle + snapAngle) * Mathf.Deg2Rad);
