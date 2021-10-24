@@ -8,12 +8,16 @@ using UnityEngine.InputSystem;
 
 public class MenuController : Singleton< MenuController >
 {
-    public GameObject OptionsBackground;
+    public GameObject menuBackground;
+    public GameObject optionsBackground;
+    [Space]
     public Button MenuButtonPlay;
     public Button MenuButtonOptions;
     public Button MenuButtonExit;
-    public Button OptionsButtonSetting1;
-    public Button OptionsButtonSetting2;
+    [Space]
+    public Slider volumeSlider;
+
+
 
     private void Start()
     {
@@ -29,6 +33,9 @@ public class MenuController : Singleton< MenuController >
         MenuButtonOptions.onClick.AddListener( OnButtonOptions );
         MenuButtonExit.onClick.AddListener( OnButtonExit );
 
+        volumeSlider.onValueChanged.AddListener(OnVolumeSliderChanged);
+        volumeSlider.value = PlayerPrefs.GetFloat("MusicVolume", 100);
+
         ( EventSystem.current.currentInputModule as InputSystemUIInputModule ).cancel.action.performed += OnMenuCancel;
     }
 
@@ -40,8 +47,7 @@ public class MenuController : Singleton< MenuController >
         MenuButtonPlay.onClick.RemoveAllListeners();
         MenuButtonOptions.onClick.RemoveAllListeners();
         MenuButtonExit.onClick.RemoveAllListeners();
-        OptionsButtonSetting1.onClick.RemoveAllListeners();
-        //OptionsButtonSetting2.onClick.RemoveAllListeners();
+        volumeSlider.onValueChanged.RemoveAllListeners();
     }
 
     private void OnButtonPlay()
@@ -51,14 +57,7 @@ public class MenuController : Singleton< MenuController >
 
     private void OnButtonOptions()
     {
-        ( EventSystem.current.currentInputModule as InputSystemUIInputModule ).cancel.action.performed -= OnMenuCancel;
-        ( EventSystem.current.currentInputModule as InputSystemUIInputModule ).cancel.action.performed += OnOptionsCancel;
-        OptionsBackground.SetActive( true );
-
-        MenuButtonPlay.interactable = false;
-        MenuButtonOptions.interactable = false;
-        MenuButtonExit.interactable = false;
-        OptionsButtonSetting1.Select();
+        ToggleOptionsMenu(true);
     }
 
     private void OnButtonExit()
@@ -75,13 +74,44 @@ public class MenuController : Singleton< MenuController >
 
     private void OnOptionsCancel( InputAction.CallbackContext _ )
     {
-        ( EventSystem.current.currentInputModule as InputSystemUIInputModule ).cancel.action.performed -= OnOptionsCancel;
-        ( EventSystem.current.currentInputModule as InputSystemUIInputModule ).cancel.action.performed += OnMenuCancel;
-        OptionsBackground.SetActive( false );
+        ToggleOptionsMenu(false);
+    }
 
-        MenuButtonPlay.interactable = true;
-        MenuButtonOptions.interactable = true;
-        MenuButtonExit.interactable = true;
-        MenuButtonOptions.Select();
+    private void ToggleOptionsMenu(bool showOptions)
+	{
+        // Update what the back button does
+        if (showOptions)
+		{
+            (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed -= OnMenuCancel;
+            (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed += OnOptionsCancel;
+        }
+		else
+		{
+            (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed -= OnOptionsCancel;
+            (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed += OnMenuCancel;
+        }
+        
+        //menu
+        menuBackground.SetActive(!showOptions);
+        MenuButtonPlay.interactable = !showOptions;
+        MenuButtonOptions.interactable = !showOptions;
+        MenuButtonExit.interactable = !showOptions;
+        //options
+        optionsBackground.SetActive(showOptions);
+
+        //set selected button
+        if (showOptions)
+            volumeSlider.Select();
+        else
+            MenuButtonOptions.Select();
+
+        if (!showOptions)
+            PlayerPrefs.Save();
+    }
+
+    private void OnVolumeSliderChanged(float value)
+	{
+        PlayerPrefs.SetFloat("MusicVolume", value);
+        MusicManager.Instance.SetVolume(value);
     }
 }

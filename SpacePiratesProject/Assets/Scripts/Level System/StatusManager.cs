@@ -16,7 +16,7 @@ public class StatusManager : Singleton<StatusManager>
     public string generalRefuel;
     [Space]
     public string useEngines;
-    public string useTurrets;           //
+    public string useTurrets;
     [Space]
     public string asteroidEvent;
     public string stormEvent;
@@ -44,9 +44,9 @@ public class StatusManager : Singleton<StatusManager>
 
 	void OnDestroy()
 	{
-        EventManager.Instance.OnEventChange -= OnEventChange;
+        if (EventManager.Instance != null)
+            EventManager.Instance.OnEventChange -= OnEventChange;
     }
-
 
 	void UpdateText()
 	{
