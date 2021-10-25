@@ -12,10 +12,13 @@ public class TurretStation : MonoBehaviour
     [Space]
     public int shotsPerFuel = 5;
     public int maxShots = 5;
+    public int startShots = 0;
     public float projectileSpeed = 10;
     public float minAngle, maxAngle;
     [Tooltip("The angle that the turret begins at. Used for custom models")]
     public float baseAngle = 0;
+    [Tooltip("A value used for tweeking the snap direction")]
+    public float snapAngle = 0;
     [Space]
     public GameObject turretHud;
     public FuelIndicator fuelIndicator;
@@ -33,6 +36,7 @@ public class TurretStation : MonoBehaviour
     private Quaternion playerRot;
 
     private int shotsRemaining = 0;
+    public int ShotsRemaining => shotsRemaining;
     private bool firstFire;
     private Vector3 relitiveForward;
 
@@ -44,18 +48,29 @@ public class TurretStation : MonoBehaviour
         damage = GetComponentInChildren<DamageStation>();
         fuelDepo = GetComponentInChildren<FuelDeposit>();
 
-        turretActivate.enabled = false;
-        turretHud.SetActive(false);
-
+        if (turretHud != null)
+            turretHud.SetActive(false);
+        
+        shotsRemaining = startShots;
+        Invoke(nameof(FixFuelIndicator), 0.1f);
         // Get a direction to use as forward for aiming the turret
         relitiveForward = Vector3.forward;
-        RotateDirection(ref relitiveForward, baseAngle * Mathf.Deg2Rad);
+        RotateDirection(ref relitiveForward, (baseAngle + snapAngle) * Mathf.Deg2Rad);
+
+        turretActivate.enabled = shotsRemaining > 0;
 
         // Setup callbacks
         turretActivate.OnInteract += OnActivate;
         damage.OnDamageTaken += TurnOff;
         damage.OnDamageRepaired += TryTurnOn;
         fuelDepo.OnFuelDeposited += OnFueled;
+    }
+
+    private void FixFuelIndicator()
+	{
+        fuelIndicator.SetFuelLevel((float)shotsRemaining / (float)maxShots * 100f);
+        if (shotsRemaining >= maxShots)
+            fuelDepo.enabled = false;
     }
 
     private void TurnOff()
@@ -126,7 +141,8 @@ public class TurretStation : MonoBehaviour
     private void AddPlayer()
 	{
         // Display HUD
-        turretHud.SetActive(true);
+        if (turretHud != null)
+            turretHud.SetActive(true);
 
         //get info
         playerPos = currentInteractor.Player.Character.transform.position;
@@ -143,7 +159,8 @@ public class TurretStation : MonoBehaviour
     private void RemovePlayer()
 	{
         // Hide HUD
-        turretHud.SetActive(false);
+        if (turretHud != null)
+            turretHud.SetActive(false);
 
         //remove turret controls
         currentInteractor.Player.RemoveInputListener(Player.Control.A_PRESSED, Fire);
@@ -243,6 +260,28 @@ public class TurretStation : MonoBehaviour
         if (currentInteractor != null)
 		{
             RemovePlayer();
+        }
+	}
+
+	void OnDrawGizmosSelected()
+	{
+        Vector3 relForward = Vector3.forward;
+        RotateDirection(ref relForward, (baseAngle + snapAngle) * Mathf.Deg2Rad);
+
+        for (float ang = 0; ang < 360; ang += 5)
+		{
+            Vector3 dir = Quaternion.Euler(0, ang, 0) * Vector3.forward;
+
+            float angle = Vector3.SignedAngle(relForward, dir, Vector3.up) + baseAngle;
+            // Change the color depending on what is done with the direction
+            if (angle < minAngle)
+                Gizmos.color = Color.red;
+            else if (angle > maxAngle)
+                Gizmos.color = Color.green;
+            else
+                Gizmos.color = Color.white;
+            
+            Gizmos.DrawSphere(turretBase.position + dir * 2.5f, 0.1f);
         }
 	}
 }

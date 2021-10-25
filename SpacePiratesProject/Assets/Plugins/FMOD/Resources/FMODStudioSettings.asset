@@ -147,7 +147,7 @@ MonoBehaviour:
   Properties:
     LiveUpdate:
       Value: 1
-      HasValue: 0
+      HasValue: 1
     LiveUpdatePort:
       Value: 0
       HasValue: 0
@@ -159,7 +159,7 @@ MonoBehaviour:
       HasValue: 0
     SampleRate:
       Value: 48000
-      HasValue: 0
+      HasValue: 1
     BuildDirectory:
       Value: 
       HasValue: 0

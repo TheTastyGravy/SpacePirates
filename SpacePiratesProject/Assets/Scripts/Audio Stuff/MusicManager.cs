@@ -38,6 +38,8 @@ public class MusicManager : Singleton<MusicManager>
     private bool inGameScene = false;
     private bool setIntensity = true;
 
+    private float musicVolume = 100;
+
 
 
     void Awake()
@@ -48,6 +50,7 @@ public class MusicManager : Singleton<MusicManager>
 
     private void InitSetup()
 	{
+        musicVolume = PlayerPrefs.GetFloat("MusicVolume", 100) * 0.01f;
         // Get the music info for the current scene
         musicInfo = data.GetInfo(GameManager.CurrentState);
 
@@ -78,6 +81,7 @@ public class MusicManager : Singleton<MusicManager>
         {
             musicInstance.start();
         }
+        musicInstance.setVolume(musicVolume);
     }
 
     void OnDestroy()
@@ -209,6 +213,16 @@ public class MusicManager : Singleton<MusicManager>
             // TODO
             //musicInstance.setParameterByName("Intensity", 0.5f);
         }
+    }
+
+    public void SetVolume(float value)
+	{
+        // Convert from 0-100 to 0-1
+        musicVolume = value * 0.01f;
+        if (musicInstance.setVolume(musicVolume) != FMOD.RESULT.OK)
+		{
+            Debug.LogWarning("Failed to set music volume");
+		}
     }
 
 

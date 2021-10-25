@@ -134,11 +134,13 @@ MonoBehaviour:
   projectilePrefab: {fileID: 6203124041145230643, guid: 2cf2a750ad9d68c47a39e323631cc834, type: 3}
   shotsPerFuel: 10
   maxShots: 10
+  startShots: 3
   projectileSpeed: 40
   minAngle: -70
   maxAngle: 70
   baseAngle: 0
-  turretHud: {fileID: 70271754899933138}
+  snapAngle: 0
+  turretHud: {fileID: 0}
   fuelIndicator: {fileID: 8256220364498923154}
 --- !u!1 &3195700653289833742
 GameObject:
@@ -446,7 +448,7 @@ MonoBehaviour:
   interactionPrompt: {fileID: 3955991588180696571}
   interactionRadius: 0.99
   interactionOffset: {x: 0, y: 0, z: 0}
-  timeToDeposit: 1
+  timeToDeposit: 0.5
 --- !u!65 &5845477501372767040
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5368,17 +5370,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: TurretHUD
       objectReference: {fileID: 0}
+    - target: {fileID: 1685059589806161865, guid: 75a6b3b7b3f303746b852c37425778db, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4839685821777481981, guid: 75a6b3b7b3f303746b852c37425778db, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75a6b3b7b3f303746b852c37425778db, type: 3}
---- !u!1 &70271754899933138 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1685059589806161865, guid: 75a6b3b7b3f303746b852c37425778db, type: 3}
-  m_PrefabInstance: {fileID: 1701005017400424475}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1326061687948947797 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 431273649295362382, guid: 75a6b3b7b3f303746b852c37425778db, type: 3}
@@ -5826,6 +5827,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8293702055812029762, guid: 8dac1f5d1f95abf4882a1fb545bab1e3, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 6667942953766095068, guid: 82858a2b9098ac64da307eeb4a182ab1, type: 3}
     - target: {fileID: 8537431630326817330, guid: 8dac1f5d1f95abf4882a1fb545bab1e3, type: 3}
       propertyPath: m_RootOrder
       value: 0
