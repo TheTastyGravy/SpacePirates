@@ -17,6 +17,7 @@ public class MusicManager : Singleton<MusicManager>
         public int currentMusicBar = 0;
         public int currentMusicBeat = 0;
         public float tempo = 0;
+        public int upperSignature = 4;  // Beats per bar
         public FMOD.StringWrapper lastMarker = new FMOD.StringWrapper();
 
         public BasicDelegate onBeat;
@@ -37,6 +38,7 @@ public class MusicManager : Singleton<MusicManager>
     private MusicData.MusicInfo musicInfo;
     private bool inGameScene = false;
     private bool setIntensity = true;
+    private string lastEvent = "";
 
     private float musicVolume = 100;
 
@@ -136,8 +138,7 @@ public class MusicManager : Singleton<MusicManager>
             inGameScene = true;
             setIntensity = true;
             // TEMP
-            musicInstance.setParameterByName("Intensity", 0);
-            StartCoroutine(FadeIntensity(false));
+            musicInstance.setParameterByName("Intensity", 1);
         }
 	}
 
@@ -159,45 +160,78 @@ public class MusicManager : Singleton<MusicManager>
 
     private void OnEventChange(Level.Event.Type eventType)
 	{
-        // Fade intensity to 0
-        StartCoroutine(FadeIntensity(true));
+        string name = eventType switch
+        {
+            Level.Event.Type.AstroidField => "Asteroids",
+            Level.Event.Type.PlasmaStorm => "Plasma Storm",
+            Level.Event.Type.ShipAttack => "The Fuzz",
+            _ => "",
+        };
 
-        void SetArea()
+
+        StopAllCoroutines();
+        if (name == "")
 		{
-            // Get value for the event to set area
-            var val = eventType switch
-            {
-            	Level.Event.Type.AstroidField => 0.25f,
-                Level.Event.Type.PlasmaStorm => 0.5f,
-                Level.Event.Type.ShipAttack => 0.75f,
-            	_ => 0,
-            };
-            musicInstance.setParameterByName("Area", val);
-            // Fade intensity in
-            StartCoroutine(FadeIntensity(false));
+            StartCoroutine(FadeEvent(lastEvent, false, 2, 1));
+            lastEvent = "";
         }
-        AddBeatEvent(SetArea);
+        else
+		{
+            StartCoroutine(FadeEvent(name, true, 1, 1));
+            lastEvent = name;
+        }
     }
 
-    private IEnumerator FadeIntensity(bool fadeToZero)
+    private IEnumerator FadeEvent(string paramName, bool fadeInParam, int fadeInBars, int fadeOutBars, float endIntensity = 1)
 	{
-        FMOD.RESULT result = musicInstance.getParameterByName("Intensity", out float start);
-        if (result != FMOD.RESULT.OK || start == (fadeToZero ? 0 : 1))
+        if (paramName == "")
             yield break;
-    
+		
+        // Get the current intensity value
+        FMOD.RESULT result = musicInstance.getParameterByName("Intensity", out float start);
+        if (result != FMOD.RESULT.OK)
+		{
+            start = 1;
+        }
+
+
         setIntensity = false;
-        // Convert BPM to seconds per bar, then find the time remaining for this bar. This does not account for time left in the current beat
-        float barTime = 1f / (timelineInfo.tempo / 240f);
-        barTime *= (5 - timelineInfo.currentMusicBeat) / 4f;
-    
+        // Convert BPM to seconds per bar
+        float barTime = 1f / (timelineInfo.tempo / (60 * timelineInfo.upperSignature));
+
+        //  ----- Fade out -----
+        float fadeOutTime = barTime * (fadeOutBars - 1 + (timelineInfo.upperSignature + 1 - timelineInfo.currentMusicBeat) / (float)timelineInfo.upperSignature);
         float t = 0;
-        while (t < barTime)
+        while (t < fadeOutTime)
         {
-            musicInstance.setParameterByName("Intensity", Mathf.Lerp(start, fadeToZero ? 0 : 1, t / barTime));
-    
+            float val = t / fadeOutTime;
+            musicInstance.setParameterByName("Intensity", Mathf.Lerp(start, 0, val));
+            if (!fadeInParam)
+                musicInstance.setParameterByName(paramName, Mathf.Lerp(1, 0, val));
+
             t += Time.deltaTime;
             yield return null;
         }
+        if (!fadeInParam)
+            musicInstance.setParameterByName(paramName, 0);
+        
+        //  ----- Fade in -----
+        float fadeInTime = barTime * fadeInBars;
+        t = 0;
+        while (t < fadeInTime)
+        {
+            float val = t / fadeInTime;
+            musicInstance.setParameterByName("Intensity", Mathf.Lerp(0, endIntensity, val));
+            if (fadeInParam)
+                musicInstance.setParameterByName(paramName, Mathf.Lerp(0, 1, val));
+
+            t += Time.deltaTime;
+            yield return null;
+        }
+        musicInstance.setParameterByName("Intensity", endIntensity);
+        if (fadeInParam)
+            musicInstance.setParameterByName(paramName, 1);
+
         setIntensity = true;
     }
 
@@ -304,6 +338,7 @@ public class MusicManager : Singleton<MusicManager>
                         timelineInfo.currentMusicBar = parameter.bar;
                         timelineInfo.currentMusicBeat = parameter.beat;
                         timelineInfo.tempo = parameter.tempo;
+                        timelineInfo.upperSignature = parameter.timesignatureupper;
                         timelineInfo.onBeat.Invoke();
                     }
                     break;
