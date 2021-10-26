@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -10,6 +11,7 @@ public class HUDOptionsMenu : MonoBehaviour
 {
     public Button resumeButton;
     public Button menuButton;
+    public Button restartButton;
 
 
 
@@ -17,6 +19,7 @@ public class HUDOptionsMenu : MonoBehaviour
 	{
         resumeButton.onClick.AddListener(HideOptions);
         menuButton.onClick.AddListener(ReturnToMenu);
+        restartButton.onClick.AddListener(RestartGame);
     }
 
 	public void ShowOptions( Player a_Player )
@@ -61,11 +64,17 @@ public class HUDOptionsMenu : MonoBehaviour
         GameManager.ChangeState(GameManager.GameState.MENU);
 	}
 
+    private void RestartGame()
+    {
+        GameManager.ReloadScene();
+    }
+
 
 	void OnDestroy()
 	{
         resumeButton.onClick.RemoveListener(HideOptions);
         menuButton.onClick.RemoveListener(ReturnToMenu);
+        restartButton.onClick.RemoveListener(RestartGame);
 
         if (m_AssignedPlayer != null)
 		{
