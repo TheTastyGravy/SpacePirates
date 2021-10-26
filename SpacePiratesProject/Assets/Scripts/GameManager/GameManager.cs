@@ -105,10 +105,28 @@ public class GameManager : Singleton<GameManager>
         Instance.m_CurrentState = newState;
     }
 
+    public static void ReloadScene()
+    {
+        if (OnStartTransition != null)
+            OnStartTransition.Invoke(SceneManager.GetSceneByName(Instance.m_CurrentState.ToString()), Instance.m_CurrentState);
+
+        foreach (PlayerInput playerInput in PlayerInput.all)
+        {
+            Player player = playerInput as Player;
+            player.Character.gameObject.SetActive(false);
+            player.Character.enabled = false;
+            player.transform.parent = null;
+            DontDestroyOnLoad(player.gameObject);
+        }
+
+        Instance.m_IsLoadingScene = true;
+        Instance.StartCoroutine(Reload(Instance.m_CurrentState));
+    }
 
     private void SetLoading()
 	{
         m_IsLoadingScene = false;
+        UnityEngine.Time.timeScale = 1;
 
         if (storedState != GameState.NONE)
 		{
@@ -123,7 +141,7 @@ public class GameManager : Singleton<GameManager>
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(newState.ToString(), LoadSceneMode.Additive);
         loadOp.allowSceneActivation = false;
         shouldFade = true;
-        yield return new WaitForSeconds(Instance.fadeInTime);
+        yield return new WaitForSecondsRealtime(Instance.fadeInTime);
 
         SceneManager.SetActiveScene(Instance.gameObject.scene);
         // Finish loading and start unloading, then wait for them to finish
@@ -135,8 +153,40 @@ public class GameManager : Singleton<GameManager>
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(newState.ToString()));
             if (OnEndTransition != null)
                 OnEndTransition.Invoke(SceneManager.GetSceneByName(newState.ToString()), oldState);
-            Instance.m_IsLoadingScene = false;
+            Instance.Invoke(nameof(SetLoading), 0.01f);
         };
+        loadOp.allowSceneActivation = true;
+    }
+
+    private static IEnumerator Reload(GameState state)
+	{
+        Scene oldScene = SceneManager.GetSceneByName(state.ToString());
+        // Start loading the new scene, then wait for fade
+        AsyncOperation loadOp = SceneManager.LoadSceneAsync(state.ToString(), LoadSceneMode.Additive);
+        loadOp.allowSceneActivation = false;
+        shouldFade = true;
+        yield return new WaitForSecondsRealtime(Instance.fadeInTime);
+        
+        SceneManager.SetActiveScene(Instance.gameObject.scene);
+        // Finish loading and start unloading, then wait for them to finish
+        AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(oldScene);
+        bool otherDone = false;
+        void CompletedFunc()
+        {
+            if (!otherDone)
+            {
+                otherDone = true;
+                return;
+            }
+            // Fade in and set active scene
+            shouldFade = false;
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(state.ToString()));
+            if (OnEndTransition != null)
+                OnEndTransition.Invoke(SceneManager.GetSceneByName(state.ToString()), state);
+            Instance.Invoke(nameof(SetLoading), 0.01f);
+        }
+        loadOp.completed += asyncOperation => CompletedFunc();
+        unloadOp.completed += asyncOperation => CompletedFunc();
         loadOp.allowSceneActivation = true;
     }
 
@@ -176,7 +226,7 @@ public class GameManager : Singleton<GameManager>
             fadeTimePassed = shouldFade ? 0 : fadeOutTime;
             wasFading = shouldFade;
         }
-        fadeTimePassed += UnityEngine.Time.deltaTime * (shouldFade ? 1 : -1);
+        fadeTimePassed += UnityEngine.Time.unscaledDeltaTime * (shouldFade ? 1 : -1);
         float alpha = fadeTimePassed / (shouldFade ? fadeInTime : fadeOutTime);
 
         // Fade texture using alpha and draw it over the screen
