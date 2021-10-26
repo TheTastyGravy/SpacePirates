@@ -42,6 +42,8 @@ public class MusicManager : Singleton<MusicManager>
 
     private float musicVolume = 100;
 
+    private float baseFadeTime;
+
 
 
     void Awake()
@@ -52,6 +54,8 @@ public class MusicManager : Singleton<MusicManager>
 
     private void InitSetup()
 	{
+        baseFadeTime = GameManager.Instance.fadeInTime;
+
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 100) * 0.01f;
         // Get the music info for the current scene
         musicInfo = data.GetInfo(GameManager.CurrentState);
@@ -111,6 +115,9 @@ public class MusicManager : Singleton<MusicManager>
 
     private void OnSceneExit(Scene scene, GameManager.GameState otherScene)
 	{
+        // Make sure music has enough time to fade out
+        GameManager.Instance.fadeInTime = Mathf.Max(baseFadeTime, musicInfo.fadeTime);
+
         MusicData.MusicInfo newInfo = data.GetInfo(otherScene);
         if (newInfo != musicInfo)
         {
