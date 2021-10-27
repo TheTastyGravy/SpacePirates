@@ -44,6 +44,15 @@ public class MusicManager : Singleton<MusicManager>
 
     private float baseFadeTime;
 
+    [Header("Intensity")]
+    public float maxOxygenDrainRate = 10;
+    [Range(0,1)]
+    public float oxygenDrainFactor = 0.5f;
+    [Range(0,1)]
+    public float speedFactor = 0.5f;
+    [Range(0,1)]
+    public float progressFactor = 0.5f;
+
 
 
     void Awake()
@@ -251,8 +260,12 @@ public class MusicManager : Singleton<MusicManager>
 
         if (setIntensity)
 		{
-            // TODO
-            //musicInstance.setParameterByName("Intensity", 0.5f);
+            float oxygenLoss = Mathf.Max(-ShipManager.Instance.oxygenDrain, 0) / maxOxygenDrainRate;
+            float shipSpeed = ShipManager.Instance.GetShipSpeed() / ShipManager.Instance.GetMaxSpeed();
+            float progress = LevelController.Instance.PlayerPosition / LevelController.Instance.level.length;
+
+            float intensity = oxygenLoss * oxygenDrainFactor + shipSpeed * speedFactor + progress * progressFactor;
+            musicInstance.setParameterByName("Intensity", intensity);
         }
     }
 

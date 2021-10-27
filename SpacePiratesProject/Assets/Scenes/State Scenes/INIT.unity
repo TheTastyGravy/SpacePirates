@@ -346,3 +346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 8e5e73bf319768646b62674b81ec1d46, type: 2}
   printBeatLogs: 0
+  maxOxygenDrainRate: 15
+  oxygenDrainFactor: 0.6
+  speedFactor: 0.2
+  progressFactor: 0.25
