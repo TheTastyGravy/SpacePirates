@@ -114,6 +114,20 @@ public class ShipManager : Singleton<ShipManager>
         return speed;
 	}
 
+    public float GetMaxSpeed()
+    {
+        if (engines == null)
+            return 0;
+
+        // Accumulate speed from engines
+        float speed = 0;
+        foreach (var engine in engines)
+        {
+            speed += engine.maxSpeed;
+        }
+        return speed;
+    }
+
     public float GetShipAvoidance()
 	{
         int active = 0;
