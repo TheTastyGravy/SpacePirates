@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEditor;
 
 public class TurretStation : MonoBehaviour
 {
@@ -263,25 +264,28 @@ public class TurretStation : MonoBehaviour
         }
 	}
 
-	void OnDrawGizmosSelected()
-	{
+	
+#if UNITY_EDITOR
+    [DrawGizmo(GizmoType.InSelectionHierarchy, typeof(TurretStation))]
+    private static void DrawGizmos(TurretStation turretStation, GizmoType gizmoType)
+    {
+        if (!turretStation.enabled)
+            return;
+
         Vector3 relForward = Vector3.forward;
-        RotateDirection(ref relForward, (baseAngle + snapAngle) * Mathf.Deg2Rad);
+        turretStation.RotateDirection(ref relForward, (turretStation.baseAngle + turretStation.snapAngle) * Mathf.Deg2Rad);
+        float radius = 1.75f;
+        float thickness = 5;
 
-        for (float ang = 0; ang < 360; ang += 5)
-		{
-            Vector3 dir = Quaternion.Euler(0, ang, 0) * Vector3.forward;
-
-            float angle = Vector3.SignedAngle(relForward, dir, Vector3.up) + baseAngle;
-            // Change the color depending on what is done with the direction
-            if (angle < minAngle)
-                Gizmos.color = Color.red;
-            else if (angle > maxAngle)
-                Gizmos.color = Color.green;
-            else
-                Gizmos.color = Color.white;
-            
-            Gizmos.DrawSphere(turretBase.position + dir * 2.5f, 0.1f);
-        }
-	}
+        // Aim arc
+        Vector3 minDir = Quaternion.Euler(0, turretStation.minAngle - turretStation.baseAngle, 0) * relForward;
+        Handles.DrawWireArc(turretStation.turretBase.position, Vector3.up, minDir, turretStation.maxAngle - turretStation.minAngle, radius, thickness);
+        // Min snap arc
+        Handles.color = Color.red;
+        Handles.DrawWireArc(turretStation.turretBase.position, Vector3.up, -relForward, turretStation.minAngle + (180 - turretStation.baseAngle), radius, thickness);
+        // Max snap arc
+        Handles.color = Color.green;
+        Handles.DrawWireArc(turretStation.turretBase.position, Vector3.up, -relForward, turretStation.maxAngle - (180 + turretStation.baseAngle), radius, thickness);
+    }
+#endif
 }
