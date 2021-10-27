@@ -13,6 +13,11 @@ public class ShipManager : Singleton<ShipManager>
     [Range(0,1)]
     public float maxAvoidance = 0.25f;
 
+    public float fadeTime = 1;
+    public Renderer roof;
+    public Renderer[] body;
+    public Color bodyColor;
+
 
     private ReactorStation[] reactors;
     public ReactorStation Reactor => reactors.Length > 0 ? reactors[0] : null;
@@ -39,6 +44,8 @@ public class ShipManager : Singleton<ShipManager>
         reactors = GetComponentsInChildren<ReactorStation>();
         engines = GetComponentsInChildren<EngineStation>();
         rooms = GetComponentsInChildren<RoomManager>();
+
+        StartCoroutine(FadeShip());
 
         oxygenLevel = maxOxygenLevel;
         oxygenBar = FindObjectOfType<OxygenBar>();
@@ -149,6 +156,21 @@ public class ShipManager : Singleton<ShipManager>
 		}
 	}
 
+    private IEnumerator FadeShip()
+    {
+        float t = 0;
+        while (t < fadeTime)
+        {
+            roof.material.color = Color.Lerp(Color.white, bodyColor, t / fadeTime);
+            foreach (var obj in body)
+            {
+                obj.material.color = Color.Lerp(Color.white, bodyColor, t / fadeTime);
+            }
+
+            t += Time.deltaTime;
+            yield return null;
+        }
+    }
 
     void Update()
     {
