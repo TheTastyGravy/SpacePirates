@@ -1817,6 +1817,8 @@ Objects:  {
 	Model: 2510443817584, "Model::SM_Turret_R", "Mesh" {
 		Version: 232
 		Properties70:  {
+			P: "RotationPivot", "Vector3D", "Vector", "",-628.328552246094,335.393371582031,201.15559387207
+			P: "ScalingPivot", "Vector3D", "Vector", "",-628.328552246094,335.393371582031,201.15559387207
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
@@ -1829,6 +1831,8 @@ Objects:  {
 	Model: 2510443819904, "Model::SM_Turret_L", "Mesh" {
 		Version: 232
 		Properties70:  {
+			P: "RotationPivot", "Vector3D", "Vector", "",627.448944091797,143.044937133789,201.35612487793
+			P: "ScalingPivot", "Vector3D", "Vector", "",627.448944091797,143.044937133789,201.35612487793
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
