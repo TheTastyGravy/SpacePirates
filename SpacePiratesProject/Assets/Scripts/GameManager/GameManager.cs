@@ -24,6 +24,7 @@ public class GameManager : Singleton<GameManager>
     public static GameState CurrentState => Instance.m_CurrentState;
 
 
+
     public static void ChangeState(GameState newState, bool overrideStored = false)
 	{
         float delay = 0.01f;
@@ -196,6 +197,10 @@ public class GameManager : Singleton<GameManager>
         m_SelectedTrack = -1;
         ChangeState(GameState.SPLASH);
         PlayerInputManager.instance.onPlayerJoined += player => DontDestroyOnLoad( player );
+
+        // Only allow controllers in builds
+        if (!Application.isEditor)
+            InputSystem.settings.supportedDevices = new string[] { "Gamepad" };
     }
 
     public static void RegisterSelectedShip( int a_Index, int a_MaxPlayers )
