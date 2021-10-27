@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82ff963c44ceebd47a5a43d41fdfce03, type: 3}
   m_Name: Level Difficulty Data
   m_EditorClassIdentifier: 
-  edgeboundry: 7.5
+  edgeBoundry: 7.5
+  regionGap: 10
   easy:
     minEventCount: 2
     maxEventCount: 2

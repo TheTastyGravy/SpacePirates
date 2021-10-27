@@ -78,7 +78,7 @@ public class Level : ScriptableObject
         for (int i = 0; i < eventCount; i++)
         {
             float halfLength = UnityEngine.Random.Range(settings.minEventLength, settings.maxEventLength) * 0.5f;
-            float pos = UnityEngine.Random.Range(halfLength, eventArea - halfLength) + diffData.edgeBoundry + eventArea * i;
+            float pos = UnityEngine.Random.Range(halfLength + diffData.regionGap * 0.5f, eventArea - halfLength - diffData.regionGap * 0.5f) + diffData.edgeBoundry + eventArea * i;
 
             float start = pos - halfLength;
             float end = pos + halfLength;
