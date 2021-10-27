@@ -20370,10 +20370,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_ShipShell_001
       objectReference: {fileID: 0}
+    - target: {fileID: 2411074165301783696, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a76f8689385cc31488aae76b501e7873, type: 2}
     - target: {fileID: 5396924610849272051, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a76f8689385cc31488aae76b501e7873, type: 2}
+    - target: {fileID: 8633640401473546022, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 236be279d7e5bcc4bb315419fe785bff, type: 2}
+    - target: {fileID: 8633640401473546022, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 236be279d7e5bcc4bb315419fe785bff, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
 --- !u!4 &178514495285558453 stripped
