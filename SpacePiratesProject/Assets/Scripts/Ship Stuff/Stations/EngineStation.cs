@@ -70,6 +70,8 @@ public class EngineStation : MonoBehaviour
 			else
 				currentSpeed = 0;
 		}
+
+		fuelIndicator.SetFuelLevel(CalculateFuelValue() * 100f);
 	}
 
 	private void OnFueled()
@@ -79,8 +81,6 @@ public class EngineStation : MonoBehaviour
 		{
 			fuelDepo.enabled = false;
 		}
-
-		fuelIndicator.SetFuelLevel((float)currentFuel / (float)maxFuel * 100f);
 	}
 
 	private void OnFuelUsed()
@@ -88,7 +88,10 @@ public class EngineStation : MonoBehaviour
 		currentFuel--;
 		fuelTime = 0;
 		fuelDepo.enabled = true;
+	}
 
-		fuelIndicator.SetFuelLevel((float)currentFuel / (float)maxFuel * 100f);
+	private float CalculateFuelValue()
+	{
+		return (currentFuel - 1 + (1 - fuelTime / timePerFuel)) / (float)maxFuel;
 	}
 }
