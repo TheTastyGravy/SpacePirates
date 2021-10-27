@@ -7,6 +7,8 @@ public class ChaseShipLogic : MonoBehaviour
 	public GameObject missilePrefab;
 	public GameObject explosionPrefab;
 	public Transform firePoint;
+	public Light light1;
+	public Light light2;
 	[Tooltip("Used to place explosions when the ship is destroied")]
 	public MeshFilter meshFilter;
 	[Space]
@@ -40,6 +42,11 @@ public class ChaseShipLogic : MonoBehaviour
 	private float total;
 
 
+
+	void Start()
+	{
+		StartCoroutine(Siren());
+	}
 
 	public void Setup(int health)
 	{
@@ -157,6 +164,19 @@ public class ChaseShipLogic : MonoBehaviour
 		}
 
 		moveRoutine = null;
+	}
+
+	private IEnumerator Siren()
+	{
+		while (true)
+		{
+			light1.enabled = true;
+			light2.enabled = false;
+			yield return new WaitForSeconds(0.3f);
+			light1.enabled = false;
+			light2.enabled = true;
+			yield return new WaitForSeconds(0.3f);
+		}
 	}
 
 	private IEnumerator Explode()
