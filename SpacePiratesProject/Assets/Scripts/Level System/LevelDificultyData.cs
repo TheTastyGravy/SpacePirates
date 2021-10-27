@@ -20,8 +20,10 @@ public class LevelDificultyData : ScriptableObject
         public float maxEventLength;
     }
 
-    // How close to the ends of a level events can be placed
+    [Tooltip("How close to the ends of a level events can be placed")]
     public float edgeBoundry = 7.5f;
+    [Tooltip("Basicly the minimum distance between events")]
+    public float regionGap = 5;
 
     [SerializeField]
     private DiffSetting easy;
