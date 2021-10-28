@@ -65,8 +65,7 @@ public class HUDController : Singleton< HUDController >
 
 	void OnDestroy()
 	{
-        int count = Mathf.Max(PlayerInput.all.Count, actions.Count);
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < PlayerInput.all.Count; i++)
 		{
             Player player = PlayerInput.all[i] as Player;
             player.RemoveInputListener(Player.Control.START_PRESSED, actions[i]);

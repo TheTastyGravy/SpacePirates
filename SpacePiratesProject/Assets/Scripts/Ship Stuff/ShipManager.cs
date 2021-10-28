@@ -14,6 +14,7 @@ public class ShipManager : Singleton<ShipManager>
     public float maxAvoidance = 0.25f;
 
     public float fadeTime = 1;
+    public float fadeDelay = 1;
     public Renderer roof;
     public Renderer[] body;
     public Color bodyColor;
@@ -172,10 +173,12 @@ public class ShipManager : Singleton<ShipManager>
 
     private IEnumerator FadeShip()
     {
+        yield return new WaitForSeconds(fadeDelay);
+
         float t = 0;
         while (t < fadeTime)
         {
-            roof.material.color = Color.Lerp(Color.white, bodyColor, t / fadeTime);
+            roof.material.color = Color.Lerp(Color.white, new Color(1,1,1,0), t / fadeTime);
             foreach (var obj in body)
             {
                 obj.material.color = Color.Lerp(Color.white, bodyColor, t / fadeTime);
@@ -183,6 +186,12 @@ public class ShipManager : Singleton<ShipManager>
 
             t += Time.deltaTime;
             yield return null;
+        }
+
+        roof.material.color = new Color(1, 1, 1, 0);
+        foreach (var obj in body)
+        {
+            obj.material.color = bodyColor;
         }
     }
 
