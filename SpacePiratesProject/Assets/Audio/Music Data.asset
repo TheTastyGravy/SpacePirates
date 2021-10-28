@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicData:
   - name: Menu Music
-    scenes: 63
+    scenes: 127
     musicEvent:
       Guid:
         Data1: 1958460028
@@ -25,7 +25,7 @@ MonoBehaviour:
     fadeTime: 1
     removeFlag: 0
   - name: Game Music
-    scenes: 64
+    scenes: 128
     musicEvent:
       Guid:
         Data1: -939964675
@@ -36,7 +36,7 @@ MonoBehaviour:
     fadeTime: 0
     removeFlag: 0
   - name: Summary Music
-    scenes: 128
+    scenes: 256
     musicEvent:
       Guid:
         Data1: -334097318

@@ -63,7 +63,7 @@ public class TrackSelector : Singleton< TrackSelector >
         }
 
         GameManager.RegisterSelectedTrack( m_CurrentTrackIndex );
-        GameManager.ChangeState(GameManager.GameState.GAME);
+        GameManager.ChangeState(GameManager.GameState.LOADING);
     }
 
     private void OnBPressed( InputAction.CallbackContext _ )

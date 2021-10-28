@@ -39,7 +39,7 @@ public class GameManager : Singleton<GameManager>
         if (Instance.m_IsLoadingScene)
         {
             string message = "Attempting to change scene while still loading";
-            if ((CurrentState != GameState.GAME && Instance.storedState == GameState.NONE) || overrideStored)
+            if ((CurrentState != GameState.GAME && CurrentState != GameState.LOADING && Instance.storedState == GameState.NONE) || overrideStored)
 			{
                 message += "\n<color=green>State has been stored</color>";
                 Instance.storedState = newState;
@@ -67,7 +67,7 @@ public class GameManager : Singleton<GameManager>
                     DontDestroyOnLoad(player.gameObject);
                 }
             }
-            if (newState == GameState.GAME)
+            if (newState == GameState.GAME || newState == GameState.LOADING)
 			{
                 Instance.m_Time = 0;
                 // Use a fade transition when entering the game scene because it has a longer load
@@ -275,7 +275,8 @@ public class GameManager : Singleton<GameManager>
         SHIP = 8,
         CHARACTER = 16,
         TRACK = 32,
-        GAME = 64,
-        SUMMARY = 128
+        LOADING = 64,
+        GAME = 128,
+        SUMMARY = 256
     }
 }
