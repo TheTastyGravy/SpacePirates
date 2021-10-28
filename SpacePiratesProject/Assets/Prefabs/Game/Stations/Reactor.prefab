@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPrompt: {fileID: 695544811256509407}
-  interactionRadius: 0.8
+  interactionRadius: 0.9
   interactionOffset: {x: 0, y: 0, z: 0}
   maxDamageLevel: 1
   timeToRepair: 1
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPrompt: {fileID: 6341576641936488814}
-  interactionRadius: 0.8
+  interactionRadius: 0.9
   interactionOffset: {x: 0, y: 0, z: 0}
   fuelPrefab: {fileID: 3672689518888850791, guid: 7e3a769913e6c94419937a871d9a1ab1, type: 3}
   timeToGenerate: 4
@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPrompt: {fileID: 4645880544316098873}
-  interactionRadius: 0.8
+  interactionRadius: 0.9
   interactionOffset: {x: 0, y: 0, z: 0}
   interactionCooldown: 1
   forceDisabled: 0
@@ -5103,7 +5103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPrompt: {fileID: 262087642929391226}
-  interactionRadius: 0.8
+  interactionRadius: 0.9
   interactionOffset: {x: 0, y: 0, z: 0}
   interactionCooldown: 1
   forceDisabled: 0

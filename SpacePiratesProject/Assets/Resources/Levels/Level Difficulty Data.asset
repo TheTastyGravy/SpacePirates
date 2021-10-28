@@ -12,20 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82ff963c44ceebd47a5a43d41fdfce03, type: 3}
   m_Name: Level Difficulty Data
   m_EditorClassIdentifier: 
-  edgeBoundry: 7.5
+  edgeBoundry: 0
   regionGap: 10
   easy:
-    minEventCount: 2
+    minEventCount: 1
     maxEventCount: 2
-    minEventLength: 5
-    maxEventLength: 10
+    minEventLength: 15
+    maxEventLength: 20
   medium:
     minEventCount: 3
     maxEventCount: 4
-    minEventLength: 7.5
-    maxEventLength: 15
+    minEventLength: 15
+    maxEventLength: 20
   hard:
     minEventCount: 4
     maxEventCount: 6
-    minEventLength: 10
-    maxEventLength: 20
+    minEventLength: 15
+    maxEventLength: 30

@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPrompt: {fileID: 274620937415510846}
-  interactionRadius: 0.8
+  interactionRadius: 0.9
   interactionOffset: {x: 0, y: 0, z: 0}
   maxDamageLevel: 1
   timeToRepair: 1
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPrompt: {fileID: 7204514091386560863}
-  interactionRadius: 1.09
+  interactionRadius: 1.2
   interactionOffset: {x: 0, y: 0, z: 0}
   timeToDeposit: 0.5
 --- !u!65 &573118024978715669
