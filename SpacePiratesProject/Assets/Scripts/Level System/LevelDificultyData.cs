@@ -18,6 +18,8 @@ public class LevelDificultyData : ScriptableObject
         public int maxEventCount;
         public float minEventLength;
         public float maxEventLength;
+
+        public float extraLengthPerEvent = 5;
     }
 
     [Tooltip("How close to the ends of a level events can be placed")]

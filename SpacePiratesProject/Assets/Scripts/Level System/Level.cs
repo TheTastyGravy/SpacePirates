@@ -30,13 +30,14 @@ public class Level : ScriptableObject
     [Tooltip("Generate a random level now")]
     public bool generateRandomLevelNow = false;
     [Space]
-    public float length = 100;
+    [Tooltip("This value is generated with the level")]
+    public float length;
     public Event[] events;
 
 
 
     // Called by LevelController.Start()
-	public void Setup()
+    public void Setup()
 	{
         if (useRandomEvents)
 		{
@@ -71,6 +72,9 @@ public class Level : ScriptableObject
         LevelDificultyData.DiffSetting settings = diffData.GetSetting(difficulty);
 
         int eventCount = UnityEngine.Random.Range(settings.minEventCount, settings.maxEventCount + 1);
+        // Determine length of level
+        length = diffData.edgeBoundry * 2 + diffData.regionGap * (eventCount + 1) + (settings.maxEventLength + settings.extraLengthPerEvent) * eventCount;
+
         events = new Event[eventCount];
         // The area an event can be created within
         float eventArea = (length - diffData.edgeBoundry * 2) / eventCount;
