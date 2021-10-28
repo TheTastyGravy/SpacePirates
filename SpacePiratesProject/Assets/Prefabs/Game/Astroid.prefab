@@ -114,7 +114,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7689156802456282866}
   - component: {fileID: 6722931317932386835}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Projectile Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
