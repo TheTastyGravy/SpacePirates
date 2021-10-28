@@ -100,6 +100,23 @@ public class Level : ScriptableObject
                 // Get random int in range of enum count, and cast to Event.Type
                 type = (Event.Type)UnityEngine.Random.Range(0, Enum.GetValues(typeof(Event.Type)).Length - 1)
             };
+
+            // If this is the same type as the last event, change it
+            if (i > 0 && events[i].type == events[i - 1].type)
+            {
+                switch (events[i].type)
+                {
+                    case Event.Type.AstroidField:
+                        events[i].type = Event.Type.PlasmaStorm;
+                        break;
+                    case Event.Type.PlasmaStorm:
+                        events[i].type = Event.Type.ShipAttack;
+                        break;
+                    case Event.Type.ShipAttack:
+                        events[i].type = Event.Type.AstroidField;
+                        break;
+                }
+            }
         }
     }
 
