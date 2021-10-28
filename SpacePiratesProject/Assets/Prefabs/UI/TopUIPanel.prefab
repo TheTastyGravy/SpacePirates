@@ -336,63 +336,69 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 54053335756501994}
-  refreshRate: 1.5
+  refreshRate: 3
   flashTime: 1
   general:
     strings:
-    - general
+    - DEFEND THE SHIP!!
   gameStart:
     strings:
-    - game start
+    - LETS GET OUT OF HERE!!
   reactorDamaged:
     strings:
-    - reactor damaged
+    - REPAIR THE REACTOR!!
   reactorDisabled:
     strings:
-    - reactor disabled
+    - TURN ON THE REACTOR!!
   generalRepair:
     strings:
-    - general repair
+    - REPAIR THE SHIP!!
   generalRefuel:
     strings:
-    - general refuel
+    - REFUEL THE ENGINES!!
+    - REFUEL THE TURRETS!!
   useEngines:
     strings:
-    - use engines
+    - ACTIVATE THE ENGINES!!
   useTurrets:
     strings:
-    - use turrets
-  genericChance: 0.5
+    - SHOOT WITH THE TURRETS!!
+  genericChance: 0.25
   genericEvent:
     strings:
-    - generic event
+    - REPAIR THE BREACHES!!
+    - KEEP THOSE ENGINES RUNNING!!
   asteroidEnter:
     strings:
-    - asteroid enter
+    - ASTEROID FIELD APPROACHING!!
   asteroidDurring:
     strings:
-    - asteroid durring
+    - MAN THE TURRETS!!
+    - DEFEND THE SHIP!!
+    - SHOOT THEM DOWN!!
   asteroidExit:
     strings:
-    - asteroid exit
+    - ASTEROID FIELD NAVIGATED!!
   stormEnter:
     strings:
-    - storm enter
+    - PLASMA STORM FORMING!!
   stormDurring:
     strings:
-    - storm durring
+    - SHUTDOWN THE REACTOR
   stormExit:
     strings:
-    - storm exit
+    - PLASMA STORM CLEARED!!
   shipEnter:
     strings:
-    - ship enter
+    - THE FUZZ ARE HERE!!
   shipDurring:
     strings:
-    - ship durring
+    - SHOOT THEM DOWN!!
+    - DEFEND THE SHIP!!
+    - MAN THE TURRETS!!
   shipExit:
     strings:
-    - ship exit
+    - WE'VE LOST THEM!!
 --- !u!1 &6661497441136619289
 GameObject:
   m_ObjectHideFlags: 0

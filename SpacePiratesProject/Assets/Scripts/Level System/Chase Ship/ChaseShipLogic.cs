@@ -58,6 +58,9 @@ public class ChaseShipLogic : MonoBehaviour
 		followPos = -playerShip.forward * ship.chaseShipFollowDist;
 		followPos += playerShip.position;
 
+		offScreenPos.y += 1.5f;
+		followPos.y += 1.5f;
+
 		this.health = health;
 		spreadAngle *= Mathf.Deg2Rad * 0.5f;
 		// Start moving on screen
@@ -106,7 +109,9 @@ public class ChaseShipLogic : MonoBehaviour
 		{
 			wanderTimePassed = 0;
 			// Get new wander pos
-			wanderPos = followPos + Random.insideUnitSphere * wanderDist;
+			wanderPos = Random.insideUnitSphere * wanderDist;
+			wanderPos.y = Mathf.Min(Mathf.Max(wanderPos.y, 0.5f), -0.5f);
+			wanderPos += followPos;
 		}
 		// Adjust velocity with a sort of steering force, and apply to position
 		velocity = Vector3.Lerp(velocity, (wanderPos - transform.position).normalized * wanderSpeed, Time.deltaTime * wanderAcceleration);
