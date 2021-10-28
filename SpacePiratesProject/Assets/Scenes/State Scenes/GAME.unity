@@ -1694,9 +1694,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc0ebf9880b61c34081a462e5353ad1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenWaves: 4
-  astroidsPerWave: 4
-  timeBetweenDamage: 3
+  timeBetweenWaves: 10
+  astroidsPerWave: 5
+  timeBetweenDamage: 10
   shipPrefab: {fileID: 6161450435761204015, guid: 16e746287e4911f41abeabf5546bea79, type: 3}
   shipHealth: 10
 --- !u!114 &5063274434833239920
