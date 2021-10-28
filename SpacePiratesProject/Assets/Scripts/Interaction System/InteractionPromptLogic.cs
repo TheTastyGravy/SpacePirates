@@ -27,6 +27,7 @@ public class InteractionPromptLogic : MonoBehaviour
 
     void Awake()
     {
+        selectedImages[0].fillAmount = 1;
         progressImage.fillAmount = 0;
 
         foreach (var obj in selectedImages)
@@ -56,6 +57,7 @@ public class InteractionPromptLogic : MonoBehaviour
             actualProgress -= progressLossRate * Time.deltaTime;
 		}
 
+        selectedImages[0].fillAmount = 1 - actualProgress;
         progressImage.fillAmount = actualProgress;
     }
 
