@@ -21,12 +21,12 @@ Material:
     m_TexEnvs:
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 56c229ac205b07d4aae1932e28ba652a, type: 3}
-        m_Scale: {x: 4, y: 4}
+        m_Scale: {x: 8, y: 8}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AlphaMult: 1
     - _BaseAlpha: 0
-    - _ClipThreshold: 0.005
+    - _ClipThreshold: 0.15
     - _Speed: 1
     - _UseTransparency: 1
     - _XSpeed: 0.01
