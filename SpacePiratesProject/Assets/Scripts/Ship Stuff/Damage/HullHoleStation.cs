@@ -12,6 +12,7 @@ public class HullHoleStation : Interactable
 	}
     [Space]
     public DamageLevel[] damageLevels;
+    public ParticleSystem damageEffect;
 
     internal float oxygenLossRate;
     private float repairTime;
@@ -56,6 +57,8 @@ public class HullHoleStation : Interactable
         repairTime = damageLevels[size].repairTime;
         timePassed = 0;
         room.RecalculateOxygenDrain();
+
+        damageEffect.Play();
     }
 
     private void Repair()

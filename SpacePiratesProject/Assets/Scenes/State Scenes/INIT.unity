@@ -157,7 +157,7 @@ MonoBehaviour:
   m_MoveRepeatRate: 0.1
   m_ActionsAsset: {fileID: -944628639613478452, guid: 66637995c6492454c88311f2533856d4, type: 3}
   m_PointAction: {fileID: 0}
-  m_MoveAction: {fileID: -5902079158212950900, guid: 66637995c6492454c88311f2533856d4, type: 3}
+  m_MoveAction: {fileID: 8035336879108199578, guid: 66637995c6492454c88311f2533856d4, type: 3}
   m_SubmitAction: {fileID: -2560581265811411984, guid: 66637995c6492454c88311f2533856d4, type: 3}
   m_CancelAction: {fileID: -4757562395984580910, guid: 66637995c6492454c88311f2533856d4, type: 3}
   m_LeftClickAction: {fileID: 0}
