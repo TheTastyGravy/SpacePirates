@@ -46,6 +46,7 @@ public class ShipManager : Singleton<ShipManager>
         engines = GetComponentsInChildren<EngineStation>();
         rooms = GetComponentsInChildren<RoomManager>();
 
+        roof.material.color = Color.white;
         StartCoroutine(FadeShip());
 
         oxygenLevel = maxOxygenLevel;

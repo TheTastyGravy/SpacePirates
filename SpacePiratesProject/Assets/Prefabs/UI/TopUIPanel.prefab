@@ -343,7 +343,7 @@ MonoBehaviour:
     - DEFEND THE SHIP!!
   gameStart:
     strings:
-    - LETS GET OUT OF HERE!!
+    - LET'S GET OUT OF HERE!!
   reactorDamaged:
     strings:
     - REPAIR THE REACTOR!!
@@ -378,13 +378,13 @@ MonoBehaviour:
     - SHOOT THEM DOWN!!
   asteroidExit:
     strings:
-    - ASTEROID FIELD NAVIGATED!!
+    - ASTEROID FIELD CLEARED!!
   stormEnter:
     strings:
     - PLASMA STORM FORMING!!
   stormDurring:
     strings:
-    - SHUTDOWN THE REACTOR
+    - SHUTDOWN THE REACTOR!!
   stormExit:
     strings:
     - PLASMA STORM CLEARED!!
