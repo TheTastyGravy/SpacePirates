@@ -17,15 +17,18 @@ MonoBehaviour:
   easy:
     minEventCount: 1
     maxEventCount: 2
-    minEventLength: 15
+    minEventLength: 20
     maxEventLength: 20
+    extraLengthPerEvent: 0
   medium:
     minEventCount: 3
     maxEventCount: 4
-    minEventLength: 15
-    maxEventLength: 20
+    minEventLength: 25
+    maxEventLength: 25
+    extraLengthPerEvent: 0
   hard:
     minEventCount: 4
     maxEventCount: 6
-    minEventLength: 15
+    minEventLength: 30
     maxEventLength: 30
+    extraLengthPerEvent: 0

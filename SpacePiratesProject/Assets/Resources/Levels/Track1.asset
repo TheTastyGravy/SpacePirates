@@ -13,23 +13,11 @@ MonoBehaviour:
   m_Name: Track1
   m_EditorClassIdentifier: 
   diffData: {fileID: 11400000, guid: 9ac970e625d924b40a5895b80b9721e4, type: 2}
-  difficulty: 2
+  difficulty: 0
   useRandomEvents: 1
   generateRandomLevelNow: 0
   length: 100
   events:
-  - start: 1.9506388
-    end: 20.49379
-    type: 0
-  - start: 24.323835
-    end: 50.180847
+  - start: 34.368683
+    end: 52.232193
     type: 2
-  - start: 50.180847
-    end: 62.16
-    type: 0
-  - start: 62.16
-    end: 79.637764
-    type: 1
-  - start: 81.468925
-    end: 100
-    type: 0

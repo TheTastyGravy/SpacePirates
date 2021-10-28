@@ -73,7 +73,7 @@ public class Level : ScriptableObject
 
         int eventCount = UnityEngine.Random.Range(settings.minEventCount, settings.maxEventCount + 1);
         // Determine length of level
-        length = diffData.edgeBoundry * 2 + diffData.regionGap * (eventCount + 1) + (settings.maxEventLength + settings.extraLengthPerEvent) * eventCount;
+        length = diffData.edgeBoundry * 2 + (settings.maxEventLength + diffData.regionGap + settings.extraLengthPerEvent) * eventCount;
 
         events = new Event[eventCount];
         // The area an event can be created within

@@ -336,16 +336,63 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 54053335756501994}
-  general: DEFEND THE SHIP
-  reactorDamaged: REPAIR THE REACTOR
-  reactorDisabled: TURN ON THE REACTOR
-  generalRepair: REPAIR THE SHIP
-  generalRefuel: REFUEL ENGINES AND TURRETS
-  useEngines: ACTIVATE THE ENGINES
-  useTurrets: DEFEND WITH THE TURRETS
-  asteroidEvent: ASTEROID FIELD INCOMMING
-  stormEvent: PLASMA STORM INCOMMING
-  shipEvent: POLICE SHIP INCOMMING
+  refreshRate: 1.5
+  flashTime: 1
+  general:
+    strings:
+    - general
+  gameStart:
+    strings:
+    - game start
+  reactorDamaged:
+    strings:
+    - reactor damaged
+  reactorDisabled:
+    strings:
+    - reactor disabled
+  generalRepair:
+    strings:
+    - general repair
+  generalRefuel:
+    strings:
+    - general refuel
+  useEngines:
+    strings:
+    - use engines
+  useTurrets:
+    strings:
+    - use turrets
+  genericChance: 0.5
+  genericEvent:
+    strings:
+    - generic event
+  asteroidEnter:
+    strings:
+    - asteroid enter
+  asteroidDurring:
+    strings:
+    - asteroid durring
+  asteroidExit:
+    strings:
+    - asteroid exit
+  stormEnter:
+    strings:
+    - storm enter
+  stormDurring:
+    strings:
+    - storm durring
+  stormExit:
+    strings:
+    - storm exit
+  shipEnter:
+    strings:
+    - ship enter
+  shipDurring:
+    strings:
+    - ship durring
+  shipExit:
+    strings:
+    - ship exit
 --- !u!1 &6661497441136619289
 GameObject:
   m_ObjectHideFlags: 0
