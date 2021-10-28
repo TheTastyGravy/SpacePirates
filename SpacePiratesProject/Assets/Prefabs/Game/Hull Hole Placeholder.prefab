@@ -9716,7 +9716,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPrompt: {fileID: 4320273058663745643}
-  interactionRadius: 0.8
+  interactionRadius: 0.6
   interactionOffset: {x: -0.5, y: 0, z: 0}
   damageLevels:
   - oxygenLossRate: 1
@@ -9752,13 +9752,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8933635049936370902}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.85, y: 0.85, z: 0.85}
+  m_LocalRotation: {x: 0.15012035, y: 0.69098765, z: 0.15012033, w: 0.69098765}
+  m_LocalPosition: {x: 0.189, y: -0.107, z: -0.069}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6711157522764960633}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 24.515}
 --- !u!33 &6985734312064633244
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -9988,7 +9988,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 23ace564dbe44ad448b5854ba3275f1f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 23ace564dbe44ad448b5854ba3275f1f, type: 3}
       propertyPath: m_LocalPosition.z

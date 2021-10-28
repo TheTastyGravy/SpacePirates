@@ -13,22 +13,22 @@ MonoBehaviour:
   m_Name: Level Difficulty Data
   m_EditorClassIdentifier: 
   edgeBoundry: 0
-  regionGap: 10
+  regionGap: 20
   easy:
     minEventCount: 1
     maxEventCount: 2
-    minEventLength: 20
-    maxEventLength: 20
+    minEventLength: 50
+    maxEventLength: 50
     extraLengthPerEvent: 0
   medium:
     minEventCount: 3
     maxEventCount: 4
-    minEventLength: 25
-    maxEventLength: 25
+    minEventLength: 50
+    maxEventLength: 50
     extraLengthPerEvent: 0
   hard:
     minEventCount: 4
     maxEventCount: 6
-    minEventLength: 30
-    maxEventLength: 30
+    minEventLength: 50
+    maxEventLength: 50
     extraLengthPerEvent: 0
