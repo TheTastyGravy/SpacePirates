@@ -10,6 +10,7 @@ public class MissileLogic : MonoBehaviour
 	public float speed = 10;
 	[Space]
 	public GameObject explosion;
+	public Transform magicCollider;
 
 
 	private bool hasHitShip = false;
@@ -18,6 +19,8 @@ public class MissileLogic : MonoBehaviour
 
 	void Start()
 	{
+		// Allign collider with camera
+		magicCollider.rotation = Camera.main.transform.rotation;
 		Destroy(gameObject, 10);
 	}
 
