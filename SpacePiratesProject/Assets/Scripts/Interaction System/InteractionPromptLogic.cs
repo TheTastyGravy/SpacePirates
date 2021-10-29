@@ -134,6 +134,11 @@ public class InteractionPromptLogic : MonoBehaviour
     {
         isBeingUsed = true;
         interactionProgress = 0;
+
+        if (!isSelected)
+        {
+            Debug.LogWarning("Interaction has started without selection");
+        }
     }
 
     public void InteractStop()
