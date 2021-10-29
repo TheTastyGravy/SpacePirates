@@ -50,6 +50,8 @@ public class InteractionManager : Singleton<InteractionManager>
 
             foreach (var obj in inRangeLastFrame)
             {
+                if (obj == null)
+                    continue;
                 // Out of range this frame
                 if (!interactablesInRange.Contains(obj))
                 {
