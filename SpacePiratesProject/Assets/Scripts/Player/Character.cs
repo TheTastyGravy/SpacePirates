@@ -20,6 +20,8 @@ public class Character : ICharacter
         {
             m_Rigidbody = m_Rigidbody ?? GetComponent< Rigidbody >();
             m_Rigidbody.isKinematic = value;
+            if (!value)
+                BeginGame();
         }
     }
 

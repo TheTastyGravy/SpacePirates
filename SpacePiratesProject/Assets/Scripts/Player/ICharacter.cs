@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class ICharacter : MonoBehaviour
 {
@@ -15,6 +17,10 @@ public class ICharacter : MonoBehaviour
 	}
     private CharacterData[] characters;
     protected CharacterData currentCharacter = null;
+    public ParticleSystem ringEffect;
+    public TextMeshProUGUI playerText;
+    public Image arrow;
+    public Color[] playerColors;
 
     // Grab transform used when not set in character settings
     public Transform fallbackGrabTransform;
@@ -25,11 +31,14 @@ public class ICharacter : MonoBehaviour
 
     protected virtual void Awake()
 	{
+        ringEffect.Stop();
+        arrow.enabled = false;
+        playerText.enabled = false;
         Animator baseAnim = GetComponent<Animator>();
 
         // Get characters
-        characters = new CharacterData[transform.childCount];
-        for (int i = 0; i < transform.childCount; i++)
+        characters = new CharacterData[Mathf.Min(transform.childCount, 4)];
+        for (int i = 0; i < Mathf.Min(transform.childCount, 4); i++)
 		{
             // Get child and clean it
             Transform obj = transform.GetChild(i);
@@ -86,6 +95,17 @@ public class ICharacter : MonoBehaviour
         }
     }
 
+    public void BeginGame()
+    {
+        ringEffect.Play();
+        ringEffect.startColor = playerColors[Player.playerIndex];
+
+        arrow.enabled = true;
+        arrow.color = playerColors[Player.playerIndex];
+        playerText.enabled = true;
+        playerText.color = playerColors[Player.playerIndex];
+        playerText.text = "P" + (Player.playerIndex + 1).ToString();
+    }
 
     public void SetCharacter(int index)
     {
