@@ -143,6 +143,7 @@ public class Player : PlayerInput
         LEFT_TRIGGER,
         RIGHT_BUMPER_PRESSED,
         RIGHT_TRIGGER,
+        MENU_NAVIGATION,
         COUNT
     }
 }
