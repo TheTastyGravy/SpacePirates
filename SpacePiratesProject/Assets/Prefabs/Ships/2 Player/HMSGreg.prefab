@@ -20378,7 +20378,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2411074165301783696, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -22209,14 +22209,6 @@ PrefabInstance:
     - target: {fileID: 7136065238051240687, guid: d8af0ccf1ae246646b0673055c84b310, type: 3}
       propertyPath: m_Name
       value: Hull Breach
-      objectReference: {fileID: 0}
-    - target: {fileID: 7136065238051240687, guid: d8af0ccf1ae246646b0673055c84b310, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7945400979620528651, guid: d8af0ccf1ae246646b0673055c84b310, type: 3}
-      propertyPath: m_Layer
-      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8af0ccf1ae246646b0673055c84b310, type: 3}
