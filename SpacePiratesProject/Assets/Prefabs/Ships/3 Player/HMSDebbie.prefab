@@ -1980,6 +1980,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8921582291770935406, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
 --- !u!1001 &1524016187
@@ -4118,6 +4122,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7021777630861876700, guid: 0c5edcd295b30624894ad8e4d0b8ff07, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5a201040a9c78fc4e85af59edc37e34b, type: 2}
+    - target: {fileID: -6706061669605559900, guid: 0c5edcd295b30624894ad8e4d0b8ff07, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5a201040a9c78fc4e85af59edc37e34b, type: 2}
     - target: {fileID: 919132149155446097, guid: 0c5edcd295b30624894ad8e4d0b8ff07, type: 3}
       propertyPath: m_Name
       value: SM_ShipShell_002
@@ -4126,10 +4138,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2002579790954664096, guid: 0c5edcd295b30624894ad8e4d0b8ff07, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5a201040a9c78fc4e85af59edc37e34b, type: 2}
     - target: {fileID: 2834236878432192374, guid: 0c5edcd295b30624894ad8e4d0b8ff07, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: cab87b95e0cdfec439ccaa5cad79d469, type: 2}
+    - target: {fileID: 5063603844566880930, guid: 0c5edcd295b30624894ad8e4d0b8ff07, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5a201040a9c78fc4e85af59edc37e34b, type: 2}
+    - target: {fileID: 5396924610849272051, guid: 0c5edcd295b30624894ad8e4d0b8ff07, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5a201040a9c78fc4e85af59edc37e34b, type: 2}
+    - target: {fileID: 5754415629731107647, guid: 0c5edcd295b30624894ad8e4d0b8ff07, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5a201040a9c78fc4e85af59edc37e34b, type: 2}
     - target: {fileID: 7436673769898594167, guid: 0c5edcd295b30624894ad8e4d0b8ff07, type: 3}
       propertyPath: m_IsActive
       value: 1

@@ -18,7 +18,7 @@ public class ShipSelector : Singleton< ShipSelector >
         }
 
         Player primaryPlayer = Player.GetPlayerBySlot( Player.PlayerSlot.P1 );
-        primaryPlayer.AddInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
+        primaryPlayer.AddInputListener( Player.Control.MENU_NAVIGATION, OnDPADPressed );
         primaryPlayer.AddInputListener( Player.Control.A_PRESSED, OnAPressed );
         primaryPlayer.AddInputListener( Player.Control.B_PRESSED, OnBPressed );
 
@@ -35,7 +35,7 @@ public class ShipSelector : Singleton< ShipSelector >
         Player primaryPlayer = Player.GetPlayerBySlot( Player.PlayerSlot.P1 );
         if (primaryPlayer == null)
             return;
-        primaryPlayer.RemoveInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
+        primaryPlayer.RemoveInputListener( Player.Control.MENU_NAVIGATION, OnDPADPressed );
         primaryPlayer.RemoveInputListener( Player.Control.A_PRESSED, OnAPressed );
         primaryPlayer.RemoveInputListener( Player.Control.B_PRESSED, OnBPressed );
     }

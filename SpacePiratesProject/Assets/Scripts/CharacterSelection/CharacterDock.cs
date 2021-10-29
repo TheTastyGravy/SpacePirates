@@ -47,7 +47,7 @@ public class CharacterDock : MonoBehaviour
                 case Phase.CHOOSE_CHARACTER:
                     {
                         PressXToCycleVariant?.SetActive( false );
-                        m_AssignedPlayer.RemoveInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
+                        m_AssignedPlayer.RemoveInputListener( Player.Control.MENU_NAVIGATION, OnDPADPressed );
                         m_AssignedPlayer.RemoveInputListener( Player.Control.X_PRESSED, OnXPressed );
                         m_AssignedPlayer.RemoveInputListener(Player.Control.A_PRESSED, OnReady);
 
@@ -91,7 +91,7 @@ public class CharacterDock : MonoBehaviour
                 case Phase.CHOOSE_CHARACTER:
                     {
                         PressXToCycleVariant?.SetActive( true );
-                        m_AssignedPlayer.AddInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
+                        m_AssignedPlayer.AddInputListener( Player.Control.MENU_NAVIGATION, OnDPADPressed );
                         m_AssignedPlayer.AddInputListener( Player.Control.X_PRESSED, OnXPressed );
                         m_AssignedPlayer.AddInputListener(Player.Control.A_PRESSED, OnReady);
 
@@ -125,7 +125,7 @@ public class CharacterDock : MonoBehaviour
     {
         if ( ConnectPhase == Phase.CHOOSE_CHARACTER )
         {
-            m_AssignedPlayer.RemoveInputListener( Player.Control.DPAD_PRESSED, OnDPADPressed );
+            m_AssignedPlayer.RemoveInputListener( Player.Control.MENU_NAVIGATION, OnDPADPressed );
             m_AssignedPlayer.RemoveInputListener( Player.Control.X_PRESSED, OnXPressed );
             m_AssignedPlayer.RemoveInputListener(Player.Control.A_PRESSED, OnReady);
 

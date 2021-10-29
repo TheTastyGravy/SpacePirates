@@ -14,6 +14,11 @@ public class InteractionManager : Singleton<InteractionManager>
 
     void LateUpdate()
     {
+        if (interactors.Count == 0)
+        {
+            Debug.LogWarning("Interactions have broken");
+        }
+
         foreach (var obj in interactors)
 		{
             obj.FindClosestUsableInteractable(Player.Control.A_PRESSED, true);
