@@ -15,7 +15,7 @@ public class ShipManager : Singleton<ShipManager>
 
     public float fadeTime = 1;
     public float fadeDelay = 1;
-    public Renderer roof;
+    public Renderer[] roof;
     public Renderer[] body;
     public Color bodyColor;
 
@@ -46,7 +46,10 @@ public class ShipManager : Singleton<ShipManager>
         engines = GetComponentsInChildren<EngineStation>();
         rooms = GetComponentsInChildren<RoomManager>();
 
-        roof.material.color = Color.white;
+        foreach (var obj in roof)
+        {
+            obj.material.color = Color.white;
+        }
         StartCoroutine(FadeShip());
 
         oxygenLevel = maxOxygenLevel;
@@ -179,17 +182,24 @@ public class ShipManager : Singleton<ShipManager>
         float t = 0;
         while (t < fadeTime)
         {
-            roof.material.color = Color.Lerp(Color.white, new Color(1,1,1,0), t / fadeTime);
+            float val = t / fadeTime;
+            foreach (var obj in roof)
+            {
+                obj.material.color = Color.Lerp(Color.white, new Color(1, 1, 1, 0), val);
+            }
             foreach (var obj in body)
             {
-                obj.material.color = Color.Lerp(Color.white, bodyColor, t / fadeTime);
+                obj.material.color = Color.Lerp(Color.white, bodyColor, val);
             }
 
             t += Time.deltaTime;
             yield return null;
         }
 
-        roof.material.color = new Color(1, 1, 1, 0);
+        foreach (var obj in roof)
+        {
+            obj.material.color = new Color(1, 1, 1, 0);
+        }
         foreach (var obj in body)
         {
             obj.material.color = bodyColor;

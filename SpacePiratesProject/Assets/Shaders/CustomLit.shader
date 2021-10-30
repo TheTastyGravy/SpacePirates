@@ -1,16 +1,12 @@
-// When creating shaders for Universal Render Pipeline you can you the ShaderGraph which is super AWESOME!
-// However, if you want to author shaders in shading language you can use this teamplate as a base.
-// Please note, this shader does not necessarily match perfomance of the built-in URP Lit shader.
-// This shader works with URP 7.1.x and above
-Shader "Universal Render Pipeline/Custom/Physically Based Example"
+Shader "Universal Render Pipeline/Custom/Custom Lit"
 {
     Properties
     {
         // Specular vs Metallic workflow
         [HideInInspector] _WorkflowMode("WorkflowMode", Float) = 1.0
 
-        [MainColor] _BaseColor("Color", Color) = (0.5,0.5,0.5,1)
         [MainTexture] _BaseMap("Albedo", 2D) = "white" {}
+        [MainColor] _BaseColor("Color", Color) = (1,1,1,1)
 
         _Cutoff("Alpha Cutoff", Range(0.0, 1.0)) = 0.5
 
@@ -18,7 +14,7 @@ Shader "Universal Render Pipeline/Custom/Physically Based Example"
         _GlossMapScale("Smoothness Scale", Range(0.0, 1.0)) = 1.0
         _SmoothnessTextureChannel("Smoothness texture channel", Float) = 0
 
-        [Gamma] _Metallic("Metallic", Range(0.0, 1.0)) = 0.0
+        _Metallic("Metallic", Range(0.0, 1.0)) = 0.0
         _MetallicGlossMap("Metallic", 2D) = "white" {}
 
         _SpecColor("Specular", Color) = (0.2, 0.2, 0.2)
@@ -30,11 +26,24 @@ Shader "Universal Render Pipeline/Custom/Physically Based Example"
         _BumpScale("Scale", Float) = 1.0
         _BumpMap("Normal Map", 2D) = "bump" {}
 
+        _Parallax("Scale", Range(0.005, 0.08)) = 0.005
+        _ParallaxMap("Height Map", 2D) = "black" {}
+
         _OcclusionStrength("Strength", Range(0.0, 1.0)) = 1.0
         _OcclusionMap("Occlusion", 2D) = "white" {}
 
-        _EmissionColor("Color", Color) = (0,0,0)
-        _EmissionMap("Emission Map", 2D) = "white" {}
+        [HDR] _EmissionColor("Color", Color) = (0,0,0)
+        _EmissionMap("Emission", 2D) = "white" {}
+
+        _DetailMask("Detail Mask", 2D) = "white" {}
+        _DetailAlbedoMapScale("Scale", Range(0.0, 2.0)) = 1.0
+        _DetailAlbedoMap("Detail Albedo x2", 2D) = "linearGrey" {}
+        _DetailNormalMapScale("Scale", Range(0.0, 2.0)) = 1.0
+        [Normal] _DetailNormalMap("Normal Map", 2D) = "bump" {}
+
+        // SRP batching compatibility for Clear Coat (Not used in Lit)
+        [HideInInspector] _ClearCoatMask("_ClearCoatMask", Float) = 0.0
+        [HideInInspector] _ClearCoatSmoothness("_ClearCoatSmoothness", Float) = 0.0
 
         // Blending state
         [HideInInspector] _Surface("__surface", Float) = 0.0
@@ -46,36 +55,43 @@ Shader "Universal Render Pipeline/Custom/Physically Based Example"
         [HideInInspector] _Cull("__cull", Float) = 2.0
 
         _ReceiveShadows("Receive Shadows", Float) = 1.0
+        // Editmode props
+        [HideInInspector] _QueueOffset("Queue offset", Float) = 0.0
 
-            // Editmode props
-            [HideInInspector] _QueueOffset("Queue offset", Float) = 0.0
+        // ObsoleteProperties
+        [HideInInspector] _MainTex("BaseMap", 2D) = "white" {}
+        [HideInInspector] _Color("Base Color", Color) = (1, 1, 1, 1)
+        [HideInInspector] _GlossMapScale("Smoothness", Float) = 0.0
+        [HideInInspector] _Glossiness("Smoothness", Float) = 0.0
+        [HideInInspector] _GlossyReflections("EnvironmentReflections", Float) = 0.0
+
+        [HideInInspector][NoScaleOffset]unity_Lightmaps("unity_Lightmaps", 2DArray) = "" {}
+        [HideInInspector][NoScaleOffset]unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
+        [HideInInspector][NoScaleOffset]unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
     }
-
+    
     SubShader
     {
-        // With SRP we introduce a new "RenderPipeline" tag in Subshader. This allows to create shaders
-        // that can match multiple render pipelines. If a RenderPipeline tag is not set it will match
-        // any render pipeline. In case you want your subshader to only run in LWRP set the tag to
-        // "UniversalRenderPipeline"
-        Tags{"RenderType" = "Opaque" "RenderPipeline" = "UniversalRenderPipeline" "IgnoreProjector" = "True"}
+        // Universal Pipeline tag is required. If Universal render pipeline is not set in the graphics settings
+        // this Subshader will fail. One can add a subshader below or fallback to Standard built-in to make this
+        // material work with both Universal Render Pipeline and Builtin Unity Pipeline
+        Tags{"RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" "UniversalMaterialType" = "Lit" "IgnoreProjector" = "True" "ShaderModel"="4.5"}
         LOD 300
 
-        // Render normaly with alpha transparency
+        // ------------------------------------------------------------------
+        //  Forward pass. Shades all light in a single pass. GI + emission + Fog
         UsePass "Universal Render Pipeline/Lit/ForwardLit"
 
         Pass
         {
             // "Lightmode" tag must be "UniversalForward" or not be defined in order for
             // to render objects.
-            Name "TransAdditive"
+            Name "TheOneThatDrawsTheThingOrSomething"
             //Tags{"LightMode" = "UniversalForward"}
 
-            //Blend[_SrcBlend][_DstBlend]
-            Blend OneMinusDstColor One
-            //Blend One One
-            //Blend SrcAlpha OneMinusSrcAlpha
-            //ZWrite On
-            Cull Back
+            Blend[_SrcBlend][_DstBlend]
+            ZWrite On
+            Cull[_Cull]
             
 
             HLSLPROGRAM
@@ -237,6 +253,8 @@ Shader "Universal Render Pipeline/Custom/Physically Based Example"
                 // You can write your own function to initialize the surface data of your shader.
                 SurfaceData surfaceData;
                 InitializeStandardLitSurfaceData(input.uv, surfaceData);
+                
+                clip(surfaceData.alpha - 0.1f);
 
 #if _NORMALMAP
                 half3 normalWS = TransformTangentToWorld(surfaceData.normalTS,
@@ -310,17 +328,15 @@ Shader "Universal Render Pipeline/Custom/Physically Based Example"
 
                 // Mix the pixel color with fogColor. You can optionaly use MixFogColor to override the fogColor
                 // with a custom one.
-                color = MixFog(color, fogFactor) * (1 - surfaceData.alpha);
+                color = MixFog(color, fogFactor);
                 return half4(color, surfaceData.alpha);
             }
             ENDHLSL
         }
 
-
-
         // Used for rendering shadowmaps
         UsePass "Universal Render Pipeline/Lit/ShadowCaster"
-
+        
         // Used for depth prepass
         // If shadows cascade are enabled we need to perform a depth prepass. 
         // We also need to use a depth prepass in some cases camera require depth texture
@@ -330,8 +346,7 @@ Shader "Universal Render Pipeline/Custom/Physically Based Example"
         // Used for Baking GI. This pass is stripped from build.
         UsePass "Universal Render Pipeline/Lit/Meta"
     }
-
-    // Uses a custom shader GUI to display settings. Re-use the same from Lit shader as they have the
-    // same properties.
+    
+    FallBack "Hidden/Universal Render Pipeline/FallbackError"
     CustomEditor "UnityEditor.Rendering.Universal.ShaderGUI.LitShader"
 }

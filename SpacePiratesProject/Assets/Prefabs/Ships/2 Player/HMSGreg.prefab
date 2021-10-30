@@ -467,7 +467,8 @@ MonoBehaviour:
   maxAvoidance: 0.25
   fadeTime: 2
   fadeDelay: 1
-  roof: {fileID: 351570449345824891}
+  roof:
+  - {fileID: 351570449345824891}
   body:
   - {fileID: 2631605955218028494}
   bodyColor: {r: 0.6933962, g: 0.96933967, b: 1, a: 0}
@@ -20387,7 +20388,7 @@ PrefabInstance:
     - target: {fileID: 5396924610849272051, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: e0791b527b10db1468d48219b558e6ff, type: 2}
+      objectReference: {fileID: 2100000, guid: 236be279d7e5bcc4bb315419fe785bff, type: 2}
     - target: {fileID: 8633640401473546022, guid: 8a8ea0e1256b32640b8126b55a286233, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
