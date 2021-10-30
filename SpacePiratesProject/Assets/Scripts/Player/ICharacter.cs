@@ -31,7 +31,7 @@ public class ICharacter : MonoBehaviour
 
     protected virtual void Awake()
 	{
-        ringEffect.Stop();
+        ringEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         arrow.enabled = false;
         playerText.enabled = false;
         Animator baseAnim = GetComponent<Animator>();

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -648,9 +648,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Confirm - A (E)
+  m_text: 'Confirm - [A]
 
-    Back - B (Q)'
+    Back - [B]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2efec8abc528a9a4f851b91ae41b9900, type: 2}
   m_sharedMaterial: {fileID: -46020938065973353, guid: 2efec8abc528a9a4f851b91ae41b9900, type: 2}

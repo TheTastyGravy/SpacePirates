@@ -30,7 +30,7 @@ public class Character : ICharacter
         base.Start();
 
         m_Rigidbody = GetComponent< Rigidbody >();
-        IsKinematic = true;
+        //IsKinematic = true;
         enabled = false;
     }
 
