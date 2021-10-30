@@ -39,6 +39,7 @@ public class MusicManager : Singleton<MusicManager>
     private bool inGameScene = false;
     private bool inEvent = true;
     private string lastEvent = "";
+    private Coroutine fadeEventRoutine;
 
     private float musicVolume = 100;
 
@@ -156,6 +157,11 @@ public class MusicManager : Singleton<MusicManager>
             inGameScene = true;
             inEvent = false;
 
+            if (fadeEventRoutine != null)
+			{
+                StopCoroutine(fadeEventRoutine);
+                fadeEventRoutine = null;
+            }
             musicInstance.setParameterByName("Asteroids", 0);
             musicInstance.setParameterByName("Plasma Storm", 0);
             musicInstance.setParameterByName("The Fuzz", 0);
@@ -188,9 +194,10 @@ public class MusicManager : Singleton<MusicManager>
             _ => "",
         };
 
-        StopAllCoroutines();
+        if (fadeEventRoutine != null)
+            StopCoroutine(fadeEventRoutine);
         inEvent = name != "";
-        StartCoroutine(FadeEvent(inEvent ? name : lastEvent, inEvent, 2));
+        fadeEventRoutine = StartCoroutine(FadeEvent(inEvent ? name : lastEvent, inEvent, 3));
         lastEvent = name;
     }
 
@@ -212,6 +219,7 @@ public class MusicManager : Singleton<MusicManager>
             yield return null;
         }
         musicInstance.setParameterByName(paramName, fadeInParam ? 1 : 0);
+        fadeEventRoutine = null;
     }
 
 	void Update()
