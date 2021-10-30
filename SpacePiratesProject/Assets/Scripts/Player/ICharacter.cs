@@ -98,7 +98,8 @@ public class ICharacter : MonoBehaviour
     public void BeginGame()
     {
         ringEffect.Play();
-        ringEffect.startColor = playerColors[Player.playerIndex];
+        ParticleSystem.MainModule main = ringEffect.main;
+        main.startColor = playerColors[Player.playerIndex];
 
         arrow.enabled = true;
         arrow.color = playerColors[Player.playerIndex];
@@ -155,6 +156,13 @@ public class ICharacter : MonoBehaviour
         if (currentCharacter != null && currentCharacter.animator != null)
 		{
             currentCharacter.animator.Play(value ? "Base Layer.CharSelect_" + currentCharacter.characterName : "Base Layer.Idle", 0, 0);
+            // Fix to hide player indicator after returning to menu
+            if (value)
+			{
+                ringEffect.Stop();
+                arrow.enabled = false;
+                playerText.enabled = false;
+            }
         }
 	}
 
