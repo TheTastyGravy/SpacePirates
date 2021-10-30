@@ -163,6 +163,14 @@ public class AstroidManager : Singleton<AstroidManager>
 			Vector2 screenPoint = Camera.main.WorldToScreenPoint(pos);
 			Vector2 screenDir = (Vector2)Camera.main.WorldToScreenPoint(pos + dir) - screenPoint;
 			RaycastHit2D rayHit = Physics2D.Raycast(screenPoint, screenDir);
+
+			if (rayHit.point == Vector2.zero)
+			{
+				// The raycast for the UI missed. Redo the asteroid
+				i--;
+				continue;
+			}
+
 			// Create UI element
 			GameObject uiObj = Instantiate(uiPrefab, canvas);
 			Destroy(uiObj, astroidSpawnDelay + uiExtraTime);
