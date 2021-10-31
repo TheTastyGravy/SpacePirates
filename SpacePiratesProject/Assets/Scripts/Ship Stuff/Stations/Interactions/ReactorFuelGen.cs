@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ReactorFuelGen : Interactable
 {
     public GameObject fuelPrefab;
     [Tooltip("How long it takes to generate a fuel")]
     public float timeToGenerate = 4;
+    public TextMeshProUGUI timerText;
 
     // Are we currently generating fuel?
-    internal bool isActive = true;
+    private bool isActive = true;
 
     private bool hasFuel = false;
     private float fuelTimePassed = 0;
@@ -19,6 +21,10 @@ public class ReactorFuelGen : Interactable
 	void Start()
 	{
         interactionPrompt.enabled = false;
+        if (timerText != null)
+		{
+            timerText.text = (timeToGenerate + 1).ToString();
+        }
 	}
 
 	void Update()
@@ -26,6 +32,10 @@ public class ReactorFuelGen : Interactable
         if (isActive && !hasFuel)
 		{
             fuelTimePassed += Time.deltaTime;
+            if (timerText != null)
+            {
+                timerText.text = (timeToGenerate - fuelTimePassed + 1).ToString("0");
+            }
 
             if (fuelTimePassed >= timeToGenerate)
 			{
@@ -33,8 +43,18 @@ public class ReactorFuelGen : Interactable
                 hasFuel = true;
                 interactionPrompt.enabled = true;
 			}
-		}
+        }
     }
+
+    internal void SetActive(bool value)
+	{
+        if (isActive != value)
+		{
+            isActive = value;
+            if (!hasFuel && interactionPrompt != null)
+                interactionPrompt.Pop(isActive);
+        }
+	}
 
 	protected override void OnInteractionStart()
 	{
@@ -47,7 +67,9 @@ public class ReactorFuelGen : Interactable
         hasFuel = false;
 
         currentInteractor.EndInteraction();
-	}
+        if (!hasFuel && interactionPrompt != null)
+            interactionPrompt.Pop(isActive);
+    }
 
     protected override bool CanBeUsed(Interactor interactor, out Player.Control button)
 	{

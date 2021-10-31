@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InteractionPromptLogic : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class InteractionPromptLogic : MonoBehaviour
 
     public Image[] baseImages;
     public Image[] selectedImages;
+    public TextMeshProUGUI disabledText;
 
     [HideInInspector]
     public float interactionProgress = 0;
@@ -40,6 +42,10 @@ public class InteractionPromptLogic : MonoBehaviour
             {
                 obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
             }
+		}
+        if (enabled && disabledText != null)
+		{
+            disabledText.color = new Color(disabledText.color.r, disabledText.color.g, disabledText.color.b, 0);
         }
     }
 
@@ -61,22 +67,23 @@ public class InteractionPromptLogic : MonoBehaviour
         progressImage.fillAmount = actualProgress;
     }
 
-    public void Pop()
+    public void Pop(bool showDisabled = true)
 	{
         if (routine != null)
         {
             StopCoroutine(routine);
         }
-        routine = StartCoroutine(NewFade(false, false));
+        routine = StartCoroutine(NewFade(false, false, showDisabled));
     }
 
-    private IEnumerator NewFade(bool showBase, bool showSelected)
+    private IEnumerator NewFade(bool showBase, bool showSelected, bool showDisabled = false)
     {
         Vector3 shrunkScale = Vector3.one - Vector3.one * popScale;
         // Dont hide what is already hidden
         bool useSelected = showSelected || IsSelectedVisible;
         bool useBase = showBase || IsBaseVisible;
-        if (!useSelected && !useBase)
+        bool useDisabled = disabledText != null && (showDisabled || disabledText.color.a > 0);
+        if (!useSelected && !useBase && !useDisabled)
             yield break;
 
         float time = 0;
@@ -98,6 +105,11 @@ public class InteractionPromptLogic : MonoBehaviour
                     obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, Mathf.Lerp(1, 0, showSelected ? 1 - val : val));
                     obj.transform.localScale = Vector3.Lerp(Vector3.one, shrunkScale, showSelected ? 1 - val : val);
                 }
+            }
+            if (useDisabled)
+            {
+                disabledText.color = new Color(disabledText.color.r, disabledText.color.g, disabledText.color.b, Mathf.Lerp(1, 0, showDisabled ? 1 - val : val));
+                disabledText.transform.localScale = Vector3.Lerp(Vector3.one, shrunkScale, showDisabled ? 1 - val : val);
             }
 
             time += Time.deltaTime;
@@ -121,6 +133,11 @@ public class InteractionPromptLogic : MonoBehaviour
                 obj.transform.localScale = showSelected ? Vector3.one : shrunkScale;
             }
         }
+        if (useDisabled)
+        {
+            disabledText.color = new Color(disabledText.color.r, disabledText.color.g, disabledText.color.b, showDisabled ? 1 : 0);
+            disabledText.transform.localScale = showDisabled ? Vector3.one : shrunkScale;
+        }
 
         routine = null;
         // If everything was just hiden but we are still enabled, show a prompt
@@ -134,11 +151,6 @@ public class InteractionPromptLogic : MonoBehaviour
     {
         isBeingUsed = true;
         interactionProgress = 0;
-
-        if (!isSelected)
-        {
-            Debug.LogWarning("Interaction has started without selection");
-        }
     }
 
     public void InteractStop()
@@ -198,7 +210,7 @@ public class InteractionPromptLogic : MonoBehaviour
 		{
             if (routine != null)
                 StopCoroutine(routine);
-            routine = StartCoroutine(NewFade(false, false));
+            routine = StartCoroutine(NewFade(false, false, true));
         }
         else
 		{
@@ -209,6 +221,11 @@ public class InteractionPromptLogic : MonoBehaviour
             foreach (var obj in selectedImages)
             {
                 obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
+            }
+            if (disabledText != null)
+            {
+                disabledText.color = new Color(disabledText.color.r, disabledText.color.g, disabledText.color.b, 1);
+                disabledText.transform.localScale = Vector3.one;
             }
         }
     }

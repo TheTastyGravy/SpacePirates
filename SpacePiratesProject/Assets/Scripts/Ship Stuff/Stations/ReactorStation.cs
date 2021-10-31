@@ -48,7 +48,7 @@ public class ReactorStation : MonoBehaviour
 	{
 		isTurnedOn = true;
 		currentOxygenRegen = baseOxygenRegenRate;
-		fuelGen.isActive = true;
+		fuelGen.SetActive(true);
 
 		stateLight.color = Color.green;
 		stateLight.intensity = 0.5f;
@@ -58,7 +58,7 @@ public class ReactorStation : MonoBehaviour
 	{
 		isTurnedOn = false;
 		currentOxygenRegen = 0;
-		fuelGen.isActive = false;
+		fuelGen.SetActive(false);
 
 		stateLight.color = Color.red;
 		stateLight.intensity = 2;
