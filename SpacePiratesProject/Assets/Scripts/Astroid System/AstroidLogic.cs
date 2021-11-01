@@ -21,7 +21,9 @@ public class AstroidLogic : MonoBehaviour
 	public float speed = 10;
 
 	[Space]
-	public GameObject explosion;
+	public GameObject explosionPrefab;
+	[Tooltip("Explosion prefab scale when the asteroid is destroied by a turret")]
+	public float turretExplosionScale = 0.7f;
 	public Transform magicCollider;
 
 	private Vector3 direction;
@@ -110,6 +112,9 @@ public class AstroidLogic : MonoBehaviour
 			if (health <= 0)
 			{
 				Destroy(gameObject);
+				GameObject obj = Instantiate(explosionPrefab, transform.position, Random.rotation);
+				obj.transform.localScale = new Vector3(turretExplosionScale, turretExplosionScale, turretExplosionScale);
+				Destroy(obj, 3);
 			}
 		}
 		else
@@ -123,7 +128,7 @@ public class AstroidLogic : MonoBehaviour
 			hasHitShip = true;
 			Destroy(gameObject);
 
-			GameObject obj = Instantiate(explosion, collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
+			GameObject obj = Instantiate(explosionPrefab, collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
 			Destroy(obj, 3);
 		}
 	}
