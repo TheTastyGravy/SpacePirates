@@ -20,6 +20,8 @@ public abstract class Interactable : MonoBehaviour
 	protected virtual void Awake()
 	{
 		InteractionManager.Instance.interactables.Add(this);
+		if (interactionPrompt != null)
+			interactionPrompt.Interactable = this;
 	}
 
 	void OnDestroy()

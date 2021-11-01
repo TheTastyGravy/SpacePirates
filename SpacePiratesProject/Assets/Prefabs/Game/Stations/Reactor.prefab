@@ -330,7 +330,9 @@ MonoBehaviour:
   interactionRadius: 0.9
   interactionOffset: {x: 0, y: 0, z: 0}
   interactionCooldown: 1
+  pairedSwitch: {fileID: 2395532830199780797}
   forceDisabled: 0
+  onePlayerIcon: {fileID: 8809231958089286812, guid: 82858a2b9098ac64da307eeb4a182ab1, type: 3}
 --- !u!65 &2595373407793022279
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5334,7 +5336,9 @@ MonoBehaviour:
   interactionRadius: 0.9
   interactionOffset: {x: 0, y: 0, z: 0}
   interactionCooldown: 1
+  pairedSwitch: {fileID: 6958047462521841419}
   forceDisabled: 0
+  onePlayerIcon: {fileID: 8809231958089286812, guid: 82858a2b9098ac64da307eeb4a182ab1, type: 3}
 --- !u!65 &4255183461126900324
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5800,7 +5804,7 @@ PrefabInstance:
     - target: {fileID: 8293702055812029762, guid: 8dac1f5d1f95abf4882a1fb545bab1e3, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 8809231958089286812, guid: 82858a2b9098ac64da307eeb4a182ab1, type: 3}
+      objectReference: {fileID: -8870982140934157899, guid: 82858a2b9098ac64da307eeb4a182ab1, type: 3}
     - target: {fileID: 8537431630326817330, guid: 8dac1f5d1f95abf4882a1fb545bab1e3, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -6090,7 +6094,7 @@ PrefabInstance:
     - target: {fileID: 8293702055812029762, guid: 8dac1f5d1f95abf4882a1fb545bab1e3, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 8809231958089286812, guid: 82858a2b9098ac64da307eeb4a182ab1, type: 3}
+      objectReference: {fileID: -8870982140934157899, guid: 82858a2b9098ac64da307eeb4a182ab1, type: 3}
     - target: {fileID: 8537431630326817330, guid: 8dac1f5d1f95abf4882a1fb545bab1e3, type: 3}
       propertyPath: m_RootOrder
       value: 0

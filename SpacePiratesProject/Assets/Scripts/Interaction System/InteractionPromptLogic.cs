@@ -16,6 +16,10 @@ public class InteractionPromptLogic : MonoBehaviour
 
     [HideInInspector]
     public float interactionProgress = 0;
+    private Interactable m_interactable;
+    public Interactable Interactable { get => m_interactable; internal set { m_interactable = value; } }
+    public bool IsBeingUsed => isBeingUsed;
+    public bool IsSelected => isSelected;
 
     private bool isBeingUsed = false;
     private bool isSelected = false;
@@ -24,6 +28,9 @@ public class InteractionPromptLogic : MonoBehaviour
     private bool IsBaseVisible => baseImages.Length > 0 && baseImages[0].color.a > 0;
     private bool IsSelectedVisible => selectedImages.Length > 0 && selectedImages[0].color.a > 0;
     private bool IsDisabledVisible => disabledImages.Length > 0 && disabledImages[0].color.a > 0;
+
+    public BasicDelegate OnSelected;
+    public BasicDelegate OnUnselected;
 
 
 
@@ -77,6 +84,42 @@ public class InteractionPromptLogic : MonoBehaviour
             StopCoroutine(routine);
         }
         routine = StartCoroutine(NewFade(false, false, showDisabled));
+    }
+
+    public void PopV2()
+	{
+        if (routine != null)
+        {
+            StopCoroutine(routine);
+        }
+
+        bool useSelected = IsSelectedVisible;
+        bool useBase = IsBaseVisible;
+        bool useDisabled = IsDisabledVisible;
+
+        if (useSelected)
+		{
+            foreach (var obj in selectedImages)
+            {
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
+            }
+        }
+        if (useBase)
+		{
+            foreach (var obj in baseImages)
+            {
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
+            }
+        }
+        if (useDisabled)
+		{
+            foreach (var obj in disabledImages)
+            {
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
+            }
+        }
+
+        routine = StartCoroutine(NewFade(useBase, useSelected, useDisabled));
     }
 
     private IEnumerator NewFade(bool showBase, bool showSelected, bool showDisabled = false)
@@ -177,6 +220,9 @@ public class InteractionPromptLogic : MonoBehaviour
     public void Selected()
 	{
         isSelected = true;
+        if (OnSelected != null)
+            OnSelected.Invoke();
+
         if (isBeingUsed && IsSelectedVisible)
             return;
 
@@ -192,6 +238,9 @@ public class InteractionPromptLogic : MonoBehaviour
     public void Unselected()
 	{
         isSelected = false;
+        if (OnUnselected != null)
+            OnUnselected.Invoke();
+
         if (isBeingUsed)
             return;
 
