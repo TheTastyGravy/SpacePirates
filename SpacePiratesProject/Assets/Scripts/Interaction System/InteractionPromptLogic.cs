@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class InteractionPromptLogic : MonoBehaviour
 {
@@ -13,7 +12,7 @@ public class InteractionPromptLogic : MonoBehaviour
 
     public Image[] baseImages;
     public Image[] selectedImages;
-    public TextMeshProUGUI disabledText;
+    public Image[] disabledImages;
 
     [HideInInspector]
     public float interactionProgress = 0;
@@ -24,6 +23,7 @@ public class InteractionPromptLogic : MonoBehaviour
     private Coroutine routine;
     private bool IsBaseVisible => baseImages.Length > 0 && baseImages[0].color.a > 0;
     private bool IsSelectedVisible => selectedImages.Length > 0 && selectedImages[0].color.a > 0;
+    private bool IsDisabledVisible => disabledImages.Length > 0 && disabledImages[0].color.a > 0;
 
 
 
@@ -43,9 +43,12 @@ public class InteractionPromptLogic : MonoBehaviour
                 obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
             }
 		}
-        if (enabled && disabledText != null)
+		else
 		{
-            disabledText.color = new Color(disabledText.color.r, disabledText.color.g, disabledText.color.b, 0);
+            foreach (var obj in disabledImages)
+            {
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
+            }
         }
     }
 
@@ -82,7 +85,7 @@ public class InteractionPromptLogic : MonoBehaviour
         // Dont hide what is already hidden
         bool useSelected = showSelected || IsSelectedVisible;
         bool useBase = showBase || IsBaseVisible;
-        bool useDisabled = disabledText != null && (showDisabled || disabledText.color.a > 0);
+        bool useDisabled = showDisabled || IsDisabledVisible;
         if (!useSelected && !useBase && !useDisabled)
             yield break;
 
@@ -108,8 +111,11 @@ public class InteractionPromptLogic : MonoBehaviour
             }
             if (useDisabled)
             {
-                disabledText.color = new Color(disabledText.color.r, disabledText.color.g, disabledText.color.b, Mathf.Lerp(1, 0, showDisabled ? 1 - val : val));
-                disabledText.transform.localScale = Vector3.Lerp(Vector3.one, shrunkScale, showDisabled ? 1 - val : val);
+                foreach (var obj in disabledImages)
+                {
+                    obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, Mathf.Lerp(1, 0, showDisabled ? 1 - val : val));
+                    obj.transform.localScale = Vector3.Lerp(Vector3.one, shrunkScale, showDisabled ? 1 - val : val);
+                }
             }
 
             time += Time.deltaTime;
@@ -135,8 +141,11 @@ public class InteractionPromptLogic : MonoBehaviour
         }
         if (useDisabled)
         {
-            disabledText.color = new Color(disabledText.color.r, disabledText.color.g, disabledText.color.b, showDisabled ? 1 : 0);
-            disabledText.transform.localScale = showDisabled ? Vector3.one : shrunkScale;
+            foreach (var obj in disabledImages)
+            {
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, showDisabled ? 1 : 0);
+                obj.transform.localScale = showDisabled ? Vector3.one : shrunkScale;
+            }
         }
 
         routine = null;
@@ -222,10 +231,10 @@ public class InteractionPromptLogic : MonoBehaviour
             {
                 obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
             }
-            if (disabledText != null)
+            foreach (var obj in disabledImages)
             {
-                disabledText.color = new Color(disabledText.color.r, disabledText.color.g, disabledText.color.b, 1);
-                disabledText.transform.localScale = Vector3.one;
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 1);
+                obj.transform.localScale = Vector3.one;
             }
         }
     }

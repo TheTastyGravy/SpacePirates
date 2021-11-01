@@ -6,8 +6,7 @@
         "Player",
         "UI",
         "Common",
-        "GameManager",
-        "Unity.TextMeshPro"
+        "GameManager"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

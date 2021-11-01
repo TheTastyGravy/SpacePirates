@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 
 public class ReactorFuelGen : Interactable
 {
     public GameObject fuelPrefab;
     [Tooltip("How long it takes to generate a fuel")]
     public float timeToGenerate = 4;
-    public TextMeshProUGUI timerText;
+    public Image progressImageBase;
+    public Image progressImageFill;
+    public bool startWithFuel = true;
 
     // Are we currently generating fuel?
     private bool isActive = true;
@@ -20,11 +22,8 @@ public class ReactorFuelGen : Interactable
 
 	void Start()
 	{
-        interactionPrompt.enabled = false;
-        if (timerText != null)
-		{
-            timerText.text = (timeToGenerate + 1).ToString();
-        }
+        hasFuel = startWithFuel;
+        interactionPrompt.enabled = hasFuel;
 	}
 
 	void Update()
@@ -32,13 +31,14 @@ public class ReactorFuelGen : Interactable
         if (isActive && !hasFuel)
 		{
             fuelTimePassed += Time.deltaTime;
-            if (timerText != null)
-            {
-                timerText.text = (timeToGenerate - fuelTimePassed + 1).ToString("0");
-            }
+
+            float value = fuelTimePassed / timeToGenerate;
+            progressImageBase.fillAmount = 1 - value;
+            progressImageFill.fillAmount = value;
 
             if (fuelTimePassed >= timeToGenerate)
 			{
+                // Fuel is ready
                 fuelTimePassed = 0;
                 hasFuel = true;
                 interactionPrompt.enabled = true;
@@ -61,12 +61,14 @@ public class ReactorFuelGen : Interactable
         interactionPrompt.Pop();
         interactionPrompt.enabled = false;
 
+        // Make player pickup a new fuel grabbable
         Grabbable fuelGrabbable = Instantiate(fuelPrefab).GetComponent<Grabbable>();
         currentInteractor.Pickup(fuelGrabbable);
         
         hasFuel = false;
 
         currentInteractor.EndInteraction();
+        // Fix interaction prompt
         if (!hasFuel && interactionPrompt != null)
             interactionPrompt.Pop(isActive);
     }
