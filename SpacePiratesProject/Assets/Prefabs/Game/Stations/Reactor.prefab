@@ -394,7 +394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseOxygenRegenRate: 5
-  timeBetweenSwitches: 0.25
+  timeBetweenSwitches: 0.5
   stateLight: {fileID: 6214520378672009785}
 --- !u!1 &7740484747817312911
 GameObject:
