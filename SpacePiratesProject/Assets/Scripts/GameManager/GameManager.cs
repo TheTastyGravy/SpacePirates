@@ -7,8 +7,15 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
-    public float fadeInTime = 0.5f;
-    public float fadeOutTime = 0.5f;
+    public float fadeInGame = 0.5f;
+    public float fadeOutGame = 0.5f;
+    [Space]
+    public float fadeInOther = 0.5f;
+    public float fadeOutOther = 0.5f;
+    [HideInInspector]
+    public float realFadeIn;
+    [HideInInspector]
+    public float realFadeOut;
 
     public delegate void SceneDelegate(Scene scene, GameState otherScene);
     public static SceneDelegate OnStartTransition;
@@ -31,10 +38,8 @@ public class GameManager : Singleton<GameManager>
 
 
         if (Instance.m_CurrentState == newState)
-        {
             return;
-        }
-
+        
         // Prevent changing scenes too quickly to allow start logic to run
         if (Instance.m_IsLoadingScene)
         {
@@ -47,8 +52,11 @@ public class GameManager : Singleton<GameManager>
             Debug.LogWarning(message);
             return;
         }
-
         Instance.m_IsLoadingScene = true;
+
+        // Set fade times
+        Instance.realFadeIn = newState == GameState.GAME ? Instance.fadeInGame : Instance.fadeInOther;
+        Instance.realFadeOut = newState == GameState.GAME ? Instance.fadeOutGame : Instance.fadeOutOther;
 
         if (Instance.m_CurrentState != GameState.NONE)
         {
@@ -108,6 +116,8 @@ public class GameManager : Singleton<GameManager>
 
     public static void ReloadScene()
     {
+        Instance.realFadeIn = CurrentState == GameState.GAME ? Instance.fadeInGame : Instance.fadeInOther;
+        Instance.realFadeOut = CurrentState == GameState.GAME ? Instance.fadeOutGame : Instance.fadeOutOther;
         if (OnStartTransition != null)
             OnStartTransition.Invoke(SceneManager.GetSceneByName(Instance.m_CurrentState.ToString()), Instance.m_CurrentState);
 
@@ -142,7 +152,7 @@ public class GameManager : Singleton<GameManager>
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(newState.ToString(), LoadSceneMode.Additive);
         loadOp.allowSceneActivation = false;
         shouldFade = true;
-        yield return new WaitForSecondsRealtime(Instance.fadeInTime);
+        yield return new WaitForSecondsRealtime(Instance.realFadeIn);
 
         SceneManager.SetActiveScene(Instance.gameObject.scene);
         // Finish loading and start unloading, then wait for them to finish
@@ -166,7 +176,7 @@ public class GameManager : Singleton<GameManager>
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(state.ToString(), LoadSceneMode.Additive);
         loadOp.allowSceneActivation = false;
         shouldFade = true;
-        yield return new WaitForSecondsRealtime(Instance.fadeInTime);
+        yield return new WaitForSecondsRealtime(Instance.realFadeIn);
         
         SceneManager.SetActiveScene(Instance.gameObject.scene);
         // Finish loading and start unloading, then wait for them to finish
@@ -228,11 +238,11 @@ public class GameManager : Singleton<GameManager>
         // State has changed, so we need to update fadeTimePassed
         if (wasFading != shouldFade)
         {
-            fadeTimePassed = shouldFade ? 0 : fadeOutTime;
+            fadeTimePassed = shouldFade ? 0 : realFadeOut;
             wasFading = shouldFade;
         }
         fadeTimePassed += UnityEngine.Time.unscaledDeltaTime * (shouldFade ? 1 : -1);
-        float alpha = fadeTimePassed / (shouldFade ? fadeInTime : fadeOutTime);
+        float alpha = fadeTimePassed / (shouldFade ? realFadeIn : realFadeOut);
 
         // Fade texture using alpha and draw it over the screen
         Texture2D texture = new Texture2D(1, 1);

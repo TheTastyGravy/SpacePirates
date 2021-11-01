@@ -43,8 +43,6 @@ public class MusicManager : Singleton<MusicManager>
 
     private float musicVolume = 100;
 
-    private float baseFadeTime;
-
     [Header("Intensity")]
     public float maxOxygenDrainRate = 10;
     [Range(0,1)]
@@ -66,8 +64,6 @@ public class MusicManager : Singleton<MusicManager>
 
     private void InitSetup()
 	{
-        baseFadeTime = GameManager.Instance.fadeInTime;
-
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 100) * 0.01f;
         // Get the music info for the current scene
         musicInfo = data.GetInfo(GameManager.CurrentState);
@@ -127,9 +123,6 @@ public class MusicManager : Singleton<MusicManager>
 
     private void OnSceneExit(Scene scene, GameManager.GameState otherScene)
 	{
-        // Make sure music has enough time to fade out
-        GameManager.Instance.fadeInTime = Mathf.Max(baseFadeTime, musicInfo.fadeTime);
-
         MusicData.MusicInfo newInfo = data.GetInfo(otherScene);
         if (newInfo != musicInfo)
         {
@@ -139,6 +132,8 @@ public class MusicManager : Singleton<MusicManager>
                 EventManager.Instance.OnEventChange -= OnEventChange;
                 inGameScene = false;
             }
+            // Make sure music has enough time to fade out
+            GameManager.Instance.realFadeIn = Mathf.Max(GameManager.Instance.realFadeIn, musicInfo.fadeTime);
         }
     }
 
