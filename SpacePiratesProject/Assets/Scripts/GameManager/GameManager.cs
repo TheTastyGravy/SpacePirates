@@ -90,6 +90,12 @@ public class GameManager : Singleton<GameManager>
             // Make the INIT scene active for now
             SceneManager.SetActiveScene(Instance.gameObject.scene);
 
+            // If we are loading a menu and the menu base isnt loaded, load it imediatly
+            if (IsMenuScene(newState) && !SceneManager.GetSceneByName("MENU_BASE").IsValid())
+			{
+                SceneManager.LoadSceneAsync("MENU_BASE", LoadSceneMode.Additive).priority = 100;
+			}
+
             // This will do the transition with a fade, but kind of looks crap...
             //Instance.StartCoroutine(LoadUnload(Instance.m_CurrentState, value));
             // ...so just keep doing it like this instead
@@ -116,6 +122,15 @@ public class GameManager : Singleton<GameManager>
 
         Instance.m_CurrentState = newState;
     }
+
+    public static bool IsMenuScene(GameState state)
+	{
+        return state == GameState.START ||
+                state == GameState.MENU ||
+                state == GameState.SHIP ||
+                state == GameState.CHARACTER ||
+                state == GameState.TRACK;
+	}
 
     public static void ReloadScene()
     {
@@ -156,6 +171,12 @@ public class GameManager : Singleton<GameManager>
         loadOp.allowSceneActivation = false;
         shouldFade = true;
         yield return new WaitForSecondsRealtime(Instance.realFadeIn);
+
+        // Fades are only used for transitioning to non-menu scenes (currently...)
+        if (SceneManager.GetSceneByName("MENU_BASE").IsValid())
+		{
+            SceneManager.UnloadSceneAsync("MENU_BASE").priority = 100;
+		}
 
         SceneManager.SetActiveScene(Instance.gameObject.scene);
         // Finish loading and start unloading, then wait for them to finish
