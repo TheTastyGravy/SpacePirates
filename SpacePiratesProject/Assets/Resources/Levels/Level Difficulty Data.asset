@@ -20,15 +20,36 @@ MonoBehaviour:
     minEventLength: 50
     maxEventLength: 50
     extraLengthPerEvent: 0
+    timeBetweenAstroids: 8
+    astroidSpawnDelay: 1.5
+    timeBetweenAsteroidWaves: 10
+    asteroidsPerWave: 5
+    timeBetweenStormDamage: 10
+    shipHealth: 10
+    shipFirePeriod: 2
   medium:
     minEventCount: 3
     maxEventCount: 4
     minEventLength: 50
     maxEventLength: 50
     extraLengthPerEvent: 0
+    timeBetweenAstroids: 8
+    astroidSpawnDelay: 1.5
+    timeBetweenAsteroidWaves: 10
+    asteroidsPerWave: 5
+    timeBetweenStormDamage: 10
+    shipHealth: 10
+    shipFirePeriod: 2
   hard:
     minEventCount: 4
     maxEventCount: 6
     minEventLength: 50
     maxEventLength: 50
     extraLengthPerEvent: 0
+    timeBetweenAstroids: 8
+    astroidSpawnDelay: 1.5
+    timeBetweenAsteroidWaves: 10
+    asteroidsPerWave: 5
+    timeBetweenStormDamage: 10
+    shipHealth: 10
+    shipFirePeriod: 2

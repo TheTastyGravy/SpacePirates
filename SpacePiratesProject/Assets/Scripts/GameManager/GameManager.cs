@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
+    public LevelDificultyData diffData;
+    [Space]
     public float fadeInGame = 0.5f;
     public float fadeOutGame = 0.5f;
     [Space]
@@ -29,6 +31,7 @@ public class GameManager : Singleton<GameManager>
     public static bool HasWon => Instance.m_HasWon;
     public static bool IsLoadingScene => Instance.m_IsLoadingScene;
     public static GameState CurrentState => Instance.m_CurrentState;
+    public static LevelDificultyData DiffData => Instance.diffData;
 
 
 
@@ -211,6 +214,11 @@ public class GameManager : Singleton<GameManager>
         // Only allow controllers in builds
         if (!Application.isEditor)
             InputSystem.settings.supportedDevices = new string[] { "Gamepad" };
+    }
+
+    public static LevelDificultyData.DiffSetting GetDifficultySettings()
+	{
+        return Instance.diffData.GetSetting((LevelDificultyData.Difficulty)SelectedTrack, Player.all.Count);
     }
 
     public static void RegisterSelectedShip( int a_Index, int a_MaxPlayers )

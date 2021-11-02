@@ -5,9 +5,7 @@ using UnityEngine;
 public class AstroidManager : Singleton<AstroidManager>
 {
 	public GameObject astroidPrefab;
-	public float timeBetweenAstroids = 5;
 	public float maxAngleVariance = 45;
-	public float astroidSpawnDelay = 1.5f;
 	public LayerMask raycastMask;
 	public float raycastYOffset = 1;
 	[Space]
@@ -17,7 +15,8 @@ public class AstroidManager : Singleton<AstroidManager>
 	public PolygonCollider2D uiBoundry;
 	public float uiExtraTime = 0.5f;
 
-
+	private float timeBetweenAstroids;
+	private float astroidSpawnDelay;
 	private BoxCollider[] regions;
 	private float timePassed = 0;
 	private Vector2 screenScale;
@@ -26,6 +25,11 @@ public class AstroidManager : Singleton<AstroidManager>
 
 	void Start()
 	{
+		// Get values from difficulty settings
+		LevelDificultyData.DiffSetting settings = GameManager.GetDifficultySettings();
+		timeBetweenAstroids = settings.timeBetweenAstroids;
+		astroidSpawnDelay = settings.astroidSpawnDelay;
+
 		maxAngleVariance *= 0.5f;
 		screenScale = Screen.safeArea.size * new Vector2(1f / 1920f, 1f / 1080f);
 

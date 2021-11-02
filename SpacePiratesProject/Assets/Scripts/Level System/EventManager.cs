@@ -1,29 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class EventManager : Singleton<EventManager>
 {
-	[Header("Astroid Field")]
-	public float timeBetweenWaves = 2;
-	public int astroidsPerWave = 4;
+	private float timeBetweenWaves;
+	private int astroidsPerWave;
 
+	private float timeBetweenDamage;
 
-	[Header("Plasma Storm")]
-	public float timeBetweenDamage = 1;
-
-
-	[Header("Ship Attack")]
 	public GameObject shipPrefab;
-	public int shipHealth = 10;
-
+	private int shipHealth;
+	private float firePeriod;
 
 	private Event currentEvent;
 	public delegate void EventDelegate(Level.Event.Type eventType);
 	public EventDelegate OnEventChange;
 
 
+
+	void Start()
+	{
+		// Get event values from difficulty settings
+		LevelDificultyData.DiffSetting settings = GameManager.GetDifficultySettings();
+		timeBetweenWaves = settings.timeBetweenAsteroidWaves;
+		astroidsPerWave = settings.asteroidsPerWave;
+		timeBetweenDamage = settings.timeBetweenStormDamage;
+		shipHealth = settings.shipHealth;
+		firePeriod = settings.shipFirePeriod;
+	}
 
 	public void StartEvent(Level.Event newEvent)
 	{
@@ -47,7 +52,8 @@ public class EventManager : Singleton<EventManager>
 				currentEvent = new ShipAttack()
 				{
 					shipPrefab = shipPrefab,
-					shipHealth = shipHealth
+					shipHealth = shipHealth,
+					firePeriod = firePeriod
 				};
 				break;
 		}

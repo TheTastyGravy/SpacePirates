@@ -80,6 +80,7 @@ public class ShipAttack : Event
 {
 	public GameObject shipPrefab;
 	public int shipHealth;
+	public float firePeriod;
 	
 	private ChaseShipLogic shipLogic;
 
@@ -88,7 +89,7 @@ public class ShipAttack : Event
 	{
 		// Setup ship
 		shipLogic = Object.Instantiate(shipPrefab).GetComponent<ChaseShipLogic>();
-		shipLogic.Setup(shipHealth);
+		shipLogic.Setup(shipHealth, firePeriod);
 	}
 
 	public override void Stop()

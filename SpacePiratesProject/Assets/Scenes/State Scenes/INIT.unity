@@ -230,6 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d89bf0d2e4846740ba61bc73319405b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  diffData: {fileID: 11400000, guid: 9ac970e625d924b40a5895b80b9721e4, type: 2}
   fadeInGame: 0.5
   fadeOutGame: 1.5
   fadeInOther: 0.25

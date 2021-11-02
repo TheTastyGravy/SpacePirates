@@ -14,12 +14,23 @@ public class LevelDificultyData : ScriptableObject
     [System.Serializable]
     public class DiffSetting
     {
+        [Header("Level Generation")]
         public int minEventCount;
         public int maxEventCount;
         public float minEventLength;
         public float maxEventLength;
-
         public float extraLengthPerEvent = 5;
+        [Header("Asteroids")]
+        public float timeBetweenAstroids = 5;
+        public float astroidSpawnDelay = 1.5f;
+        [Header("Event Data")]
+        public float timeBetweenAsteroidWaves = 2;
+        public int asteroidsPerWave = 4;
+        [Space]
+        public float timeBetweenStormDamage = 1;
+        [Space]
+        public int shipHealth = 10;
+        public float shipFirePeriod = 2;
     }
 
     [Tooltip("How close to the ends of a level events can be placed")]
@@ -35,7 +46,7 @@ public class LevelDificultyData : ScriptableObject
     private DiffSetting hard;
 
     
-    public DiffSetting GetSetting(Difficulty diff)
+    public DiffSetting GetSetting(Difficulty diff, int playerCount)
 	{
 		return diff switch
 		{
