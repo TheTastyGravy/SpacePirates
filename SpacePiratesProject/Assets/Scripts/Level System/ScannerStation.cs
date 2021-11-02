@@ -18,12 +18,14 @@ public class ScannerStation : MonoBehaviour
     {
         activateSwitch = GetComponentInChildren<BasicSwitch>();
         damage = GetComponentInChildren<DamageStation>();
-
         activateSwitch.OnActivated += OnSwitchUsed;
         // The switch can not be used while damaged
 		damage.OnDamageTaken += () => { activateSwitch.enabled = false; activateSwitch.forceDisabled = true; activateSwitch.interactionPrompt.Pop(false); };
 		damage.OnDamageRepaired += () => { activateSwitch.enabled = true; activateSwitch.forceDisabled = false; };
-	}
+
+        // Set cooldown using difficulty settings
+        activateSwitch.interactionCooldown = GameManager.GetDifficultySettings().interactionCooldown.Value;
+    }
 
     void Update()
     {

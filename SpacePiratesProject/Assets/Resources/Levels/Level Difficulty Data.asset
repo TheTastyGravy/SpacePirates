@@ -27,6 +27,60 @@ MonoBehaviour:
     timeBetweenStormDamage: 10
     shipHealth: 10
     shipFirePeriod: 2
+    timePerFuel:
+      playerCountValues:
+      - 10
+      - 10
+      - 10
+      - 10
+      useSeperateValues: 0
+    maxSpeed:
+      playerCountValues:
+      - 1
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    startFuel:
+      playerCountValues: 03000000050000000500000005000000
+      useSeperateValues: 0
+    interactionCooldown:
+      playerCountValues:
+      - 3
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    baseOxygenRegenRate:
+      playerCountValues:
+      - 5
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    timeBetweenSwitches:
+      playerCountValues:
+      - 0.5
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    fuelGenerationTime:
+      playerCountValues:
+      - 4
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    maxShots:
+      playerCountValues: 0a000000000000000000000000000000
+      useSeperateValues: 0
+    shotsPerFuel:
+      playerCountValues: 0a000000000000000000000000000000
+      useSeperateValues: 0
+    startShots:
+      playerCountValues: 03000000000000000000000000000000
+      useSeperateValues: 0
   medium:
     minEventCount: 3
     maxEventCount: 4
@@ -40,6 +94,60 @@ MonoBehaviour:
     timeBetweenStormDamage: 10
     shipHealth: 10
     shipFirePeriod: 2
+    timePerFuel:
+      playerCountValues:
+      - 10
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    maxSpeed:
+      playerCountValues:
+      - 1
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    startFuel:
+      playerCountValues: 03000000000000000000000000000000
+      useSeperateValues: 0
+    interactionCooldown:
+      playerCountValues:
+      - 3
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    baseOxygenRegenRate:
+      playerCountValues:
+      - 5
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    timeBetweenSwitches:
+      playerCountValues:
+      - 0.5
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    fuelGenerationTime:
+      playerCountValues:
+      - 4
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    maxShots:
+      playerCountValues: 0a000000000000000000000000000000
+      useSeperateValues: 0
+    shotsPerFuel:
+      playerCountValues: 0a000000000000000000000000000000
+      useSeperateValues: 0
+    startShots:
+      playerCountValues: 03000000000000000000000000000000
+      useSeperateValues: 0
   hard:
     minEventCount: 4
     maxEventCount: 6
@@ -53,3 +161,57 @@ MonoBehaviour:
     timeBetweenStormDamage: 10
     shipHealth: 10
     shipFirePeriod: 2
+    timePerFuel:
+      playerCountValues:
+      - 10
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    maxSpeed:
+      playerCountValues:
+      - 1
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    startFuel:
+      playerCountValues: 03000000000000000000000000000000
+      useSeperateValues: 0
+    interactionCooldown:
+      playerCountValues:
+      - 3
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    baseOxygenRegenRate:
+      playerCountValues:
+      - 5
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    timeBetweenSwitches:
+      playerCountValues:
+      - 0.5
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    fuelGenerationTime:
+      playerCountValues:
+      - 4
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    maxShots:
+      playerCountValues: 0a000000000000000000000000000000
+      useSeperateValues: 0
+    shotsPerFuel:
+      playerCountValues: 0a000000000000000000000000000000
+      useSeperateValues: 0
+    startShots:
+      playerCountValues: 03000000000000000000000000000000
+      useSeperateValues: 0

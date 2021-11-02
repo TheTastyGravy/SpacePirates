@@ -128,7 +128,7 @@ public class ShipManager : Singleton<ShipManager>
         float speed = 0;
         foreach (var engine in engines)
         {
-            speed += engine.maxSpeed;
+            speed += engine.MaxSpeed;
         }
         return speed;
     }

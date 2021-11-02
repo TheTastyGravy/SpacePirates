@@ -11,9 +11,6 @@ public class TurretStation : MonoBehaviour
     public Transform firePos;
     public GameObject projectilePrefab;
     [Space]
-    public int shotsPerFuel = 5;
-    public int maxShots = 5;
-    public int startShots = 0;
     public float projectileSpeed = 10;
     public float minAngle, maxAngle;
     [Tooltip("The angle that the turret begins at. Used for custom models")]
@@ -29,15 +26,15 @@ public class TurretStation : MonoBehaviour
     private FuelDeposit fuelDepo;
     private ParticleSystem shootEffect;
     private Renderer laser;
-
     private bool isTurnedOn = false;
     public bool IsTurnedOn => isTurnedOn;
-
     private Interactor currentInteractor = null;
     // Info about player before we move them into the turret
     private Vector3 playerPos;
     private Quaternion playerRot;
-
+    private int shotsPerFuel = 5;
+    private int maxShots = 5;
+    private int startShots = 0;
     private int shotsRemaining = 0;
     public int ShotsRemaining => shotsRemaining;
     private bool firstFire;
@@ -55,9 +52,14 @@ public class TurretStation : MonoBehaviour
 
         if (laser != null)
             laser.enabled = false;
-
         if (turretHud != null)
             turretHud.SetActive(false);
+
+        // Get values from difficulty settings
+        LevelDificultyData.DiffSetting setting = GameManager.GetDifficultySettings();
+        maxShots = setting.maxShots.Value;
+        shotsPerFuel = setting.shotsPerFuel.Value;
+        startShots = setting.startShots.Value;
         
         shotsRemaining = startShots;
         Invoke(nameof(FixFuelIndicator), 0.1f);
