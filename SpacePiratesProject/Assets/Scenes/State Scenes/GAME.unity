@@ -1838,6 +1838,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   background: {fileID: 300307189}
+  plasmaStormEffectPrefab: {fileID: 1885306340502562398, guid: 211b57802507287438f612f40767f823, type: 3}
+  storm_timeBetween: 0.25
+  storm_baseSpeed: 0.8
   minSpeedModifier: 0.1
   maxSpeedModifier: 1
 --- !u!1001 &6661497440788994546
