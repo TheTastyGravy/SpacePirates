@@ -88,6 +88,9 @@ public class InteractionPromptLogic : MonoBehaviour
 
     public void PopV2()
 	{
+        if (!enabled)
+            return;
+
         if (routine != null)
         {
             StopCoroutine(routine);

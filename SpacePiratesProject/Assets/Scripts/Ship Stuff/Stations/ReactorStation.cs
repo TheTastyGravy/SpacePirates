@@ -84,6 +84,7 @@ public class ReactorStation : MonoBehaviour
 		foreach (var obj in reactorSwitches)
 		{
 			obj.enabled = false;
+			obj.forceDisabled = true;
 		}
 	}
 
@@ -92,6 +93,7 @@ public class ReactorStation : MonoBehaviour
 		foreach (var obj in reactorSwitches)
 		{
 			obj.enabled = true;
+			obj.forceDisabled = false;
 		}
 	}
 }
