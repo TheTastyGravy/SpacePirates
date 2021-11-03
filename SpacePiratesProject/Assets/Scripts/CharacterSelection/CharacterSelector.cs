@@ -329,7 +329,6 @@ public class CharacterSelector : Singleton< CharacterSelector >
                 Player newPlayer = a_PlayerInput as Player;
                 newPlayer.ChangeCharacter( 0, 0 );
                 newPlayer.Character.SetUseCharacterSelectAnimations(true);
-                ( newPlayer.Character as Character ).IsKinematic = false;
                 m_CharacterDocks[i].SetPlayer(newPlayer);
                 break;
             }

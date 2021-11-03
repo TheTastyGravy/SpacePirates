@@ -4,24 +4,19 @@ using UnityEngine;
 
 public class ReactorStation : MonoBehaviour
 {
-    // Oxygen regen when turned on
-    public float baseOxygenRegenRate = 5;
-	[Tooltip("The ammount of time allowed between activating the switches")]
-	public float timeBetweenSwitches = 0.25f;
-
 	public Light stateLight;
-
 
 	private BasicSwitch[] reactorSwitches;
 	private ReactorFuelGen fuelGen;
 	private DamageStation damage;
 	public DamageStation Damage => damage;
-
 	private bool isTurnedOn = true;
     public bool IsTurnedOn => isTurnedOn;
     private float currentOxygenRegen;
     public float CurrentOxygenRegen => currentOxygenRegen;
 
+	private float baseOxygenRegenRate = 5;
+	private float timeBetweenSwitches = 0.25f;
 	// The time a switch was last used
 	private float lastSwitchTime = 0;
 
@@ -32,6 +27,11 @@ public class ReactorStation : MonoBehaviour
 		reactorSwitches = GetComponentsInChildren<BasicSwitch>();
 		fuelGen = GetComponentInChildren<ReactorFuelGen>();
         damage = GetComponentInChildren<DamageStation>();
+
+		// Get values from difficulty settings
+		LevelDificultyData.DiffSetting setting = GameManager.GetDifficultySettings();
+		baseOxygenRegenRate = setting.baseOxygenRegenRate.Value;
+		timeBetweenSwitches = setting.timeBetweenSwitches.Value;
 
 		// Add event listeners
 		foreach (var reactorSwitch in reactorSwitches)
@@ -48,7 +48,7 @@ public class ReactorStation : MonoBehaviour
 	{
 		isTurnedOn = true;
 		currentOxygenRegen = baseOxygenRegenRate;
-		fuelGen.isActive = true;
+		fuelGen.SetActive(true);
 
 		stateLight.color = Color.green;
 		stateLight.intensity = 0.5f;
@@ -58,12 +58,11 @@ public class ReactorStation : MonoBehaviour
 	{
 		isTurnedOn = false;
 		currentOxygenRegen = 0;
-		fuelGen.isActive = false;
+		fuelGen.SetActive(false);
 
 		stateLight.color = Color.red;
 		stateLight.intensity = 2;
 	}
-
 
 	private void OnSwitchUsed()
 	{
@@ -85,6 +84,7 @@ public class ReactorStation : MonoBehaviour
 		foreach (var obj in reactorSwitches)
 		{
 			obj.enabled = false;
+			obj.forceDisabled = true;
 		}
 	}
 
@@ -93,6 +93,7 @@ public class ReactorStation : MonoBehaviour
 		foreach (var obj in reactorSwitches)
 		{
 			obj.enabled = true;
+			obj.forceDisabled = false;
 		}
 	}
 }

@@ -11,9 +11,6 @@ public class TurretStation : MonoBehaviour
     public Transform firePos;
     public GameObject projectilePrefab;
     [Space]
-    public int shotsPerFuel = 5;
-    public int maxShots = 5;
-    public int startShots = 0;
     public float projectileSpeed = 10;
     public float minAngle, maxAngle;
     [Tooltip("The angle that the turret begins at. Used for custom models")]
@@ -27,15 +24,17 @@ public class TurretStation : MonoBehaviour
     private TurretActivate turretActivate;
     private DamageStation damage;
     private FuelDeposit fuelDepo;
-
+    private ParticleSystem shootEffect;
+    private Renderer laser;
     private bool isTurnedOn = false;
     public bool IsTurnedOn => isTurnedOn;
-
     private Interactor currentInteractor = null;
     // Info about player before we move them into the turret
     private Vector3 playerPos;
     private Quaternion playerRot;
-
+    private int shotsPerFuel = 5;
+    private int maxShots = 5;
+    private int startShots = 0;
     private int shotsRemaining = 0;
     public int ShotsRemaining => shotsRemaining;
     private bool firstFire;
@@ -48,9 +47,19 @@ public class TurretStation : MonoBehaviour
         turretActivate = GetComponentInChildren<TurretActivate>();
         damage = GetComponentInChildren<DamageStation>();
         fuelDepo = GetComponentInChildren<FuelDeposit>();
+        shootEffect = firePos.GetComponentInChildren<ParticleSystem>();
+        laser = firePos.GetComponentInChildren<MeshRenderer>();
 
+        if (laser != null)
+            laser.enabled = false;
         if (turretHud != null)
             turretHud.SetActive(false);
+
+        // Get values from difficulty settings
+        LevelDificultyData.DiffSetting setting = GameManager.GetDifficultySettings();
+        maxShots = setting.maxShots.Value;
+        shotsPerFuel = setting.shotsPerFuel.Value;
+        startShots = setting.startShots.Value;
         
         shotsRemaining = startShots;
         Invoke(nameof(FixFuelIndicator), 0.1f);
@@ -105,7 +114,6 @@ public class TurretStation : MonoBehaviour
         if (currentInteractor != null)
             return;
 
-
         currentInteractor = interactor;
         turretActivate.enabled = false;
         AddPlayer();
@@ -141,9 +149,11 @@ public class TurretStation : MonoBehaviour
     // Used to setup a players controls to use the turret
     private void AddPlayer()
 	{
-        // Display HUD
+        // Display HUD and aiming laser
         if (turretHud != null)
             turretHud.SetActive(true);
+        if (laser != null)
+            laser.enabled = true;
 
         //get info
         playerPos = currentInteractor.Player.Character.transform.position;
@@ -159,9 +169,11 @@ public class TurretStation : MonoBehaviour
     // Used to remove a players controls to use the turret
     private void RemovePlayer()
 	{
-        // Hide HUD
+        // Hide HUD and aiming laser
         if (turretHud != null)
             turretHud.SetActive(false);
+        if (laser != null)
+            laser.enabled = false;
 
         //remove turret controls
         currentInteractor.Player.RemoveInputListener(Player.Control.A_PRESSED, Fire);
@@ -187,6 +199,9 @@ public class TurretStation : MonoBehaviour
         Destroy(projectile, 5);
         // Rotate child containing collider to align with camera. This is to create more consistant collisions visualy
         projectile.transform.GetChild(0).rotation = Camera.main.transform.rotation;
+        // Play explosion effect at fire pos
+        if (shootEffect != null)
+            shootEffect.Play();
 
         fuelDepo.enabled = true;
 

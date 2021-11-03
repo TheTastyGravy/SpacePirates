@@ -6,11 +6,6 @@ public class EngineStation : MonoBehaviour
 {
 	public FuelIndicator fuelIndicator;
 	public int maxFuel = 3;
-	public int startFuel = 0;
-	[Tooltip("How long each fuel lasts")]
-	public float timePerFuel = 10;
-	[Tooltip("The speed allied to the ship when turned on")]
-	public float maxSpeed = 1;
 	public float speedAcceleration = 1;
 	public float speedDecay = 0.2f;
 
@@ -18,21 +13,30 @@ public class EngineStation : MonoBehaviour
 	private DamageStation damage;
 	public DamageStation Damage => damage;
 
+	private float timePerFuel;
+	private float maxSpeed;
+	public float MaxSpeed => maxSpeed;
+	private int startFuel;
 	public bool IsTurnedOn => currentFuel > 0 && damage.DamageLevel == 0;
 	private float currentSpeed = 0;
 	public float CurrentSpeed => currentSpeed;
-
 	private int currentFuel = 0;
 	public int CurrentFuel => currentFuel;
 	private float fuelTime = 0;
 
-
+	
 
 	void Awake()
 	{
 		fuelDepo = GetComponentInChildren<FuelDeposit>();
 		damage = GetComponentInChildren<DamageStation>();
 		fuelDepo.OnFuelDeposited += OnFueled;
+
+		// Get values from difficulty settings
+		LevelDificultyData.DiffSetting setting = GameManager.GetDifficultySettings();
+		timePerFuel = setting.timePerFuel.Value;
+		maxSpeed = setting.maxSpeed.Value;
+		startFuel = setting.startFuel.Value;
 
 		currentFuel = startFuel;
 		Invoke(nameof(FixFuelIndicator), 0.1f);

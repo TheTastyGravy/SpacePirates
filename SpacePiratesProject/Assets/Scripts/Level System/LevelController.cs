@@ -22,6 +22,8 @@ public class LevelController : Singleton<LevelController>
         level.Setup();
         ship = Ship.GetShip( GameManager.SelectedShip );
         Instantiate(ship.ShipPrefab, new Vector3(0, ship.heightOffset, 0), Quaternion.identity);
+        // Event for game over
+        ShipManager.Instance.OnZeroOxygen += () => OnGameOver(false);
 
         eventManager = EventManager.Instance;
         timeline = TimelineController.Instance;
@@ -61,8 +63,42 @@ public class LevelController : Singleton<LevelController>
         // Check if the player has reached the end of the level
         if (playerPos >= level.length)
 		{
-            GameManager.SetGameOverInfo(true);
-            GameManager.ChangeState(GameManager.GameState.SUMMARY);
+            OnGameOver(true);
         }
+    }
+
+    private void OnGameOver(bool hasWon)
+	{
+        GameManager.SetGameOverInfo(hasWon);
+
+        // Freeze players
+        foreach (Player player in Player.all)
+		{
+            player.Character.enabled = false;
+            (player.Character as Character).IsKinematic = true;
+        }
+        // Stop everything
+        enabled = false;
+        AstroidManager.Instance.enabled = false;
+        StatusManager.Instance.enabled = false;
+        ShipManager.Instance.enabled = false;
+        // Fade ship to normal
+        ShipManager.Instance.StartCoroutine(ShipManager.Instance.FadeShip(0.75f, false));
+
+        if (hasWon)
+		{
+            ShipManager.Instance.MoveForward(2, 50);
+        }
+		else
+		{
+            ShipManager.Instance.ExplodeShip();
+        }
+
+        Invoke(nameof(ChangeScene), 2);
+    }
+
+    private void ChangeScene()
+	{
+        GameManager.ChangeState(GameManager.GameState.SUMMARY);
     }
 }

@@ -12,9 +12,14 @@ public class InteractionPromptLogic : MonoBehaviour
 
     public Image[] baseImages;
     public Image[] selectedImages;
+    public Image[] disabledImages;
 
     [HideInInspector]
     public float interactionProgress = 0;
+    private Interactable m_interactable;
+    public Interactable Interactable { get => m_interactable; internal set { m_interactable = value; } }
+    public bool IsBeingUsed => isBeingUsed;
+    public bool IsSelected => isSelected;
 
     private bool isBeingUsed = false;
     private bool isSelected = false;
@@ -22,6 +27,10 @@ public class InteractionPromptLogic : MonoBehaviour
     private Coroutine routine;
     private bool IsBaseVisible => baseImages.Length > 0 && baseImages[0].color.a > 0;
     private bool IsSelectedVisible => selectedImages.Length > 0 && selectedImages[0].color.a > 0;
+    private bool IsDisabledVisible => disabledImages.Length > 0 && disabledImages[0].color.a > 0;
+
+    public BasicDelegate OnSelected;
+    public BasicDelegate OnUnselected;
 
 
 
@@ -37,6 +46,13 @@ public class InteractionPromptLogic : MonoBehaviour
         if (!enabled)
 		{
             foreach (var obj in baseImages)
+            {
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
+            }
+		}
+		else
+		{
+            foreach (var obj in disabledImages)
             {
                 obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
             }
@@ -61,22 +77,62 @@ public class InteractionPromptLogic : MonoBehaviour
         progressImage.fillAmount = actualProgress;
     }
 
-    public void Pop()
+    public void Pop(bool showDisabled = true)
 	{
         if (routine != null)
         {
             StopCoroutine(routine);
         }
-        routine = StartCoroutine(NewFade(false, false));
+        routine = StartCoroutine(NewFade(false, false, showDisabled));
     }
 
-    private IEnumerator NewFade(bool showBase, bool showSelected)
+    public void PopV2()
+	{
+        if (!enabled)
+            return;
+
+        if (routine != null)
+        {
+            StopCoroutine(routine);
+        }
+
+        bool useSelected = IsSelectedVisible;
+        bool useBase = IsBaseVisible;
+        bool useDisabled = IsDisabledVisible;
+
+        if (useSelected)
+		{
+            foreach (var obj in selectedImages)
+            {
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
+            }
+        }
+        if (useBase)
+		{
+            foreach (var obj in baseImages)
+            {
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
+            }
+        }
+        if (useDisabled)
+		{
+            foreach (var obj in disabledImages)
+            {
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
+            }
+        }
+
+        routine = StartCoroutine(NewFade(useBase, useSelected, useDisabled));
+    }
+
+    private IEnumerator NewFade(bool showBase, bool showSelected, bool showDisabled = false)
     {
         Vector3 shrunkScale = Vector3.one - Vector3.one * popScale;
         // Dont hide what is already hidden
         bool useSelected = showSelected || IsSelectedVisible;
         bool useBase = showBase || IsBaseVisible;
-        if (!useSelected && !useBase)
+        bool useDisabled = showDisabled || IsDisabledVisible;
+        if (!useSelected && !useBase && !useDisabled)
             yield break;
 
         float time = 0;
@@ -99,6 +155,14 @@ public class InteractionPromptLogic : MonoBehaviour
                     obj.transform.localScale = Vector3.Lerp(Vector3.one, shrunkScale, showSelected ? 1 - val : val);
                 }
             }
+            if (useDisabled)
+            {
+                foreach (var obj in disabledImages)
+                {
+                    obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, Mathf.Lerp(1, 0, showDisabled ? 1 - val : val));
+                    obj.transform.localScale = Vector3.Lerp(Vector3.one, shrunkScale, showDisabled ? 1 - val : val);
+                }
+            }
 
             time += Time.deltaTime;
             yield return null;
@@ -119,6 +183,14 @@ public class InteractionPromptLogic : MonoBehaviour
             {
                 obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, showSelected ? 1 : 0);
                 obj.transform.localScale = showSelected ? Vector3.one : shrunkScale;
+            }
+        }
+        if (useDisabled)
+        {
+            foreach (var obj in disabledImages)
+            {
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, showDisabled ? 1 : 0);
+                obj.transform.localScale = showDisabled ? Vector3.one : shrunkScale;
             }
         }
 
@@ -151,6 +223,9 @@ public class InteractionPromptLogic : MonoBehaviour
     public void Selected()
 	{
         isSelected = true;
+        if (OnSelected != null)
+            OnSelected.Invoke();
+
         if (isBeingUsed && IsSelectedVisible)
             return;
 
@@ -166,6 +241,9 @@ public class InteractionPromptLogic : MonoBehaviour
     public void Unselected()
 	{
         isSelected = false;
+        if (OnUnselected != null)
+            OnUnselected.Invoke();
+
         if (isBeingUsed)
             return;
 
@@ -193,7 +271,7 @@ public class InteractionPromptLogic : MonoBehaviour
 		{
             if (routine != null)
                 StopCoroutine(routine);
-            routine = StartCoroutine(NewFade(false, false));
+            routine = StartCoroutine(NewFade(false, false, true));
         }
         else
 		{
@@ -204,6 +282,11 @@ public class InteractionPromptLogic : MonoBehaviour
             foreach (var obj in selectedImages)
             {
                 obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
+            }
+            foreach (var obj in disabledImages)
+            {
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 1);
+                obj.transform.localScale = Vector3.one;
             }
         }
     }

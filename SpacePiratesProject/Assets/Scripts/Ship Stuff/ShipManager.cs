@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class ShipManager : Singleton<ShipManager>
 {
@@ -12,31 +11,34 @@ public class ShipManager : Singleton<ShipManager>
     [Header("Avoidance")]
     [Range(0,1)]
     public float maxAvoidance = 0.25f;
-
+    [Space]
     public float fadeTime = 1;
     public float fadeDelay = 1;
-    public Renderer roof;
+    public Renderer[] roof;
     public Renderer[] body;
     public Color bodyColor;
-
+    [Space]
+    public MeshFilter mainMesh;
+    public GameObject explosionPrefab;
+    public float timeBetweenExplosions = 0.2f;
 
     private ReactorStation[] reactors;
     public ReactorStation Reactor => reactors.Length > 0 ? reactors[0] : null;
     private EngineStation[] engines;
     private RoomManager[] rooms;
 
+    // Event for game over due to running out of oxygen
+    public BasicDelegate OnZeroOxygen;
     private float oxygenLevel;
     public float OxygenLevel => oxygenLevel;
     private OxygenBar oxygenBar;
     [HideInInspector]
     public float oxygenDrain = 0;
-
     private float gameOverTimmer;
+    private bool isCheatActive = false;
 
-    private Player player;
-    private Player.Control[] cheatCode;
-    private int cheatIndex = 0;
-    private bool cheatActive = false;
+    private float[] cumulativeSizes;
+    private float total;
 
 
 
@@ -46,42 +48,18 @@ public class ShipManager : Singleton<ShipManager>
         engines = GetComponentsInChildren<EngineStation>();
         rooms = GetComponentsInChildren<RoomManager>();
 
-        roof.material.color = Color.white;
-        StartCoroutine(FadeShip());
+        foreach (var obj in roof)
+        {
+            obj.material.color = Color.white;
+        }
+        StartCoroutine(FadeShip(fadeTime, true));
 
         oxygenLevel = maxOxygenLevel;
         oxygenBar = FindObjectOfType<OxygenBar>();
         oxygenBar.MaxValue = maxOxygenLevel;
 
-        // Setup input callbacks for cheat code
-        player = Player.GetPlayerBySlot(Player.PlayerSlot.P1);
-        player.AddInputListener(Player.Control.DPAD_PRESSED, OnP1Input);
-        player.AddInputListener(Player.Control.B_PRESSED, OnP1Input);
-        player.AddInputListener(Player.Control.A_PRESSED, OnP1Input);
-        player.AddInputListener(Player.Control.START_PRESSED, OnP1Input);
-        // Illegal info
-        cheatCode = new Player.Control[]
-        {
-            Player.Control.COUNT + 0,
-            Player.Control.COUNT + 0,
-            Player.Control.COUNT + 2,
-            Player.Control.COUNT + 2,
-            Player.Control.COUNT + 3,
-            Player.Control.COUNT + 1,
-            Player.Control.COUNT + 3,
-            Player.Control.COUNT + 1,
-            Player.Control.B_PRESSED,
-            Player.Control.A_PRESSED,
-            Player.Control.START_PRESSED
-        };
-    }
-
-	void OnDestroy()
-	{
-        player.RemoveInputListener(Player.Control.DPAD_PRESSED, OnP1Input);
-        player.RemoveInputListener(Player.Control.B_PRESSED, OnP1Input);
-        player.RemoveInputListener(Player.Control.A_PRESSED, OnP1Input);
-        player.RemoveInputListener(Player.Control.START_PRESSED, OnP1Input);
+        // Nothing to see here...
+        Character.OnCheatActivated += () => isCheatActive = true;
     }
 
 	public void DamageShipAtPosition(Vector3 position)
@@ -125,7 +103,7 @@ public class ShipManager : Singleton<ShipManager>
         float speed = 0;
         foreach (var engine in engines)
         {
-            speed += engine.maxSpeed;
+            speed += engine.MaxSpeed;
         }
         return speed;
     }
@@ -172,27 +150,36 @@ public class ShipManager : Singleton<ShipManager>
 		}
 	}
 
-    private IEnumerator FadeShip()
+    public IEnumerator FadeShip(float time, bool fadeOut)
     {
-        yield return new WaitForSeconds(fadeDelay);
+        if (fadeOut)
+            yield return new WaitForSeconds(fadeDelay);
 
         float t = 0;
-        while (t < fadeTime)
+        while (t < time)
         {
-            roof.material.color = Color.Lerp(Color.white, new Color(1,1,1,0), t / fadeTime);
+            float val = t / time;
+            val = fadeOut ? val : 1 - val;
+            foreach (var obj in roof)
+            {
+                obj.material.color = Color.Lerp(Color.white, new Color(1, 1, 1, 0), val);
+            }
             foreach (var obj in body)
             {
-                obj.material.color = Color.Lerp(Color.white, bodyColor, t / fadeTime);
+                obj.material.color = Color.Lerp(Color.white, bodyColor, val);
             }
 
             t += Time.deltaTime;
             yield return null;
         }
 
-        roof.material.color = new Color(1, 1, 1, 0);
+        foreach (var obj in roof)
+        {
+            obj.material.color = new Color(1, 1, 1, fadeOut ? 0 : 1);
+        }
         foreach (var obj in body)
         {
-            obj.material.color = bodyColor;
+            obj.material.color = fadeOut ? bodyColor : Color.white;
         }
     }
 
@@ -203,10 +190,10 @@ public class ShipManager : Singleton<ShipManager>
 
     private void UpdateOxygen()
 	{
-        if (cheatActive)
+        if (isCheatActive)
 		{
             //hacker man
-            oxygenLevel = 100;
+            oxygenLevel = maxOxygenLevel;
             oxygenBar.value = oxygenLevel;
             oxygenDrain = 0;
             return;
@@ -238,8 +225,7 @@ public class ShipManager : Singleton<ShipManager>
             gameOverTimmer += Time.deltaTime;
             if (gameOverTimmer >= timeToGameOver)
 			{
-                GameManager.SetGameOverInfo(false);
-                GameManager.ChangeState(GameManager.GameState.SUMMARY);
+                OnZeroOxygen.Invoke();
 			}
         }
 		else
@@ -252,43 +238,103 @@ public class ShipManager : Singleton<ShipManager>
         oxygenDrain = oxygenRegenRate - oxygenLossRate;
     }
 
-    private void OnP1Input(InputAction.CallbackContext context)
-    {
-        // Get action, correcting for dpad
-        InputAction correctAction = player.GetInputAction(cheatCode[cheatIndex] >= Player.Control.COUNT ? Player.Control.DPAD_PRESSED : cheatCode[cheatIndex]);
-        if (context.action == correctAction)
+
+    public void MoveForward(float time, float distance)
+	{
+        Camera.main.transform.parent = null;
+        Vector3 endPos = transform.position + transform.forward * distance;
+        StartCoroutine(MoveShip(time, endPos));
+	}
+
+    private IEnumerator MoveShip(float time, Vector3 end)
+	{
+        Vector3 start = transform.position;
+        float t = 0;
+        while (t < time)
 		{
-            // If its a direction, check dpad input
-            if (cheatCode[cheatIndex] >= Player.Control.COUNT)
-			{
-                Vector2 val = context.ReadValue<Vector2>();
-                if (!((val.y == 1 && cheatCode[cheatIndex] == Player.Control.COUNT + 0) ||//up
-                    (val.x == 1 && cheatCode[cheatIndex] == Player.Control.COUNT + 1) ||  //right
-                    (val.y == -1 && cheatCode[cheatIndex] == Player.Control.COUNT + 2) || //down
-                    (val.x == -1 && cheatCode[cheatIndex] == Player.Control.COUNT + 3)))  //left
-				{
-                    // Fail
-                    cheatIndex = 0;
-                    return;
-				}
+            transform.position = Vector3.Lerp(start, end, t / time);
+            t += Time.deltaTime;
+            yield return null;
+		}
+	}
+
+
+    public void ExplodeShip()
+    {
+        if (mainMesh != null && explosionPrefab != null)
+		{
+            // Setup for GetRandomPointOnMesh()
+            float[] sizes = GetTriSizes(mainMesh.mesh.triangles, mainMesh.mesh.vertices);
+            cumulativeSizes = new float[sizes.Length];
+            total = 0;
+            for (int i = 0; i < sizes.Length; i++)
+            {
+                total += sizes[i];
+                cumulativeSizes[i] = total;
             }
 
-            // Continue with code
-            cheatIndex++;
-            if (cheatIndex == cheatCode.Length)
-			{
-                cheatActive = true;
-                Debug.Log("<size=15><color=red>CHEAT ACTIVATED</color></size>");
-                player.RemoveInputListener(Player.Control.DPAD_PRESSED, OnP1Input);
-                player.RemoveInputListener(Player.Control.B_PRESSED, OnP1Input);
-                player.RemoveInputListener(Player.Control.A_PRESSED, OnP1Input);
-                player.RemoveInputListener(Player.Control.START_PRESSED, OnP1Input);
+            StartCoroutine(Explode());
+        }
+    }
+
+    private IEnumerator Explode()
+    {
+        while (true)
+        {
+            // Meshes are concidered in local space, so it needs to be converted
+            Vector3 point = mainMesh.transform.localToWorldMatrix * GetRandomPointOnMesh();
+            // Create explosion effect, and destroy it after its done
+            GameObject explosionInstance = Instantiate(explosionPrefab, point + mainMesh.transform.position, Quaternion.LookRotation(point - mainMesh.mesh.bounds.center, Random.onUnitSphere), transform);
+            Destroy(explosionInstance, 2);
+
+            yield return new WaitForSeconds(timeBetweenExplosions);
+        }
+    }
+
+    // Get a random position on the surface of a mesh
+    private Vector3 GetRandomPointOnMesh()
+    {
+        Mesh mesh = mainMesh.mesh;
+
+        float randomsample = Random.value * total;
+        int triIndex = -1;
+        for (int i = 0; i < cumulativeSizes.Length; i++)
+        {
+            if (randomsample <= cumulativeSizes[i])
+            {
+                triIndex = i;
+                break;
             }
         }
-		else
-		{
-            // Fail
-            cheatIndex = 0;
+
+        if (triIndex == -1) Debug.LogError("triIndex should never be -1");
+
+        Vector3 a = mesh.vertices[mesh.triangles[triIndex * 3]];
+        Vector3 b = mesh.vertices[mesh.triangles[triIndex * 3 + 1]];
+        Vector3 c = mesh.vertices[mesh.triangles[triIndex * 3 + 2]];
+
+        //generate random barycentric coordinates
+
+        float r = Random.value;
+        float s = Random.value;
+        if (r + s >= 1)
+        {
+            r = 1 - r;
+            s = 1 - s;
         }
+        //and then turn them back to a Vector3
+        Vector3 pointOnMesh = a + r * (b - a) + s * (c - a);
+        return pointOnMesh;
+    }
+
+    private float[] GetTriSizes(int[] tris, Vector3[] verts)
+    {
+        int triCount = tris.Length / 3;
+        float[] sizes = new float[triCount];
+        for (int i = 0; i < triCount; i++)
+        {
+            sizes[i] = .5f * Vector3.Cross(verts[tris[i * 3 + 1]] - verts[tris[i * 3]], verts[tris[i * 3 + 2]] - verts[tris[i * 3]]).magnitude;
+        }
+        return sizes;
     }
 }

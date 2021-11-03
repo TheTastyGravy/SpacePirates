@@ -15,7 +15,6 @@ public class ChaseShipLogic : MonoBehaviour
 	public float moveOnScreenTime = 1;
 	public float moveOffScreenTime = 1;
 	[Space]
-	public float firePeriod;
 	public float spreadAngle;
 	[Space]
 	public float wanderFrequency = 1;
@@ -31,6 +30,7 @@ public class ChaseShipLogic : MonoBehaviour
 	private Coroutine moveRoutine = null;
 
 	private int health;
+	private float firePeriod;
 	private float fireTimePassed = 0;
 	private float wanderTimePassed = 0;
 	private Vector3 wanderPos;
@@ -48,7 +48,7 @@ public class ChaseShipLogic : MonoBehaviour
 		StartCoroutine(Siren());
 	}
 
-	public void Setup(int health)
+	public void Setup(int health, float firePeriod)
 	{
 		Transform playerShip = ShipManager.Instance.transform;
 		Ship ship = Ship.GetShip(GameManager.SelectedShip);
@@ -62,6 +62,7 @@ public class ChaseShipLogic : MonoBehaviour
 		followPos.y += 1.5f;
 
 		this.health = health;
+		this.firePeriod = firePeriod;
 		spreadAngle *= Mathf.Deg2Rad * 0.5f;
 		// Start moving on screen
 		moveRoutine = StartCoroutine(Move(offScreenPos, followPos, moveOnScreenTime));
