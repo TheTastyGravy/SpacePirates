@@ -81,6 +81,7 @@ public class GameManager : Singleton<GameManager>
             if (newState == GameState.GAME || newState == GameState.LOADING)
 			{
                 Instance.m_Time = 0;
+                Instance.m_ShouldTrackTime = true;  //move this when intro is added
                 // Use a fade transition when entering the game scene because it has a longer load
                 Instance.StartCoroutine(LoadUnload(Instance.m_CurrentState, newState));
                 Instance.m_CurrentState = newState;
@@ -256,6 +257,7 @@ public class GameManager : Singleton<GameManager>
     public static void SetGameOverInfo(bool hasWon)
 	{
         Instance.m_HasWon = hasWon;
+        Instance.m_ShouldTrackTime = false;
     }
 
 	void OnGUI()
@@ -283,7 +285,7 @@ public class GameManager : Singleton<GameManager>
 	void Update()
 	{
         // While in the game scene, track the time
-		if (m_CurrentState == GameState.GAME && !m_IsLoadingScene)
+		if (m_CurrentState == GameState.GAME && !m_IsLoadingScene && m_ShouldTrackTime)
 		{
             m_Time += UnityEngine.Time.deltaTime;
         }
@@ -296,6 +298,7 @@ public class GameManager : Singleton<GameManager>
 	private bool m_HasWon;
     private GameState m_CurrentState;
     private bool m_IsLoadingScene = false;
+    private bool m_ShouldTrackTime = false;
 
     private GameState storedState = GameState.NONE;
 

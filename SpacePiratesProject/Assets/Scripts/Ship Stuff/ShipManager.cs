@@ -12,31 +12,38 @@ public class ShipManager : Singleton<ShipManager>
     [Header("Avoidance")]
     [Range(0,1)]
     public float maxAvoidance = 0.25f;
-
+    [Space]
     public float fadeTime = 1;
     public float fadeDelay = 1;
     public Renderer[] roof;
     public Renderer[] body;
     public Color bodyColor;
-
+    [Space]
+    public MeshFilter mainMesh;
+    public GameObject explosionPrefab;
+    public float timeBetweenExplosions = 0.2f;
 
     private ReactorStation[] reactors;
     public ReactorStation Reactor => reactors.Length > 0 ? reactors[0] : null;
     private EngineStation[] engines;
     private RoomManager[] rooms;
 
+    // Event for game over due to running out of oxygen
+    public BasicDelegate OnZeroOxygen;
     private float oxygenLevel;
     public float OxygenLevel => oxygenLevel;
     private OxygenBar oxygenBar;
     [HideInInspector]
     public float oxygenDrain = 0;
-
     private float gameOverTimmer;
 
     private Player player;
     private Player.Control[] cheatCode;
     private int cheatIndex = 0;
     private bool cheatActive = false;
+
+    private float[] cumulativeSizes;
+    private float total;
 
 
 
@@ -50,7 +57,7 @@ public class ShipManager : Singleton<ShipManager>
         {
             obj.material.color = Color.white;
         }
-        StartCoroutine(FadeShip());
+        StartCoroutine(FadeShip(fadeTime, true));
 
         oxygenLevel = maxOxygenLevel;
         oxygenBar = FindObjectOfType<OxygenBar>();
@@ -175,14 +182,16 @@ public class ShipManager : Singleton<ShipManager>
 		}
 	}
 
-    private IEnumerator FadeShip()
+    public IEnumerator FadeShip(float time, bool fadeOut)
     {
-        yield return new WaitForSeconds(fadeDelay);
+        if (fadeOut)
+            yield return new WaitForSeconds(fadeDelay);
 
         float t = 0;
-        while (t < fadeTime)
+        while (t < time)
         {
-            float val = t / fadeTime;
+            float val = t / time;
+            val = fadeOut ? val : 1 - val;
             foreach (var obj in roof)
             {
                 obj.material.color = Color.Lerp(Color.white, new Color(1, 1, 1, 0), val);
@@ -198,11 +207,11 @@ public class ShipManager : Singleton<ShipManager>
 
         foreach (var obj in roof)
         {
-            obj.material.color = new Color(1, 1, 1, 0);
+            obj.material.color = new Color(1, 1, 1, fadeOut ? 0 : 1);
         }
         foreach (var obj in body)
         {
-            obj.material.color = bodyColor;
+            obj.material.color = fadeOut ? bodyColor : Color.white;
         }
     }
 
@@ -248,8 +257,7 @@ public class ShipManager : Singleton<ShipManager>
             gameOverTimmer += Time.deltaTime;
             if (gameOverTimmer >= timeToGameOver)
 			{
-                GameManager.SetGameOverInfo(false);
-                GameManager.ChangeState(GameManager.GameState.SUMMARY);
+                OnZeroOxygen.Invoke();
 			}
         }
 		else
@@ -261,6 +269,107 @@ public class ShipManager : Singleton<ShipManager>
         oxygenBar.value = oxygenLevel;
         oxygenDrain = oxygenRegenRate - oxygenLossRate;
     }
+
+
+    public void MoveForward(float time, float distance)
+	{
+        Camera.main.transform.parent = null;
+        Vector3 endPos = transform.position + transform.forward * distance;
+        StartCoroutine(MoveShip(time, endPos));
+	}
+
+    private IEnumerator MoveShip(float time, Vector3 end)
+	{
+        Vector3 start = transform.position;
+        float t = 0;
+        while (t < time)
+		{
+            transform.position = Vector3.Lerp(start, end, t / time);
+            t += Time.deltaTime;
+            yield return null;
+		}
+	}
+
+
+    public void ExplodeShip()
+    {
+        if (mainMesh != null && explosionPrefab != null)
+		{
+            // Setup for GetRandomPointOnMesh()
+            float[] sizes = GetTriSizes(mainMesh.mesh.triangles, mainMesh.mesh.vertices);
+            cumulativeSizes = new float[sizes.Length];
+            total = 0;
+            for (int i = 0; i < sizes.Length; i++)
+            {
+                total += sizes[i];
+                cumulativeSizes[i] = total;
+            }
+
+            StartCoroutine(Explode());
+        }
+    }
+
+    private IEnumerator Explode()
+    {
+        while (true)
+        {
+            // Meshes are concidered in local space, so it needs to be converted
+            Vector3 point = mainMesh.transform.localToWorldMatrix * GetRandomPointOnMesh();
+            // Create explosion effect, and destroy it after its done
+            GameObject explosionInstance = Instantiate(explosionPrefab, point + mainMesh.transform.position, Quaternion.LookRotation(point - mainMesh.mesh.bounds.center, Random.onUnitSphere), transform);
+            Destroy(explosionInstance, 2);
+
+            yield return new WaitForSeconds(timeBetweenExplosions);
+        }
+    }
+
+    // Get a random position on the surface of a mesh
+    private Vector3 GetRandomPointOnMesh()
+    {
+        Mesh mesh = mainMesh.mesh;
+
+        float randomsample = Random.value * total;
+        int triIndex = -1;
+        for (int i = 0; i < cumulativeSizes.Length; i++)
+        {
+            if (randomsample <= cumulativeSizes[i])
+            {
+                triIndex = i;
+                break;
+            }
+        }
+
+        if (triIndex == -1) Debug.LogError("triIndex should never be -1");
+
+        Vector3 a = mesh.vertices[mesh.triangles[triIndex * 3]];
+        Vector3 b = mesh.vertices[mesh.triangles[triIndex * 3 + 1]];
+        Vector3 c = mesh.vertices[mesh.triangles[triIndex * 3 + 2]];
+
+        //generate random barycentric coordinates
+
+        float r = Random.value;
+        float s = Random.value;
+        if (r + s >= 1)
+        {
+            r = 1 - r;
+            s = 1 - s;
+        }
+        //and then turn them back to a Vector3
+        Vector3 pointOnMesh = a + r * (b - a) + s * (c - a);
+        return pointOnMesh;
+    }
+
+    private float[] GetTriSizes(int[] tris, Vector3[] verts)
+    {
+        int triCount = tris.Length / 3;
+        float[] sizes = new float[triCount];
+        for (int i = 0; i < triCount; i++)
+        {
+            sizes[i] = .5f * Vector3.Cross(verts[tris[i * 3 + 1]] - verts[tris[i * 3]], verts[tris[i * 3 + 2]] - verts[tris[i * 3]]).magnitude;
+        }
+        return sizes;
+    }
+
 
     private void OnP1Input(InputAction.CallbackContext context)
     {
