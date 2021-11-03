@@ -258,6 +258,9 @@ public class InteractionPromptLogic : MonoBehaviour
 
 	void OnEnable()
 	{
+        if (!GetComponentInParent<Interactable>().enabled)
+            return;
+
         if (routine != null)
             StopCoroutine(routine);
         // Show image based on selected

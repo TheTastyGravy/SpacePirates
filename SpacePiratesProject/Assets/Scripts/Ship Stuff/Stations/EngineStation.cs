@@ -28,6 +28,7 @@ public class EngineStation : MonoBehaviour
 
 	void Awake()
 	{
+		enabled = false;
 		fuelDepo = GetComponentInChildren<FuelDeposit>();
 		damage = GetComponentInChildren<DamageStation>();
 		fuelDepo.OnFuelDeposited += OnFueled;

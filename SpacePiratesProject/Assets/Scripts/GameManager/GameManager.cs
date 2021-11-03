@@ -199,34 +199,30 @@ public class GameManager : Singleton<GameManager>
 
     private static IEnumerator Reload(GameState state)
 	{
-        Scene oldScene = SceneManager.GetSceneByName(state.ToString());
-        // Start loading the new scene, then wait for fade
-        AsyncOperation loadOp = SceneManager.LoadSceneAsync(state.ToString(), LoadSceneMode.Additive);
-        loadOp.allowSceneActivation = false;
         shouldFade = true;
         yield return new WaitForSecondsRealtime(Instance.realFadeIn);
-        
         SceneManager.SetActiveScene(Instance.gameObject.scene);
-        // Finish loading and start unloading, then wait for them to finish
-        AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(oldScene);
-        bool otherDone = false;
-        void CompletedFunc()
+
+        // Because we need to finish unloading before we finish loading, the unload operation needs 
+        // to be started first so the load operation can have allowSceneActivation = false. This 
+        // is because allowSceneActivation will stop all AsyncOperations that come after it once 
+        // it reaches 0.9 compleation.
+        AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName(state.ToString()));
+        AsyncOperation loadOp = SceneManager.LoadSceneAsync(state.ToString(), LoadSceneMode.Additive);
+        loadOp.allowSceneActivation = false;
+
+        unloadOp.completed += asyncOperation =>
         {
-            if (!otherDone)
-            {
-                otherDone = true;
-                return;
-            }
-            // Fade in and set active scene
+            loadOp.allowSceneActivation = true;
+        };
+        loadOp.completed += asyncOperation =>
+        {
             shouldFade = false;
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(state.ToString()));
             if (OnEndTransition != null)
                 OnEndTransition.Invoke(SceneManager.GetSceneByName(state.ToString()), state);
             Instance.Invoke(nameof(SetLoading), 0.01f);
-        }
-        loadOp.completed += asyncOperation => CompletedFunc();
-        unloadOp.completed += asyncOperation => CompletedFunc();
-        loadOp.allowSceneActivation = true;
+        };
     }
 
     private void Start()

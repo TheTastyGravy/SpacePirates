@@ -127,13 +127,13 @@ public class MusicManager : Singleton<MusicManager>
         if (newInfo != musicInfo)
         {
             StartCoroutine(ChangeMusic(newInfo));
-            if (scene.name == "GAME")
-			{
-                EventManager.Instance.OnEventChange -= OnEventChange;
-                inGameScene = false;
-            }
             // Make sure music has enough time to fade out
             GameManager.Instance.realFadeIn = Mathf.Max(GameManager.Instance.realFadeIn, musicInfo.fadeTime);
+        }
+        if (scene.name == "GAME")
+        {
+            EventManager.Instance.OnEventChange -= OnEventChange;
+            inGameScene = false;
         }
     }
 

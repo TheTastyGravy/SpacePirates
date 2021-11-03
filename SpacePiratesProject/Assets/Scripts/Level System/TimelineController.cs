@@ -51,6 +51,7 @@ public class TimelineController : Singleton<TimelineController>
 
     public void Setup(Level level)
 	{
+        enabled = false;
         timelineBase = transform as RectTransform;
         this.level = level;
         invLength = 1.0f / level.length;

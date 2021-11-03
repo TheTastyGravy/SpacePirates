@@ -52,17 +52,30 @@ public class ShipManager : Singleton<ShipManager>
         {
             obj.material.color = Color.white;
         }
-        StartCoroutine(FadeShip(fadeTime, true));
 
         oxygenLevel = maxOxygenLevel;
         oxygenBar = FindObjectOfType<OxygenBar>();
         oxygenBar.MaxValue = maxOxygenLevel;
+        oxygenBar.value = maxOxygenLevel;
 
         // Nothing to see here...
         Character.OnCheatActivated += () => isCheatActive = true;
     }
 
-	public void DamageShipAtPosition(Vector3 position)
+    public void BeginGame()
+    {
+        StartCoroutine(FadeShip(fadeTime, true));
+        foreach (var obj in reactors)
+        {
+            obj.enabled = true;
+        }
+        foreach (var obj in engines)
+        {
+            obj.enabled = true;
+        }
+    }
+
+    public void DamageShipAtPosition(Vector3 position)
     {
         HoleData holeData = new HoleData
         {
@@ -152,9 +165,6 @@ public class ShipManager : Singleton<ShipManager>
 
     public IEnumerator FadeShip(float time, bool fadeOut)
     {
-        if (fadeOut)
-            yield return new WaitForSeconds(fadeDelay);
-
         float t = 0;
         while (t < time)
         {

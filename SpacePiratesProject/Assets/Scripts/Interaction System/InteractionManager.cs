@@ -11,6 +11,7 @@ public class InteractionManager : Singleton<InteractionManager>
     internal List<Interactable> interactablesInRange = new List<Interactable>();
     private List<Interactable> inRangeLastFrame = new List<Interactable>();
 
+    public List<Interactable> Interactables => interactables;
     private bool isErroring = false;
 
 

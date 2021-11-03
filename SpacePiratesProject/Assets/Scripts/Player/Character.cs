@@ -121,9 +121,12 @@ public class Character : ICharacter
         cheatActivated = false;
         cheatIndex = 0;
         // Remove all listeners
-        foreach (Delegate obj in OnCheatActivated.GetInvocationList())
-		{
-            OnCheatActivated -= obj as BasicDelegate;
+        if (OnCheatActivated != null)
+        {
+            foreach (Delegate obj in OnCheatActivated.GetInvocationList())
+            {
+                OnCheatActivated -= obj as BasicDelegate;
+            }
         }
     }
 

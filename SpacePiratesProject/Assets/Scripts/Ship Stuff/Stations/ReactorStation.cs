@@ -22,11 +22,12 @@ public class ReactorStation : MonoBehaviour
 
 
 
-    void Start()
+    void Awake()
     {
 		reactorSwitches = GetComponentsInChildren<BasicSwitch>();
 		fuelGen = GetComponentInChildren<ReactorFuelGen>();
         damage = GetComponentInChildren<DamageStation>();
+		enabled = false;
 
 		// Get values from difficulty settings
 		LevelDificultyData.DiffSetting setting = GameManager.GetDifficultySettings();
@@ -95,5 +96,16 @@ public class ReactorStation : MonoBehaviour
 			obj.enabled = true;
 			obj.forceDisabled = false;
 		}
+	}
+
+	void OnEnable()
+	{
+		fuelGen.isActive = isTurnedOn;
+	}
+
+	void OnDisable()
+	{
+		if (fuelGen)
+			fuelGen.isActive = false;
 	}
 }

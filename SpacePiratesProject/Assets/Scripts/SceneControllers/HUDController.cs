@@ -24,7 +24,7 @@ public class HUDController : Singleton< HUDController >
         }
 
         // Delay by a frame
-        Invoke(nameof(GetCamera), 0);
+        Invoke(nameof(GetCamera), 0.1f);
     }
 
     private void GetCamera()

@@ -13,7 +13,8 @@ public class ReactorFuelGen : Interactable
     public bool startWithFuel = true;
 
     // Are we currently generating fuel?
-    private bool isActive = true;
+    [HideInInspector]
+    public bool isActive = true;
 
     private bool hasFuel = false;
     private float fuelTimePassed = 0;

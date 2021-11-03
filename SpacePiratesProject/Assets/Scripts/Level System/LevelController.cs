@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelController : Singleton<LevelController>
 {
@@ -12,7 +13,6 @@ public class LevelController : Singleton<LevelController>
     private int lastEventIndex = -1;
     private Level.Event currentEvent = null;
     private EventManager eventManager;
-    private TimelineController timeline;
 
 
 
@@ -26,8 +26,24 @@ public class LevelController : Singleton<LevelController>
         ShipManager.Instance.OnZeroOxygen += () => OnGameOver(false);
 
         eventManager = EventManager.Instance;
-        timeline = TimelineController.Instance;
-        timeline.Setup(level);
+        TimelineController.Instance.Setup(level);
+        TimelineController.Instance.enabled = false;
+
+        Invoke(nameof(StartGame), 1);
+    }
+
+    private void StartGame()
+    {
+        TimelineController.Instance.enabled = true;
+        ShipManager.Instance.BeginGame();
+        AstroidManager.Instance.BeginGame();
+        StatusManager.Instance.enabled = true;
+
+        foreach (Player player in Player.all)
+        {
+            player.Character.enabled = true;
+            (player.Character as Character).IsKinematic = false;
+        }
     }
 
     void Update()

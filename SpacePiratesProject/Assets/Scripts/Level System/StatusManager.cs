@@ -66,8 +66,9 @@ public class StatusManager : Singleton<StatusManager>
 
 
 
-    void Start()
+    void Awake()
     {
+        enabled = false;
         cursorImage = cursor.GetComponent<Image>();
         cursorOffset = (cursor.transform as RectTransform).rect.width * 0.5f + 5;
         cursorSpeed = 1 / cursorSpeed;
@@ -247,7 +248,7 @@ public class StatusManager : Singleton<StatusManager>
             StopCoroutine(textWriter);
         textWriter = StartCoroutine(WriteText(maxHeight));
     }
-
+    
     private IEnumerator WriteText(float height)
 	{
         // Used to get the position of characters

@@ -23,18 +23,25 @@ public class AstroidManager : Singleton<AstroidManager>
 
 
 
-	void Start()
+	void Awake()
 	{
 		// Get values from difficulty settings
 		LevelDificultyData.DiffSetting settings = GameManager.GetDifficultySettings();
 		timeBetweenAstroids = settings.timeBetweenAstroids;
 		astroidSpawnDelay = settings.astroidSpawnDelay;
+		enabled = false;
 
 		maxAngleVariance *= 0.5f;
 		screenScale = Screen.safeArea.size * new Vector2(1f / 1920f, 1f / 1080f);
 
 		ShrinkBoundry();
-		Invoke("SetupRegions", 0.1f);
+	}
+
+	// Called by LevelController when the game starts
+	public void BeginGame()
+	{
+		SetupRegions();
+		enabled = true;
 	}
 
 	private void ShrinkBoundry()
@@ -113,7 +120,6 @@ public class AstroidManager : Singleton<AstroidManager>
 		regions = boxes.ToArray();
 	}
 	
-
 	void Update()
 	{
 		timePassed += Time.deltaTime;
