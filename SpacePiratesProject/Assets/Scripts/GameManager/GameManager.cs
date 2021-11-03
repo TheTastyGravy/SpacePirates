@@ -80,6 +80,7 @@ public class GameManager : Singleton<GameManager>
             }
             if (newState == GameState.GAME || newState == GameState.LOADING)
 			{
+                (Player.GetPlayerBySlot(Player.PlayerSlot.P1).Character as Character).ResetCheat();
                 Instance.m_Time = 0;
                 Instance.m_ShouldTrackTime = true;  //move this when intro is added
                 // Use a fade transition when entering the game scene because it has a longer load
@@ -148,6 +149,8 @@ public class GameManager : Singleton<GameManager>
             player.transform.parent = null;
             DontDestroyOnLoad(player.gameObject);
         }
+        if (Instance.m_CurrentState == GameState.GAME)
+            (Player.GetPlayerBySlot(Player.PlayerSlot.P1).Character as Character).ResetCheat();
 
         Instance.m_IsLoadingScene = true;
         Instance.StartCoroutine(Reload(Instance.m_CurrentState));

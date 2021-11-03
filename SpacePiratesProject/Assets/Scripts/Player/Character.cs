@@ -29,6 +29,7 @@ public class Character : ICharacter
 
     private Player.Control[] cheatCode;
     private int cheatIndex = 0;
+    private bool cheatActivated = false;
     public static BasicDelegate OnCheatActivated;
 
 
@@ -65,7 +66,18 @@ public class Character : ICharacter
         }
     }
 
-    void FixedUpdate()
+	void OnDestroy()
+	{
+		if (Player.Slot == Player.PlayerSlot.P1)
+		{
+            Player.RemoveInputListener(Player.Control.DPAD_PRESSED, OnInputEvent);
+            Player.RemoveInputListener(Player.Control.B_PRESSED, OnInputEvent);
+            Player.RemoveInputListener(Player.Control.A_PRESSED, OnInputEvent);
+            Player.RemoveInputListener(Player.Control.START_PRESSED, OnInputEvent);
+        }
+	}
+
+	void FixedUpdate()
     {
         Player.GetInput( Player.Control.LEFT_STICK, out Vector3 input );
 
@@ -104,9 +116,23 @@ public class Character : ICharacter
         currentCharacter.animator.SetFloat("Speed", 0);
     }
 
+    public void ResetCheat()
+    {
+        cheatActivated = false;
+        cheatIndex = 0;
+        // Remove all listeners
+        foreach (Delegate obj in OnCheatActivated.GetInvocationList())
+		{
+            OnCheatActivated -= obj as BasicDelegate;
+        }
+    }
+
     // Only used for player 1 to enter cheat code
     private void OnInputEvent(InputAction.CallbackContext context)
     {
+        if (cheatActivated)
+            return;
+
         // Get action, correcting for dpad
         InputAction correctAction = Player.GetInputAction(cheatCode[cheatIndex] >= Player.Control.COUNT ? Player.Control.DPAD_PRESSED : cheatCode[cheatIndex]);
         if (context.action == correctAction)
@@ -130,13 +156,10 @@ public class Character : ICharacter
             cheatIndex++;
             if (cheatIndex == cheatCode.Length)
             {
+                cheatActivated = true;
                 if (OnCheatActivated != null)
                     OnCheatActivated.Invoke();
                 Debug.Log("<size=15><color=red>CHEAT ACTIVATED</color></size>");
-                Player.RemoveInputListener(Player.Control.DPAD_PRESSED, OnInputEvent);
-                Player.RemoveInputListener(Player.Control.B_PRESSED, OnInputEvent);
-                Player.RemoveInputListener(Player.Control.A_PRESSED, OnInputEvent);
-                Player.RemoveInputListener(Player.Control.START_PRESSED, OnInputEvent);
             }
         }
         else
