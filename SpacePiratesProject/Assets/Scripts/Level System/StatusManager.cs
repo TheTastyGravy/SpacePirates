@@ -75,6 +75,8 @@ public class StatusManager : Singleton<StatusManager>
         SetText(gameStart.String);
         EventManager.Instance.OnEventChange += OnEventChange;
         Invoke(nameof(Init), 0.1f);
+
+        Character.OnCheatActivated += () => { SetText("CHEAT ACTIVATED"); timePassed = 0; StartCoroutine(TextFlash()); };
     }
 
 	private void Init()
