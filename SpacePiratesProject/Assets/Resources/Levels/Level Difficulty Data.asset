@@ -46,7 +46,7 @@ MonoBehaviour:
       useSeperateValues: 0
     interactionCooldown:
       playerCountValues:
-      - 3
+      - 2
       - 0
       - 0
       - 0
@@ -68,10 +68,10 @@ MonoBehaviour:
     fuelGenerationTime:
       playerCountValues:
       - 4
-      - 0
-      - 0
-      - 0
-      useSeperateValues: 0
+      - 4
+      - 3
+      - 2
+      useSeperateValues: 1
     maxShots:
       playerCountValues: 0a000000000000000000000000000000
       useSeperateValues: 0
@@ -79,7 +79,7 @@ MonoBehaviour:
       playerCountValues: 0a000000000000000000000000000000
       useSeperateValues: 0
     startShots:
-      playerCountValues: 03000000000000000000000000000000
+      playerCountValues: 05000000000000000000000000000000
       useSeperateValues: 0
   medium:
     minEventCount: 3
@@ -109,7 +109,7 @@ MonoBehaviour:
       - 0
       useSeperateValues: 0
     startFuel:
-      playerCountValues: 03000000000000000000000000000000
+      playerCountValues: 02000000000000000000000000000000
       useSeperateValues: 0
     interactionCooldown:
       playerCountValues:
@@ -135,10 +135,10 @@ MonoBehaviour:
     fuelGenerationTime:
       playerCountValues:
       - 4
-      - 0
-      - 0
-      - 0
-      useSeperateValues: 0
+      - 4.5
+      - 3.5
+      - 2.5
+      useSeperateValues: 1
     maxShots:
       playerCountValues: 0a000000000000000000000000000000
       useSeperateValues: 0
@@ -176,11 +176,11 @@ MonoBehaviour:
       - 0
       useSeperateValues: 0
     startFuel:
-      playerCountValues: 03000000000000000000000000000000
+      playerCountValues: 01000000000000000000000000000000
       useSeperateValues: 0
     interactionCooldown:
       playerCountValues:
-      - 3
+      - 5
       - 0
       - 0
       - 0
@@ -202,10 +202,10 @@ MonoBehaviour:
     fuelGenerationTime:
       playerCountValues:
       - 4
-      - 0
-      - 0
-      - 0
-      useSeperateValues: 0
+      - 5
+      - 4
+      - 3
+      useSeperateValues: 1
     maxShots:
       playerCountValues: 0a000000000000000000000000000000
       useSeperateValues: 0
@@ -213,5 +213,5 @@ MonoBehaviour:
       playerCountValues: 0a000000000000000000000000000000
       useSeperateValues: 0
     startShots:
-      playerCountValues: 03000000000000000000000000000000
+      playerCountValues: 00000000000000000000000000000000
       useSeperateValues: 0
