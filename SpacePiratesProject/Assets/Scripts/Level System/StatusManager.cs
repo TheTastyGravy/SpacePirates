@@ -264,7 +264,7 @@ public class StatusManager : Singleton<StatusManager>
             pos.y = -height;
             cursor.transform.localPosition = pos;
 
-            yield return new WaitForSeconds(cursorSpeed);
+            yield return new WaitForSecondsRealtime(cursorSpeed);
         }
         textWriter = null;
     }
@@ -284,7 +284,7 @@ public class StatusManager : Singleton<StatusManager>
             cursorImage.color = text.color;
             text.transform.localScale = Vector3.Lerp(bigScale, initScale, value);
 
-            t += Time.deltaTime;
+            t += Time.unscaledDeltaTime;
             yield return null;
         }
 
