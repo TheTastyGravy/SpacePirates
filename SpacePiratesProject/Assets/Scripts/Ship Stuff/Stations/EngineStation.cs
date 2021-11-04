@@ -40,6 +40,8 @@ public class EngineStation : MonoBehaviour
 		startFuel = setting.startFuel.Value;
 
 		currentFuel = startFuel;
+		if (currentFuel != 0)
+			currentSpeed = maxSpeed;
 		Invoke(nameof(FixFuelIndicator), 0.1f);
 	}
 
