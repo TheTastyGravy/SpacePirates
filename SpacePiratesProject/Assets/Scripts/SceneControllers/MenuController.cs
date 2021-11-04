@@ -10,9 +10,11 @@ public class MenuController : Singleton< MenuController >
 {
     public GameObject menuBackground;
     public GameObject optionsBackground;
+    public GameObject creditsBackground;
     [Space]
     public Button MenuButtonPlay;
     public Button MenuButtonOptions;
+    public Button MenuButtonCredits;
     public Button MenuButtonExit;
     [Space]
     public Slider volumeSlider;
@@ -31,6 +33,7 @@ public class MenuController : Singleton< MenuController >
         EventSystem.current.SetSelectedGameObject( MenuButtonPlay.gameObject );
         MenuButtonPlay.onClick.AddListener( OnButtonPlay );
         MenuButtonOptions.onClick.AddListener( OnButtonOptions );
+        MenuButtonCredits.onClick.AddListener( OnButtonCredits );
         MenuButtonExit.onClick.AddListener( OnButtonExit );
 
         volumeSlider.onValueChanged.AddListener(OnVolumeSliderChanged);
@@ -46,6 +49,7 @@ public class MenuController : Singleton< MenuController >
 
         MenuButtonPlay.onClick.RemoveAllListeners();
         MenuButtonOptions.onClick.RemoveAllListeners();
+        MenuButtonCredits.onClick.RemoveAllListeners();
         MenuButtonExit.onClick.RemoveAllListeners();
         volumeSlider.onValueChanged.RemoveAllListeners();
     }
@@ -58,6 +62,11 @@ public class MenuController : Singleton< MenuController >
     private void OnButtonOptions()
     {
         ToggleOptionsMenu(true);
+    }
+
+    private void OnButtonCredits()
+    {
+
     }
 
     private void OnButtonExit()
