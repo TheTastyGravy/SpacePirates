@@ -415,6 +415,10 @@ MonoBehaviour:
   mainMesh: {fileID: 6704589456639814570}
   explosionPrefab: {fileID: 7894892668884435334, guid: 33825a87e5aa9194aa1508cc53ebe6cf, type: 3}
   timeBetweenExplosions: 0.4
+  wanderFrequency: 1.25
+  wanderDist: 0.05
+  wanderSpeed: 0.2
+  wanderAcceleration: 0.3
   oxygenDrain: 0
 --- !u!1 &5612222698191068139
 GameObject:

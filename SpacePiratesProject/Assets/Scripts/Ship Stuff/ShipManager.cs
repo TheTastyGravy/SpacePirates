@@ -21,6 +21,11 @@ public class ShipManager : Singleton<ShipManager>
     public MeshFilter mainMesh;
     public GameObject explosionPrefab;
     public float timeBetweenExplosions = 0.2f;
+    [Space]
+    public float wanderFrequency = 1;
+    public float wanderDist = 0.75f;
+    public float wanderSpeed = 3;
+    public float wanderAcceleration = 1;
 
     private ReactorStation[] reactors;
     public ReactorStation Reactor => reactors.Length > 0 ? reactors[0] : null;
@@ -36,6 +41,11 @@ public class ShipManager : Singleton<ShipManager>
     public float oxygenDrain = 0;
     private float gameOverTimmer;
     private bool isCheatActive = false;
+
+    private bool useWander = false;
+    private float wanderTimePassed = 0;
+    private Vector3 wanderPos;
+    private Vector3 velocity = Vector3.zero;
 
     private float[] cumulativeSizes;
     private float total;
@@ -73,6 +83,8 @@ public class ShipManager : Singleton<ShipManager>
         {
             obj.enabled = true;
         }
+        Camera.main.transform.parent = null;
+        useWander = true;
     }
 
     public void DamageShipAtPosition(Vector3 position)
@@ -196,6 +208,22 @@ public class ShipManager : Singleton<ShipManager>
     void Update()
     {
         UpdateOxygen();
+
+        // Random wander
+        if (useWander)
+        {
+            wanderTimePassed += Time.deltaTime;
+            if (wanderTimePassed >= wanderFrequency)
+            {
+                wanderTimePassed = 0;
+                // Get new wander pos
+                wanderPos = Random.insideUnitSphere * wanderDist;
+                wanderPos.y = 0;
+            }
+            // Adjust velocity with a sort of steering force, and apply to position
+            velocity = Vector3.Lerp(velocity, (wanderPos - transform.position).normalized * wanderSpeed, Time.deltaTime * wanderAcceleration);
+            transform.position += velocity * Time.deltaTime;
+        }
     }
 
     private void UpdateOxygen()
