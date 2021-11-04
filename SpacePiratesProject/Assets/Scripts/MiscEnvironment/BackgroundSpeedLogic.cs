@@ -5,13 +5,16 @@ using UnityEngine;
 public class BackgroundSpeedLogic : MonoBehaviour
 {
     public BackgroundController background;
+    public MeshRenderer backgroundBase;
     public GameObject plasmaStormEffectPrefab;
+    public Color storm_backgroundColor;
     public float storm_timeBetween = 0.5f;
     public float storm_baseSpeed = 1;
     [Space]
     public float minSpeedModifier = 0.1f;
     public float maxSpeedModifier = 1;
 
+    private Color backgroundBaseColor;
     private float inverseMaxSpeed = 0;
     private float speedModifier = 1;
     private Coroutine eventRoutine = null;
@@ -22,6 +25,7 @@ public class BackgroundSpeedLogic : MonoBehaviour
 
     void Start()
     {
+        backgroundBaseColor = backgroundBase.material.color;
         EventManager.Instance.OnEventChange += OnEventChange;
         Invoke(nameof(Init), 0);
     }
@@ -42,7 +46,7 @@ public class BackgroundSpeedLogic : MonoBehaviour
         List<Transform> toDestroy = new List<Transform>();
         foreach (var obj in objects)
 		{
-            obj.position += obj.forward * speedModifier * storm_baseSpeed;
+            obj.position += obj.forward * Time.deltaTime * speedModifier * storm_baseSpeed;
             // Destroy objects when they go far enough
             if (Vector3.Dot(obj.position, obj.forward) > 20)
 			{
@@ -69,9 +73,13 @@ public class BackgroundSpeedLogic : MonoBehaviour
                 break;
             case Level.Event.Type.PlasmaStorm:
                 eventRoutine = StartCoroutine(PlasmaStormEffect());
+                StartCoroutine(SetBackgroundColor(storm_backgroundColor, 1));
                 break;
             case Level.Event.Type.ShipAttack:
 
+                break;
+            case Level.Event.Type.None:
+                StartCoroutine(SetBackgroundColor(backgroundBaseColor, 1));
                 break;
 		}
 	}
@@ -107,4 +115,17 @@ public class BackgroundSpeedLogic : MonoBehaviour
             yield return new WaitForSeconds(storm_timeBetween * (1 / speedModifier));
 		}
 	}
+
+    private IEnumerator SetBackgroundColor(Color color, float time)
+    {
+        Color startColor = backgroundBase.material.color;
+        float t = 0;
+        while (t < 1)
+        {
+            backgroundBase.material.color = Color.Lerp(startColor, color, t / time);
+            t += Time.deltaTime;
+            yield return null;
+        }
+        backgroundBase.material.color = color;
+    }
 }

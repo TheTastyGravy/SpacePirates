@@ -7,7 +7,8 @@ public class RunLightning : MonoBehaviour
     public float[] LightTriggers;
     public float LightDelay;
     [Space]
-    public float RandomBuffer;
+    public float RandomBufferMin;
+    public float RandomBufferMax;
 
     float elapsed, targetTime;
     int iterative;
@@ -18,7 +19,7 @@ public class RunLightning : MonoBehaviour
         targetTime = GetStartTime();
         InitializeLights();
     }
-    float GetStartTime() => LightTriggers[0] + Random.Range(0f, RandomBuffer);
+    float GetStartTime() => LightTriggers[0] + Random.Range(RandomBufferMin, RandomBufferMax);
     void InitializeLights()
     {
         for (int i = 0; i < _Lights.Length; i++)
