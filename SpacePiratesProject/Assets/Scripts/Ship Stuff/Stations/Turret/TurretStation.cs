@@ -8,6 +8,7 @@ public class TurretStation : MonoBehaviour
 {
     public Transform playerActivatedTrans;
     public Transform turretBase;
+    public TurretRecoil recoilScript;
     public Transform firePos;
     public GameObject projectilePrefab;
     [Space]
@@ -202,6 +203,8 @@ public class TurretStation : MonoBehaviour
         // Play explosion effect at fire pos
         if (shootEffect != null)
             shootEffect.Play();
+        if (recoilScript != null)
+            recoilScript.Run();
 
         fuelDepo.enabled = true;
 

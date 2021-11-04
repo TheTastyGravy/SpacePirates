@@ -20,8 +20,8 @@ public class TurretRecoil : MonoBehaviour
     {
         if (running)
         {
-            if (transform.position != targetPos)
-                transform.position = Vector3.MoveTowards(transform.position, targetPos, Speed * Time.fixedDeltaTime);
+            if (Barrel.transform.localPosition != targetPos)
+                Barrel.transform.localPosition = Vector3.MoveTowards(Barrel.transform.localPosition, targetPos, Speed * Time.fixedDeltaTime);
             else
                 Stop();
         }
@@ -30,13 +30,13 @@ public class TurretRecoil : MonoBehaviour
     public void Run()
     {
         running = true;
-        Barrel.transform.position = startPos;
+        Barrel.transform.localPosition = startPos;
         targetPos = endPos;
     }
 
     void Stop()
     {
-        if (transform.position == startPos)
+        if (Barrel.transform.localPosition == startPos)
             running = false;
         else
             targetPos = startPos;
