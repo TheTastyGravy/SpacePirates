@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Barrel: {fileID: 0}
   RecoilAmount: {x: 0, y: 0, z: 0}
-  Speed: 15
+  Speed: 10
 --- !u!1 &2719627207768082399
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ public class TurretRecoil : MonoBehaviour
     private void OnEnable()
     {
         startPos = Barrel.transform.localPosition;
-        endPos = startPos + RecoilAmount;
+        endPos = RecoilAmount;
         running = false;
     }
 
