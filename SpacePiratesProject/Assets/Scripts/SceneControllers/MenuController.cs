@@ -19,6 +19,8 @@ public class MenuController : Singleton< MenuController >
     [Space]
     public Slider volumeSlider;
 
+    private int currentMenu = 0;
+
 
 
     private void Start()
@@ -46,6 +48,7 @@ public class MenuController : Singleton< MenuController >
     {
         ( EventSystem.current.currentInputModule as InputSystemUIInputModule ).cancel.action.performed -= OnMenuCancel;
         (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed -= OnOptionsCancel;
+        (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed -= OnCreditsCancel;
 
         MenuButtonPlay.onClick.RemoveAllListeners();
         MenuButtonOptions.onClick.RemoveAllListeners();
@@ -61,12 +64,12 @@ public class MenuController : Singleton< MenuController >
 
     private void OnButtonOptions()
     {
-        ToggleOptionsMenu(true);
+        SetMenu(1);
     }
 
     private void OnButtonCredits()
     {
-
+        SetMenu(2);
     }
 
     private void OnButtonExit()
@@ -83,39 +86,51 @@ public class MenuController : Singleton< MenuController >
 
     private void OnOptionsCancel( InputAction.CallbackContext _ )
     {
-        ToggleOptionsMenu(false);
+        SetMenu(0);
     }
 
-    private void ToggleOptionsMenu(bool showOptions)
-	{
-        // Update what the back button does
-        if (showOptions)
-		{
-            (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed -= OnMenuCancel;
-            (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed += OnOptionsCancel;
-        }
-		else
-		{
-            (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed -= OnOptionsCancel;
-            (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed += OnMenuCancel;
-        }
-        
+    private void OnCreditsCancel(InputAction.CallbackContext _)
+    {
+        SetMenu(0);
+    }
+
+    private void SetMenu(int menu)
+    {
+        // Reset menu state
+        (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed -= OnMenuCancel;
+        (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed -= OnOptionsCancel;
+        (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed -= OnCreditsCancel;
+
         //menu
-        menuBackground.SetActive(!showOptions);
-        MenuButtonPlay.interactable = !showOptions;
-        MenuButtonOptions.interactable = !showOptions;
-        MenuButtonExit.interactable = !showOptions;
+        menuBackground.SetActive(menu == 0);
+        MenuButtonPlay.interactable = menu == 0;
+        MenuButtonOptions.interactable = menu == 0;
+        MenuButtonCredits.interactable = menu == 0;
+        MenuButtonExit.interactable = menu == 0;
         //options
-        optionsBackground.SetActive(showOptions);
+        optionsBackground.SetActive(menu == 1);
+        //credits
+        creditsBackground.SetActive(menu == 2);
 
-        //set selected button
-        if (showOptions)
-            volumeSlider.Select();
-        else
-            MenuButtonOptions.Select();
+        // Set the selected object and return button
+        switch (menu)
+        {
+            case 0:
+                (currentMenu == 1 ? MenuButtonOptions : MenuButtonCredits).Select();
+                (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed += OnMenuCancel;
+                break;
+            case 1:
+                volumeSlider.Select();
+                (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed += OnOptionsCancel;
+                break;
+            case 2:
+                (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed += OnCreditsCancel;
+                break;
+        }
 
-        if (!showOptions)
-            PlayerPrefs.Save();
+        // Save prefs incase we were on the options menu
+        PlayerPrefs.Save();
+        currentMenu = menu;
     }
 
     private void OnVolumeSliderChanged(float value)
