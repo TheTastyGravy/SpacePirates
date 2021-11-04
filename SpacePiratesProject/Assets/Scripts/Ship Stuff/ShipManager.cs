@@ -222,6 +222,7 @@ public class ShipManager : Singleton<ShipManager>
             }
             // Adjust velocity with a sort of steering force, and apply to position
             velocity = Vector3.Lerp(velocity, (wanderPos - transform.position).normalized * wanderSpeed, Time.deltaTime * wanderAcceleration);
+            velocity.y = 0;
             transform.position += velocity * Time.deltaTime;
         }
     }
