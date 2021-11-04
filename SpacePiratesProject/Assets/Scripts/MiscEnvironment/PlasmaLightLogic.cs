@@ -2,7 +2,8 @@
 
 public class PlasmaLightLogic : MonoBehaviour
 {
-    public Light _Light;
+    public MeshRenderer quad;
+    public Gradient alpha;
 
     [HideInInspector] public float LightDelay;
 
@@ -13,7 +14,7 @@ public class PlasmaLightLogic : MonoBehaviour
         running = false;
         elapsed = 0f;
         LightDelay = _LightDelay;
-        _Light.enabled = false;
+        quad.material.color = new Color(1, 1, 1, 0);
     }
 
     private void FixedUpdate()
@@ -21,10 +22,12 @@ public class PlasmaLightLogic : MonoBehaviour
         if (running)
         {
             elapsed += Time.fixedDeltaTime;
+            quad.material.color = alpha.Evaluate(elapsed / LightDelay);
             if (elapsed >= LightDelay)
             {
+                running = false;
                 elapsed = 0f;
-                _Light.enabled = false;
+                quad.material.color = new Color(1, 1, 1, 0);
             }
         }
     }
@@ -32,6 +35,5 @@ public class PlasmaLightLogic : MonoBehaviour
     public void Run()
     {
         running = true;
-        _Light.enabled = true;
     }
 }
