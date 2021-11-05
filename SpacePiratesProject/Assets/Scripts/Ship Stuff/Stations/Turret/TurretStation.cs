@@ -155,6 +155,8 @@ public class TurretStation : MonoBehaviour
             turretHud.SetActive(true);
         if (laser != null)
             laser.enabled = true;
+        if (recoilScript != null)
+            recoilScript.DoRotation(false);
 
         //get info
         playerPos = currentInteractor.Player.Character.transform.position;
@@ -175,6 +177,8 @@ public class TurretStation : MonoBehaviour
             turretHud.SetActive(false);
         if (laser != null)
             laser.enabled = false;
+        if (recoilScript != null)
+            recoilScript.DoRotation(true);
 
         //remove turret controls
         currentInteractor.Player.RemoveInputListener(Player.Control.A_PRESSED, Fire);
@@ -219,7 +223,7 @@ public class TurretStation : MonoBehaviour
 
 	void Update()
 	{
-        if (currentInteractor == null)
+        if (currentInteractor == null || Time.timeScale == 0)
             return;
 
 
