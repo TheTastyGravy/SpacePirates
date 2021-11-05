@@ -8,6 +8,10 @@ public class EngineStation : MonoBehaviour
 	public int maxFuel = 3;
 	public float speedAcceleration = 1;
 	public float speedDecay = 0.2f;
+	[Space]
+	public Transform[] engineEffects;
+	public float[] minEngineScales;
+	private Vector3[] effectBaseScales;
 
 	private FuelDeposit fuelDepo;
 	private DamageStation damage;
@@ -43,6 +47,12 @@ public class EngineStation : MonoBehaviour
 		if (currentFuel != 0)
 			currentSpeed = maxSpeed;
 		Invoke(nameof(FixFuelIndicator), 0.1f);
+
+		effectBaseScales = new Vector3[engineEffects.Length];
+		for (int i = 0; i < engineEffects.Length; i++)
+		{
+			effectBaseScales[i] = engineEffects[i].localScale;
+		}
 	}
 
 	private void FixFuelIndicator()
@@ -79,6 +89,12 @@ public class EngineStation : MonoBehaviour
 		}
 
 		fuelIndicator.SetFuelLevel(CalculateFuelValue() * 100f);
+		// Scale each engine effect by engine power
+		float scalar = currentSpeed / maxSpeed;
+		for (int i = 0; i < engineEffects.Length; i++)
+		{
+			engineEffects[i].localScale = effectBaseScales[i] * Mathf.Lerp(minEngineScales[i], 1, scalar);
+		}
 	}
 
 	private void OnFueled()
