@@ -5355,6 +5355,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CM_Man
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f68f361d7b2d8504482e8c1a58a09fdc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5866666021909216657, guid: f68f361d7b2d8504482e8c1a58a09fdc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f68f361d7b2d8504482e8c1a58a09fdc, type: 3}
@@ -5428,6 +5432,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CM_Cat
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ea984bae740594b48a24e59c9d41f603, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea984bae740594b48a24e59c9d41f603, type: 3}
 --- !u!4 &5629070858590436573 stripped
@@ -5499,6 +5507,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 494052ad8e50d4c4e9366d3b21e8e900, type: 3}
       propertyPath: m_Name
       value: CM_FEMALE
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 494052ad8e50d4c4e9366d3b21e8e900, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 494052ad8e50d4c4e9366d3b21e8e900, type: 3}
@@ -5575,6 +5587,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: c64a3d6eac3a88349bc1c6105b849be6, type: 3}
       propertyPath: m_Name
       value: CM_Dog
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c64a3d6eac3a88349bc1c6105b849be6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c64a3d6eac3a88349bc1c6105b849be6, type: 3}
