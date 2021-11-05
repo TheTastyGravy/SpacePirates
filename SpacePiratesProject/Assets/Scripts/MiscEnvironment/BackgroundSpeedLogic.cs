@@ -10,6 +10,7 @@ public class BackgroundSpeedLogic : MonoBehaviour
     public Color storm_backgroundColor;
     public float storm_timeBetween = 0.5f;
     public float storm_baseSpeed = 1;
+    public float storm_fadeOutTime = 1.5f;
     [Space]
     public float minSpeedModifier = 0.1f;
     public float maxSpeedModifier = 1;
@@ -18,6 +19,7 @@ public class BackgroundSpeedLogic : MonoBehaviour
     private float inverseMaxSpeed = 0;
     private float speedModifier = 1;
     private Coroutine eventRoutine = null;
+    private Level.Event.Type currentEvent = Level.Event.Type.None;
 
     private List<Transform> objects = new List<Transform>();
     // Past random values generated. Used for weighting
@@ -48,6 +50,12 @@ public class BackgroundSpeedLogic : MonoBehaviour
         List<Transform> toDestroy = new List<Transform>();
         foreach (var obj in objects)
 		{
+            if (obj == null)
+            {
+                toDestroy.Add(obj);
+                continue;
+            }
+
             obj.position += obj.forward * Time.deltaTime * speedModifier * storm_baseSpeed;
             // Destroy objects when they go far enough
             if (Vector3.Dot(obj.position, obj.forward) > 20)
@@ -59,7 +67,8 @@ public class BackgroundSpeedLogic : MonoBehaviour
         foreach (var obj in toDestroy)
 		{
             objects.Remove(obj);
-            Destroy(obj.gameObject);
+            if (obj != null)
+                Destroy(obj.gameObject);
         }
     }
 
@@ -84,7 +93,15 @@ public class BackgroundSpeedLogic : MonoBehaviour
                 StartCoroutine(SetBackgroundColor(backgroundBaseColor, 1));
                 break;
 		}
-	}
+
+        // When a plasma storm ends, fade out the remaining clouds
+        if (currentEvent == Level.Event.Type.PlasmaStorm)
+        {
+            FadeOutObjects(storm_fadeOutTime);
+        }
+
+        currentEvent = eventType;
+    }
 
     private IEnumerator PlasmaStormEffect()
 	{
@@ -117,6 +134,36 @@ public class BackgroundSpeedLogic : MonoBehaviour
             yield return new WaitForSeconds(storm_timeBetween / speedModifier);
 		}
 	}
+
+    private void FadeOutObjects(float time)
+    {
+        foreach (var obj in objects)
+        {
+            if (obj.TryGetComponent(out RunLightning runLightning))
+                runLightning.enabled = false;
+
+            ParticleSystem particleSystem = obj.GetComponentInChildren<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                // Disable emission
+                ParticleSystem.EmissionModule emission = particleSystem.emission;
+                emission.enabled = false;
+
+                // Set the lifetime of all particles
+                ParticleSystem.Particle[] particles = new ParticleSystem.Particle[particleSystem.main.maxParticles];
+                int count = particleSystem.GetParticles(particles);
+                for (int i = 0; i < count; i++)
+                {
+                    particles[i].remainingLifetime = particles[i].remainingLifetime / particles[i].startLifetime * time;
+                    particles[i].startLifetime = time;
+                }
+                particleSystem.SetParticles(particles);
+
+                // Destroy the object when the particles are gone
+                Destroy(obj.gameObject, time);
+            }
+        }
+    }
 
     private IEnumerator SetBackgroundColor(Color color, float time)
     {
