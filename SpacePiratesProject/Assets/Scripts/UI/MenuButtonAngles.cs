@@ -29,8 +29,8 @@ public class MenuButtonAngles : MonoBehaviour, ISelectHandler, IDeselectHandler
         leftAngle.localPosition = new Vector2(-rectTrans.rect.width * 0.5f - offset, 0);
         rightAngle.localPosition = new Vector2(rectTrans.rect.width * 0.5f + offset, 0);
 
-        leftAngleImage = leftAngle.GetComponent<Image>();
-        rightAngleImage = rightAngle.GetComponent<Image>();
+        leftAngleImage = leftAngle.GetComponentInChildren<Image>();
+        rightAngleImage = rightAngle.GetComponentInChildren<Image>();
         leftAngleImage.enabled = false;
         rightAngleImage.enabled = false;
     }
