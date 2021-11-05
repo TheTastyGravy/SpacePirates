@@ -8,7 +8,7 @@ public class ShipSelector : Singleton< ShipSelector >
     public ShipTile[] ShipTiles;
     public SelectorTile SelectorTile;
 
-    private void Start()
+    private void Awake()
     {
         // Edge case
         if (PlayerInputManager.instance.playerCount == 0)
