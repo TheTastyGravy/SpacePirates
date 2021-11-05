@@ -84,8 +84,8 @@ MonoBehaviour:
   medium:
     minEventCount: 3
     maxEventCount: 4
-    minEventLength: 50
-    maxEventLength: 50
+    minEventLength: 75
+    maxEventLength: 75
     extraLengthPerEvent: 0
     timeBetweenAstroids: 8
     astroidSpawnDelay: 1.5
