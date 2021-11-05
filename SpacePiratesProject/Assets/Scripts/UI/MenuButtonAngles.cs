@@ -17,6 +17,12 @@ public class MenuButtonAngles : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     void Start()
     {
+        if (leftAngleImage == null || rightAngleImage == null)
+            Init();
+    }
+
+    private void Init()
+    {
         RectTransform leftAngle = Instantiate(leftAnglePrefab, transform).transform as RectTransform;
         RectTransform rightAngle = Instantiate(rightAnglePrefab, transform).transform as RectTransform;
         RectTransform rectTrans = transform as RectTransform;
@@ -31,6 +37,9 @@ public class MenuButtonAngles : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public void OnSelect(BaseEventData eventData)
 	{
+        if (leftAngleImage == null || rightAngleImage == null)
+            Init();
+
         leftAngleImage.enabled = true;
         rightAngleImage.enabled = true;
     }
