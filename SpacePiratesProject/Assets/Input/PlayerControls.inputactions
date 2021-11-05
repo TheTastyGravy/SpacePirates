@@ -131,7 +131,7 @@
                     "id": "a42797c5-3b6e-4f74-9b17-1a87500c22f4",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press"
                 }
             ],
             "bindings": [
