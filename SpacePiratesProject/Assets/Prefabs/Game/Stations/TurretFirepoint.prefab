@@ -45,9 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64aa57411fca61741837a2e4c797eabd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Barrel: {fileID: 0}
+  barrel: {fileID: 0}
   RecoilAmount: {x: 0, y: 0, z: 0}
   Speed: 10
+  notInUseAngle: 20
+  angleTimeDown: 0.5
+  angleTimeUp: 0.05
 --- !u!1 &2719627207768082399
 GameObject:
   m_ObjectHideFlags: 0

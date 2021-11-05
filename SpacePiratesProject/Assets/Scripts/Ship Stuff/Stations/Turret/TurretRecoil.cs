@@ -2,43 +2,75 @@
 
 public class TurretRecoil : MonoBehaviour
 {
-    public GameObject Barrel;
+    public Transform barrel;
     public Vector3 RecoilAmount;
     public float Speed;
+    public float notInUseAngle = -40;
+    public float angleTimeDown = 1;
+    public float angleTimeUp = 0.3f;
 
-    Vector3 startPos, endPos, targetPos;
-    bool running;
+    private Vector3 startPos, endPos, targetPos;
+    private float currentBarrelAngle = 0;
+    private bool shouldDoRecoil = false;
+    private bool shouldRotate;
+    private bool isRotatingDown;
+    private float rotateTimePassed = 0;
+
+
 
     private void OnEnable()
     {
-        startPos = Barrel.transform.localPosition;
+        startPos = barrel.localPosition;
         endPos = RecoilAmount;
-        running = false;
+        shouldRotate = true;
+        isRotatingDown = true;
     }
 
     private void FixedUpdate()
     {
-        if (running)
+        if (shouldDoRecoil)
         {
-            if (Barrel.transform.localPosition != targetPos)
-                Barrel.transform.localPosition = Vector3.MoveTowards(Barrel.transform.localPosition, targetPos, Speed * Time.fixedDeltaTime);
+            if (barrel.localPosition != targetPos)
+                barrel.localPosition = Vector3.MoveTowards(barrel.localPosition, targetPos, Speed * Time.fixedDeltaTime);
             else
                 Stop();
+        }
+
+        if (shouldRotate)
+        {
+            rotateTimePassed += Time.deltaTime;
+
+            float lastAngle = currentBarrelAngle;
+            currentBarrelAngle = Mathf.Lerp(0, notInUseAngle, (isRotatingDown ? rotateTimePassed / angleTimeDown : 1 - rotateTimePassed / angleTimeUp));
+            barrel.RotateAround(barrel.parent.position, barrel.right, currentBarrelAngle - lastAngle);
+
+            if ((isRotatingDown && currentBarrelAngle == notInUseAngle) ||
+                (!isRotatingDown && currentBarrelAngle == 0))
+            {
+                shouldRotate = false;
+            }
         }
     }
 
     public void Run()
     {
-        running = true;
-        Barrel.transform.localPosition = startPos;
+        shouldDoRecoil = true;
+        barrel.localPosition = startPos;
         targetPos = endPos;
     }
 
     void Stop()
     {
-        if (Barrel.transform.localPosition == startPos)
-            running = false;
+        if (barrel.localPosition == startPos)
+            shouldDoRecoil = false;
         else
             targetPos = startPos;
+    }
+
+    public void DoRotation(bool rotateDown)
+    {
+        shouldRotate = true;
+        isRotatingDown = rotateDown;
+        rotateTimePassed = 0;
     }
 }
