@@ -37,12 +37,11 @@ public class MusicManager : Singleton<MusicManager>
 
     private MusicData.MusicInfo musicInfo;
     private bool inGameScene = false;
-    private bool setIntensity = true;
+    private bool inEvent = true;
     private string lastEvent = "";
+    private Coroutine fadeEventRoutine;
 
     private float musicVolume = 100;
-
-    private float baseFadeTime;
 
     [Header("Intensity")]
     public float maxOxygenDrainRate = 10;
@@ -52,6 +51,8 @@ public class MusicManager : Singleton<MusicManager>
     public float speedFactor = 0.5f;
     [Range(0,1)]
     public float progressFactor = 0.5f;
+    [Tooltip("Value used durring an event")]
+    public float inEventFactor = 1.3f;
 
 
 
@@ -63,8 +64,6 @@ public class MusicManager : Singleton<MusicManager>
 
     private void InitSetup()
 	{
-        baseFadeTime = GameManager.Instance.fadeInTime;
-
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 100) * 0.01f;
         // Get the music info for the current scene
         musicInfo = data.GetInfo(GameManager.CurrentState);
@@ -124,18 +123,17 @@ public class MusicManager : Singleton<MusicManager>
 
     private void OnSceneExit(Scene scene, GameManager.GameState otherScene)
 	{
-        // Make sure music has enough time to fade out
-        GameManager.Instance.fadeInTime = Mathf.Max(baseFadeTime, musicInfo.fadeTime);
-
         MusicData.MusicInfo newInfo = data.GetInfo(otherScene);
         if (newInfo != musicInfo)
         {
             StartCoroutine(ChangeMusic(newInfo));
-            if (scene.name == "GAME")
-			{
-                EventManager.Instance.OnEventChange -= OnEventChange;
-                inGameScene = false;
-            }
+            // Make sure music has enough time to fade out
+            GameManager.Instance.realFadeIn = Mathf.Max(GameManager.Instance.realFadeIn, musicInfo.fadeTime);
+        }
+        if (scene.name == "GAME")
+        {
+            EventManager.Instance.OnEventChange -= OnEventChange;
+            inGameScene = false;
         }
     }
 
@@ -152,9 +150,16 @@ public class MusicManager : Singleton<MusicManager>
             }
             StartCoroutine(NextFrame());
             inGameScene = true;
-            setIntensity = true;
-            // TEMP
-            musicInstance.setParameterByName("Intensity", 1);
+            inEvent = false;
+
+            if (fadeEventRoutine != null)
+			{
+                StopCoroutine(fadeEventRoutine);
+                fadeEventRoutine = null;
+            }
+            musicInstance.setParameterByName("Asteroids", 0);
+            musicInstance.setParameterByName("Plasma Storm", 0);
+            musicInstance.setParameterByName("The Fuzz", 0);
         }
 	}
 
@@ -184,71 +189,32 @@ public class MusicManager : Singleton<MusicManager>
             _ => "",
         };
 
-
-        StopAllCoroutines();
-        if (name == "")
-		{
-            StartCoroutine(FadeEvent(lastEvent, false, 2, 1));
-            lastEvent = "";
-        }
-        else
-		{
-            StartCoroutine(FadeEvent(name, true, 1, 1));
-            lastEvent = name;
-        }
+        if (fadeEventRoutine != null)
+            StopCoroutine(fadeEventRoutine);
+        inEvent = name != "";
+        fadeEventRoutine = StartCoroutine(FadeEvent(inEvent ? name : lastEvent, inEvent, 3));
+        lastEvent = name;
     }
 
-    private IEnumerator FadeEvent(string paramName, bool fadeInParam, int fadeInBars, int fadeOutBars, float endIntensity = 1)
+    private IEnumerator FadeEvent(string paramName, bool fadeInParam, int fadeBars)
 	{
         if (paramName == "")
             yield break;
-		
-        // Get the current intensity value
-        FMOD.RESULT result = musicInstance.getParameterByName("Intensity", out float start);
-        if (result != FMOD.RESULT.OK)
-		{
-            start = 1;
-        }
 
-
-        setIntensity = false;
         // Convert BPM to seconds per bar
         float barTime = 1f / (timelineInfo.tempo / (60 * timelineInfo.upperSignature));
-
-        //  ----- Fade out -----
-        float fadeOutTime = barTime * (fadeOutBars - 1 + (timelineInfo.upperSignature + 1 - timelineInfo.currentMusicBeat) / (float)timelineInfo.upperSignature);
+        float fadeTime = barTime * (fadeBars - 1 + (timelineInfo.upperSignature + 1 - timelineInfo.currentMusicBeat) / (float)timelineInfo.upperSignature);
         float t = 0;
-        while (t < fadeOutTime)
+        while (t < fadeTime)
         {
-            float val = t / fadeOutTime;
-            musicInstance.setParameterByName("Intensity", Mathf.Lerp(start, 0, val));
-            if (!fadeInParam)
-                musicInstance.setParameterByName(paramName, Mathf.Lerp(1, 0, val));
+            float val = t / fadeTime;
+            musicInstance.setParameterByName(paramName, Mathf.Lerp(0, 1, fadeInParam ? val : 1 - val));
 
             t += Time.deltaTime;
             yield return null;
         }
-        if (!fadeInParam)
-            musicInstance.setParameterByName(paramName, 0);
-        
-        //  ----- Fade in -----
-        float fadeInTime = barTime * fadeInBars;
-        t = 0;
-        while (t < fadeInTime)
-        {
-            float val = t / fadeInTime;
-            musicInstance.setParameterByName("Intensity", Mathf.Lerp(0, endIntensity, val));
-            if (fadeInParam)
-                musicInstance.setParameterByName(paramName, Mathf.Lerp(0, 1, val));
-
-            t += Time.deltaTime;
-            yield return null;
-        }
-        musicInstance.setParameterByName("Intensity", endIntensity);
-        if (fadeInParam)
-            musicInstance.setParameterByName(paramName, 1);
-
-        setIntensity = true;
+        musicInstance.setParameterByName(paramName, fadeInParam ? 1 : 0);
+        fadeEventRoutine = null;
     }
 
 	void Update()
@@ -258,15 +224,12 @@ public class MusicManager : Singleton<MusicManager>
 
         musicInstance.setParameterByName("Oxygen Low", 1 - (ShipManager.Instance.OxygenLevel / ShipManager.Instance.maxOxygenLevel));
 
-        if (setIntensity)
-		{
-            float oxygenLoss = Mathf.Max(-ShipManager.Instance.oxygenDrain, 0) / maxOxygenDrainRate;
-            float shipSpeed = ShipManager.Instance.GetShipSpeed() / ShipManager.Instance.GetMaxSpeed();
-            float progress = LevelController.Instance.PlayerPosition / LevelController.Instance.level.length;
+        float oxygenLoss = Mathf.Max(-ShipManager.Instance.oxygenDrain, 0) / maxOxygenDrainRate;
+        float shipSpeed = ShipManager.Instance.GetShipSpeed() / ShipManager.Instance.GetMaxSpeed();
+        float progress = LevelController.Instance.PlayerPosition / LevelController.Instance.level.length;
 
-            float intensity = oxygenLoss * oxygenDrainFactor + shipSpeed * speedFactor + progress * progressFactor;
-            musicInstance.setParameterByName("Intensity", intensity);
-        }
+        float intensity = oxygenLoss * oxygenDrainFactor + shipSpeed * speedFactor + progress * progressFactor * (inEvent ? inEventFactor : 1);
+        musicInstance.setParameterByName("Intensity", intensity);
     }
 
     public void SetVolume(float value)

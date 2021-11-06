@@ -6,36 +6,53 @@ public class EngineStation : MonoBehaviour
 {
 	public FuelIndicator fuelIndicator;
 	public int maxFuel = 3;
-	public int startFuel = 0;
-	[Tooltip("How long each fuel lasts")]
-	public float timePerFuel = 10;
-	[Tooltip("The speed allied to the ship when turned on")]
-	public float maxSpeed = 1;
 	public float speedAcceleration = 1;
 	public float speedDecay = 0.2f;
+	[Space]
+	public Transform[] engineEffects;
+	public float[] minEngineScales;
+	private Vector3[] effectBaseScales;
 
 	private FuelDeposit fuelDepo;
 	private DamageStation damage;
 	public DamageStation Damage => damage;
 
+	private float timePerFuel;
+	private float maxSpeed;
+	public float MaxSpeed => maxSpeed;
+	private int startFuel;
 	public bool IsTurnedOn => currentFuel > 0 && damage.DamageLevel == 0;
 	private float currentSpeed = 0;
 	public float CurrentSpeed => currentSpeed;
-
 	private int currentFuel = 0;
 	public int CurrentFuel => currentFuel;
 	private float fuelTime = 0;
 
-
+	
 
 	void Awake()
 	{
+		enabled = false;
 		fuelDepo = GetComponentInChildren<FuelDeposit>();
 		damage = GetComponentInChildren<DamageStation>();
 		fuelDepo.OnFuelDeposited += OnFueled;
 
+		// Get values from difficulty settings
+		LevelDificultyData.DiffSetting setting = GameManager.GetDifficultySettings();
+		timePerFuel = setting.timePerFuel.Value;
+		maxSpeed = setting.maxSpeed.Value;
+		startFuel = setting.startFuel.Value;
+
 		currentFuel = startFuel;
+		if (currentFuel != 0)
+			currentSpeed = maxSpeed;
 		Invoke(nameof(FixFuelIndicator), 0.1f);
+
+		effectBaseScales = new Vector3[engineEffects.Length];
+		for (int i = 0; i < engineEffects.Length; i++)
+		{
+			effectBaseScales[i] = engineEffects[i].localScale;
+		}
 	}
 
 	private void FixFuelIndicator()
@@ -72,6 +89,12 @@ public class EngineStation : MonoBehaviour
 		}
 
 		fuelIndicator.SetFuelLevel(CalculateFuelValue() * 100f);
+		// Scale each engine effect by engine power
+		float scalar = currentSpeed / maxSpeed;
+		for (int i = 0; i < engineEffects.Length; i++)
+		{
+			engineEffects[i].localScale = effectBaseScales[i] * Mathf.Lerp(minEngineScales[i], 1, scalar);
+		}
 	}
 
 	private void OnFueled()

@@ -17,18 +17,201 @@ MonoBehaviour:
   easy:
     minEventCount: 1
     maxEventCount: 2
-    minEventLength: 50
-    maxEventLength: 50
+    minEventLength: 90
+    maxEventLength: 90
     extraLengthPerEvent: 0
+    timeBetweenAstroids: 10
+    astroidSpawnDelay: 2
+    timeBetweenAsteroidWaves: 15
+    asteroidsPerWave: 4
+    timeBetweenStormDamage: 15
+    shipHealth: 5
+    shipFirePeriod: 4
+    timePerFuel:
+      playerCountValues:
+      - 10
+      - 10
+      - 10
+      - 10
+      useSeperateValues: 0
+    maxSpeed:
+      playerCountValues:
+      - 1
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    startFuel:
+      playerCountValues: 03000000050000000500000005000000
+      useSeperateValues: 0
+    interactionCooldown:
+      playerCountValues:
+      - 2
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    baseOxygenRegenRate:
+      playerCountValues:
+      - 5
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    timeBetweenSwitches:
+      playerCountValues:
+      - 0.5
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    fuelGenerationTime:
+      playerCountValues:
+      - 4
+      - 4
+      - 3
+      - 2
+      useSeperateValues: 1
+    maxShots:
+      playerCountValues: 0a000000000000000000000000000000
+      useSeperateValues: 0
+    shotsPerFuel:
+      playerCountValues: 0a000000000000000000000000000000
+      useSeperateValues: 0
+    startShots:
+      playerCountValues: 05000000000000000000000000000000
+      useSeperateValues: 0
   medium:
     minEventCount: 3
     maxEventCount: 4
-    minEventLength: 50
-    maxEventLength: 50
+    minEventLength: 75
+    maxEventLength: 75
     extraLengthPerEvent: 0
+    timeBetweenAstroids: 8
+    astroidSpawnDelay: 1.5
+    timeBetweenAsteroidWaves: 10
+    asteroidsPerWave: 5
+    timeBetweenStormDamage: 10
+    shipHealth: 10
+    shipFirePeriod: 2
+    timePerFuel:
+      playerCountValues:
+      - 10
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    maxSpeed:
+      playerCountValues:
+      - 1
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    startFuel:
+      playerCountValues: 02000000000000000000000000000000
+      useSeperateValues: 0
+    interactionCooldown:
+      playerCountValues:
+      - 3
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    baseOxygenRegenRate:
+      playerCountValues:
+      - 5
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    timeBetweenSwitches:
+      playerCountValues:
+      - 0.5
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    fuelGenerationTime:
+      playerCountValues:
+      - 4
+      - 4.5
+      - 3.5
+      - 2.5
+      useSeperateValues: 1
+    maxShots:
+      playerCountValues: 0a000000000000000000000000000000
+      useSeperateValues: 0
+    shotsPerFuel:
+      playerCountValues: 0a000000000000000000000000000000
+      useSeperateValues: 0
+    startShots:
+      playerCountValues: 03000000000000000000000000000000
+      useSeperateValues: 0
   hard:
     minEventCount: 4
     maxEventCount: 6
     minEventLength: 50
     maxEventLength: 50
     extraLengthPerEvent: 0
+    timeBetweenAstroids: 5
+    astroidSpawnDelay: 1
+    timeBetweenAsteroidWaves: 8
+    asteroidsPerWave: 8
+    timeBetweenStormDamage: 8
+    shipHealth: 15
+    shipFirePeriod: 1
+    timePerFuel:
+      playerCountValues:
+      - 10
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    maxSpeed:
+      playerCountValues:
+      - 1
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    startFuel:
+      playerCountValues: 01000000000000000000000000000000
+      useSeperateValues: 0
+    interactionCooldown:
+      playerCountValues:
+      - 5
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    baseOxygenRegenRate:
+      playerCountValues:
+      - 5
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    timeBetweenSwitches:
+      playerCountValues:
+      - 0.25
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+    fuelGenerationTime:
+      playerCountValues:
+      - 4
+      - 5
+      - 4
+      - 3
+      useSeperateValues: 1
+    maxShots:
+      playerCountValues: 0a000000000000000000000000000000
+      useSeperateValues: 0
+    shotsPerFuel:
+      playerCountValues: 0a000000000000000000000000000000
+      useSeperateValues: 0
+    startShots:
+      playerCountValues: 00000000000000000000000000000000
+      useSeperateValues: 0

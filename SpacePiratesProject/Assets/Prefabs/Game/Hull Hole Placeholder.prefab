@@ -6158,7 +6158,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       minMaxState: 1
@@ -6183,8 +6183,8 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 65535
-        atime2: 0
+        atime1: 57247
+        atime2: 65535
         atime3: 0
         atime4: 0
         atime5: 0
@@ -6192,7 +6192,7 @@ ParticleSystem:
         atime7: 0
         m_Mode: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 2
+        m_NumAlphaKeys: 3
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -9623,7 +9623,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: dd88e70e69c85254cbd227bb6dfd6113, type: 2}
+  - {fileID: 2100000, guid: da7f888764160214a8f0c2ba2a0cdf46, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14541,6 +14541,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6711157522764960633}
   - component: {fileID: 7359539469593560065}
+  - component: {fileID: 6514284283391238367}
   m_Layer: 6
   m_Name: Hull Hole Placeholder
   m_TagString: Untagged
@@ -14592,6 +14593,20 @@ MonoBehaviour:
   - oxygenLossRate: 10
     repairTime: 3
   damageEffect: {fileID: 1693379352692837426}
+--- !u!114 &6514284283391238367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3854229849652578900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a3562b7f0935a947b4547ec7219aba7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ob: {fileID: 3149937446658760809}
+  _RotationAmount: {x: 180, y: 0, z: 0}
 --- !u!1 &4327298870969473796
 GameObject:
   m_ObjectHideFlags: 0
@@ -15945,7 +15960,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       minMaxState: 1
@@ -15970,8 +15985,8 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 65535
-        atime2: 0
+        atime1: 53777
+        atime2: 65535
         atime3: 0
         atime4: 0
         atime5: 0
@@ -15979,7 +15994,7 @@ ParticleSystem:
         atime7: 0
         m_Mode: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 2
+        m_NumAlphaKeys: 3
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -19410,7 +19425,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: dd88e70e69c85254cbd227bb6dfd6113, type: 2}
+  - {fileID: 2100000, guid: da7f888764160214a8f0c2ba2a0cdf46, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19758,6 +19773,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 23ace564dbe44ad448b5854ba3275f1f, type: 3}
+--- !u!1 &3149937446658760809 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 23ace564dbe44ad448b5854ba3275f1f, type: 3}
+  m_PrefabInstance: {fileID: 2843947001102916920}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2377060334616427219 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 23ace564dbe44ad448b5854ba3275f1f, type: 3}

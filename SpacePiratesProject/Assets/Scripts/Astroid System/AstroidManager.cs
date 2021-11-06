@@ -5,9 +5,7 @@ using UnityEngine;
 public class AstroidManager : Singleton<AstroidManager>
 {
 	public GameObject astroidPrefab;
-	public float timeBetweenAstroids = 5;
 	public float maxAngleVariance = 45;
-	public float astroidSpawnDelay = 1.5f;
 	public LayerMask raycastMask;
 	public float raycastYOffset = 1;
 	[Space]
@@ -17,20 +15,33 @@ public class AstroidManager : Singleton<AstroidManager>
 	public PolygonCollider2D uiBoundry;
 	public float uiExtraTime = 0.5f;
 
-
+	private float timeBetweenAstroids;
+	private float astroidSpawnDelay;
 	private BoxCollider[] regions;
 	private float timePassed = 0;
 	private Vector2 screenScale;
 
 
 
-	void Start()
+	void Awake()
 	{
+		// Get values from difficulty settings
+		LevelDificultyData.DiffSetting settings = GameManager.GetDifficultySettings();
+		timeBetweenAstroids = settings.timeBetweenAstroids;
+		astroidSpawnDelay = settings.astroidSpawnDelay;
+		enabled = false;
+
 		maxAngleVariance *= 0.5f;
 		screenScale = Screen.safeArea.size * new Vector2(1f / 1920f, 1f / 1080f);
 
 		ShrinkBoundry();
-		Invoke("SetupRegions", 0.1f);
+	}
+
+	// Called by LevelController when the game starts
+	public void BeginGame()
+	{
+		SetupRegions();
+		enabled = true;
 	}
 
 	private void ShrinkBoundry()
@@ -109,7 +120,6 @@ public class AstroidManager : Singleton<AstroidManager>
 		regions = boxes.ToArray();
 	}
 	
-
 	void Update()
 	{
 		timePassed += Time.deltaTime;
@@ -163,6 +173,14 @@ public class AstroidManager : Singleton<AstroidManager>
 			Vector2 screenPoint = Camera.main.WorldToScreenPoint(pos);
 			Vector2 screenDir = (Vector2)Camera.main.WorldToScreenPoint(pos + dir) - screenPoint;
 			RaycastHit2D rayHit = Physics2D.Raycast(screenPoint, screenDir);
+
+			if (rayHit.point == Vector2.zero)
+			{
+				// The raycast for the UI missed. Redo the asteroid
+				i--;
+				continue;
+			}
+
 			// Create UI element
 			GameObject uiObj = Instantiate(uiPrefab, canvas);
 			Destroy(uiObj, astroidSpawnDelay + uiExtraTime);

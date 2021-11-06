@@ -11,6 +11,7 @@ public class InteractionManager : Singleton<InteractionManager>
     internal List<Interactable> interactablesInRange = new List<Interactable>();
     private List<Interactable> inRangeLastFrame = new List<Interactable>();
 
+    public List<Interactable> Interactables => interactables;
     private bool isErroring = false;
 
 
@@ -39,7 +40,8 @@ public class InteractionManager : Singleton<InteractionManager>
                 // In range this frame
                 if (!inRangeLastFrame.Contains(obj))
                 {
-                    obj.interactionPrompt.Selected();
+                    if (obj.interactionPrompt != null)
+                        obj.interactionPrompt.Selected();
                 }
             }
 
@@ -50,12 +52,11 @@ public class InteractionManager : Singleton<InteractionManager>
 
             foreach (var obj in inRangeLastFrame)
             {
-                if (obj == null)
-                    continue;
                 // Out of range this frame
                 if (!interactablesInRange.Contains(obj))
                 {
-                    obj.interactionPrompt.Unselected();
+                    if (obj.interactionPrompt != null)
+                        obj.interactionPrompt.Unselected();
                 }
             }
 

@@ -15,11 +15,14 @@ public class StatusManager : Singleton<StatusManager>
         public string String => strings[Random.Range(0, strings.Length)];
     }
 
-
-
     public TextMeshProUGUI text;
+    public GameObject cursor;
+    [Tooltip("How long to wait between updating the text")]
     public float refreshRate = 1;
+    [Tooltip("How long event start text is flashed for")]
     public float flashTime = 0.5f;
+    [Tooltip("The speed text is writen out at")]
+    public float cursorSpeed = 10;
 
     [Header("Normal")]
     public StringGroup general;
@@ -57,14 +60,24 @@ public class StatusManager : Singleton<StatusManager>
     private EngineStation[] engines;
     private TurretStation[] turrets;
     private float timePassed = 0;
+    private Coroutine textWriter;
+    private Image cursorImage;
+    private float cursorOffset;
 
 
 
-    void Start()
+    void Awake()
     {
-        text.text = gameStart.String;
+        enabled = false;
+        cursorImage = cursor.GetComponent<Image>();
+        cursorOffset = (cursor.transform as RectTransform).rect.width * 0.5f + 5;
+        cursorSpeed = 1 / cursorSpeed;
+
+        SetText(gameStart.String);
         EventManager.Instance.OnEventChange += OnEventChange;
         Invoke(nameof(Init), 0.1f);
+
+        Character.OnCheatActivated += () => { SetText("CHEAT ACTIVATED"); timePassed = 0; StartCoroutine(TextFlash()); };
     }
 
 	private void Init()
@@ -102,13 +115,13 @@ public class StatusManager : Singleton<StatusManager>
                     switch (lastEvent)
                     {
                         case Level.Event.Type.AstroidField:
-                            text.text = asteroidExit.String;
+                            SetText(asteroidExit.String);
                             break;
                         case Level.Event.Type.PlasmaStorm:
-                            text.text = stormExit.String;
+                            SetText(stormExit.String);
                             break;
                         case Level.Event.Type.ShipAttack:
-                            text.text = shipExit.String;
+                            SetText(shipExit.String);
                             break;
                     }
                     eventActive = false;
@@ -119,13 +132,13 @@ public class StatusManager : Singleton<StatusManager>
                     switch (currentEvent)
                     {
                         case Level.Event.Type.AstroidField:
-                            text.text = asteroidEnter.String;
+                            SetText(asteroidEnter.String);
                             break;
                         case Level.Event.Type.PlasmaStorm:
-                            text.text = stormEnter.String;
+                            SetText(stormEnter.String);
                             break;
                         case Level.Event.Type.ShipAttack:
-                            text.text = shipEnter.String;
+                            SetText(shipEnter.String);
                             break;
                     }
                     StartCoroutine(TextFlash());
@@ -137,20 +150,20 @@ public class StatusManager : Singleton<StatusManager>
             {
                 if (Random.Range(0f, 1f) < genericChance)
                 {
-                    text.text = genericEvent.String;
+                    SetText(genericEvent.String);
                 }
                 else
                 {
                     switch (currentEvent)
                     {
                         case Level.Event.Type.AstroidField:
-                            text.text = asteroidDurring.String;
+                            SetText(asteroidDurring.String);
                             break;
                         case Level.Event.Type.PlasmaStorm:
-                            text.text = stormDurring.String;
+                            SetText(stormDurring.String);
                             break;
                         case Level.Event.Type.ShipAttack:
-                            text.text = shipDurring.String;
+                            SetText(shipDurring.String);
                             break;
                     }
                 }
@@ -163,18 +176,18 @@ public class StatusManager : Singleton<StatusManager>
         //  -----   GENERIC   -----
         if (ShipManager.Instance.Reactor.Damage.DamageLevel > 0)
 		{
-            text.text = reactorDamaged.String;
+            SetText(reactorDamaged.String);
             return;
         }
         if (!ShipManager.Instance.Reactor.IsTurnedOn)
 		{
-            text.text = reactorDisabled.String;
+            SetText(reactorDisabled.String);
             return;
         }
         
         if ((ShipManager.Instance.OxygenLevel < 90 && ShipManager.Instance.oxygenDrain > 2) || (ShipManager.Instance.OxygenLevel < 50 && ShipManager.Instance.oxygenDrain > 0))  //maybe also check num damaged stations
 		{
-            text.text = generalRepair.String;
+            SetText(generalRepair.String);
             return;
         }
         
@@ -195,17 +208,17 @@ public class StatusManager : Singleton<StatusManager>
 		}
         if (count > 1)
 		{
-            text.text = generalRefuel.String;
+            SetText(generalRefuel.String);
             return;
 		}
         
         if (ShipManager.Instance.GetShipSpeed() == 0)
 		{
-            text.text = useEngines.String;
+            SetText(useEngines.String);
             return;
         }
         
-        text.text = general.String;
+        SetText(general.String);
 	}
 
     public void OnEventChange(Level.Event.Type eventType)
@@ -220,6 +233,41 @@ public class StatusManager : Singleton<StatusManager>
         timePassed = refreshRate;
 	}
 
+    public void SetText(string message)
+	{
+        if (text.text == message)
+            return;
+
+        // Set text and force the mesh to update with everything visible so we can get the hight
+        text.SetText(message);
+        text.maxVisibleCharacters = 9999;
+        text.ForceMeshUpdate();
+        float maxHeight = text.textBounds.size.y;
+
+        if (textWriter != null)
+            StopCoroutine(textWriter);
+        textWriter = StartCoroutine(WriteText(maxHeight));
+    }
+    
+    private IEnumerator WriteText(float height)
+	{
+        // Used to get the position of characters
+        TMP_TextInfo textInfo = text.GetTextInfo(text.text);
+
+        text.maxVisibleCharacters = 0;
+        while (text.maxVisibleCharacters < text.text.Length)
+		{
+            text.maxVisibleCharacters++;
+            // Update cursor position
+            Vector3 pos = textInfo.characterInfo[text.maxVisibleCharacters - 1].bottomRight;
+            pos.x += cursorOffset;
+            pos.y = -height;
+            cursor.transform.localPosition = pos;
+
+            yield return new WaitForSecondsRealtime(cursorSpeed);
+        }
+        textWriter = null;
+    }
 
     private IEnumerator TextFlash()
     {
@@ -231,14 +279,17 @@ public class StatusManager : Singleton<StatusManager>
         float t = 0;
         while (t < flashTime)
         {
-            text.color = Color.Lerp(Color.red, initColor, t / flashTime);
-            text.transform.localScale = Vector3.Lerp(bigScale, initScale, t / flashTime);
+            float value = t / flashTime;
+            text.color = Color.Lerp(Color.red, initColor, value);
+            cursorImage.color = text.color;
+            text.transform.localScale = Vector3.Lerp(bigScale, initScale, value);
 
-            t += Time.deltaTime;
+            t += Time.unscaledDeltaTime;
             yield return null;
         }
 
         text.color = initColor;
+        cursorImage.color = initColor;
         text.transform.localScale = initScale;
     }
 }

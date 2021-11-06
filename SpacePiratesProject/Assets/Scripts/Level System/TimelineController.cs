@@ -51,6 +51,7 @@ public class TimelineController : Singleton<TimelineController>
 
     public void Setup(Level level)
 	{
+        enabled = false;
         timelineBase = transform as RectTransform;
         this.level = level;
         invLength = 1.0f / level.length;
@@ -81,7 +82,9 @@ public class TimelineController : Singleton<TimelineController>
 
             // Make image transparent
             iconsTemp[iconsTemp.Count - 1].image = iconObject.GetComponentInChildren<Image>();
-            iconsTemp[iconsTemp.Count - 1].image.color = Color.clear;
+            Color color = iconsTemp[iconsTemp.Count - 1].image.color;
+            color.a = 0;
+            iconsTemp[iconsTemp.Count - 1].image.color = color;
         }
         icons = iconsTemp.ToArray();
 
@@ -99,7 +102,7 @@ public class TimelineController : Singleton<TimelineController>
             playerShipIcon = shipIconObj.GetComponentInChildren<Image>();
             if (playerShipFlashPeriod > 0)
 			{
-                playerShipIcon.color = Color.clear;
+                playerShipIcon.color = new Color(playerShipIcon.color.r, playerShipIcon.color.g, playerShipIcon.color.b, 0);
             }
         }
 
@@ -115,7 +118,7 @@ public class TimelineController : Singleton<TimelineController>
 
             // Make image transparent
             pingEffect = pingObject.GetComponentInChildren<Image>();
-            pingEffect.color = Color.clear;
+            pingEffect.color = new Color(pingEffect.color.r, pingEffect.color.g, pingEffect.color.b, 0);
         }
     }
 
@@ -214,25 +217,25 @@ public class TimelineController : Singleton<TimelineController>
         // Fade in
         while (time < flashFadeInTime)
 		{
-            image.color = Color.Lerp(blank, Color.white, time / flashFadeInTime);
+            image.color = new Color(image.color.r, image.color.g, image.color.b, Mathf.Lerp(0, 1, time / flashFadeInTime));
             time += Time.deltaTime;
             yield return null;
 		}
 
         // Display
-        image.color = Color.white;
+        image.color = new Color(image.color.r, image.color.g, image.color.b, 1);
         yield return new WaitForSeconds(flashDisplayTime);
         time = 0;
 
         // Fade out
         while (time < flashFadeOutTime)
 		{
-            image.color = Color.Lerp(Color.white, blank, time / flashFadeOutTime);
+            image.color = new Color(image.color.r, image.color.g, image.color.b, Mathf.Lerp(1, 0, time / flashFadeOutTime));
             time += Time.deltaTime;
             yield return null;
 		}
 
-        image.color = blank;
+        image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
         // If we are flashing the player, clear the routine ref
         if (image == playerShipIcon)
 		{
@@ -242,19 +245,18 @@ public class TimelineController : Singleton<TimelineController>
 
     private IEnumerator FadePingEffect(bool fadeIn)
 	{
-        Color start = fadeIn ? new Color(1, 1, 1, 0) : Color.white;
-        Color end = fadeIn ? Color.white : new Color(1, 1, 1, 0);
+        float start = fadeIn ? 0 : 1;
+        float end = fadeIn ? 1 : 0;
         float totalTime = fadeIn ? pingEffectFadeInTime : pingEffectFadeOutTime;
 
         float time = 0;
         while (time < totalTime)
 		{
-            pingEffect.color = Color.Lerp(start, end, time / totalTime);
-
+            pingEffect.color = new Color(pingEffect.color.r, pingEffect.color.g, pingEffect.color.b, Mathf.Lerp(start, end, time / totalTime));
             time += Time.deltaTime;
             yield return null;
 		}
 
-        pingEffect.color = end;
-	}
+        pingEffect.color = new Color(pingEffect.color.r, pingEffect.color.g, pingEffect.color.b, end);
+    }
 }

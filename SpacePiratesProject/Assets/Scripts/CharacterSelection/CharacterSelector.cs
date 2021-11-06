@@ -314,9 +314,17 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
         float increment = 1.0f / ( m_CharacterDocks.Length );
 
-        for ( int i = 0; i < m_CharacterDocks.Length; ++i )
+        if (m_CharacterDocks.Length == 2)
         {
-            m_CharacterDocks[ i ].transform.position = Vector3.Lerp( boundLeft, boundRight, ( i + 0.5f + (i / m_CharacterDocks.Length) ) * increment );
+            m_CharacterDocks[0].transform.position = Vector3.Lerp(boundLeft, boundRight, 0.6f * increment);
+            m_CharacterDocks[1].transform.position = Vector3.Lerp(boundLeft, boundRight, 1.4f * increment);
+        }
+        else
+        {
+            for (int i = 0; i < m_CharacterDocks.Length; ++i)
+            {
+                m_CharacterDocks[i].transform.position = Vector3.Lerp(boundLeft, boundRight, (i + 0.5f + (i / m_CharacterDocks.Length)) * increment);
+            }
         }
     }
 
@@ -329,7 +337,6 @@ public class CharacterSelector : Singleton< CharacterSelector >
                 Player newPlayer = a_PlayerInput as Player;
                 newPlayer.ChangeCharacter( 0, 0 );
                 newPlayer.Character.SetUseCharacterSelectAnimations(true);
-                ( newPlayer.Character as Character ).IsKinematic = false;
                 m_CharacterDocks[i].SetPlayer(newPlayer);
                 break;
             }

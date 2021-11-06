@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class DamageStation : Interactable
 {
+	[Space]
+	public ParticleSystem[] effects;
+	[Space]
 	public int maxDamageLevel = 1;
 	public float timeToRepair = 1;
 
@@ -11,7 +14,6 @@ public class DamageStation : Interactable
 	public int DamageLevel { get => damageLevel; }
 
 	private float currentRepairTime = 0;
-	private ParticleSystem effect;
 
 	public BasicDelegate OnDamageTaken;
 	public BasicDelegate OnDamageRepaired;
@@ -22,8 +24,6 @@ public class DamageStation : Interactable
 	{
 		// This should only be usable after taking damage
 		enabled = false;
-
-		effect = GetComponentInChildren<ParticleSystem>();
 	}
 
 	void Update()
@@ -46,9 +46,9 @@ public class DamageStation : Interactable
 					enabled = false;
 				}
 
-				if (effect != null)
+				foreach (var obj in effects)
 				{
-					effect.Stop();
+					obj.Stop();
 				}
 
 				SoundManager.Instance.Play("Repair", false);
@@ -68,9 +68,9 @@ public class DamageStation : Interactable
 		enabled = true;
 		OnDamageTaken?.Invoke();
 
-		if (effect != null)
+		foreach (var obj in effects)
 		{
-			effect.Play();
+			obj.Play();
 		}
 
 		SoundManager.Instance.Play("StationDamage", false);

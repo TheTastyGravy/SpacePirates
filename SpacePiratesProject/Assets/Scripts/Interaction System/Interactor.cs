@@ -210,7 +210,7 @@ public class Interactor : MonoBehaviour
 		if (heldGrabbable == null)
 			return;
 
-		heldGrabbable.attach.SetParent(null);
+		heldGrabbable.attach.SetParent(Player.transform.parent);
 		heldGrabbable.attach.SetPositionAndRotation(transform.position + transform.rotation * dropPositionOffset, transform.rotation);
 		heldGrabbable.Drop(this);
 		heldGrabbable = null;

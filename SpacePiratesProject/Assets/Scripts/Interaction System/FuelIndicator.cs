@@ -11,6 +11,8 @@ public class FuelIndicator : MonoBehaviour
     public Sprite importantIcon;
     public Color[] colors;
 
+    private float lastLevel = 0;
+
 
 
     void Start()
@@ -25,6 +27,7 @@ public class FuelIndicator : MonoBehaviour
 
     public void SetFuelLevel(float fuel)
 	{
+        lastLevel = fuel;
         float per = 100 / cells.Length;
 
         int fullCount = (int)fuel / (int)per;
@@ -53,6 +56,24 @@ public class FuelIndicator : MonoBehaviour
                 //empty
                 cells[i].SetTarget(Vector3.zero);
             }
+        }
+    }
+
+    void OnEnable()
+    {
+        foreach (var obj in cells)
+        {
+            obj.outer.enabled = true;
+        }
+        SetFuelLevel(lastLevel);
+    }
+
+    void OnDisable()
+    {
+        foreach (var obj in cells)
+        {
+            obj.outer.enabled = false;
+            obj.filled.enabled = false;
         }
     }
 }

@@ -28,14 +28,15 @@ public class Spawner : MonoBehaviour
             player.transform.localScale = Vector3.one;
             // Enable the character
             player.Character.gameObject.SetActive(true);
-            player.Character.enabled = true;
+            player.Character.enabled = false;
+            player.Character.transform.localPosition = Vector3.zero;
             // Menu spam fix
             (player.Character as Character).SetUseCharacterSelectAnimations(false);
 
             (player.Character as Character).IsKinematic = true;
             player.transform.SetPositionAndRotation( transform.position, transform.rotation );
             player.transform.parent = transform.parent;
-            StartCoroutine( GravityTimer( player ) );
+            //StartCoroutine( GravityTimer( player ) );
         }
 
         if ( DestroyOnTeleport )

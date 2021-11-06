@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -230,8 +230,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d89bf0d2e4846740ba61bc73319405b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeInTime: 0.5
-  fadeOutTime: 1.5
+  diffData: {fileID: 11400000, guid: 9ac970e625d924b40a5895b80b9721e4, type: 2}
+  fadeInGame: 0.5
+  fadeOutGame: 1.5
+  fadeInOther: 0.25
+  fadeOutOther: 0.25
+  realFadeIn: 0
+  realFadeOut: 0
   m_DefaultActionAsset: {fileID: -944628639613478452, guid: 66637995c6492454c88311f2533856d4, type: 3}
 --- !u!4 &1234440285
 Transform:
@@ -350,3 +355,4 @@ MonoBehaviour:
   oxygenDrainFactor: 0.6
   speedFactor: 0.2
   progressFactor: 0.25
+  inEventFactor: 1.3
