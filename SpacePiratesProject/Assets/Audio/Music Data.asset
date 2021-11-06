@@ -33,7 +33,7 @@ MonoBehaviour:
         Data3: 661987496
         Data4: 496157849
       Path: event:/Music/Gameplay
-    fadeTime: 0
+    fadeTime: 1
     removeFlag: 0
   - name: Summary Music
     scenes: 256
@@ -43,7 +43,7 @@ MonoBehaviour:
         Data2: 1260140306
         Data3: 651052185
         Data4: -1957406073
-      Path: event:/Music/Level 03
+      Path: event:/Music/End Screen
     fadeTime: 0
     removeFlag: 0
   addFlag: 0
