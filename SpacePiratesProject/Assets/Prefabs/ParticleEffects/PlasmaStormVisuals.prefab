@@ -56,8 +56,31 @@ MonoBehaviour:
   - {fileID: 8896474859516537344}
   - {fileID: 2258114739899374973}
   LightTriggers:
-  - 0
-  - 0.2
+  - Heading: Flash, Flash
+    LightTriggers:
+    - 0
+    - 0.2
+  - Heading: Pause, Flash, Flash, Flash
+    LightTriggers:
+    - 1
+    - 0.2
+    - 0.2
+  - Heading: Flash, Long Pause, Flash
+    LightTriggers:
+    - 0
+    - 5
+  - Heading: Flash, Pause, Flash, Flash
+    LightTriggers:
+    - 0
+    - 1
+    - 0.2
+  - Heading: Pause, Flash, Flash, Flash, Flash, Flash
+    LightTriggers:
+    - 2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
   LightDelay: 0.1
   RandomBufferMin: 2.5
   RandomBufferMax: 10
