@@ -6,7 +6,7 @@ public class StartController : Singleton< StartController >
 {
     public GameObject PressStartText;
 
-    private void Awake()
+    void Start()
     {
         m_PressStart = StartCoroutine(PressStart());
 
