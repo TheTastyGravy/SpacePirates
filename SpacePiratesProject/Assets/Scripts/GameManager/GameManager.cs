@@ -37,9 +37,6 @@ public class GameManager : Singleton<GameManager>
 
     public static void ChangeState(GameState newState, bool overrideStored = false)
 	{
-        float delay = 0.01f;
-
-
         if (Instance.m_CurrentState == newState)
             return;
         
@@ -98,20 +95,6 @@ public class GameManager : Singleton<GameManager>
                 SceneManager.LoadSceneAsync("MENU_BASE", LoadSceneMode.Additive).priority = 100;
 			}
 
-            // This will do the transition with a fade, but kind of looks crap...
-            //Instance.StartCoroutine(LoadUnload(Instance.m_CurrentState, value));
-            // ...so just keep doing it like this instead
-
-            //GameState oldState = Instance.m_CurrentState;
-            //SceneManager.LoadSceneAsync(newState.ToString(), LoadSceneMode.Additive).completed += asyncOperation =>
-            //{
-            //    SceneManager.SetActiveScene(SceneManager.GetSceneByName(newState.ToString()));
-            //    SceneManager.UnloadSceneAsync(oldState.ToString());
-            //    if (OnEndTransition != null)
-            //        OnEndTransition.Invoke(SceneManager.GetSceneByName(newState.ToString()), oldState);
-            //    Instance.Invoke(nameof(SetLoading), delay);
-            //};
-
             RegularLoad(Instance.m_CurrentState, newState);
         }
         else
@@ -121,7 +104,7 @@ public class GameManager : Singleton<GameManager>
                 SceneManager.SetActiveScene(SceneManager.GetSceneByName(newState.ToString()));
                 if (OnEndTransition != null)
                     OnEndTransition.Invoke(SceneManager.GetSceneByName(newState.ToString()), GameState.NONE);
-                Instance.Invoke(nameof(SetLoading), delay);
+                Instance.Invoke(nameof(SetLoading), 0.01f);
             };
         }
 
@@ -131,39 +114,30 @@ public class GameManager : Singleton<GameManager>
     private static void RegularLoad(GameState oldState, GameState newState)
     {
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(newState.ToString(), LoadSceneMode.Additive);
-
-        
-
-        GameObject[] newSceneObjects = null;
         loadOp.completed += asyncOperation =>
         {
             Scene newScene = SceneManager.GetSceneByName(newState.ToString());
             SceneManager.SetActiveScene(newScene);
 
-            newSceneObjects = newScene.GetRootGameObjects();
+            GameObject[] newSceneObjects = newScene.GetRootGameObjects();
             foreach (GameObject obj in newSceneObjects)
             {
                 obj.SetActive(false);
             }
 
-
             AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(oldState.ToString());
-            
             unloadOp.completed += asyncOperation =>
             {
                 foreach (GameObject obj in newSceneObjects)
                 {
                     obj.SetActive(true);
                 }
-            
+                
                 if (OnEndTransition != null)
                     OnEndTransition.Invoke(SceneManager.GetSceneByName(newState.ToString()), oldState);
-            
                 Instance.Invoke(nameof(SetLoading), 0.01f);
             };
         };
-
-        
     }
 
     public static bool IsMenuScene(GameState state)
@@ -172,7 +146,8 @@ public class GameManager : Singleton<GameManager>
                 state == GameState.MENU ||
                 state == GameState.SHIP ||
                 state == GameState.CHARACTER ||
-                state == GameState.TRACK;
+                state == GameState.TRACK ||
+                state == GameState.SUMMARY;
 	}
 
     public static void ReloadScene()
