@@ -1992,15 +1992,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6831090696139922218, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.25
+      value: 0.91
       objectReference: {fileID: 0}
     - target: {fileID: 6831090696139922218, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6831090696139922218, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.89
+      value: 6.28
       objectReference: {fileID: 0}
     - target: {fileID: 7704471094369374615, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
       propertyPath: ShapeModule.radius.value
