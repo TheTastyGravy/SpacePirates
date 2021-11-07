@@ -41,13 +41,13 @@ public class TrackSelector : Singleton< TrackSelector >
 
     private void OnDPADPressed( InputAction.CallbackContext a_CallbackContext )
     {
-        Vector2 value = a_CallbackContext.ReadValue< Vector2 >();
+        Vector2 value = a_CallbackContext.ReadValue< Vector2 >().normalized;
 
-        if ( value.x < 0 )
+        if ( value.x < -0.7f)
         {
             DecrementTrackIndex( true );
         }
-        else if ( value.x > 0 )
+        else if ( value.x > 0.7f)
         {
             IncrementTrackIndex( true );
         }

@@ -42,13 +42,13 @@ public class ShipSelector : Singleton< ShipSelector >
 
     private void OnDPADPressed( InputAction.CallbackContext a_CallbackContext )
     {
-        Vector2 value = a_CallbackContext.ReadValue< Vector2 >();
+        Vector2 value = a_CallbackContext.ReadValue< Vector2 >().normalized;
 
-        if ( value.x < 0 )
+        if ( value.x < -0.7f)
         {
             DecrementShipIndex( true );
         }
-        else if ( value.x > 0 )
+        else if ( value.x > 0.7f)
         {
             IncrementShipIndex( true );
         }

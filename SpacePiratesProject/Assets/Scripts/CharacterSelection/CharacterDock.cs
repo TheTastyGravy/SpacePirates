@@ -215,22 +215,22 @@ public class CharacterDock : MonoBehaviour
 
     private void OnDPADPressed( InputAction.CallbackContext a_CallbackContext )
     {
-        Vector2 value = a_CallbackContext.ReadValue< Vector2 >();
+        Vector2 value = a_CallbackContext.ReadValue< Vector2 >().normalized;
         bool moveSuccess = false;
 
-        if ( value.x < 0 )
+        if ( value.x < -0.7f )
         {
             moveSuccess = CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.LEFT, true );
         }
-        else if ( value.x > 0 )
+        else if ( value.x > 0.7f)
         {
             moveSuccess = CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.RIGHT, true );
         }
-        else if ( value.y < 0 )
+        else if ( value.y < -0.7f)
         {
             moveSuccess = CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.DOWN, true );
         }
-        else if ( value.y > 0 )
+        else if ( value.y > 0.7f)
         {
             moveSuccess = CharacterSelector.ShiftSelector( m_AssignedPlayer.Slot, CharacterSelector.Direction.UP, true );
         }
