@@ -101,6 +101,7 @@ public class ShipManager : Singleton<ShipManager>
             room.FindClosestHolePos(ref holeData);
         }
         holeData.room.DamageRoom(holeData);
+        Player.PulseAllHaptics(0.2f, 0.3f);
     }
 
     public float GetShipSpeed()

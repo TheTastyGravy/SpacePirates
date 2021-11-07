@@ -21,6 +21,9 @@ public class TurretStation : MonoBehaviour
     [Space]
     public GameObject turretHud;
     public FuelIndicator fuelIndicator;
+    [Space]
+    public float hapticPulseTime = 0.5f;
+    public float hapticPulsePower = 0.5f;
 
     private TurretActivate turretActivate;
     private DamageStation damage;
@@ -198,6 +201,9 @@ public class TurretStation : MonoBehaviour
             firstFire = false;
             return;
         }
+
+        // Vibrate the players controller
+        currentInteractor.Player.PulseHaptics(hapticPulseTime, hapticPulsePower);
 
         // Shoot projectile in direction of turretBase
         GameObject projectile = Instantiate(projectilePrefab, firePos.position, firePos.rotation);

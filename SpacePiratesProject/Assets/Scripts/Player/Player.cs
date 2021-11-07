@@ -29,6 +29,14 @@ public class Player : PlayerInput
 
     public static Player GetPlayerBySlot( PlayerSlot a_PlayerSlot ) => GetPlayerByIndex( ( int )a_PlayerSlot ) as Player;
 
+    public static void PulseAllHaptics(float time, float power)
+	{
+        foreach (Player player in all)
+		{
+            player.PulseHaptics(time, power);
+        }
+	}
+
     public bool GetInput( Control a_Control )
     {
         return m_InputActions[ ( int )a_Control ].ReadValue< bool >();
@@ -64,6 +72,28 @@ public class Player : PlayerInput
     public void RemoveInputListener( Control a_Control, Action< InputAction.CallbackContext > a_OnPerformed )
     {
         m_InputActions[ ( int )a_Control ].performed -= a_OnPerformed;
+    }
+
+    public void PulseHaptics(float time, float power)
+	{
+        StartHaptics(power, power);
+        Invoke(nameof(StopHaptics), time);
+    }
+
+    public void StartHaptics(float leftPower, float rightPower)
+	{
+        if (PlayerPrefs.GetInt("UseHaptics", 1) == 1 && m_InputDevice is UnityEngine.InputSystem.Haptics.IDualMotorRumble rumble)
+		{
+            rumble.SetMotorSpeeds(leftPower, rightPower);
+        }
+    }
+
+    public void StopHaptics()
+	{
+        if (PlayerPrefs.GetInt("UseHaptics", 1) == 1 && m_InputDevice is UnityEngine.InputSystem.Haptics.IDualMotorRumble rumble)
+		{
+            rumble.ResetHaptics();
+		}
     }
 
     public void ChangeCharacter( int a_VariantIndex )
