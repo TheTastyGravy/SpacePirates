@@ -2,13 +2,11 @@
 
 public class EngineParticleLogic : MonoBehaviour
 {
-    public ParticleSystem Ignite, Flame;
+    public ParticleSystem Ignite, Flame, Smoke;
     [Space]
     public float Delay;
 
     float elapsed;
-
-
 
 	private void OnEnable()
     {
@@ -31,13 +29,18 @@ public class EngineParticleLogic : MonoBehaviour
         if (Ignite.isPlaying || Flame.isPlaying)
             return;
 
+        Smoke.Stop();
         Ignite.Play();
         elapsed = 0f;
     }
 
     public void Stop()
     {
+        if (Smoke.isPlaying)
+            return;
+
         Ignite.Stop();
         Flame.Stop();
+        Smoke.Play();
     }
 }
