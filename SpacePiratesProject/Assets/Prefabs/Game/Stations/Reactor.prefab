@@ -573,7 +573,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8519334695634714115}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.817, z: 0}
+  m_LocalPosition: {x: 0, y: 1.73, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4971588652983193434}
@@ -591,7 +591,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0, g: 1, b: 0, a: 1}
-  m_Intensity: 0.5
+  m_Intensity: 1
   m_Range: 3
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1267,7 +1267,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: eb9c6fb2f7b84a34d912726f3eace9c3, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 2270328302be12c48a2b9c61bc2964bf, type: 2}
+      objectReference: {fileID: 2100000, guid: 120e8416c79e7484bac44f3fb5cbd1ef, type: 2}
     - target: {fileID: -7511558181221131132, guid: eb9c6fb2f7b84a34d912726f3eace9c3, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 

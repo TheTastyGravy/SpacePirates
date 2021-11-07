@@ -52,7 +52,7 @@ public class ReactorStation : MonoBehaviour
 		fuelGen.SetActive(true);
 
 		stateLight.color = Color.green;
-		stateLight.intensity = 0.5f;
+		stateLight.intensity = 1;
 	}
 
 	private void TurnOff()

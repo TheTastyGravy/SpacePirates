@@ -68,6 +68,7 @@ public class TurretStation : MonoBehaviour
         relitiveForward = Vector3.forward;
         RotateDirection(ref relitiveForward, (baseAngle + snapAngle) * Mathf.Deg2Rad);
 
+        turretActivate.enabled = false;
         TryTurnOn();
 
         // Setup callbacks
