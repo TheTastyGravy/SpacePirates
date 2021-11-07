@@ -5,6 +5,7 @@ using UnityEngine;
 public class ReactorStation : MonoBehaviour
 {
 	public Light stateLight;
+	public ParticleSystem ActiveEffect;
 
 	private BasicSwitch[] reactorSwitches;
 	private ReactorFuelGen fuelGen;
@@ -53,6 +54,7 @@ public class ReactorStation : MonoBehaviour
 
 		stateLight.color = Color.green;
 		stateLight.intensity = 1;
+		ActiveEffect.Play();
 	}
 
 	private void TurnOff()
@@ -63,6 +65,7 @@ public class ReactorStation : MonoBehaviour
 
 		stateLight.color = Color.red;
 		stateLight.intensity = 2;
+		ActiveEffect.Stop();
 	}
 
 	private void OnSwitchUsed()
