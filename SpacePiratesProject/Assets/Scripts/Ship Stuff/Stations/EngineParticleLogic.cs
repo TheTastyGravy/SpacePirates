@@ -8,12 +8,14 @@ public class EngineParticleLogic : MonoBehaviour
 
     float elapsed;
 
-    private void OnEnable()
+
+
+	private void OnEnable()
     {
         elapsed = 0f;
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         if (elapsed < Delay)
         {
@@ -25,6 +27,10 @@ public class EngineParticleLogic : MonoBehaviour
 
     public void Run()
     {
+        // Ignore if we are already running
+        if (Ignite.isPlaying || Flame.isPlaying)
+            return;
+
         Ignite.Play();
         elapsed = 0f;
     }
