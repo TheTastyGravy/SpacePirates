@@ -18,6 +18,7 @@ public class MenuController : Singleton< MenuController >
     public Button MenuButtonExit;
     [Space]
     public Slider volumeSlider;
+    public Toggle useHaptics;
 
     private int currentMenu = 0;
 
@@ -40,6 +41,8 @@ public class MenuController : Singleton< MenuController >
 
         volumeSlider.onValueChanged.AddListener(OnVolumeSliderChanged);
         volumeSlider.value = PlayerPrefs.GetFloat("MusicVolume", 100);
+        useHaptics.onValueChanged.AddListener(OnUseHapticsChanged);
+        useHaptics.isOn = PlayerPrefs.GetInt("UseHaptics", 1) == 1;
 
         ( EventSystem.current.currentInputModule as InputSystemUIInputModule ).cancel.action.performed += OnMenuCancel;
     }
@@ -137,5 +140,10 @@ public class MenuController : Singleton< MenuController >
 	{
         PlayerPrefs.SetFloat("MusicVolume", value);
         MusicManager.Instance.SetVolume(value);
+    }
+
+    private void OnUseHapticsChanged(bool value)
+	{
+        PlayerPrefs.SetInt("UseHaptics", value ? 1 : 0);
     }
 }
