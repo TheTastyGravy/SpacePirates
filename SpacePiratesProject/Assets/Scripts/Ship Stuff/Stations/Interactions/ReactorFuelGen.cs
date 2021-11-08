@@ -11,6 +11,8 @@ public class ReactorFuelGen : Interactable
     public Image progressImageBase;
     public Image progressImageFill;
     public bool startWithFuel = true;
+    [Space]
+    public GameObject FuelVisual;
 
     // Are we currently generating fuel?
     [HideInInspector]
@@ -42,6 +44,7 @@ public class ReactorFuelGen : Interactable
                 // Fuel is ready
                 fuelTimePassed = 0;
                 hasFuel = true;
+                FuelVisual.SetActive(true);
                 interactionPrompt.enabled = true;
 			}
         }
@@ -67,6 +70,7 @@ public class ReactorFuelGen : Interactable
         currentInteractor.Pickup(fuelGrabbable);
         
         hasFuel = false;
+        FuelVisual.SetActive(false);
 
         currentInteractor.EndInteraction();
         // Fix interaction prompt
