@@ -17,10 +17,10 @@ MonoBehaviour:
     scenes: 127
     musicEvent:
       Guid:
-        Data1: 1958460028
-        Data2: 1217165032
-        Data3: -261621348
-        Data4: -48242944
+        Data1: -181069247
+        Data2: 1211518143
+        Data3: 637103538
+        Data4: -1691105725
       Path: event:/Music/Intro
     fadeTime: 1
     removeFlag: 0
@@ -28,10 +28,10 @@ MonoBehaviour:
     scenes: 128
     musicEvent:
       Guid:
-        Data1: -939964675
-        Data2: 1234949781
-        Data3: 661987496
-        Data4: 496157849
+        Data1: -380802752
+        Data2: 1274774257
+        Data3: -325453146
+        Data4: -621439751
       Path: event:/Music/Gameplay
     fadeTime: 1
     removeFlag: 0
@@ -39,10 +39,10 @@ MonoBehaviour:
     scenes: 256
     musicEvent:
       Guid:
-        Data1: -334097318
-        Data2: 1260140306
-        Data3: 651052185
-        Data4: -1957406073
+        Data1: 816056957
+        Data2: 1201433085
+        Data3: -1901743207
+        Data4: 1765208808
       Path: event:/Music/End Screen
     fadeTime: 0
     removeFlag: 0
