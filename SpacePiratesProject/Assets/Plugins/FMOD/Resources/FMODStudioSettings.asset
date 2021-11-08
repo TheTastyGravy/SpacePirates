@@ -552,14 +552,7 @@ MonoBehaviour:
   Plugins: []
   MasterBanks:
   - Master
-  Banks:
-  - Dialogue_CN
-  - Dialogue_EN
-  - Dialogue_JP
-  - Music
-  - SFX
-  - Vehicles
-  - VO
+  Banks: []
   BanksToLoad: []
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0
@@ -622,8 +615,8 @@ MonoBehaviour:
       Value: 
       HasValue: 0
     SpeakerMode:
-      Value: 0
-      HasValue: 0
+      Value: 3
+      HasValue: 1
     VirtualChannelCount:
       Value: 0
       HasValue: 0
