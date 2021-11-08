@@ -52,6 +52,13 @@ MonoBehaviour:
   speedAcceleration: 1
   speedDecay: 0.2
   engineEffect: {fileID: 5874382862288002821}
+  ignitionEvent:
+    Guid:
+      Data1: -920676778
+      Data2: 1267705302
+      Data3: 928099499
+      Data4: 2128188917
+    Path: event:/Stations/Engine/SFX/Ignition
 --- !u!1 &1546285971365547614
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,6 +111,20 @@ MonoBehaviour:
   - {fileID: 1291244302595507209}
   - {fileID: 1526215079623021500}
   - {fileID: 9205231683893901340}
+  repairEvent:
+    Guid:
+      Data1: -1083265501
+      Data2: 1296639352
+      Data3: 927784086
+      Data4: -423276976
+    Path: event:/Stations/Repair
+  damageEvent:
+    Guid:
+      Data1: -574002604
+      Data2: 1074122509
+      Data3: -398936911
+      Data4: 350102654
+    Path: event:/Stations/Damaged
   maxDamageLevel: 1
   timeToRepair: 1
 --- !u!1 &2058598940388255359
@@ -158,6 +179,13 @@ MonoBehaviour:
   interactionRadius: 1.2
   interactionOffset: {x: 0, y: 0, z: 0}
   timeToDeposit: 0.5
+  refuelEvent:
+    Guid:
+      Data1: -1973515012
+      Data2: 1295606396
+      Data3: 2048423818
+      Data4: 73365426
+    Path: event:/Stations/Re-Fueling
 --- !u!65 &573118024978715669
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 public class EngineStation : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class EngineStation : MonoBehaviour
 	public float speedDecay = 0.2f;
 	[Space]
 	public EngineParticleLogic engineEffect;
+	public EventReference ignitionEvent;
 
 	private FuelDeposit fuelDepo;
 	private DamageStation damage;
@@ -34,6 +36,7 @@ public class EngineStation : MonoBehaviour
 		fuelDepo = GetComponentInChildren<FuelDeposit>();
 		damage = GetComponentInChildren<DamageStation>();
 		fuelDepo.OnFuelDeposited += OnFueled;
+		damage.OnDamageRepaired += OnDamageRepaired;
 
 		// Get values from difficulty settings
 		LevelDificultyData.DiffSetting setting = GameManager.GetDifficultySettings();
@@ -95,7 +98,7 @@ public class EngineStation : MonoBehaviour
 
 		if (currentFuel == 1 && damage.DamageLevel == 0)
 		{
-			//	SOUND - ignition
+			RuntimeManager.PlayOneShot(ignitionEvent);
 		}
 	}
 
@@ -104,6 +107,14 @@ public class EngineStation : MonoBehaviour
 		currentFuel--;
 		fuelTime = 0;
 		fuelDepo.enabled = true;
+	}
+
+	private void OnDamageRepaired()
+	{
+		if (currentFuel > 0)
+		{
+			RuntimeManager.PlayOneShot(ignitionEvent);
+		}
 	}
 
 	private float CalculateFuelValue()

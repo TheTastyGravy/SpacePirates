@@ -146,6 +146,20 @@ MonoBehaviour:
   - {fileID: 7086208283339649709}
   - {fileID: 7525884784804661349}
   - {fileID: 2795955024602734807}
+  repairEvent:
+    Guid:
+      Data1: -1083265501
+      Data2: 1296639352
+      Data3: 927784086
+      Data4: -423276976
+    Path: event:/Stations/Repair
+  damageEvent:
+    Guid:
+      Data1: -574002604
+      Data2: 1074122509
+      Data3: -398936911
+      Data4: 350102654
+    Path: event:/Stations/Damaged
   maxDamageLevel: 1
   timeToRepair: 1
 --- !u!1 &4375927482448082104
@@ -345,6 +359,13 @@ MonoBehaviour:
   interactionCooldown: 1
   pairedSwitch: {fileID: 2395532830199780797}
   onePlayerIcon: {fileID: 8809231958089286812, guid: 82858a2b9098ac64da307eeb4a182ab1, type: 3}
+  interactionEvent:
+    Guid:
+      Data1: -1730815229
+      Data2: 1331283011
+      Data3: -845258340
+      Data4: -631761588
+    Path: event:/Stations/Interact
   forceDisabled: 0
 --- !u!65 &2595373407793022279
 BoxCollider:
@@ -538,6 +559,13 @@ MonoBehaviour:
   interactionCooldown: 1
   pairedSwitch: {fileID: 6958047462521841419}
   onePlayerIcon: {fileID: 8809231958089286812, guid: 82858a2b9098ac64da307eeb4a182ab1, type: 3}
+  interactionEvent:
+    Guid:
+      Data1: -1730815229
+      Data2: 1331283011
+      Data3: -845258340
+      Data4: -631761588
+    Path: event:/Stations/Interact
   forceDisabled: 0
 --- !u!65 &4255183461126900324
 BoxCollider:

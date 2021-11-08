@@ -56,6 +56,20 @@ MonoBehaviour:
   - {fileID: 5409145087114853681}
   - {fileID: 7007405053007616640}
   - {fileID: 7604569262341008902}
+  repairEvent:
+    Guid:
+      Data1: -1083265501
+      Data2: 1296639352
+      Data3: 927784086
+      Data4: -423276976
+    Path: event:/Stations/Repair
+  damageEvent:
+    Guid:
+      Data1: -574002604
+      Data2: 1074122509
+      Data3: -398936911
+      Data4: 350102654
+    Path: event:/Stations/Damaged
   maxDamageLevel: 1
   timeToRepair: 1
 --- !u!1 &1263963472843138746
@@ -149,6 +163,22 @@ MonoBehaviour:
   snapAngle: 0
   turretHud: {fileID: 0}
   fuelIndicator: {fileID: 8256220364498923154}
+  hapticPulseTime: 0.5
+  hapticPulsePower: 0.5
+  fireEvent:
+    Guid:
+      Data1: -21746245
+      Data2: 1104362076
+      Data3: 591130503
+      Data4: -2081390134
+    Path: event:/Stations/Turret/SFX/ShotFired
+  activateEvent:
+    Guid:
+      Data1: -557804026
+      Data2: 1276434737
+      Data3: 372901291
+      Data4: -1661793343
+    Path: event:/Stations/Turret/SFX/TurretEnabled
 --- !u!1 &3194590309761104882
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,6 +520,13 @@ MonoBehaviour:
   interactionRadius: 1.1
   interactionOffset: {x: 0, y: 0, z: 0}
   timeToDeposit: 0.5
+  refuelEvent:
+    Guid:
+      Data1: -1973515012
+      Data2: 1295606396
+      Data3: 2048423818
+      Data4: 73365426
+    Path: event:/Stations/Re-Fueling
 --- !u!65 &5845477501372767040
 BoxCollider:
   m_ObjectHideFlags: 0

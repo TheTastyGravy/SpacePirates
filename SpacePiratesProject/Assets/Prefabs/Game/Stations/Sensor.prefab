@@ -54,6 +54,13 @@ MonoBehaviour:
   interactionCooldown: 3
   pairedSwitch: {fileID: 0}
   onePlayerIcon: {fileID: 0}
+  interactionEvent:
+    Guid:
+      Data1: -1730815229
+      Data2: 1331283011
+      Data3: -845258340
+      Data4: -631761588
+    Path: event:/Stations/Interact
   forceDisabled: 0
 --- !u!65 &5241238829815736068
 BoxCollider:
@@ -240,6 +247,20 @@ MonoBehaviour:
   effects:
   - {fileID: 5149774152597032059}
   - {fileID: 5377443587013198459}
+  repairEvent:
+    Guid:
+      Data1: -1083265501
+      Data2: 1296639352
+      Data3: 927784086
+      Data4: -423276976
+    Path: event:/Stations/Repair
+  damageEvent:
+    Guid:
+      Data1: -574002604
+      Data2: 1074122509
+      Data3: -398936911
+      Data4: 350102654
+    Path: event:/Stations/Damaged
   maxDamageLevel: 1
   timeToRepair: 1
 --- !u!1 &8519384130013987957

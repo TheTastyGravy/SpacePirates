@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEditor;
+using FMODUnity;
 
 public class TurretStation : MonoBehaviour
 {
@@ -24,6 +25,9 @@ public class TurretStation : MonoBehaviour
     [Space]
     public float hapticPulseTime = 0.5f;
     public float hapticPulsePower = 0.5f;
+    [Space]
+    public EventReference fireEvent;
+    public EventReference activateEvent;
 
     private TurretActivate turretActivate;
     private DamageStation damage;
@@ -161,6 +165,8 @@ public class TurretStation : MonoBehaviour
             laser.enabled = true;
         if (recoilScript != null)
             recoilScript.DoRotation(false);
+        // Play sound effect
+        RuntimeManager.PlayOneShot(activateEvent);
 
         //get info
         playerPos = currentInteractor.Player.Character.transform.position;
@@ -218,8 +224,8 @@ public class TurretStation : MonoBehaviour
             recoilScript.Run();
 
         fuelDepo.enabled = true;
-
-        //  SOUND - fire
+        // Player firing sound effect
+        RuntimeManager.PlayOneShot(fireEvent);
 
         shotsRemaining--;
         if (shotsRemaining == 0)

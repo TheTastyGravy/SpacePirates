@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using FMODUnity;
 
 public class BasicSwitch : Interactable
 {
@@ -17,6 +18,8 @@ public class BasicSwitch : Interactable
 	internal Image baseImage;
 	internal Sprite buttonPrompt;
 	internal Sprite baseIcon;
+	[Space]
+	public EventReference interactionEvent;
 
 	[HideInInspector]
 	public bool forceDisabled = false;
@@ -73,6 +76,8 @@ public class BasicSwitch : Interactable
 
 		enabled = false;
 		Invoke(nameof(Reenable), interactionCooldown);
+		// Play sound effect
+		RuntimeManager.PlayOneShot(interactionEvent);
 	}
 
 	protected override bool CanBeUsed(Interactor interactor, out Player.Control button)

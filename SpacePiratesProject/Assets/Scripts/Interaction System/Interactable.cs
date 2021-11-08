@@ -24,19 +24,19 @@ public abstract class Interactable : MonoBehaviour
 			interactionPrompt.Interactable = this;
 	}
 
-	void OnDestroy()
+	protected virtual void OnDestroy()
 	{
 		if (InteractionManager.Instance != null)
 			InteractionManager.Instance.interactables.Remove(this);
 	}
 
-	void OnEnable()
+	protected virtual void OnEnable()
 	{
 		if (interactionPrompt != null)
 			interactionPrompt.enabled = true;
 	}
 
-	void OnDisable()
+	protected virtual void OnDisable()
 	{
 		if (interactionPrompt != null)
 			interactionPrompt.enabled = false;

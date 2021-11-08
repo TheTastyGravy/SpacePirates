@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 public class DamageStation : Interactable
 {
 	[Space]
 	public ParticleSystem[] effects;
+	public EventReference repairEvent;
+	public EventReference damageEvent;
 	[Space]
 	public int maxDamageLevel = 1;
 	public float timeToRepair = 1;
@@ -14,6 +17,7 @@ public class DamageStation : Interactable
 	public int DamageLevel { get => damageLevel; }
 
 	private float currentRepairTime = 0;
+	private FMOD.Studio.EventInstance repairEventInstance;
 
 	public BasicDelegate OnDamageTaken;
 	public BasicDelegate OnDamageRepaired;
@@ -24,6 +28,16 @@ public class DamageStation : Interactable
 	{
 		// This should only be usable after taking damage
 		enabled = false;
+
+		repairEventInstance = RuntimeManager.CreateInstance(repairEvent);
+		repairEventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(Vector3.zero));
+	}
+
+	protected override void OnDestroy()
+	{
+		base.OnDestroy();
+		repairEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+		repairEventInstance.release();
 	}
 
 	void Update()
@@ -50,8 +64,8 @@ public class DamageStation : Interactable
 				{
 					obj.Stop();
 				}
-
-				SoundManager.Instance.Play("Repair", false);
+				// Stop sound effect
+				repairEventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 			}
 
 			// Update interaction prompt progress
@@ -72,18 +86,22 @@ public class DamageStation : Interactable
 		{
 			obj.Play();
 		}
-
-		SoundManager.Instance.Play("StationDamage", false);
+		// Play sound effect
+		RuntimeManager.PlayOneShot(damageEvent);
 	}
 
 	protected override void OnInteractionStart()
 	{
 		currentRepairTime = 0;
+		// Start sound effect
+		repairEventInstance.start();
 	}
 
 	protected override void OnButtonUp()
 	{
 		currentInteractor.EndInteraction();
+		// Stop sound effect
+		repairEventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 	}
 
 	protected override bool CanBeUsed(Interactor interactor, out Player.Control button)

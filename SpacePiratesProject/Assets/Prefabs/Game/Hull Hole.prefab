@@ -14593,6 +14593,13 @@ MonoBehaviour:
   - oxygenLossRate: 10
     repairTime: 3
   damageEffect: {fileID: 1693379352692837426}
+  repairEvent:
+    Guid:
+      Data1: -1083265501
+      Data2: 1296639352
+      Data3: 927784086
+      Data4: -423276976
+    Path: event:/Stations/Repair
 --- !u!114 &6514284283391238367
 MonoBehaviour:
   m_ObjectHideFlags: 0

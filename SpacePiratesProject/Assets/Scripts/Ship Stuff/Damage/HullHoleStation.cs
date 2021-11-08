@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 public class HullHoleStation : Interactable
 {
@@ -13,12 +14,14 @@ public class HullHoleStation : Interactable
     [Space]
     public DamageLevel[] damageLevels;
     public ParticleSystem damageEffect;
+    public EventReference repairEvent;
 
     internal float oxygenLossRate;
     private float repairTime;
 
     private int size = 0;
     private float timePassed = 0;
+    private FMOD.Studio.EventInstance repairEventInstance;
 
     internal RoomManager room;
     internal int holeIndex;
@@ -29,9 +32,18 @@ public class HullHoleStation : Interactable
     {
         oxygenLossRate = damageLevels[0].oxygenLossRate;
         repairTime = damageLevels[0].repairTime;
-	}
+        repairEventInstance = RuntimeManager.CreateInstance(repairEvent);
+        repairEventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(Vector3.zero));
+    }
 
-    void Update()
+    protected override void OnDestroy()
+	{
+        base.OnDestroy();
+        repairEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        repairEventInstance.release();
+    }
+
+	void Update()
     {
         // If we are being interacted with
         if (IsBeingUsed)
@@ -78,16 +90,22 @@ public class HullHoleStation : Interactable
 		}
         GetComponentInChildren<ParticleSystem>().Stop();
         Destroy(gameObject, 1);
+        // Stop sound effect
+        repairEventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
     protected override void OnInteractionStart()
 	{
         timePassed = 0;
-	}
+        // Start sound effect
+        repairEventInstance.start();
+    }
 
 	protected override void OnButtonUp()
 	{
         currentInteractor.EndInteraction();
+        // Stop sound effect
+        repairEventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
     protected override bool CanBeUsed(Interactor interactor, out Player.Control button)
