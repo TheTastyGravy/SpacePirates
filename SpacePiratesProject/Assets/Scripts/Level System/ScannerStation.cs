@@ -41,6 +41,7 @@ public class ScannerStation : MonoBehaviour
 
     private void OnSwitchUsed()
 	{
+        //  SOUND - interact & scanner
         TimelineController.Instance.Ping();
         timePassed = 0;
     }

@@ -1,21 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using FMODUnity;
 
 public class HUDOptionsMenu : MonoBehaviour
 {
     public Button resumeButton;
     public Button menuButton;
     public Button restartButton;
+    [Space]
+    public EventReference returnEvent;
 
 
-
-	void Start()
+    void Start()
 	{
         resumeButton.onClick.AddListener(HideOptions);
         menuButton.onClick.AddListener(ReturnToMenu);
@@ -57,6 +58,7 @@ public class HUDOptionsMenu : MonoBehaviour
         }
 
         HideOptions();
+        RuntimeManager.PlayOneShot(returnEvent);
     }
 
     private void ReturnToMenu()

@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FMODUnity;
 
 public class TrackSelector : Singleton< TrackSelector >
 {
     public TrackTile[] TrackTiles;
     public SelectorTile SelectorTile;
+    [Space]
+    public EventReference returnEvent;
+    public EventReference selectEvent;
 
     private void Start()
     {
@@ -55,6 +59,7 @@ public class TrackSelector : Singleton< TrackSelector >
 
     private void OnAPressed( InputAction.CallbackContext _ )
     {
+        RuntimeManager.PlayOneShot(selectEvent);
         // Check again incase the one in Start failed
         if (Player.GetPlayerBySlot(Player.PlayerSlot.P1).Character == null || Player.GetPlayerBySlot(Player.PlayerSlot.P1).Character.gameObject == null)
         {
@@ -69,6 +74,7 @@ public class TrackSelector : Singleton< TrackSelector >
     private void OnBPressed( InputAction.CallbackContext _ )
     {
         GameManager.ChangeState(GameManager.GameState.CHARACTER);
+        RuntimeManager.PlayOneShot(returnEvent);
     }
 
     public void SetTrackIndex( int a_Index )

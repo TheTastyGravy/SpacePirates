@@ -89,10 +89,12 @@ public class GameManager : Singleton<GameManager>
             // Make the INIT scene active for now
             SceneManager.SetActiveScene(Instance.gameObject.scene);
 
-            // If we are loading a menu and the menu base isnt loaded, load it imediatly
-            if (IsMenuScene(newState) && !SceneManager.GetSceneByName("MENU_BASE").IsValid())
+            if (IsMenuScene(newState))
 			{
-                SceneManager.LoadSceneAsync("MENU_BASE", LoadSceneMode.Additive).priority = 100;
+                UIAudioEventLogic.IgnoreNextHighlight = true;
+                // If we are loading a menu and the menu base isnt loaded, load it imediatly
+                if (!SceneManager.GetSceneByName("MENU_BASE").IsValid())
+                    SceneManager.LoadSceneAsync("MENU_BASE", LoadSceneMode.Additive).priority = 100;
 			}
 
             RegularLoad(Instance.m_CurrentState, newState);

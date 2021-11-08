@@ -219,10 +219,13 @@ public class TurretStation : MonoBehaviour
 
         fuelDepo.enabled = true;
 
+        //  SOUND - fire
+
         shotsRemaining--;
         if (shotsRemaining == 0)
 		{
             TurnOff();
+            //  SOUND - fuel empty
 		}
 
         fuelIndicator.SetFuelLevel((float)shotsRemaining / (float)maxShots * 100f);

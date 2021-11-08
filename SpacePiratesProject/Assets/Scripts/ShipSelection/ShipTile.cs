@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class ShipTile : Tile
 {
 	public MenuButtonAngles angles;
-    [ Range( 1, 4 ) ] public int MaxPlayers = 1;
+	public UIAudioEventLogic audioEvent;
+	[ Range( 1, 4 ) ] public int MaxPlayers = 1;
 	[Header("Ship")]
 	public Image image;
 	[Header("Text")]
@@ -14,12 +15,10 @@ public class ShipTile : Tile
 	public Sprite baseTextImage;
 	public Sprite selectTextImage;
 
-	private MaterialPropertyBlock propertyBlock;
 
 	
 	public void Init()
 	{
-		propertyBlock = new MaterialPropertyBlock();
 		image.materialForRendering.SetFloat("_EffectAmount", 1);
 	}
 
@@ -29,8 +28,13 @@ public class ShipTile : Tile
 		textImage.sprite = selected ? selectTextImage : baseTextImage;
 
 		if (selected)
+		{
 			angles.OnSelect(null);
+			audioEvent.OnSelect(null);
+		}
 		else
+		{
 			angles.OnDeselect(null);
+		}
 	}
 }

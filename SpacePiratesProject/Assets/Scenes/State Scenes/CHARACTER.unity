@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43802914, g: 0.477431, b: 0.5199225, a: 1}
+  m_IndirectSpecularColor: {r: 0.43802905, g: 0.47743082, b: 0.5199224, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -840,6 +840,20 @@ MonoBehaviour:
   - {fileID: 1133824584467663127, guid: ea1ff933ae05527468d8fa114dcaa2aa, type: 3}
   - {fileID: 1133824584467663127, guid: 0ca2578d243c491468f6ed1127b6325a, type: 3}
   CharacterDock: {fileID: 5921202606782797242, guid: 8c50fdeb359954d4585117cbb4ac2d10, type: 3}
+  selectEvent:
+    Guid:
+      Data1: -391392733
+      Data2: 1151322025
+      Data3: 511082385
+      Data4: 1392522585
+    Path: event:/Menu/Select
+  returnEvent:
+    Guid:
+      Data1: 1590092164
+      Data2: 1155632468
+      Data3: -768817239
+      Data4: -194066441
+    Path: event:/Menu/Back
   m_DockBoundLeft: {fileID: 148285506}
   m_DockBoundRight: {fileID: 1966116433}
   m_ParentCharacterDocks: {fileID: 535065891}

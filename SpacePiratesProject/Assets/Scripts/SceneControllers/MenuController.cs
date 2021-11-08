@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using FMODUnity;
 
 public class MenuController : Singleton< MenuController >
 {
@@ -21,6 +22,8 @@ public class MenuController : Singleton< MenuController >
     public Toggle useHaptics;
 
     private int currentMenu = 0;
+    [Space]
+    public EventReference returnEvent;
 
 
 
@@ -85,20 +88,24 @@ public class MenuController : Singleton< MenuController >
         if (Player.GetPlayerBySlot(Player.PlayerSlot.P1) != null)
             Destroy( Player.GetPlayerBySlot( Player.PlayerSlot.P1 ).gameObject );
         GameManager.ChangeState(GameManager.GameState.START);
+        RuntimeManager.PlayOneShot(returnEvent);
     }
 
     private void OnOptionsCancel( InputAction.CallbackContext _ )
     {
         SetMenu(0);
+        RuntimeManager.PlayOneShot(returnEvent);
     }
 
     private void OnCreditsCancel(InputAction.CallbackContext _)
     {
         SetMenu(0);
+        RuntimeManager.PlayOneShot(returnEvent);
     }
 
     private void SetMenu(int menu)
     {
+        UIAudioEventLogic.IgnoreNextHighlight = true;
         // Reset menu state
         (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed -= OnMenuCancel;
         (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed -= OnOptionsCancel;
@@ -139,7 +146,7 @@ public class MenuController : Singleton< MenuController >
     private void OnVolumeSliderChanged(float value)
 	{
         PlayerPrefs.SetFloat("MusicVolume", value);
-        MusicManager.Instance.SetVolume(value);
+        //MusicManager.Instance.SetVolume(value);
     }
 
     private void OnUseHapticsChanged(bool value)

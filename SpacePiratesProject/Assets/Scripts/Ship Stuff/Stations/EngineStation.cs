@@ -92,6 +92,11 @@ public class EngineStation : MonoBehaviour
 		{
 			fuelDepo.enabled = false;
 		}
+
+		if (currentFuel == 1 && damage.DamageLevel == 0)
+		{
+			//	SOUND - ignition
+		}
 	}
 
 	private void OnFuelUsed()

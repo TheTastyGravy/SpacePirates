@@ -1022,3 +1022,17 @@ MonoBehaviour:
   PressBToLeave: {fileID: 640502615280910311}
   PressXToCycleVariant: {fileID: 4102783697504436074}
   ReadyIndicator: {fileID: 4456904302097423765}
+  selectEvent:
+    Guid:
+      Data1: -391392733
+      Data2: 1151322025
+      Data3: 511082385
+      Data4: 1392522585
+    Path: event:/Menu/Select
+  returnEvent:
+    Guid:
+      Data1: 1590092164
+      Data2: 1155632468
+      Data3: -768817239
+      Data4: -194066441
+    Path: event:/Menu/Back

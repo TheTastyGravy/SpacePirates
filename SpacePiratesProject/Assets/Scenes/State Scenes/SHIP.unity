@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -463,6 +463,20 @@ MonoBehaviour:
   - {fileID: 1929335394}
   - {fileID: 188628392}
   SelectorTile: {fileID: 641670296}
+  returnEvent:
+    Guid:
+      Data1: 1590092164
+      Data2: 1155632468
+      Data3: -768817239
+      Data4: -194066441
+    Path: event:/Menu/Back
+  selectEvent:
+    Guid:
+      Data1: -391392733
+      Data2: 1151322025
+      Data3: 511082385
+      Data4: 1392522585
+    Path: event:/Menu/Select
 --- !u!4 &497688655
 Transform:
   m_ObjectHideFlags: 0

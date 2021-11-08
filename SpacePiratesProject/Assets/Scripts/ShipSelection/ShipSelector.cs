@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FMODUnity;
 
 public class ShipSelector : Singleton< ShipSelector >
 {
     public ShipTile[] ShipTiles;
     public SelectorTile SelectorTile;
+    [Space]
+    public EventReference returnEvent;
+    public EventReference selectEvent;
 
     private void Awake()
     {
@@ -58,11 +62,13 @@ public class ShipSelector : Singleton< ShipSelector >
     {
         GameManager.RegisterSelectedShip( m_CurrentShipIndex, ShipTiles[ m_CurrentShipIndex ].MaxPlayers );
         GameManager.ChangeState(GameManager.GameState.CHARACTER);
+        RuntimeManager.PlayOneShot(selectEvent);
     }
 
     private void OnBPressed( InputAction.CallbackContext _ )
     {
         GameManager.ChangeState(GameManager.GameState.MENU);
+        RuntimeManager.PlayOneShot(returnEvent);
     }
 
     public void SetShipIndex( int a_Index )

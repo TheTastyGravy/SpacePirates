@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
+using FMODUnity;
 
 public class CharacterSelector : Singleton< CharacterSelector >
 {
@@ -13,6 +13,9 @@ public class CharacterSelector : Singleton< CharacterSelector >
     public SelectorTile SelectorP4;
     public CharacterTile[] CharacterTiles;
     public CharacterDock CharacterDock;
+    [Space]
+    public EventReference selectEvent;
+    public EventReference returnEvent;
 
     public static Vector2Int GridSize
     {
@@ -334,6 +337,8 @@ public class CharacterSelector : Singleton< CharacterSelector >
         {
             if ( m_CharacterDocks[ i ].AssignedPlayer == null )
             {
+                RuntimeManager.PlayOneShot(selectEvent);
+
                 Player newPlayer = a_PlayerInput as Player;
                 newPlayer.ChangeCharacter( 0, 0 );
                 newPlayer.Character.SetUseCharacterSelectAnimations(true);
@@ -350,6 +355,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
     private void OnPlayerLeft( PlayerInput _ )
     {
+        RuntimeManager.PlayOneShot(returnEvent);
         PlayerInputManager.instance.EnableJoining();
         CheckReadyState();
     }
@@ -427,6 +433,8 @@ public class CharacterSelector : Singleton< CharacterSelector >
         primaryPlayer.transform.parent = null;
         DontDestroyOnLoad( primaryPlayer.gameObject );
         GameManager.ChangeState(GameManager.GameState.SHIP);
+
+        RuntimeManager.PlayOneShot(returnEvent);
     }
 
     public void CheckReadyState()

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FMODUnity;
 
 public class CharacterDock : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class CharacterDock : MonoBehaviour
     public GameObject PressBToLeave;
     public GameObject PressXToCycleVariant;
     public GameObject ReadyIndicator;
+    [Space]
+    public EventReference selectEvent;
+    public EventReference returnEvent;
 
     public Phase ConnectPhase
     {
@@ -263,11 +267,16 @@ public class CharacterDock : MonoBehaviour
 	{
         ConnectPhase = Phase.PLAYER_READY;
         CharacterSelector.Instance.CheckReadyState();
+        RuntimeManager.PlayOneShot(selectEvent);
     }
 
     private void OnUnready(InputAction.CallbackContext _)
 	{
         ConnectPhase = Phase.CHOOSE_CHARACTER;
+        if (!GameManager.IsLoadingScene)
+		{
+            RuntimeManager.PlayOneShot(returnEvent);
+        }
     }
 
     private Player m_AssignedPlayer;

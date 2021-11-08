@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 1214081122997442364}
   - component: {fileID: 8789998615918366916}
   - component: {fileID: 9168823552359910600}
+  - component: {fileID: 3479216543983531809}
   m_Layer: 5
   m_Name: Track1
   m_TagString: Untagged
@@ -182,12 +183,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RectTransform: {fileID: 4427755708587693019}
   angles: {fileID: 5127988401379239704}
+  audioEvent: {fileID: 3479216543983531809}
   image: {fileID: 8789998615918366916}
   baseImage: {fileID: 2868571446236329109, guid: e9f5e64034c7cd44582a44da4e93c7e8, type: 3}
   selectImage: {fileID: 5334555085887451145, guid: e9f5e64034c7cd44582a44da4e93c7e8, type: 3}
   textImage: {fileID: 6336603640069720487}
   baseTextImage: {fileID: 2568899701125631383, guid: 3192ab2573016c643bcdeab760323551, type: 3}
   selectTextImage: {fileID: -6465453719699039268, guid: 3192ab2573016c643bcdeab760323551, type: 3}
+--- !u!114 &3479216543983531809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2631449711186803071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efdd3677704f31140999c543afd16ec0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightEvent:
+    Guid:
+      Data1: -1650134100
+      Data2: 1267984002
+      Data3: -2051147644
+      Data4: 903658640
+    Path: event:/Menu/Highlight
+  selectEvent:
+    Guid:
+      Data1: -391392733
+      Data2: 1151322025
+      Data3: 511082385
+      Data4: 1392522585
+    Path: event:/Menu/Select
+  useSlider: 0
 --- !u!1 &4914541207671730227
 GameObject:
   m_ObjectHideFlags: 0

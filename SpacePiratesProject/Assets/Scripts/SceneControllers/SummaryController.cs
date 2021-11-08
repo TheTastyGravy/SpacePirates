@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using FMODUnity;
 
 public class SummaryController : Singleton<SummaryController>
 {

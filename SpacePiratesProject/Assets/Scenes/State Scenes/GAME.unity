@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0007200191, g: 0.0018433576, b: 0.05432608, a: 1}
+  m_IndirectSpecularColor: {r: 0.0008510157, g: 0.0018434842, b: 0.054547586, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -340,6 +340,7 @@ GameObject:
   - component: {fileID: 1063365536}
   - component: {fileID: 1063365535}
   - component: {fileID: 1063365534}
+  - component: {fileID: 1063365537}
   m_Layer: 5
   m_Name: RestartButton
   m_TagString: Untagged
@@ -449,6 +450,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1063365532}
   m_CullTransparentMesh: 1
+--- !u!114 &1063365537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063365532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efdd3677704f31140999c543afd16ec0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightEvent:
+    Guid:
+      Data1: -1650134100
+      Data2: 1267984002
+      Data3: -2051147644
+      Data4: 903658640
+    Path: event:/Menu/Highlight
+  selectEvent:
+    Guid:
+      Data1: -391392733
+      Data2: 1151322025
+      Data3: 511082385
+      Data4: 1392522585
+    Path: event:/Menu/Select
+  useSlider: 0
 --- !u!1 &1075016202
 GameObject:
   m_ObjectHideFlags: 0
@@ -1155,6 +1183,13 @@ MonoBehaviour:
   resumeButton: {fileID: 1987915763}
   menuButton: {fileID: 1787652910}
   restartButton: {fileID: 1063365534}
+  returnEvent:
+    Guid:
+      Data1: 1590092164
+      Data2: 1155632468
+      Data3: -768817239
+      Data4: -194066441
+    Path: event:/Menu/Back
 --- !u!114 &1595431793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1290,6 +1325,7 @@ GameObject:
   - component: {fileID: 1787652912}
   - component: {fileID: 1787652911}
   - component: {fileID: 1787652910}
+  - component: {fileID: 1787652913}
   m_Layer: 5
   m_Name: MenuButton
   m_TagString: Untagged
@@ -1399,6 +1435,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787652908}
   m_CullTransparentMesh: 1
+--- !u!114 &1787652913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1787652908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efdd3677704f31140999c543afd16ec0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightEvent:
+    Guid:
+      Data1: -1650134100
+      Data2: 1267984002
+      Data3: -2051147644
+      Data4: 903658640
+    Path: event:/Menu/Highlight
+  selectEvent:
+    Guid:
+      Data1: -391392733
+      Data2: 1151322025
+      Data3: 511082385
+      Data4: 1392522585
+    Path: event:/Menu/Select
+  useSlider: 0
 --- !u!1 &1828482701
 GameObject:
   m_ObjectHideFlags: 0
@@ -1545,6 +1608,7 @@ GameObject:
   - component: {fileID: 1987915765}
   - component: {fileID: 1987915764}
   - component: {fileID: 1987915763}
+  - component: {fileID: 1987915766}
   m_Layer: 5
   m_Name: ResumeButton
   m_TagString: Untagged
@@ -1654,6 +1718,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1987915761}
   m_CullTransparentMesh: 1
+--- !u!114 &1987915766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987915761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efdd3677704f31140999c543afd16ec0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightEvent:
+    Guid:
+      Data1: -1650134100
+      Data2: 1267984002
+      Data3: -2051147644
+      Data4: 903658640
+    Path: event:/Menu/Highlight
+  selectEvent:
+    Guid:
+      Data1: 1590092164
+      Data2: 1155632468
+      Data3: -768817239
+      Data4: -194066441
+    Path: event:/Menu/Back
+  useSlider: 0
 --- !u!4 &5063274434833239890
 Transform:
   m_ObjectHideFlags: 0
@@ -1745,6 +1836,7 @@ MonoBehaviour:
   storm_backgroundColor: {r: 0, g: 0, b: 0, a: 1}
   storm_timeBetween: 0.25
   storm_baseSpeed: 4
+  storm_fadeOutTime: 1.5
   minSpeedModifier: 0.1
   maxSpeedModifier: 1
 --- !u!1001 &6661497440788994546

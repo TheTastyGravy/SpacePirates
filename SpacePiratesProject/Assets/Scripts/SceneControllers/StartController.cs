@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FMODUnity;
 
 public class StartController : Singleton< StartController >
 {
     public GameObject PressStartText;
+    public EventReference selectEvent;
 
     void Start()
     {
@@ -41,6 +43,7 @@ public class StartController : Singleton< StartController >
     {
         PlayerInputManager.instance.DisableJoining();
         GameManager.ChangeState(GameManager.GameState.MENU);
+        RuntimeManager.PlayOneShot(selectEvent);
 
         // Button spam fix
         Invoke(nameof(ChangeControl), 0.01f);
@@ -60,6 +63,7 @@ public class StartController : Singleton< StartController >
     private void OnStartPressed(InputAction.CallbackContext context)
 	{
         GameManager.ChangeState(GameManager.GameState.MENU);
+        RuntimeManager.PlayOneShot(selectEvent);
     }
 
     private IEnumerator PressStart()
