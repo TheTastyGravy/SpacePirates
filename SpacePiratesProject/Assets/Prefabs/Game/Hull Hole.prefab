@@ -14543,7 +14543,7 @@ GameObject:
   - component: {fileID: 7359539469593560065}
   - component: {fileID: 6514284283391238367}
   m_Layer: 6
-  m_Name: Hull Hole Placeholder
+  m_Name: Hull Hole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19496,7 +19496,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6767308628615220082
 Transform:
   m_ObjectHideFlags: 0
