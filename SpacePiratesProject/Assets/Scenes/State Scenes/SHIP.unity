@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 338321643}
     m_Modifications:
+    - target: {fileID: 1233881945, guid: 786ed1754dcb7bb48b2955399e2ec210, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 010fe0ef7586a7a4f8bb1d5629789eb8, type: 3}
     - target: {fileID: 2631449711186803071, guid: 786ed1754dcb7bb48b2955399e2ec210, type: 3}
       propertyPath: m_Name
       value: Ship2
@@ -721,6 +725,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 338321643}
     m_Modifications:
+    - target: {fileID: 1463333993, guid: 1c132cc375ef22a48a29ce1debe60908, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 35f71ecbd89db6e40986e2999fc7eddf, type: 3}
     - target: {fileID: 2631449711186803071, guid: 1c132cc375ef22a48a29ce1debe60908, type: 3}
       propertyPath: m_Name
       value: Ship3
