@@ -6625,11 +6625,11 @@ PrefabInstance:
       objectReference: {fileID: 4647492488194912946}
     - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: maxAngle
-      value: 220
+      value: 234.6
       objectReference: {fileID: 0}
     - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: minAngle
-      value: 30
+      value: 26.1
       objectReference: {fileID: 0}
     - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: baseAngle
@@ -8150,7 +8150,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: minAngle
-      value: -190
+      value: -196.2
       objectReference: {fileID: 0}
     - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: baseAngle
@@ -9890,11 +9890,11 @@ PrefabInstance:
       objectReference: {fileID: 1964791528856849599}
     - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: maxAngle
-      value: 305
+      value: 320.2
       objectReference: {fileID: 0}
     - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: minAngle
-      value: 40
+      value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 1099929147349428660, guid: 85cece7a931fa8b498fb1a0440a6e4ec, type: 3}
       propertyPath: baseAngle
