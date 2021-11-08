@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using FMODUnity;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -253,6 +254,10 @@ public class GameManager : Singleton<GameManager>
         // Only allow controllers in builds
         if (!Application.isEditor)
             InputSystem.settings.supportedDevices = new string[] { "Gamepad" };
+
+        RuntimeManager.GetBus("bus:/").setVolume(PlayerPrefs.GetFloat("MasterVolume", 1));
+        RuntimeManager.GetBus("bus:/Music").setVolume(PlayerPrefs.GetFloat("MusicVolume", 1));
+        RuntimeManager.GetBus("bus:/Effects").setVolume(PlayerPrefs.GetFloat("EffectVolume", 1));
     }
 
     public static LevelDificultyData.DiffSetting GetDifficultySettings()

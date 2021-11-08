@@ -18,7 +18,9 @@ public class MenuController : Singleton< MenuController >
     public Button MenuButtonCredits;
     public Button MenuButtonExit;
     [Space]
-    public Slider volumeSlider;
+    public Slider masterVolumeSlider;
+    public Slider musicVolumeSlider;
+    public Slider effectVolumeSlider;
     public Toggle useHaptics;
 
     private int currentMenu = 0;
@@ -42,8 +44,13 @@ public class MenuController : Singleton< MenuController >
         MenuButtonCredits.onClick.AddListener( OnButtonCredits );
         MenuButtonExit.onClick.AddListener( OnButtonExit );
 
-        volumeSlider.onValueChanged.AddListener(OnVolumeSliderChanged);
-        volumeSlider.value = PlayerPrefs.GetFloat("MusicVolume", 100);
+
+        masterVolumeSlider.onValueChanged.AddListener(OnMasterVolumeSliderChanged);
+        masterVolumeSlider.value = PlayerPrefs.GetFloat("MasterVolume", 1) * masterVolumeSlider.maxValue;
+        musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeSliderChanged);
+        musicVolumeSlider.value = PlayerPrefs.GetFloat("MusicVolume", 1) * musicVolumeSlider.maxValue;
+        effectVolumeSlider.onValueChanged.AddListener(OnEffectVolumeSliderChanged);
+        effectVolumeSlider.value = PlayerPrefs.GetFloat("EffectVolume", 1) * effectVolumeSlider.maxValue;
         useHaptics.onValueChanged.AddListener(OnUseHapticsChanged);
         useHaptics.isOn = PlayerPrefs.GetInt("UseHaptics", 1) == 1;
 
@@ -60,7 +67,10 @@ public class MenuController : Singleton< MenuController >
         MenuButtonOptions.onClick.RemoveAllListeners();
         MenuButtonCredits.onClick.RemoveAllListeners();
         MenuButtonExit.onClick.RemoveAllListeners();
-        volumeSlider.onValueChanged.RemoveAllListeners();
+        masterVolumeSlider.onValueChanged.RemoveAllListeners();
+        musicVolumeSlider.onValueChanged.RemoveAllListeners();
+        effectVolumeSlider.onValueChanged.RemoveAllListeners();
+        useHaptics.onValueChanged.RemoveAllListeners();
     }
 
     private void OnButtonPlay()
@@ -130,7 +140,7 @@ public class MenuController : Singleton< MenuController >
                 (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed += OnMenuCancel;
                 break;
             case 1:
-                volumeSlider.Select();
+                masterVolumeSlider.Select();
                 (EventSystem.current.currentInputModule as InputSystemUIInputModule).cancel.action.performed += OnOptionsCancel;
                 break;
             case 2:
@@ -143,10 +153,25 @@ public class MenuController : Singleton< MenuController >
         currentMenu = menu;
     }
 
-    private void OnVolumeSliderChanged(float value)
+    private void OnMasterVolumeSliderChanged(float value)
+    {
+        value /= masterVolumeSlider.maxValue;
+        PlayerPrefs.SetFloat("MasterVolume", value);
+        RuntimeManager.GetBus("bus:/").setVolume(value);
+    }
+
+    private void OnMusicVolumeSliderChanged(float value)
 	{
+        value /= musicVolumeSlider.maxValue;
         PlayerPrefs.SetFloat("MusicVolume", value);
-        //MusicManager.Instance.SetVolume(value);
+        RuntimeManager.GetBus("bus:/Music").setVolume(value);
+    }
+
+    private void OnEffectVolumeSliderChanged(float value)
+    {
+        value /= effectVolumeSlider.maxValue;
+        PlayerPrefs.SetFloat("EffectVolume", value);
+        RuntimeManager.GetBus("bus:/Effects").setVolume(value);
     }
 
     private void OnUseHapticsChanged(bool value)

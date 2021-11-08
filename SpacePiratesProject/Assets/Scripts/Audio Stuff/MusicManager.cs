@@ -41,8 +41,6 @@ public class MusicManager : Singleton<MusicManager>
     private string lastEvent = "";
     private Coroutine fadeEventRoutine;
 
-    private float musicVolume = 100;
-
     [Header("Intensity")]
     public float maxOxygenDrainRate = 10;
     [Range(0,1)]
@@ -64,7 +62,6 @@ public class MusicManager : Singleton<MusicManager>
 
     private void InitSetup()
 	{
-        musicVolume = PlayerPrefs.GetFloat("MusicVolume", 100) * 0.01f;
         // Get the music info for the current scene
         musicInfo = data.GetInfo(GameManager.CurrentState);
 
@@ -95,7 +92,6 @@ public class MusicManager : Singleton<MusicManager>
         {
             musicInstance.start();
         }
-        musicInstance.setVolume(musicVolume);
     }
 
     void OnDestroy()
@@ -231,17 +227,6 @@ public class MusicManager : Singleton<MusicManager>
         float intensity = oxygenLoss * oxygenDrainFactor + shipSpeed * speedFactor + progress * progressFactor * (inEvent ? inEventFactor : 1);
         musicInstance.setParameterByName("Intensity", intensity);
     }
-
-    public void SetVolume(float value)
-	{
-        // Convert from 0-100 to 0-1
-        musicVolume = value * 0.01f;
-        if (musicInstance.setVolume(musicVolume) != FMOD.RESULT.OK)
-		{
-            Debug.LogWarning("Failed to set music volume");
-		}
-    }
-
 
     /// <summary>
     /// Add a callback to be called on a music beat
