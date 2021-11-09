@@ -105,6 +105,7 @@ public class BackgroundSpeedLogic : MonoBehaviour
 
     private IEnumerator PlasmaStormEffect()
 	{
+        float spawnLineLength;
         Vector3 spawnLineDir;
         Vector3 spawnLinePos;
         Quaternion rotation;
@@ -121,13 +122,14 @@ public class BackgroundSpeedLogic : MonoBehaviour
             // Push down and up to spawn behind the player ship
             spawnLinePos += new Vector3(-1, -1, 0) * 10;
 
+            spawnLineLength = cam.orthographicSize * 2.5f;
             spawnLineDir = Vector3.right;
             rotation = Quaternion.LookRotation(Vector3.back, -cam.transform.forward);
         }
 
         while (true)
 		{
-            Vector3 spawnPos = spawnLinePos + spawnLineDir * GetRandomValue(25)/*Random.Range(-15f, 15f)*/;
+            Vector3 spawnPos = spawnLinePos + spawnLineDir * GetRandomValue(spawnLineLength);
             GameObject effectObj = Instantiate(plasmaStormEffectPrefab, spawnPos, rotation);
             objects.Add(effectObj.transform);
 
@@ -267,8 +269,10 @@ public class BackgroundSpeedLogic : MonoBehaviour
 
     //public void OnDrawGizmos()
     //{
+    //    float spawnLineLength;
     //    Vector3 spawnLineDir;
     //    Vector3 spawnLinePos;
+    //    Quaternion rotation;
     //    // Get values for object creation
     //    {
     //        Camera cam = Camera.main;
@@ -282,11 +286,13 @@ public class BackgroundSpeedLogic : MonoBehaviour
     //        // Push down and up to spawn behind the player ship
     //        spawnLinePos += new Vector3(-1, -1, 0) * 10;
     //
+    //        spawnLineLength = cam.orthographicSize * 2.5f;
     //        spawnLineDir = Vector3.right;
+    //        rotation = Quaternion.LookRotation(Vector3.back, -cam.transform.forward);
     //    }
     //
     //    Gizmos.color = Color.red;
-    //    Gizmos.DrawLine(spawnLinePos + spawnLineDir * -25, spawnLinePos + spawnLineDir * 25);
+    //    Gizmos.DrawLine(spawnLinePos + spawnLineDir * -spawnLineLength, spawnLinePos + spawnLineDir * spawnLineLength);
     //    Gizmos.DrawSphere(spawnLinePos, 0.5f);
     //}
 }
