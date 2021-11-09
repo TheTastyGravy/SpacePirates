@@ -69,7 +69,7 @@ public class TimelineController : Singleton<TimelineController>
 
             iconsTemp.Add(new EventIcon());
             // Set basic info
-            iconsTemp[iconsTemp.Count - 1].position = (_event.start + _event.end) * 0.5f;
+            iconsTemp[iconsTemp.Count - 1].position = _event.start;
             iconsTemp[iconsTemp.Count - 1].eventType = _event.type;
 
             // Create icon for event
@@ -78,7 +78,7 @@ public class TimelineController : Singleton<TimelineController>
             // Set hight to match the parent
             rectTrans.sizeDelta = new Vector2(0, iconSize);
             // Set position and size on X axis relitive to the left edge
-            rectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * iconsTemp[iconsTemp.Count - 1].position * invLength, iconSize);
+            rectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * iconsTemp[iconsTemp.Count - 1].position * invLength + iconSize * 0.5f, iconSize);
 
             // Make image transparent
             iconsTemp[iconsTemp.Count - 1].image = iconObject.GetComponentInChildren<Image>();
