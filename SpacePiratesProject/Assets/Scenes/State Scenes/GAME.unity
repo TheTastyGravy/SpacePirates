@@ -1837,8 +1837,7 @@ MonoBehaviour:
   storm_timeBetween: 0.25
   storm_baseSpeed: 4
   storm_fadeOutTime: 1.5
-  asteroidEffectPrefab: {fileID: 4332016396429787035, guid: 28814ac3622107449864ebeeaa81c557, type: 3}
-  asteroidBaseSpeed: 5
+  asteroidFieldEffectPrefab: {fileID: 4332016396429787035, guid: 28814ac3622107449864ebeeaa81c557, type: 3}
   minSpeedModifier: 0.1
   maxSpeedModifier: 1
 --- !u!1001 &6661497440788994546

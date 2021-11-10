@@ -4967,7 +4967,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -4977,7 +4977,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 999
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -6157,7 +6157,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       minMaxState: 1
@@ -6166,8 +6166,8 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 0}
-        key1: {r: 1, g: 1, b: 1, a: 0.78431374}
-        key2: {r: 0, g: 0, b: 0, a: 0.78431374}
+        key1: {r: 1, g: 1, b: 1, a: 0.39215687}
+        key2: {r: 0, g: 0, b: 0, a: 0.39215687}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -6182,8 +6182,8 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 9445
-        atime2: 56669
+        atime1: 1442
+        atime2: 55898
         atime3: 65535
         atime4: 65535
         atime5: 0
@@ -8590,7 +8590,7 @@ ParticleSystem:
     m_EnergyLossOnCollision:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.9
+      scalar: 0.99
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -9620,7 +9620,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0bb34ba78e93fd54db03b510e5efd43a, type: 2}
+  - {fileID: 2100000, guid: 0fbe0e7353ad2554089afe9a17cdd590, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9771,7 +9771,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -9781,7 +9781,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 999
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -14424,7 +14424,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0bb34ba78e93fd54db03b510e5efd43a, type: 2}
+  - {fileID: 2100000, guid: 0fbe0e7353ad2554089afe9a17cdd590, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14479,6 +14479,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5932888937843040123}
+  - component: {fileID: 6287378291812133034}
   m_Layer: 0
   m_Name: AsteroidField
   m_TagString: Untagged
@@ -14504,6 +14505,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6287378291812133034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4332016396429787035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 266abb7f94f800a4b995713fbf00e1fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  asteroidSystems:
+  - {fileID: 1202101663214407217}
+  - {fileID: 5767543018511272402}
+  dustSystems:
+  - {fileID: 8456328992660919084}
+  - {fileID: 7715034812566470409}
+  speedModifier: 1
 --- !u!1 &5942171767170381661
 GameObject:
   m_ObjectHideFlags: 0
@@ -14671,8 +14691,8 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 7
+      minMaxState: 0
+      scalar: 5
       minScalar: 3
       maxCurve:
         serializedVersion: 2
@@ -19477,8 +19497,8 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 7
+      minMaxState: 0
+      scalar: 5
       minScalar: 3
       maxCurve:
         serializedVersion: 2

@@ -13,8 +13,7 @@ public class BackgroundSpeedLogic : MonoBehaviour
     public float storm_baseSpeed = 1;
     public float storm_fadeOutTime = 1.5f;
     [Space]
-    public GameObject asteroidEffectPrefab;
-    public float asteroidBaseSpeed = 1;
+    public GameObject asteroidFieldEffectPrefab;
     [Space]
     public float minSpeedModifier = 0.1f;
     public float maxSpeedModifier = 1;
@@ -24,11 +23,12 @@ public class BackgroundSpeedLogic : MonoBehaviour
     private float speedModifier = 1;
     private Coroutine eventRoutine = null;
 
+    private AsteroidFieldEffect asteroidEffect;
+    //private PlasmaStormEffect plasmaStormEffect;
+
     private List<Transform> objects = new List<Transform>();
     // Past random values generated. Used for weighting
     List<float> values = new List<float>();
-
-    private GameObject asteroidParticleEffect;
 
 
 
@@ -42,15 +42,27 @@ public class BackgroundSpeedLogic : MonoBehaviour
 	private void Init()
 	{
         inverseMaxSpeed = 1 / ShipManager.Instance.GetMaxSpeed();
+
+        //plasmaStormEffect = Instantiate(plasmaStormEffectPrefab, transform).GetComponent<PlasmaStormEffect>();
+        asteroidEffect = Instantiate(asteroidFieldEffectPrefab, transform).GetComponent<AsteroidFieldEffect>();
     }
 
-	void LateUpdate()
+    private void OnDestroy()
+    {
+        if (asteroidEffect != null)
+            Destroy(asteroidEffect.gameObject);
+    }
+
+    void LateUpdate()
     {
         // Update value
         speedModifier = Mathf.Lerp(minSpeedModifier, maxSpeedModifier, ShipManager.Instance.GetShipSpeed() * inverseMaxSpeed);
 
-        // Set background scross speed
+        // Set background scroll speed
         background.speedMultiplier = speedModifier;
+        //Set speed for event effects
+        asteroidEffect.speedModifier = speedModifier;
+
         // Move objects (plasma storm clouds)
         List<Transform> toDestroy = new List<Transform>();
         foreach (var obj in objects)
@@ -85,14 +97,11 @@ public class BackgroundSpeedLogic : MonoBehaviour
             switch (eventType)
             {
                 case Level.Event.Type.AstroidField:
-                    eventRoutine = StartCoroutine(AsteroidFieldEffect());
+                    asteroidEffect.StartEffect();
                     break;
                 case Level.Event.Type.PlasmaStorm:
                     eventRoutine = StartCoroutine(PlasmaStormEffect());
                     StartCoroutine(SetBackgroundColor(storm_backgroundColor, 1));
-                    break;
-                case Level.Event.Type.ShipAttack:
-
                     break;
             }
         }
@@ -100,7 +109,10 @@ public class BackgroundSpeedLogic : MonoBehaviour
         else if (stage == EventManager.EventStage.END)
         {
             if (eventRoutine != null)
+            {
                 StopCoroutine(eventRoutine);
+                eventRoutine = null;
+            }
 
             StartCoroutine(SetBackgroundColor(backgroundBaseColor, 1));
 
@@ -111,8 +123,7 @@ public class BackgroundSpeedLogic : MonoBehaviour
             }
             if (eventType == Level.Event.Type.AstroidField)
             {
-                //temp
-                Destroy(asteroidParticleEffect);
+                asteroidEffect.StopEffect();
             }
         }
     }
@@ -151,60 +162,7 @@ public class BackgroundSpeedLogic : MonoBehaviour
 		}
 	}
 
-    private IEnumerator AsteroidFieldEffect()
-    {
-        asteroidParticleEffect = Instantiate(asteroidEffectPrefab);
-        ParticleSystem pSystem = asteroidParticleEffect.GetComponentInChildren<ParticleSystem>();
-
-        // Get values to place particle system
-        {
-            Transform effectTrans = asteroidParticleEffect.transform;
-
-            Camera cam = Camera.main;
-            Ray ray = cam.ViewportPointToRay(new Vector2(1, 1));    //top right corner
-            new Plane(Vector3.up, 0).Raycast(ray, out float enter);
-            effectTrans.position = ray.GetPoint(enter);
-
-            // Add offset to make sure they are spawned off screen
-            Vector3 dir = cam.transform.TransformPoint(new Vector2(0.5f, 0.45f)) - cam.transform.TransformPoint(new Vector2(0, 0));
-            effectTrans.position += dir.normalized * 7.5f;
-            // Push down and up to spawn behind the player ship
-            effectTrans.position += new Vector3(-1, -1, 0) * 2;
-
-            ParticleSystem.ShapeModule shape = pSystem.shape;
-            shape.radius = cam.orthographicSize * 2.5f;
-        }
-
-        ParticleSystem.NoiseModule noise = pSystem.noise;
-        ParticleSystem.EmissionModule emmision = pSystem.emission;
-        float asteroidBaseEmission = emmision.rateOverTime.constant;
-        ParticleSystem.Particle[] particles = new ParticleSystem.Particle[pSystem.main.maxParticles];
-
-        while (true)
-        {
-            int pCount = pSystem.GetParticles(particles);
-
-            for (int i = 0; i < pCount; i++)
-            {
-                // Modify module values by speed
-                noise.scrollSpeed = speedModifier;
-                noise.positionAmount = speedModifier;
-                emmision.rateOverTime = asteroidBaseEmission * speedModifier;
-
-                particles[i].velocity = particles[i].velocity.normalized * asteroidBaseSpeed * speedModifier;
-
-                // When a particle goes off screen, destroy it
-                if (particles[i].position.z < -20)
-                {
-                    particles[i].remainingLifetime = -1;
-                    continue;
-                }
-            }
-
-            pSystem.SetParticles(particles, pCount);
-            yield return null;
-        }
-    }
+    
 
     private void FadeOutObjects(float time)
     {
