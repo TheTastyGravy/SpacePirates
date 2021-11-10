@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0008510157, g: 0.0018434842, b: 0.054547586, a: 1}
+  m_IndirectSpecularColor: {r: 0.0007200191, g: 0.0018433576, b: 0.05432608, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1837,6 +1837,8 @@ MonoBehaviour:
   storm_timeBetween: 0.25
   storm_baseSpeed: 4
   storm_fadeOutTime: 1.5
+  asteroidEffectPrefab: {fileID: 4332016396429787035, guid: 28814ac3622107449864ebeeaa81c557, type: 3}
+  asteroidBaseSpeed: 5
   minSpeedModifier: 0.1
   maxSpeedModifier: 1
 --- !u!1001 &6661497440788994546

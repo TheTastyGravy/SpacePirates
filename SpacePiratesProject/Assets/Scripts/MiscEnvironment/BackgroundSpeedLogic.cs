@@ -6,11 +6,15 @@ public class BackgroundSpeedLogic : MonoBehaviour
 {
     public BackgroundController background;
     public MeshRenderer backgroundBase;
+    [Space]
     public GameObject plasmaStormEffectPrefab;
     public Color storm_backgroundColor;
     public float storm_timeBetween = 0.5f;
     public float storm_baseSpeed = 1;
     public float storm_fadeOutTime = 1.5f;
+    [Space]
+    public GameObject asteroidEffectPrefab;
+    public float asteroidBaseSpeed = 1;
     [Space]
     public float minSpeedModifier = 0.1f;
     public float maxSpeedModifier = 1;
@@ -23,6 +27,8 @@ public class BackgroundSpeedLogic : MonoBehaviour
     private List<Transform> objects = new List<Transform>();
     // Past random values generated. Used for weighting
     List<float> values = new List<float>();
+
+    private GameObject asteroidParticleEffect;
 
 
 
@@ -57,7 +63,7 @@ public class BackgroundSpeedLogic : MonoBehaviour
 
             obj.position += obj.forward * Time.deltaTime * speedModifier * storm_baseSpeed;
             // Destroy objects when they go far enough
-            if (Vector3.Dot(obj.position, obj.forward) > 20)
+            if (obj.position.z < -20)
 			{
                 toDestroy.Add(obj);
                 continue;
@@ -79,7 +85,7 @@ public class BackgroundSpeedLogic : MonoBehaviour
             switch (eventType)
             {
                 case Level.Event.Type.AstroidField:
-
+                    eventRoutine = StartCoroutine(AsteroidFieldEffect());
                     break;
                 case Level.Event.Type.PlasmaStorm:
                     eventRoutine = StartCoroutine(PlasmaStormEffect());
@@ -102,6 +108,11 @@ public class BackgroundSpeedLogic : MonoBehaviour
             if (eventType == Level.Event.Type.PlasmaStorm)
             {
                 FadeOutObjects(storm_fadeOutTime);
+            }
+            if (eventType == Level.Event.Type.AstroidField)
+            {
+                //temp
+                Destroy(asteroidParticleEffect);
             }
         }
     }
@@ -139,6 +150,61 @@ public class BackgroundSpeedLogic : MonoBehaviour
             yield return new WaitForSeconds(storm_timeBetween / speedModifier);
 		}
 	}
+
+    private IEnumerator AsteroidFieldEffect()
+    {
+        asteroidParticleEffect = Instantiate(asteroidEffectPrefab);
+        ParticleSystem pSystem = asteroidParticleEffect.GetComponentInChildren<ParticleSystem>();
+
+        // Get values to place particle system
+        {
+            Transform effectTrans = asteroidParticleEffect.transform;
+
+            Camera cam = Camera.main;
+            Ray ray = cam.ViewportPointToRay(new Vector2(1, 1));    //top right corner
+            new Plane(Vector3.up, 0).Raycast(ray, out float enter);
+            effectTrans.position = ray.GetPoint(enter);
+
+            // Add offset to make sure they are spawned off screen
+            Vector3 dir = cam.transform.TransformPoint(new Vector2(0.5f, 0.45f)) - cam.transform.TransformPoint(new Vector2(0, 0));
+            effectTrans.position += dir.normalized * 7.5f;
+            // Push down and up to spawn behind the player ship
+            effectTrans.position += new Vector3(-1, -1, 0) * 2;
+
+            ParticleSystem.ShapeModule shape = pSystem.shape;
+            shape.radius = cam.orthographicSize * 2.5f;
+        }
+
+        ParticleSystem.NoiseModule noise = pSystem.noise;
+        ParticleSystem.EmissionModule emmision = pSystem.emission;
+        float asteroidBaseEmission = emmision.rateOverTime.constant;
+        ParticleSystem.Particle[] particles = new ParticleSystem.Particle[pSystem.main.maxParticles];
+
+        while (true)
+        {
+            int pCount = pSystem.GetParticles(particles);
+
+            for (int i = 0; i < pCount; i++)
+            {
+                // Modify module values by speed
+                noise.scrollSpeed = speedModifier;
+                noise.positionAmount = speedModifier;
+                emmision.rateOverTime = asteroidBaseEmission * speedModifier;
+
+                particles[i].velocity = particles[i].velocity.normalized * asteroidBaseSpeed * speedModifier;
+
+                // When a particle goes off screen, destroy it
+                if (particles[i].position.z < -20)
+                {
+                    particles[i].remainingLifetime = -1;
+                    continue;
+                }
+            }
+
+            pSystem.SetParticles(particles, pCount);
+            yield return null;
+        }
+    }
 
     private void FadeOutObjects(float time)
     {
