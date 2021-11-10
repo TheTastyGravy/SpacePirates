@@ -58,11 +58,13 @@ public class LevelDificultyData : ScriptableObject
     [System.Serializable]
     public class SettingEntry<T> : BaseClass
     {
-        public T Value => playerCountValues[useSeperateValues ? m_playerCount - 1 : 0];
+        public T Value => playerCountValues[useSeperateValues ? (useMaxPlayers ? m_maxPlayerCount : m_playerCount) - 1 : 0];
         [SerializeField]
         private T[] playerCountValues;
         [SerializeField]
         private bool useSeperateValues = false;
+        [SerializeField]
+        private bool useMaxPlayers = false;
 	}
 
     [Tooltip("How close to the ends of a level events can be placed")]
@@ -78,12 +80,14 @@ public class LevelDificultyData : ScriptableObject
     private DiffSetting hard;
 
     internal static int m_playerCount = 0;
+    internal static int m_maxPlayerCount = 0;
 
 
     
-    public DiffSetting GetSetting(Difficulty diff, int playerCount)
+    public DiffSetting GetSetting(Difficulty diff, int playerCount, int maxPlayerCount)
 	{
         m_playerCount = playerCount;
+        m_maxPlayerCount = maxPlayerCount;
         return diff switch
         {
             Difficulty.Easy => easy,

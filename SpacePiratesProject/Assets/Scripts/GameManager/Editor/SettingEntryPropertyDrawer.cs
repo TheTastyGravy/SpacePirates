@@ -8,6 +8,7 @@ public class SettingEntryPropertyDrawer : PropertyDrawer
 {
     private SerializedProperty playerCountValues;
     private SerializedProperty useSeperateValues;
+    private SerializedProperty useMaxPlayers;
     private bool cache = false;
 
 
@@ -20,6 +21,8 @@ public class SettingEntryPropertyDrawer : PropertyDrawer
             playerCountValues = property.Copy();
             property.Next(false);
             useSeperateValues = property.Copy();
+            property.Next(false);
+            useMaxPlayers = property.Copy();
             cache = true;
         }
         // Force the currect array size
@@ -44,6 +47,8 @@ public class SettingEntryPropertyDrawer : PropertyDrawer
 
         EditorGUI.indentLevel += 2;
         EditorGUI.PropertyField(position, useSeperateValues);
+        position.y += EditorGUIUtility.singleLineHeight;
+        EditorGUI.PropertyField(position, useMaxPlayers);
         EditorGUI.indentLevel -= 2;
     }
 
@@ -52,7 +57,7 @@ public class SettingEntryPropertyDrawer : PropertyDrawer
         if (cache)
 		{
             float baseHeight = useSeperateValues.boolValue ? EditorGUI.GetPropertyHeight(playerCountValues, label, true) : EditorGUI.GetPropertyHeight(playerCountValues.GetArrayElementAtIndex(0), label, false);
-            return baseHeight + EditorGUI.GetPropertyHeight(useSeperateValues);
+            return baseHeight + EditorGUI.GetPropertyHeight(useSeperateValues) + EditorGUI.GetPropertyHeight(useMaxPlayers);
         }
         return EditorGUI.GetPropertyHeight(property);
     }
