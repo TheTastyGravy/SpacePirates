@@ -19,7 +19,7 @@ public class SummaryController : Singleton<SummaryController>
 
     void Start()
     {
-		titleLabel.text = GameManager.HasWon ? "YOU WIN!" : "SHIP DESTROIED";
+		titleLabel.text = GameManager.HasWon ? "YOU ESCAPED!" : "SHIP CAPTURED!";
 		// Format time as min:sec
 		timeLabel.text += ((int)GameManager.Time / 60).ToString("0") + ":" + (GameManager.Time % 60f).ToString("00");
 

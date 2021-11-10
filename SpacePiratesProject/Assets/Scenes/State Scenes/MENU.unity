@@ -955,7 +955,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 33
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -1298,7 +1298,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 33
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -1758,11 +1758,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5428865855096733989, guid: 01bc1fd845d9de74495e1fcf35290a4d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 566
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 5428865855096733989, guid: 01bc1fd845d9de74495e1fcf35290a4d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -228
+      value: -306
       objectReference: {fileID: 0}
     - target: {fileID: 5428865855096733989, guid: 01bc1fd845d9de74495e1fcf35290a4d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2234,7 +2234,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 33
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -3940,7 +3940,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 33
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -4568,7 +4568,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 33
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -4809,11 +4809,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5428865855096733989, guid: 01bc1fd845d9de74495e1fcf35290a4d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 208
+      value: 550
       objectReference: {fileID: 0}
     - target: {fileID: 5428865855096733989, guid: 01bc1fd845d9de74495e1fcf35290a4d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -306
+      value: -234.8
       objectReference: {fileID: 0}
     - target: {fileID: 5428865855096733989, guid: 01bc1fd845d9de74495e1fcf35290a4d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
