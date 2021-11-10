@@ -264,6 +264,7 @@ public class GameManager : Singleton<GameManager>
         RuntimeManager.GetBus("bus:/").setVolume(PlayerPrefs.GetFloat("MasterVolume", 1));
         RuntimeManager.GetBus("bus:/Music").setVolume(PlayerPrefs.GetFloat("MusicVolume", 1));
         RuntimeManager.GetBus("bus:/Effects").setVolume(PlayerPrefs.GetFloat("EffectVolume", 1));
+        RuntimeManager.GetBus("bus:/Dialogue").setVolume(PlayerPrefs.GetFloat("DialogueVolume", 1));
     }
 
     public static LevelDificultyData.DiffSetting GetDifficultySettings()
