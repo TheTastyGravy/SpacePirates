@@ -18,7 +18,7 @@
                     "type": "Value",
                     "id": "044eb908-e49c-4dec-9c09-12e85ef10558",
                     "expectedControlType": "Stick",
-                    "processors": "",
+                    "processors": "StickDeadzone",
                     "interactions": ""
                 },
                 {
@@ -34,7 +34,7 @@
                     "type": "Value",
                     "id": "c92da488-435d-4b90-bb3b-13fed04ea638",
                     "expectedControlType": "Stick",
-                    "processors": "",
+                    "processors": "StickDeadzone",
                     "interactions": ""
                 },
                 {

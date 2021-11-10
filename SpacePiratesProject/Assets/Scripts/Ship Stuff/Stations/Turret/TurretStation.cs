@@ -23,8 +23,10 @@ public class TurretStation : MonoBehaviour
     public GameObject turretHud;
     public FuelIndicator fuelIndicator;
     [Space]
-    public float hapticPulseTime = 0.5f;
-    public float hapticPulsePower = 0.5f;
+    public float hapticActivateTime = 0.5f;
+    public float hapticActivatePower = 0.5f;
+    public float hapticShootTime = 0.5f;
+    public float hapticShootPower = 0.5f;
     [Space]
     public EventReference fireEvent;
     public EventReference activateEvent;
@@ -167,6 +169,8 @@ public class TurretStation : MonoBehaviour
             recoilScript.DoRotation(false);
         // Play sound effect
         RuntimeManager.PlayOneShot(activateEvent);
+        // Rumble
+        currentInteractor.Player.PulseHaptics(hapticActivateTime, hapticActivatePower);
 
         //get info
         playerPos = currentInteractor.Player.Character.transform.position;
@@ -209,7 +213,7 @@ public class TurretStation : MonoBehaviour
         }
 
         // Vibrate the players controller
-        currentInteractor.Player.PulseHaptics(hapticPulseTime, hapticPulsePower);
+        currentInteractor.Player.PulseHaptics(hapticShootTime, hapticShootPower);
 
         // Shoot projectile in direction of turretBase
         GameObject projectile = Instantiate(projectilePrefab, firePos.position, firePos.rotation);
