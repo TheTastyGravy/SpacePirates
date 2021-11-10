@@ -146,13 +146,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2494185838914439455}
-  m_LocalRotation: {x: 0.40633237, y: -0.40491167, z: 0.02616057, w: 0.8186918}
+  m_LocalRotation: {x: 0.39329952, y: -0.23639254, z: 0.10538426, w: 0.8822291}
   m_LocalPosition: {x: 1.2138824, y: -8.229141, z: 2.9148555}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7328609051562878720}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 43.354, y: -61.954, z: -23.181}
+  m_LocalEulerAnglesHint: {x: 48.055, y: -30, z: 0}
 --- !u!108 &3950129570910522590
 Light:
   m_ObjectHideFlags: 0
@@ -8844,11 +8844,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5636033695555912639, guid: b8bcad26c8e3c874380bb735af37331c, type: 3}
       propertyPath: orthographic size
-<<<<<<< Updated upstream
       value: 16
-=======
-      value: 17
->>>>>>> Stashed changes
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8bcad26c8e3c874380bb735af37331c, type: 3}
@@ -12158,7 +12154,7 @@ PrefabInstance:
     - target: {fileID: 8747474017904029309, guid: 17ed8962c172a5a4aad1febf7d0ae5f7, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 3a43cf5d58d142d47addd3ae7adbfdc9, type: 2}
+      objectReference: {fileID: 2100000, guid: eed2fbed2fba2be42ab2d9f3b327423f, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17ed8962c172a5a4aad1febf7d0ae5f7, type: 3}
 --- !u!4 &8847324778025351993 stripped
