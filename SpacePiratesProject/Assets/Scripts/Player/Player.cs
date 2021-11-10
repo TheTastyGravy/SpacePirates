@@ -77,7 +77,9 @@ public class Player : PlayerInput
     public void PulseHaptics(float time, float power)
 	{
         StartHaptics(power, power);
-        Invoke(nameof(StopHaptics), time);
+
+        hapticsTimePassed = 0;
+        hapticsTime = time;
     }
 
     public void StartHaptics(float leftPower, float rightPower)
@@ -94,6 +96,19 @@ public class Player : PlayerInput
 		{
             rumble.ResetHaptics();
 		}
+    }
+
+    void Update()
+    {
+        if (hapticsTime > 0)
+        {
+            hapticsTimePassed += Time.unscaledDeltaTime;
+            if (hapticsTimePassed >= hapticsTime)
+            {
+                hapticsTime = -1;
+                StopHaptics();
+            }
+        }
     }
 
     public void ChangeCharacter( int a_VariantIndex )
@@ -144,6 +159,8 @@ public class Player : PlayerInput
     private ReadOnlyArray< InputAction > m_InputActions;
     private InputDevice m_InputDevice;
     private bool m_IsDeviceConnected;
+    private float hapticsTimePassed;
+    private float hapticsTime = -1;
 
     public enum PlayerSlot
     {
