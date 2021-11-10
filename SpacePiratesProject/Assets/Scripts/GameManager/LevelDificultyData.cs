@@ -24,6 +24,9 @@ public class LevelDificultyData : ScriptableObject
         public float timeBetweenAstroids = 5;
         public float astroidSpawnDelay = 1.5f;
         [Header("Event Data")]
+        [Tooltip("Time between the event being entered and properly starting")]
+        public float initTime = 1f;
+        [Space]
         public float timeBetweenAsteroidWaves = 2;
         public int asteroidsPerWave = 4;
         [Space]

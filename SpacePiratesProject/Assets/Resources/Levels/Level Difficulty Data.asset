@@ -22,6 +22,7 @@ MonoBehaviour:
     extraLengthPerEvent: 0
     timeBetweenAstroids: 10
     astroidSpawnDelay: 2
+    initTime: 1.5
     timeBetweenAsteroidWaves: 15
     asteroidsPerWave: 4
     timeBetweenStormDamage: 15
@@ -89,6 +90,7 @@ MonoBehaviour:
     extraLengthPerEvent: 0
     timeBetweenAstroids: 8
     astroidSpawnDelay: 1.5
+    initTime: 1.5
     timeBetweenAsteroidWaves: 10
     asteroidsPerWave: 5
     timeBetweenStormDamage: 10
@@ -156,6 +158,7 @@ MonoBehaviour:
     extraLengthPerEvent: 0
     timeBetweenAstroids: 5
     astroidSpawnDelay: 1
+    initTime: 1.5
     timeBetweenAsteroidWaves: 8
     asteroidsPerWave: 8
     timeBetweenStormDamage: 8

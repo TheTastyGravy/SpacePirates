@@ -597,6 +597,9 @@ MonoBehaviour:
     strings:
     - REPAIR THE BREACHES!!
     - KEEP THOSE ENGINES RUNNING!!
+  asteroidInit:
+    strings:
+    - asteroid init
   asteroidEnter:
     strings:
     - ASTEROID FIELD APPROACHING!!
@@ -608,6 +611,9 @@ MonoBehaviour:
   asteroidExit:
     strings:
     - ASTEROID FIELD CLEARED!!
+  stormInit:
+    strings:
+    - storm init
   stormEnter:
     strings:
     - PLASMA STORM FORMING!!
@@ -617,6 +623,9 @@ MonoBehaviour:
   stormExit:
     strings:
     - PLASMA STORM CLEARED!!
+  shipInit:
+    strings:
+    - ship init
   shipEnter:
     strings:
     - THE FUZZ ARE HERE!!

@@ -19,7 +19,6 @@ public class BackgroundSpeedLogic : MonoBehaviour
     private float inverseMaxSpeed = 0;
     private float speedModifier = 1;
     private Coroutine eventRoutine = null;
-    private Level.Event.Type currentEvent = Level.Event.Type.None;
 
     private List<Transform> objects = new List<Transform>();
     // Past random values generated. Used for weighting
@@ -72,35 +71,39 @@ public class BackgroundSpeedLogic : MonoBehaviour
         }
     }
 
-    private void OnEventChange(Level.Event.Type eventType)
+    private void OnEventChange(Level.Event.Type eventType, EventManager.EventStage stage)
 	{
-        if (eventRoutine != null)
-            StopCoroutine(eventRoutine);
-
-        switch (eventType)
-		{
-            case Level.Event.Type.AstroidField:
-
-                break;
-            case Level.Event.Type.PlasmaStorm:
-                eventRoutine = StartCoroutine(PlasmaStormEffect());
-                StartCoroutine(SetBackgroundColor(storm_backgroundColor, 1));
-                break;
-            case Level.Event.Type.ShipAttack:
-
-                break;
-            case Level.Event.Type.None:
-                StartCoroutine(SetBackgroundColor(backgroundBaseColor, 1));
-                break;
-		}
-
-        // When a plasma storm ends, fade out the remaining clouds
-        if (currentEvent == Level.Event.Type.PlasmaStorm)
+        // Event enter
+        if (stage == EventManager.EventStage.INIT)
         {
-            FadeOutObjects(storm_fadeOutTime);
-        }
+            switch (eventType)
+            {
+                case Level.Event.Type.AstroidField:
 
-        currentEvent = eventType;
+                    break;
+                case Level.Event.Type.PlasmaStorm:
+                    eventRoutine = StartCoroutine(PlasmaStormEffect());
+                    StartCoroutine(SetBackgroundColor(storm_backgroundColor, 1));
+                    break;
+                case Level.Event.Type.ShipAttack:
+
+                    break;
+            }
+        }
+        // Event exit
+        else if (stage == EventManager.EventStage.END)
+        {
+            if (eventRoutine != null)
+                StopCoroutine(eventRoutine);
+
+            StartCoroutine(SetBackgroundColor(backgroundBaseColor, 1));
+
+            // When a plasma storm ends, fade out the remaining clouds
+            if (eventType == Level.Event.Type.PlasmaStorm)
+            {
+                FadeOutObjects(storm_fadeOutTime);
+            }
+        }
     }
 
     private IEnumerator PlasmaStormEffect()
