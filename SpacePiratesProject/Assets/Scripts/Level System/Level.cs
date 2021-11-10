@@ -70,7 +70,7 @@ public class Level : ScriptableObject
     private void GenerateRandomLevel()
 	{
         // Player count doesnt matter for levels
-        LevelDificultyData.DiffSetting settings = diffData.GetSetting(difficulty, 2);
+        LevelDificultyData.DiffSetting settings = diffData.GetSetting(difficulty, 2, 2);
 
         int eventCount = UnityEngine.Random.Range(settings.minEventCount, settings.maxEventCount + 1);
         // Determine length of level

@@ -269,7 +269,7 @@ public class GameManager : Singleton<GameManager>
 
     public static LevelDificultyData.DiffSetting GetDifficultySettings()
 	{
-        return Instance.diffData.GetSetting((LevelDificultyData.Difficulty)SelectedTrack, Player.all.Count);
+        return Instance.diffData.GetSetting((LevelDificultyData.Difficulty)SelectedTrack, Player.all.Count, Instance.m_MaxPlayers);
     }
 
     public static void RegisterSelectedShip( int a_Index, int a_MaxPlayers )
