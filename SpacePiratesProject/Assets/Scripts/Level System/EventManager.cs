@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class EventManager : Singleton<EventManager>
 {
+	public enum EventStage
+	{
+		INIT,
+		BEGIN,
+		END
+	}
+
+	private float initTime;
+
 	private float timeBetweenWaves;
 	private int astroidsPerWave;
 
@@ -14,7 +23,9 @@ public class EventManager : Singleton<EventManager>
 	private float firePeriod;
 
 	private Event currentEvent;
-	public delegate void EventDelegate(Level.Event.Type eventType);
+	private Level.Event.Type currentEventType;
+	private float initTimePassed;
+	public delegate void EventDelegate(Level.Event.Type eventType, EventStage stage);
 	public EventDelegate OnEventChange;
 
 
@@ -23,6 +34,7 @@ public class EventManager : Singleton<EventManager>
 	{
 		// Get event values from difficulty settings
 		LevelDificultyData.DiffSetting settings = GameManager.GetDifficultySettings();
+		initTime = settings.initTime;
 		timeBetweenWaves = settings.timeBetweenAsteroidWaves;
 		astroidsPerWave = settings.asteroidsPerWave;
 		timeBetweenDamage = settings.timeBetweenStormDamage;
@@ -32,6 +44,7 @@ public class EventManager : Singleton<EventManager>
 
 	public void StartEvent(Level.Event newEvent)
 	{
+		currentEventType = newEvent.type;
 		// Create event, passing relevent paramiters
 		switch (newEvent.type)
 		{
@@ -58,15 +71,16 @@ public class EventManager : Singleton<EventManager>
 				break;
 		}
 
-		currentEvent.Start();
-		OnEventChange?.Invoke(newEvent.type);
+		currentEvent.Init();
+		initTimePassed = 0;
+		OnEventChange?.Invoke(newEvent.type, EventStage.INIT);
 	}
 
     public void StopEvent()
 	{
 		if (currentEvent != null)
 		{
-			OnEventChange?.Invoke(Level.Event.Type.None);
+			OnEventChange?.Invoke(currentEventType, EventStage.END);
 			currentEvent.Stop();
 			currentEvent = null;
 		}
@@ -76,7 +90,19 @@ public class EventManager : Singleton<EventManager>
 	{
 		if (currentEvent != null)
 		{
-			currentEvent.Update();
+			if (initTimePassed < initTime)
+			{
+				initTimePassed += Time.deltaTime;
+				if (initTimePassed >= initTime)
+				{
+					currentEvent.Start();
+					OnEventChange?.Invoke(currentEventType, EventStage.BEGIN);
+				}
+			}
+			else
+			{
+				currentEvent.Update();
+			}
 		}
 	}
 }

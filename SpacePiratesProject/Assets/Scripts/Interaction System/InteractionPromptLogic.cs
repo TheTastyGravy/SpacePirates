@@ -100,6 +100,14 @@ public class InteractionPromptLogic : MonoBehaviour
         bool useBase = IsBaseVisible;
         bool useDisabled = IsDisabledVisible;
 
+        // Fix for case where this is called just as this interactable was enabled, where 
+        // all images would not be visible and the routine to make them visible has just 
+        // been stopped, leaving them transparent.
+        if (!useSelected && !useBase && !useDisabled)
+        {
+            useBase = true;
+        }
+
         if (useSelected)
 		{
             foreach (var obj in selectedImages)

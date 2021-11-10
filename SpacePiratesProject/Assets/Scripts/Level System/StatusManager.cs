@@ -41,26 +41,28 @@ public class StatusManager : Singleton<StatusManager>
     public float genericChance = 0.5f;
     public StringGroup genericEvent;
     [Space]
+    public StringGroup asteroidInit;
     public StringGroup asteroidEnter;
     public StringGroup asteroidDurring;
     public StringGroup asteroidExit;
     [Space]
+    public StringGroup stormInit;
     public StringGroup stormEnter;
     public StringGroup stormDurring;
     public StringGroup stormExit;
     [Space]
+    public StringGroup shipInit;
     public StringGroup shipEnter;
     public StringGroup shipDurring;
     public StringGroup shipExit;
 
     private Level.Event.Type currentEvent = Level.Event.Type.None;
-    private Level.Event.Type lastEvent = Level.Event.Type.None;
     private bool eventActive = false;
-    private bool inEventLoop = false;
     private EngineStation[] engines;
     private TurretStation[] turrets;
     private float timePassed = 0;
     private Coroutine textWriter;
+    private Coroutine textFlasher;
     private Image cursorImage;
     private float cursorOffset;
 
@@ -77,7 +79,7 @@ public class StatusManager : Singleton<StatusManager>
         EventManager.Instance.OnEventChange += OnEventChange;
         Invoke(nameof(Init), 0.1f);
 
-        Character.OnCheatActivated += () => { SetText("CHEAT ACTIVATED"); timePassed = 0; StartCoroutine(TextFlash()); };
+        Character.OnCheatActivated += () => SetText("CHEAT ACTIVATED", true);
     }
 
 	private void Init()
@@ -95,11 +97,7 @@ public class StatusManager : Singleton<StatusManager>
 	void Update()
 	{
         timePassed += Time.deltaTime;
-        if (timePassed >= refreshRate)
-        {
-            timePassed = 0;
-        }
-        else
+        if (timePassed < refreshRate)
         {
             return;
         }
@@ -107,68 +105,25 @@ public class StatusManager : Singleton<StatusManager>
         //  -----   EVENTS   -----
         if (eventActive)
         {
-            if (!inEventLoop)
+            if (Random.Range(0f, 1f) < genericChance)
             {
-                if (currentEvent == Level.Event.Type.None)
-                {
-                    //exiting
-                    switch (lastEvent)
-                    {
-                        case Level.Event.Type.AstroidField:
-                            SetText(asteroidExit.String);
-                            break;
-                        case Level.Event.Type.PlasmaStorm:
-                            SetText(stormExit.String);
-                            break;
-                        case Level.Event.Type.ShipAttack:
-                            SetText(shipExit.String);
-                            break;
-                    }
-                    eventActive = false;
-                }
-                else
-                {
-                    //entering
-                    switch (currentEvent)
-                    {
-                        case Level.Event.Type.AstroidField:
-                            SetText(asteroidEnter.String);
-                            break;
-                        case Level.Event.Type.PlasmaStorm:
-                            SetText(stormEnter.String);
-                            break;
-                        case Level.Event.Type.ShipAttack:
-                            SetText(shipEnter.String);
-                            break;
-                    }
-                    StartCoroutine(TextFlash());
-                }
-
-                inEventLoop = true;
+                SetText(genericEvent.String);
             }
             else
             {
-                if (Random.Range(0f, 1f) < genericChance)
+                switch (currentEvent)
                 {
-                    SetText(genericEvent.String);
-                }
-                else
-                {
-                    switch (currentEvent)
-                    {
-                        case Level.Event.Type.AstroidField:
-                            SetText(asteroidDurring.String);
-                            break;
-                        case Level.Event.Type.PlasmaStorm:
-                            SetText(stormDurring.String);
-                            break;
-                        case Level.Event.Type.ShipAttack:
-                            SetText(shipDurring.String);
-                            break;
-                    }
+                    case Level.Event.Type.AstroidField:
+                        SetText(asteroidDurring.String);
+                        break;
+                    case Level.Event.Type.PlasmaStorm:
+                        SetText(stormDurring.String);
+                        break;
+                    case Level.Event.Type.ShipAttack:
+                        SetText(shipDurring.String);
+                        break;
                 }
             }
-
             return;
         }
 
@@ -221,23 +176,64 @@ public class StatusManager : Singleton<StatusManager>
         SetText(general.String);
 	}
 
-    public void OnEventChange(Level.Event.Type eventType)
+    public void OnEventChange(Level.Event.Type eventType, EventManager.EventStage stage)
 	{
-        lastEvent = currentEvent;
         currentEvent = eventType;
+        eventActive = stage != EventManager.EventStage.END;
 
-        eventActive = true;
-        inEventLoop = false;
+        if (stage == EventManager.EventStage.INIT)
+        {
+            switch (currentEvent)
+            {
+                case Level.Event.Type.AstroidField:
+                    SetText(asteroidInit.String, true);
+                    break;
+                case Level.Event.Type.PlasmaStorm:
+                    SetText(stormInit.String, true);
+                    break;
+                case Level.Event.Type.ShipAttack:
+                    SetText(shipInit.String, true);
+                    break;
+            }
+        }
+        else if (stage == EventManager.EventStage.BEGIN)
+        {
+            switch (currentEvent)
+            {
+                case Level.Event.Type.AstroidField:
+                    SetText(asteroidEnter.String);
+                    break;
+                case Level.Event.Type.PlasmaStorm:
+                    SetText(stormEnter.String);
+                    break;
+                case Level.Event.Type.ShipAttack:
+                    SetText(shipEnter.String);
+                    break;
+            }
+        }
+        else if (stage == EventManager.EventStage.END)
+        {
+            switch (currentEvent)
+            {
+                case Level.Event.Type.AstroidField:
+                    SetText(asteroidExit.String);
+                    break;
+                case Level.Event.Type.PlasmaStorm:
+                    SetText(stormExit.String);
+                    break;
+                case Level.Event.Type.ShipAttack:
+                    SetText(shipExit.String);
+                    break;
+            }
+        }
+    }
 
-        //update text now
-        timePassed = refreshRate;
-	}
-
-    public void SetText(string message)
+    public void SetText(string message, bool shouldFlash = false)
 	{
         if (text.text == message)
             return;
 
+        timePassed = 0;
         // Set text and force the mesh to update with everything visible so we can get the hight
         text.SetText(message);
         text.maxVisibleCharacters = 9999;
@@ -247,6 +243,13 @@ public class StatusManager : Singleton<StatusManager>
         if (textWriter != null)
             StopCoroutine(textWriter);
         textWriter = StartCoroutine(WriteText(maxHeight));
+
+        if (shouldFlash)
+        {
+            if (textFlasher != null)
+                StopCoroutine(textFlasher);
+            textFlasher = StartCoroutine(TextFlash());
+        }
     }
     
     private IEnumerator WriteText(float height)

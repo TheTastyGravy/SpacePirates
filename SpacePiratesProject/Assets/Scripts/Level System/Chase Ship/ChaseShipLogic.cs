@@ -25,6 +25,8 @@ public class ChaseShipLogic : MonoBehaviour
 	public float timeBetweenExplosions = 0.5f;
 
 
+	[HideInInspector]
+	public bool initOver = false;
 	private Vector3 offScreenPos;
 	private Vector3 followPos;
 	private Coroutine moveRoutine = null;
@@ -83,11 +85,10 @@ public class ChaseShipLogic : MonoBehaviour
     void Update()
     {
 		// Do nothing while moving
-		if (moveRoutine != null)
+		if (moveRoutine != null || !initOver)
 		{
 			return;
 		}
-
 
 		// Fire missiles
 		fireTimePassed += Time.deltaTime;
