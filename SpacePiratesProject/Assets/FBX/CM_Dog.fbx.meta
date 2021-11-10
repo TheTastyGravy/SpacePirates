@@ -2,8 +2,16 @@ fileFormatVersion: 2
 guid: c64a3d6eac3a88349bc1c6105b849be6
 ModelImporter:
   serializedVersion: 20200
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: 1827226128182048838
+    second: Take 001
   externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DOG1
+    second: {fileID: 2100000, guid: 7fe566cdfa284d749bd00818f32255e8, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
