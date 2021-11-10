@@ -95,6 +95,7 @@ MonoBehaviour:
   Visuals:
   - {fileID: 9143705481963308918}
   - {fileID: 482915236106463454}
+  - {fileID: 919132149155446097, guid: 8da457ae3a6a17040921bf273cb349c9, type: 3}
 --- !u!1001 &752876330591376783
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -223,7 +224,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8da457ae3a6a17040921bf273cb349c9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8da457ae3a6a17040921bf273cb349c9, type: 3}
