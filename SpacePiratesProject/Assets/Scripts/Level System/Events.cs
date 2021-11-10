@@ -13,10 +13,12 @@ public abstract class Event
 
 public class AstroidField : Event
 {
+	public float preStrikeDelay = 1;
 	public float timeBetweenWaves;
 	public int astroidsPerWave;
 
 	private float timePassed = 0;
+	private bool donePreStrike = false;
 
 
 	public override void Start()
@@ -32,20 +34,39 @@ public class AstroidField : Event
 	public override void Update()
 	{
 		timePassed += Time.deltaTime;
-		if (timePassed >= timeBetweenWaves)
+		if (timePassed >= timeBetweenWaves - preStrikeDelay && !donePreStrike)
+		{
+			donePreStrike = true;
+			PreStrike();
+		}
+		else if (timePassed >= timeBetweenWaves)
 		{
 			timePassed -= timeBetweenWaves;
-			AstroidManager.Instance.SpawnAstroids(astroidsPerWave, true);
+			donePreStrike = false;
+			Strike();
 		}
+	}
+
+	private void PreStrike()
+	{
+		//temp
+		StatusManager.Instance.SetText("STRIKE INCOMMING");
+	}
+
+	private void Strike()
+	{
+		AstroidManager.Instance.SpawnAstroids(astroidsPerWave, true);
 	}
 }
 
 public class PlasmaStorm : Event
 {
+	public float preStrikeDelay = 1;
 	public float timeBetweenDamage;
 
 	private ShipManager shipManager;
 	private float timePassed = 0;
+	private bool donePreStrike = false;
 
 
 	public override void Init()
@@ -64,17 +85,36 @@ public class PlasmaStorm : Event
 	public override void Update()
 	{
 		timePassed += Time.deltaTime;
-		if (timePassed >= timeBetweenDamage)
+
+		if (timePassed >= timeBetweenDamage - preStrikeDelay && !donePreStrike)
+		{
+			donePreStrike = true;
+			PreStrike();
+		}
+		else if (timePassed >= timeBetweenDamage)
 		{
 			timePassed -= timeBetweenDamage;
-
-			DamageStation station = shipManager.GetRandomActiveStation();
-			if (station != null)
-			{
-				station.Damage();
-			}
-			//play some effect at station (lightning? sparks?)
+			donePreStrike = false;
+			Strike();
 		}
+	}
+
+	private void PreStrike()
+	{
+		//temp
+		StatusManager.Instance.SetText("STRIKE INCOMMING");
+
+		//start effect or something
+	}
+
+	private void Strike()
+	{
+		DamageStation station = shipManager.GetRandomActiveStation();
+		if (station != null)
+		{
+			station.Damage();
+		}
+		//play some effect at station (lightning? sparks?)
 	}
 }
 
