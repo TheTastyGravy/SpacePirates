@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Event
 {
+	public virtual void Init() { }
 	public abstract void Start();
 	public abstract void Stop();
 	public abstract void Update();
@@ -16,7 +17,6 @@ public class AstroidField : Event
 	public int astroidsPerWave;
 
 	private float timePassed = 0;
-
 
 
 	public override void Start()
@@ -48,15 +48,17 @@ public class PlasmaStorm : Event
 	private float timePassed = 0;
 
 
-	public override void Start()
+	public override void Init()
 	{
 		shipManager = ShipManager.Instance;
-		//start background effect
+	}
+
+	public override void Start()
+	{
 	}
 
 	public override void Stop()
 	{
-		//stop background effect
 	}
 
 	public override void Update()
@@ -85,11 +87,16 @@ public class ShipAttack : Event
 	private ChaseShipLogic shipLogic;
 
 
-	public override void Start()
+	public override void Init()
 	{
 		// Setup ship
 		shipLogic = Object.Instantiate(shipPrefab).GetComponent<ChaseShipLogic>();
 		shipLogic.Setup(shipHealth, firePeriod);
+	}
+
+	public override void Start()
+	{
+		shipLogic.initOver = true;
 	}
 
 	public override void Stop()

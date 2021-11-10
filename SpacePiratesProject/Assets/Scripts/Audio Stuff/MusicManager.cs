@@ -38,7 +38,6 @@ public class MusicManager : Singleton<MusicManager>
     private MusicData.MusicInfo musicInfo;
     private bool inGameScene = false;
     private bool inEvent = true;
-    private string lastEvent = "";
     private Coroutine fadeEventRoutine;
 
     [Header("Intensity")]
@@ -175,8 +174,12 @@ public class MusicManager : Singleton<MusicManager>
         SetupMusic();
     }
 
-    private void OnEventChange(Level.Event.Type eventType)
+    private void OnEventChange(Level.Event.Type eventType, EventManager.EventStage stage)
 	{
+        // We use the INIT stage to start fading, so ignore BEGIN
+        if (stage == EventManager.EventStage.BEGIN)
+            return;
+
         string name = eventType switch
         {
             Level.Event.Type.AstroidField => "Asteroids",
@@ -187,9 +190,8 @@ public class MusicManager : Singleton<MusicManager>
 
         if (fadeEventRoutine != null)
             StopCoroutine(fadeEventRoutine);
-        inEvent = name != "";
-        fadeEventRoutine = StartCoroutine(FadeEvent(inEvent ? name : lastEvent, inEvent, 3));
-        lastEvent = name;
+        inEvent = stage != EventManager.EventStage.END;
+        fadeEventRoutine = StartCoroutine(FadeEvent(name, inEvent, 3));
     }
 
     private IEnumerator FadeEvent(string paramName, bool fadeInParam, int fadeBars)

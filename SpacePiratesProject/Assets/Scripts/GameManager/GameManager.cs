@@ -116,6 +116,8 @@ public class GameManager : Singleton<GameManager>
 
     private static void RegularLoad(GameState oldState, GameState newState)
     {
+        UnityEngine.Time.timeScale = 0;
+
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(newState.ToString(), LoadSceneMode.Additive);
         loadOp.completed += asyncOperation =>
         {
@@ -131,6 +133,8 @@ public class GameManager : Singleton<GameManager>
             AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(oldState.ToString());
             unloadOp.completed += asyncOperation =>
             {
+                UnityEngine.Time.timeScale = 1;
+
                 foreach (GameObject obj in newSceneObjects)
                 {
                     obj.SetActive(true);
@@ -201,11 +205,13 @@ public class GameManager : Singleton<GameManager>
             SceneManager.UnloadSceneAsync("MENU_BASE").priority = 100;
 		}
 
+        UnityEngine.Time.timeScale = 0;
         SceneManager.SetActiveScene(Instance.gameObject.scene);
         // Finish loading and start unloading, then wait for them to finish
         SceneManager.UnloadSceneAsync(oldState.ToString());
         loadOp.completed += asyncOperation =>
         {
+            UnityEngine.Time.timeScale = 1;
             // Fade in and set active scene
             shouldFade = false;
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(newState.ToString()));
@@ -258,6 +264,7 @@ public class GameManager : Singleton<GameManager>
         RuntimeManager.GetBus("bus:/").setVolume(PlayerPrefs.GetFloat("MasterVolume", 1));
         RuntimeManager.GetBus("bus:/Music").setVolume(PlayerPrefs.GetFloat("MusicVolume", 1));
         RuntimeManager.GetBus("bus:/Effects").setVolume(PlayerPrefs.GetFloat("EffectVolume", 1));
+        RuntimeManager.GetBus("bus:/Dialogue").setVolume(PlayerPrefs.GetFloat("DialogueVolume", 1));
     }
 
     public static LevelDificultyData.DiffSetting GetDifficultySettings()

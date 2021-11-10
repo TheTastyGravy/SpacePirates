@@ -21,6 +21,7 @@ public class MenuController : Singleton< MenuController >
     public Slider masterVolumeSlider;
     public Slider musicVolumeSlider;
     public Slider effectVolumeSlider;
+    public Slider dialogueVolumeSlider;
     public Toggle useHaptics;
 
     private int currentMenu = 0;
@@ -51,6 +52,8 @@ public class MenuController : Singleton< MenuController >
         musicVolumeSlider.value = PlayerPrefs.GetFloat("MusicVolume", 1) * musicVolumeSlider.maxValue;
         effectVolumeSlider.onValueChanged.AddListener(OnEffectVolumeSliderChanged);
         effectVolumeSlider.value = PlayerPrefs.GetFloat("EffectVolume", 1) * effectVolumeSlider.maxValue;
+        dialogueVolumeSlider.onValueChanged.AddListener(OnDialogueVolumeSliderChanged);
+        dialogueVolumeSlider.value = PlayerPrefs.GetFloat("DialogueVolume", 1) * dialogueVolumeSlider.maxValue;
         useHaptics.onValueChanged.AddListener(OnUseHapticsChanged);
         useHaptics.isOn = PlayerPrefs.GetInt("UseHaptics", 1) == 1;
 
@@ -70,6 +73,7 @@ public class MenuController : Singleton< MenuController >
         masterVolumeSlider.onValueChanged.RemoveAllListeners();
         musicVolumeSlider.onValueChanged.RemoveAllListeners();
         effectVolumeSlider.onValueChanged.RemoveAllListeners();
+        dialogueVolumeSlider.onValueChanged.RemoveAllListeners();
         useHaptics.onValueChanged.RemoveAllListeners();
     }
 
@@ -172,6 +176,13 @@ public class MenuController : Singleton< MenuController >
         value /= effectVolumeSlider.maxValue;
         PlayerPrefs.SetFloat("EffectVolume", value);
         RuntimeManager.GetBus("bus:/Effects").setVolume(value);
+    }
+
+    private void OnDialogueVolumeSliderChanged(float value)
+    {
+        value /= dialogueVolumeSlider.maxValue;
+        PlayerPrefs.SetFloat("DialogueVolume", value);
+        RuntimeManager.GetBus("bus:/Dialogue").setVolume(value);
     }
 
     private void OnUseHapticsChanged(bool value)

@@ -163,8 +163,10 @@ MonoBehaviour:
   snapAngle: 0
   turretHud: {fileID: 0}
   fuelIndicator: {fileID: 8256220364498923154}
-  hapticPulseTime: 0.5
-  hapticPulsePower: 0.5
+  hapticActivateTime: 0.2
+  hapticActivatePower: 0.4
+  hapticShootTime: 0.1
+  hapticShootPower: 0.4
   fireEvent:
     Guid:
       Data1: -21746245

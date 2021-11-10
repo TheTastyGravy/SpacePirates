@@ -26,6 +26,9 @@ public class ShipManager : Singleton<ShipManager>
     public float wanderDist = 0.75f;
     public float wanderSpeed = 3;
     public float wanderAcceleration = 1;
+    [Space]
+    public float damageHapticsTime = 0.2f;
+    public float damageHapticsPower = 0.3f;
 
     private ReactorStation[] reactors;
     public ReactorStation Reactor => reactors.Length > 0 ? reactors[0] : null;
@@ -101,7 +104,7 @@ public class ShipManager : Singleton<ShipManager>
             room.FindClosestHolePos(ref holeData);
         }
         holeData.room.DamageRoom(holeData);
-        Player.PulseAllHaptics(0.2f, 0.3f);
+        Player.PulseAllHaptics(damageHapticsTime, damageHapticsPower);
     }
 
     public float GetShipSpeed()
