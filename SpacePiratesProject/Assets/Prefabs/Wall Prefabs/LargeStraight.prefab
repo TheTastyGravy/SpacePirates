@@ -95,7 +95,7 @@ MonoBehaviour:
   Visuals:
   - {fileID: 3978314535804726304}
   - {fileID: 2294414630420200429}
-  - {fileID: 919132149155446097, guid: b489af98f1098b24ca5241d5cb425aef, type: 3}
+  - {fileID: 2272720708882625375}
 --- !u!1001 &1375300079894300348
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -228,6 +228,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b489af98f1098b24ca5241d5cb425aef, type: 3}
+--- !u!1 &2272720708882625375 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b489af98f1098b24ca5241d5cb425aef, type: 3}
+  m_PrefabInstance: {fileID: 1390269371436387854}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1495621540303022565 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b489af98f1098b24ca5241d5cb425aef, type: 3}
