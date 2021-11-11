@@ -48,7 +48,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fuelIndicator: {fileID: 2850478033500377654}
-  maxFuel: 3
   speedAcceleration: 1
   speedDecay: 0.2
   engineEffect: {fileID: 5874382862288002821}
@@ -211,8 +210,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 1, z: 1.1}
-  m_Center: {x: 0, y: 0.25, z: 0.22}
+  m_Size: {x: 0.4, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.25, z: 0.1}
 --- !u!1 &9110111903761579534
 GameObject:
   m_ObjectHideFlags: 0
