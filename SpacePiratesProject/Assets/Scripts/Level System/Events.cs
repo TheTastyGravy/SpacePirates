@@ -49,8 +49,7 @@ public class AstroidField : Event
 
 	private void PreStrike()
 	{
-		//temp
-		StatusManager.Instance.SetText("STRIKE INCOMMING");
+		StatusManager.Instance.OnPrestrike(Level.Event.Type.AstroidField);
 	}
 
 	private void Strike()
@@ -101,8 +100,7 @@ public class PlasmaStorm : Event
 
 	private void PreStrike()
 	{
-		//temp
-		StatusManager.Instance.SetText("STRIKE INCOMMING");
+		StatusManager.Instance.OnPrestrike(Level.Event.Type.PlasmaStorm);
 
 		//start effect or something
 	}

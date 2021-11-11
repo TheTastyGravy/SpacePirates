@@ -570,73 +570,240 @@ MonoBehaviour:
   general:
     strings:
     - DEFEND THE SHIP!!
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   gameStart:
     strings:
     - LET'S GET OUT OF HERE!!
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   reactorDamaged:
     strings:
     - REPAIR THE REACTOR!!
+    dialogueEvent:
+      Guid:
+        Data1: 1686939491
+        Data2: 1199069492
+        Data3: 1883711399
+        Data4: -1539229055
+      Path: event:/Stations/Reactor/VO/ReactorOffline
   reactorDisabled:
     strings:
     - TURN ON THE REACTOR!!
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   generalRepair:
     strings:
     - REPAIR THE SHIP!!
+    dialogueEvent:
+      Guid:
+        Data1: -1688652611
+        Data2: 1201592538
+        Data3: 1361070758
+        Data4: 1352856471
+      Path: event:/VOs/ManyHoles
   generalRefuel:
     strings:
     - REFUEL THE ENGINES!!
     - REFUEL THE TURRETS!!
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   useEngines:
     strings:
     - ACTIVATE THE ENGINES!!
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   useTurrets:
     strings:
     - SHOOT WITH THE TURRETS!!
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   genericChance: 0.25
   genericEvent:
     strings:
     - REPAIR THE BREACHES!!
     - KEEP THOSE ENGINES RUNNING!!
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   asteroidInit:
     strings:
     - asteroid init
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   asteroidEnter:
     strings:
     - ASTEROID FIELD APPROACHING!!
+    dialogueEvent:
+      Guid:
+        Data1: 607701700
+        Data2: 1076199366
+        Data3: 1916741050
+        Data4: -2019206583
+      Path: event:/Events/Asteroid/VO/EnterField
   asteroidDurring:
     strings:
     - MAN THE TURRETS!!
     - DEFEND THE SHIP!!
     - SHOOT THEM DOWN!!
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   asteroidExit:
     strings:
     - ASTEROID FIELD CLEARED!!
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+  asteroidPrestrike:
+    strings:
+    - asteroid prestrike
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   stormInit:
     strings:
     - storm init
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   stormEnter:
     strings:
     - PLASMA STORM FORMING!!
+    dialogueEvent:
+      Guid:
+        Data1: -695454231
+        Data2: 1261546819
+        Data3: -1951307334
+        Data4: 570121391
+      Path: event:/Events/Plasma Storm/VO/EnterPlasma
   stormDurring:
     strings:
     - SHUTDOWN THE REACTOR!!
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   stormExit:
     strings:
     - PLASMA STORM CLEARED!!
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
+  stormPrestrike:
+    strings:
+    - storm prestrike
+    dialogueEvent:
+      Guid:
+        Data1: -586729926
+        Data2: 1217992854
+        Data3: 551930287
+        Data4: 1199286795
+      Path: event:/Events/Plasma Storm/VO/PlasmaStrike
   shipInit:
     strings:
     - ship init
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   shipEnter:
     strings:
     - THE FUZZ ARE HERE!!
+    dialogueEvent:
+      Guid:
+        Data1: -13315665
+        Data2: 1203680992
+        Data3: -1026239863
+        Data4: 1649793206
+      Path: event:/Events/The Fuzz/VO/ShipDetected
   shipDurring:
     strings:
     - SHOOT THEM DOWN!!
     - DEFEND THE SHIP!!
     - MAN THE TURRETS!!
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   shipExit:
     strings:
     - WE'VE LOST THEM!!
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
 --- !u!1 &6661497441136619289
 GameObject:
   m_ObjectHideFlags: 0
