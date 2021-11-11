@@ -589,7 +589,7 @@ MonoBehaviour:
       Path: 
   reactorDamaged:
     strings:
-    - REPAIR THE REACTOR!!
+    - REACTOR OFFLINE!!
     dialogueEvent:
       Guid:
         Data1: 1686939491
@@ -662,17 +662,7 @@ MonoBehaviour:
       Path: 
   asteroidInit:
     strings:
-    - asteroid init
-    dialogueEvent:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-  asteroidEnter:
-    strings:
-    - ASTEROID FIELD APPROACHING!!
+    - ENTERING ASTEROID FIELD!!
     dialogueEvent:
       Guid:
         Data1: 607701700
@@ -680,6 +670,15 @@ MonoBehaviour:
         Data3: 1916741050
         Data4: -2019206583
       Path: event:/Events/Asteroid/VO/EnterField
+  asteroidEnter:
+    strings: []
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   asteroidDurring:
     strings:
     - MAN THE TURRETS!!
@@ -704,27 +703,17 @@ MonoBehaviour:
       Path: 
   asteroidPrestrike:
     strings:
-    - asteroid prestrike
+    - PROXIMITY ALERT!!
     dialogueEvent:
       Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
+        Data1: -446661447
+        Data2: 1214302383
+        Data3: 1053713804
+        Data4: 554040580
+      Path: event:/Events/ProximityAlert
   stormInit:
     strings:
-    - storm init
-    dialogueEvent:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-  stormEnter:
-    strings:
-    - PLASMA STORM FORMING!!
+    - ENTERING CHARGED PARTICLE CLOUD!!
     dialogueEvent:
       Guid:
         Data1: -695454231
@@ -732,6 +721,15 @@ MonoBehaviour:
         Data3: -1951307334
         Data4: 570121391
       Path: event:/Events/Plasma Storm/VO/EnterPlasma
+  stormEnter:
+    strings: []
+    dialogueEvent:
+      Guid:
+        Data1: 0
+        Data2: 0
+        Data3: 0
+        Data4: 0
+      Path: 
   stormDurring:
     strings:
     - SHUTDOWN THE REACTOR!!
@@ -754,7 +752,7 @@ MonoBehaviour:
       Path: 
   stormPrestrike:
     strings:
-    - storm prestrike
+    - PLASMONIC SPIKE IMMINENT!!
     dialogueEvent:
       Guid:
         Data1: -586729926
@@ -764,17 +762,7 @@ MonoBehaviour:
       Path: event:/Events/Plasma Storm/VO/PlasmaStrike
   shipInit:
     strings:
-    - ship init
-    dialogueEvent:
-      Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
-  shipEnter:
-    strings:
-    - THE FUZZ ARE HERE!!
+    - VESSEL DETECTED!!
     dialogueEvent:
       Guid:
         Data1: -13315665
@@ -782,6 +770,16 @@ MonoBehaviour:
         Data3: -1026239863
         Data4: 1649793206
       Path: event:/Events/The Fuzz/VO/ShipDetected
+  shipEnter:
+    strings:
+    - PROXIMITY ALERT!!
+    dialogueEvent:
+      Guid:
+        Data1: -446661447
+        Data2: 1214302383
+        Data3: 1053713804
+        Data4: 554040580
+      Path: event:/Events/ProximityAlert
   shipDurring:
     strings:
     - SHOOT THEM DOWN!!
