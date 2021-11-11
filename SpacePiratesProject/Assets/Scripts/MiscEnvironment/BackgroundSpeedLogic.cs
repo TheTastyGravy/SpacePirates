@@ -7,10 +7,9 @@ public class BackgroundSpeedLogic : MonoBehaviour
     public BackgroundController background;
     public MeshRenderer backgroundBase;
     [Space]
+    public GameObject asteroidFieldEffectPrefab;
     public GameObject plasmaStormEffectPrefab;
     public Color storm_backgroundColor;
-    [Space]
-    public GameObject asteroidFieldEffectPrefab;
     [Space]
     public float minSpeedModifier = 0.1f;
     public float maxSpeedModifier = 1;
@@ -18,10 +17,8 @@ public class BackgroundSpeedLogic : MonoBehaviour
     private Color backgroundBaseColor;
     private float inverseMaxSpeed = 0;
     private float speedModifier = 1;
-
     private AsteroidFieldEffect asteroidEffect;
     private PlasmaStormEffect plasmaStormEffect;
-
 
 
 

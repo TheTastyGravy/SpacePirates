@@ -10,6 +10,14 @@ public class PlasmaStormEffect : MonoBehaviour
     public float storm_baseSpeed = 1;
     public float storm_fadeOutTime = 1.5f;
 
+    private Transform trans;
+    private float spawnLineLength;
+    private Vector3 spawnLineDir;
+    private Vector3 spawnOffset;
+    private Quaternion rotation;
+    private ParticleSystem.EmissionModule emission;
+    private float baseEmission;
+    private float baseSpeed;
     private Coroutine routine;
     private List<Transform> objects = new List<Transform>();
     // Past random values generated. Used for weighting
@@ -19,11 +27,46 @@ public class PlasmaStormEffect : MonoBehaviour
 
 
 
-    void Start()
+    IEnumerator Start()
     {
-        //temp
-        ParticleSystem.EmissionModule emission = pSystem.emission;
+        yield return null;
+        Init();
+    }
+
+    private void Init()
+    {
+        trans = transform;
+        Camera cam = Camera.main;
+        Ray ray = cam.ViewportPointToRay(new Vector2(1, 1));    //top right corner
+        new Plane(Vector3.up, 0).Raycast(ray, out float enter);
+        trans.position = ray.GetPoint(enter);
+
+        // Add offset to make sure they are spawned off screen
+        Vector3 dir = cam.transform.TransformPoint(new Vector2(0.5f, 0.45f)) - cam.transform.TransformPoint(new Vector2(0, 0));
+        trans.position += dir.normalized * 7.5f;
+        // Push down and up to spawn behind the player ship
+        trans.position += new Vector3(-1, -1, 0) * 2;
+
+        spawnOffset = new Vector3(-1, -1, 0) * 8;
+        spawnLineLength = cam.orthographicSize * 2.5f;
+        spawnLineDir = Vector3.right;
+        rotation = Quaternion.LookRotation(Vector3.back, -cam.transform.forward);
+
+        // Particle system values and setup
+        emission = pSystem.emission;
+        baseEmission = emission.rateOverTime.constant;
+        baseSpeed = pSystem.main.startSpeed.constant;
+        ParticleSystem.ShapeModule shape = pSystem.shape;
+        shape.radius = spawnLineLength;
         emission.enabled = false;
+    }
+
+    void OnDestroy()
+    {
+        if (routine != null)
+            StopCoroutine(routine);
+
+        Destroy(pSystem.gameObject);
     }
 
     void LateUpdate()
@@ -56,9 +99,6 @@ public class PlasmaStormEffect : MonoBehaviour
     public void StartEffect()
     {
         routine = StartCoroutine(StormEffect());
-        //temp
-        ParticleSystem.EmissionModule emission = pSystem.emission;
-        emission.enabled = true;
     }
 
     public void StopEffect()
@@ -67,49 +107,48 @@ public class PlasmaStormEffect : MonoBehaviour
         {
             StopCoroutine(routine);
             routine = null;
+
             FadeOutObjects(storm_fadeOutTime);
-            //temp
-            ParticleSystem.EmissionModule emission = pSystem.emission;
-            emission.enabled = false;
-            pSystem.Clear();
         }
     }
 
     private IEnumerator StormEffect()
     {
-        float spawnLineLength;
-        Vector3 spawnLineDir;
-        Vector3 spawnLinePos;
-        Quaternion rotation;
-        // Get values for object creation
-        {
-            Camera cam = Camera.main;
-            Ray ray = cam.ViewportPointToRay(new Vector2(1, 1));    //top right corner
-            new Plane(Vector3.up, 0).Raycast(ray, out float enter);
-            spawnLinePos = ray.GetPoint(enter);
+        emission.enabled = true;
 
-            // Add offset to make sure they are spawned off screen
-            Vector3 dir = cam.transform.TransformPoint(new Vector2(0.5f, 0.45f)) - cam.transform.TransformPoint(new Vector2(0, 0));
-            spawnLinePos += dir.normalized * 7.5f;
-
-            //temp
-            pSystem.transform.position = spawnLinePos;
-
-            // Push down and up to spawn behind the player ship
-            spawnLinePos += new Vector3(-1, -1, 0) * 10;
-
-            spawnLineLength = cam.orthographicSize * 2.5f;
-            spawnLineDir = Vector3.right;
-            rotation = Quaternion.LookRotation(Vector3.back, -cam.transform.forward);
-        }
-
+        float timeToWait = 0;
+        float timePassed = 0;
         while (true)
         {
-            Vector3 spawnPos = spawnLinePos + spawnLineDir * GetRandomValue(spawnLineLength);
-            GameObject effectObj = Instantiate(plasmaStormEffectPrefab, spawnPos, rotation);
-            objects.Add(effectObj.transform);
+            // Modify module values by speed
+            emission.rateOverTime = baseEmission * speedModifier;
+            // Get particles in the system
+            ParticleSystem.Particle[] particles = new ParticleSystem.Particle[pSystem.main.maxParticles];
+            int pCount = pSystem.GetParticles(particles);
+            for (int i = 0; i < pCount; i++)
+            {
+                particles[i].velocity = particles[i].velocity.normalized * baseSpeed * speedModifier;
+                // When a particle goes off screen, destroy it
+                if (particles[i].position.z < -20)
+                {
+                    particles[i].remainingLifetime = -1;
+                }
+            }
+            pSystem.SetParticles(particles, pCount);
 
-            yield return new WaitForSeconds(storm_timeBetween / speedModifier);
+
+            if (timePassed >= timeToWait)
+            {
+                timePassed = 0;
+                timeToWait = storm_timeBetween / speedModifier;
+
+                Vector3 spawnPos = trans.position + spawnOffset + spawnLineDir * GetRandomValue(spawnLineLength);
+                GameObject effectObj = Instantiate(plasmaStormEffectPrefab, spawnPos, rotation);
+                objects.Add(effectObj.transform);
+            }
+
+            timePassed += Time.deltaTime;
+            yield return null;
         }
     }
 
@@ -140,6 +179,20 @@ public class PlasmaStormEffect : MonoBehaviour
                 // Destroy the object when the particles are gone
                 Destroy(obj.gameObject, time);
             }
+        }
+
+        // Fade out particle system
+        {
+            emission.enabled = false;
+            // Set the lifetime of all particles
+            ParticleSystem.Particle[] particles = new ParticleSystem.Particle[pSystem.main.maxParticles];
+            int pCount = pSystem.GetParticles(particles);
+            for (int i = 0; i < pCount; i++)
+            {
+                particles[i].remainingLifetime = particles[i].remainingLifetime / particles[i].startLifetime * time;
+                particles[i].startLifetime = time;
+            }
+            pSystem.SetParticles(particles);
         }
     }
 
