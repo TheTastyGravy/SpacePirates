@@ -52,7 +52,6 @@ public class CharacterDock : MonoBehaviour
                     {
                         PressXToCycleVariant?.SetActive( false );
                         m_AssignedPlayer.RemoveInputListener( Player.Control.MENU_NAVIGATION, OnDPADPressed );
-                        m_AssignedPlayer.RemoveInputListener( Player.Control.X_PRESSED, OnXPressed );
                         m_AssignedPlayer.RemoveInputListener(Player.Control.A_PRESSED, OnReady);
 
                         if ( m_AssignedPlayer.Slot != Player.PlayerSlot.P1 )
@@ -96,7 +95,6 @@ public class CharacterDock : MonoBehaviour
                     {
                         PressXToCycleVariant?.SetActive( true );
                         m_AssignedPlayer.AddInputListener( Player.Control.MENU_NAVIGATION, OnDPADPressed );
-                        m_AssignedPlayer.AddInputListener( Player.Control.X_PRESSED, OnXPressed );
                         m_AssignedPlayer.AddInputListener(Player.Control.A_PRESSED, OnReady);
 
                         if ( m_AssignedPlayer.Slot != Player.PlayerSlot.P1 )
@@ -130,7 +128,6 @@ public class CharacterDock : MonoBehaviour
         if ( ConnectPhase == Phase.CHOOSE_CHARACTER )
         {
             m_AssignedPlayer.RemoveInputListener( Player.Control.MENU_NAVIGATION, OnDPADPressed );
-            m_AssignedPlayer.RemoveInputListener( Player.Control.X_PRESSED, OnXPressed );
             m_AssignedPlayer.RemoveInputListener(Player.Control.A_PRESSED, OnReady);
 
             if ( m_AssignedPlayer.Slot != Player.PlayerSlot.P1 )
@@ -167,6 +164,8 @@ public class CharacterDock : MonoBehaviour
         (a_Player.Character as Character).IsKinematic = true;
         a_Player.transform.localScale = new Vector3(200, 200, 200);
         CharacterSelector.InstantiateSelector( m_AssignedPlayer.Slot, a_Player.Character != null ? a_Player.Character.CharacterIndex : 0 );
+        // Set varient
+        a_Player.Character.SetVariant(a_Player.playerIndex);
     }
 
     private void IncrementVariant( bool a_Loop = false )
@@ -256,11 +255,6 @@ public class CharacterDock : MonoBehaviour
         ConnectPhase = Phase.WAIT_ON_JOIN;
         // Check if other players are ready
         CharacterSelector.Instance.CheckReadyState();
-    }
-
-    private void OnXPressed( InputAction.CallbackContext _ )
-    {
-        IncrementVariant( true );
     }
 
     private void OnReady(InputAction.CallbackContext _)

@@ -61,7 +61,7 @@ public class ICharacter : MonoBehaviour
             {
                 characterName = settings.characterName,
                 character = obj.gameObject,
-                renderer = obj.GetComponentInChildren<Renderer>(),
+                renderer = settings.baseRenderer,
                 variants = settings.variants,
                 grabTransform = settings.grabTransform != null ? settings.grabTransform : fallbackGrabTransform,
                 animator = anim
@@ -130,7 +130,7 @@ public class ICharacter : MonoBehaviour
         currentCharacter.animator.enabled = true;
         currentCharacter.animator.Play(useCharacterSelectAnimations ? "Base Layer.CharSelect_" + currentCharacter.characterName : "Base Layer.Idle", 0, 0);
         
-        SetVariant(0);
+        SetVariant(m_VariantIndex);
     }
 
     public void SetVariant(int index)
