@@ -566,7 +566,7 @@ MonoBehaviour:
   cursor: {fileID: 2468589091388166252}
   refreshRate: 3
   flashTime: 1
-  cursorSpeed: 0.033333335
+  cursorSpeed: 30
   general:
     strings:
     - DEFEND THE SHIP!!
