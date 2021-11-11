@@ -4922,7 +4922,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Man
   variants:
-  - {fileID: 2100000, guid: 92987d2d9a7ece448a328faac6db007b, type: 2}
+  - {fileID: 2100000, guid: fa610a8fddbc1ea468dc564083518d57, type: 2}
+  - {fileID: 2100000, guid: 9dbec427f7c943146822fcdad62b5506, type: 2}
+  - {fileID: 2100000, guid: 4dfa3e1a256ed00449b0f4db8d265f3f, type: 2}
+  - {fileID: 2100000, guid: 017059cbb4eda49478dc0a3bccdf3dbe, type: 2}
   grabTransform: {fileID: 7206984837165131670}
 --- !u!114 &3430822767040703162
 MonoBehaviour:
@@ -4938,6 +4941,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Cat
   variants:
+  - {fileID: 2100000, guid: 34121e13d24676b45b597e7fc2eb9fd3, type: 2}
+  - {fileID: 2100000, guid: ab60c6933c119d7439c15cff16206a89, type: 2}
+  - {fileID: 2100000, guid: b9fdb289c1dc73f47a6879f7fb25049b, type: 2}
   - {fileID: 2100000, guid: ab60c6933c119d7439c15cff16206a89, type: 2}
   grabTransform: {fileID: 1811435115530457996}
 --- !u!1 &6050592667376508708
@@ -5067,7 +5073,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: Woman
-  variants: []
+  variants:
+  - {fileID: 2100000, guid: cbe829c9fe424b84eaef693e65e047c7, type: 2}
+  - {fileID: 2100000, guid: fa375d045a5a18944837be7e7f52a63b, type: 2}
+  - {fileID: 2100000, guid: 144af377d68bb0b43bac0798c6cdac62, type: 2}
+  - {fileID: 2100000, guid: 90b1068a8ba911b439c2309267d6d3d1, type: 2}
   grabTransform: {fileID: 770724567579203711}
 --- !u!1 &6455928432632779699
 GameObject:
@@ -5158,7 +5168,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Dog
   variants:
+  - {fileID: 2100000, guid: 1fc88db7455872e44968d468142e5834, type: 2}
+  - {fileID: 2100000, guid: 5dc18957989d435448a8b00d891d4ca2, type: 2}
   - {fileID: 2100000, guid: 7fe566cdfa284d749bd00818f32255e8, type: 2}
+  - {fileID: 2100000, guid: b3adc438162411240ad96d1c215f0b3e, type: 2}
   grabTransform: {fileID: 3292275285974660149}
 --- !u!1 &8249349609242040104
 GameObject:
