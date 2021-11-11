@@ -25,7 +25,9 @@ MonoBehaviour:
     initTime: 1.5
     timeBetweenAsteroidWaves: 15
     asteroidsPerWave: 4
+    asteroidPrestrikeDelay: 0.25
     timeBetweenStormDamage: 15
+    plasmaStormPretrikeDelay: 1
     shipHealth: 5
     shipFirePeriod: 4
     timePerFuel:
@@ -103,7 +105,9 @@ MonoBehaviour:
     initTime: 1.5
     timeBetweenAsteroidWaves: 12
     asteroidsPerWave: 5
+    asteroidPrestrikeDelay: 0.25
     timeBetweenStormDamage: 12
+    plasmaStormPretrikeDelay: 1
     shipHealth: 8
     shipFirePeriod: 3
     timePerFuel:
@@ -181,7 +185,9 @@ MonoBehaviour:
     initTime: 1.5
     timeBetweenAsteroidWaves: 10
     asteroidsPerWave: 6
+    asteroidPrestrikeDelay: 0.25
     timeBetweenStormDamage: 10
+    plasmaStormPretrikeDelay: 1
     shipHealth: 10
     shipFirePeriod: 1
     timePerFuel:

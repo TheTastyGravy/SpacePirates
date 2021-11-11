@@ -15,8 +15,10 @@ public class EventManager : Singleton<EventManager>
 
 	private float timeBetweenWaves;
 	private int astroidsPerWave;
+	private float asteroidPrestrikeDelay;
 
 	private float timeBetweenDamage;
+	private float plasmaStormPretrikeDelay;
 
 	public GameObject shipPrefab;
 	private int shipHealth;
@@ -37,7 +39,9 @@ public class EventManager : Singleton<EventManager>
 		initTime = settings.initTime;
 		timeBetweenWaves = settings.timeBetweenAsteroidWaves;
 		astroidsPerWave = settings.asteroidsPerWave;
+		asteroidPrestrikeDelay = settings.asteroidPrestrikeDelay;
 		timeBetweenDamage = settings.timeBetweenStormDamage;
+		plasmaStormPretrikeDelay = settings.plasmaStormPretrikeDelay;
 		shipHealth = settings.shipHealth;
 		firePeriod = settings.shipFirePeriod;
 	}
@@ -52,13 +56,15 @@ public class EventManager : Singleton<EventManager>
 				currentEvent = new AstroidField()
 				{
 					timeBetweenWaves = timeBetweenWaves,
-					astroidsPerWave = astroidsPerWave
+					astroidsPerWave = astroidsPerWave,
+					preStrikeDelay = asteroidPrestrikeDelay
 				};
 				break;
 			case Level.Event.Type.PlasmaStorm:
 				currentEvent = new PlasmaStorm()
 				{
-					timeBetweenDamage = timeBetweenDamage
+					timeBetweenDamage = timeBetweenDamage,
+					preStrikeDelay = plasmaStormPretrikeDelay
 				};
 				break;
 			case Level.Event.Type.ShipAttack:

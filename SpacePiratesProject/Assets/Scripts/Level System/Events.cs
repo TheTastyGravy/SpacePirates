@@ -13,7 +13,7 @@ public abstract class Event
 
 public class AstroidField : Event
 {
-	public float preStrikeDelay = 1;
+	public float preStrikeDelay;
 	public float timeBetweenWaves;
 	public int astroidsPerWave;
 
@@ -60,7 +60,7 @@ public class AstroidField : Event
 
 public class PlasmaStorm : Event
 {
-	public float preStrikeDelay = 1;
+	public float preStrikeDelay;
 	public float timeBetweenDamage;
 
 	private ShipManager shipManager;

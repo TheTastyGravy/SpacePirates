@@ -29,8 +29,10 @@ public class LevelDificultyData : ScriptableObject
         [Space]
         public float timeBetweenAsteroidWaves = 2;
         public int asteroidsPerWave = 4;
+        public float asteroidPrestrikeDelay = 0.25f;
         [Space]
         public float timeBetweenStormDamage = 1;
+        public float plasmaStormPretrikeDelay = 1;
         [Space]
         public int shipHealth = 10;
         public float shipFirePeriod = 2;
