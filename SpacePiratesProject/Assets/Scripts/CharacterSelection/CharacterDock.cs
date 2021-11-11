@@ -242,7 +242,7 @@ public class CharacterDock : MonoBehaviour
         {
             Vector2Int selectorPosition = CharacterSelector.GetSelectorGridPosition( m_AssignedPlayer.Slot );
             int index = CharacterSelector.GridSize.x * selectorPosition.y + selectorPosition.x;
-            m_AssignedPlayer.ChangeCharacter( index, 0 );
+            m_AssignedPlayer.ChangeCharacter( index, m_AssignedPlayer.playerIndex );
             ( m_AssignedPlayer.Character as Character).IsKinematic = true;
         }
     }

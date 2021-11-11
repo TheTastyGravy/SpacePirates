@@ -214,17 +214,6 @@
                 },
                 {
                     "name": "",
-                    "id": "57ab7864-1942-4d95-a2a7-fdee16ab1409",
-                    "path": "<Gamepad>/dpad",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DPAD_PRESSED",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "4f992b96-2cda-4419-8d49-b92f0cb5ddb9",
                     "path": "<XInputController>/leftStick",
                     "interactions": "",
@@ -302,17 +291,6 @@
                 },
                 {
                     "name": "",
-                    "id": "bb45bd1e-344a-4c8f-8078-ee67839f37f8",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LEFT_STICK",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "62629a69-f5c9-4130-aeb4-cf14db63b294",
                     "path": "<XInputController>/leftStickPress",
                     "interactions": "",
@@ -348,17 +326,6 @@
                     "name": "",
                     "id": "f3a240c7-ae19-41cd-8810-44ab5ab277d2",
                     "path": "<SwitchProControllerHID>/rightStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RIGHT_STICK",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2c9c74cf-d401-4816-81e7-d5437abfd12e",
-                    "path": "<Gamepad>/rightStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -414,17 +381,6 @@
                     "name": "",
                     "id": "24df7438-f0be-40ac-aa6e-98b6bf8ab973",
                     "path": "<SwitchProControllerHID>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "START_PRESSED",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4461df41-b657-4646-b1b1-7dc4165199ee",
-                    "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -500,17 +456,6 @@
                 },
                 {
                     "name": "",
-                    "id": "85d0b480-0f4f-4744-9170-c4f46bb7f62a",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "A_PRESSED",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "d0c0fa74-aac5-4ccd-a9c5-6e8ad05ed9a2",
                     "path": "<XInputController>/buttonEast",
                     "interactions": "",
@@ -535,17 +480,6 @@
                     "name": "",
                     "id": "8d27d148-484f-4835-aba5-96059b79826c",
                     "path": "<SwitchProControllerHID>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "B_PRESSED",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a9539a9f-00f6-4b36-9249-d2c6d15c7f02",
-                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -588,17 +522,6 @@
                 },
                 {
                     "name": "",
-                    "id": "b15c798b-9ad6-4285-a2c8-d673d8595dae",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "X_PRESSED",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "af75f438-28ba-498b-bbf0-f3e91da6b21b",
                     "path": "<XInputController>/buttonNorth",
                     "interactions": "",
@@ -612,17 +535,6 @@
                     "name": "",
                     "id": "3d367763-8e2a-4d7c-809a-14e75cb13de3",
                     "path": "<SwitchProControllerHID>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Y_PRESSED",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "adf9844a-1244-469a-aa53-b373c9287e8c",
-                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
