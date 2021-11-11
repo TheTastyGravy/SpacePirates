@@ -562,8 +562,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b1016609b54ef14f8e74de43c452521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 0}
-  cursor: {fileID: 0}
+  text: {fileID: 54053335756501994}
+  cursor: {fileID: 2468589091388166252}
   refreshRate: 3
   flashTime: 1
   cursorSpeed: 0.033333335
