@@ -1264,15 +1264,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3706624315001952404, guid: f30c2d1d9ee11464b91ac914c8c63e19, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.59
+      value: -11.6
       objectReference: {fileID: 0}
     - target: {fileID: 3706624315001952404, guid: f30c2d1d9ee11464b91ac914c8c63e19, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -10.69
+      value: -16.2
       objectReference: {fileID: 0}
     - target: {fileID: 3706624315001952404, guid: f30c2d1d9ee11464b91ac914c8c63e19, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.7
+      value: 11.3
       objectReference: {fileID: 0}
     - target: {fileID: 3706624315001952404, guid: f30c2d1d9ee11464b91ac914c8c63e19, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1832,9 +1832,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   background: {fileID: 300307189}
   backgroundBase: {fileID: 1662791746}
+  asteroidFieldEffectPrefab: {fileID: 4332016396429787035, guid: 28814ac3622107449864ebeeaa81c557, type: 3}
   plasmaStormEffectPrefab: {fileID: 1660023810801193663, guid: d7d38bf2544faf5429125f9208fdd48f, type: 3}
   storm_backgroundColor: {r: 0, g: 0, b: 0, a: 1}
-  asteroidFieldEffectPrefab: {fileID: 4332016396429787035, guid: 28814ac3622107449864ebeeaa81c557, type: 3}
   minSpeedModifier: 0.1
   maxSpeedModifier: 1
 --- !u!1001 &6661497440788994546

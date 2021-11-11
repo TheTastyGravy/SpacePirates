@@ -28,6 +28,9 @@ public class BackgroundController : MonoBehaviour
 
     void LateUpdate()
     {
+        transform.LookAt(transform.position + Camera.main.transform.rotation * Vector3.forward,
+            new Vector3(-0.5f, 0.5f, 0.5f));
+
         customTime += Time.deltaTime * speedMultiplier;
         foreach (var obj in backgroundRenderers)
 		{
