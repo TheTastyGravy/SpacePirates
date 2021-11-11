@@ -7,6 +7,7 @@ public class FuelDeposit : Interactable
 {
     public float timeToDeposit = 1;
     public EventReference refuelEvent;
+    public EventReference refuelEndEvent;
 
     private float timePassed = 0;
     private FMOD.Studio.EventInstance refuelEventInstance;
@@ -57,6 +58,7 @@ public class FuelDeposit : Interactable
         OnFuelDeposited?.Invoke();
         // Stop sound effect
         refuelEventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        RuntimeManager.PlayOneShot(refuelEndEvent);
     }
 
 	protected override void OnInteractionStart()
@@ -71,6 +73,7 @@ public class FuelDeposit : Interactable
         currentInteractor.EndInteraction();
         // Stop sound effect
         refuelEventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        RuntimeManager.PlayOneShot(refuelEndEvent);
     }
 
     protected override bool CanBeUsed(Interactor interactor, out Player.Control button)

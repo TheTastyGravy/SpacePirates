@@ -8,6 +8,7 @@ public class DamageStation : Interactable
 	[Space]
 	public ParticleSystem[] effects;
 	public EventReference repairEvent;
+	public EventReference repairEndEvent;
 	public EventReference damageEvent;
 	[Space]
 	public int maxDamageLevel = 1;
@@ -66,6 +67,7 @@ public class DamageStation : Interactable
 				}
 				// Stop sound effect
 				repairEventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+				RuntimeManager.PlayOneShot(repairEndEvent);
 			}
 
 			// Update interaction prompt progress
@@ -102,6 +104,7 @@ public class DamageStation : Interactable
 		currentInteractor.EndInteraction();
 		// Stop sound effect
 		repairEventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+		RuntimeManager.PlayOneShot(repairEndEvent);
 	}
 
 	protected override bool CanBeUsed(Interactor interactor, out Player.Control button)

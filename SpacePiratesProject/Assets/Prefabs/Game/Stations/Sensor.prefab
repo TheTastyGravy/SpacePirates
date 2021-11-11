@@ -254,6 +254,13 @@ MonoBehaviour:
       Data3: 927784086
       Data4: -423276976
     Path: event:/Stations/Repair
+  repairEndEvent:
+    Guid:
+      Data1: 1084657217
+      Data2: 1090242963
+      Data3: -1270175085
+      Data4: -1514406826
+    Path: event:/Stations/RepairEnd
   damageEvent:
     Guid:
       Data1: -574002604
