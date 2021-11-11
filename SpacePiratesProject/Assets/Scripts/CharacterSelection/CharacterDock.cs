@@ -63,7 +63,7 @@ public class CharacterDock : MonoBehaviour
                     break;
                 case Phase.PLAYER_READY:
                     {
-                        if (ReadyIndicator != null)
+                        if (ReadyIndicator != null && value != Phase.NONE)
                             ReadyIndicator.SetActive(false);
                         m_AssignedPlayer.RemoveInputListener(Player.Control.A_PRESSED, OnUnready);
                         m_AssignedPlayer.RemoveInputListener(Player.Control.B_PRESSED, OnUnready);
@@ -262,15 +262,24 @@ public class CharacterDock : MonoBehaviour
         ConnectPhase = Phase.PLAYER_READY;
         CharacterSelector.Instance.CheckReadyState();
         RuntimeManager.PlayOneShot(selectEvent);
+        m_AssignedPlayer.Character.SetCharacterSelected(true);
     }
 
+    bool first = true;
     private void OnUnready(InputAction.CallbackContext _)
 	{
+        if (first)
+        {
+            first = false;
+            return;
+        }
+
         ConnectPhase = Phase.CHOOSE_CHARACTER;
         if (!GameManager.IsLoadingScene)
 		{
             RuntimeManager.PlayOneShot(returnEvent);
         }
+        m_AssignedPlayer.Character.SetCharacterSelected(false);
     }
 
     private Player m_AssignedPlayer;

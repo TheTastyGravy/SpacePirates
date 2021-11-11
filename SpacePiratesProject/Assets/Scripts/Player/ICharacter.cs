@@ -26,6 +26,7 @@ public class ICharacter : MonoBehaviour
     public Transform fallbackGrabTransform;
 
     private bool useCharacterSelectAnimations = false;
+    private bool isSelected = false;
 
 
 
@@ -129,7 +130,8 @@ public class ICharacter : MonoBehaviour
         m_CharacterName = currentCharacter.characterName;
         currentCharacter.animator.enabled = true;
         currentCharacter.animator.Play(useCharacterSelectAnimations ? "Base Layer.CharSelect_" + currentCharacter.characterName : "Base Layer.Idle", 0, 0);
-        
+
+        SetCharacterSelected(false);
         SetVariant(m_VariantIndex);
     }
 
@@ -165,6 +167,12 @@ public class ICharacter : MonoBehaviour
             }
         }
 	}
+
+    public void SetCharacterSelected(bool value)
+    {
+        isSelected = value;
+        currentCharacter.animator.SetBool("IsSelected", isSelected);
+    }
 
 
     public int GetCharacterCount() => characters.Length;

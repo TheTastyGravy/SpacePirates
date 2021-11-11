@@ -82,10 +82,10 @@ public class CharacterSelector : Singleton< CharacterSelector >
         {
             m_CharacterDocks[ i ].ConnectPhase = CharacterDock.Phase.WAIT_ON_JOIN;
         }
-        for ( int i = countCompatible; i < GameManager.MaxPlayers; ++i )
-        {
-            m_CharacterDocks[ i ].ConnectPhase = CharacterDock.Phase.WAIT_ON_DEVICE;
-        }
+        //for ( int i = countCompatible; i < GameManager.MaxPlayers; ++i )
+        //{
+        //    m_CharacterDocks[ i ].ConnectPhase = CharacterDock.Phase.WAIT_ON_DEVICE;
+        //}
 
         // Setup listeners
         InputSystem.onDeviceChange += OnDeviceChange;
@@ -450,6 +450,20 @@ public class CharacterSelector : Singleton< CharacterSelector >
 
         // All players are ready, so we can continue to track select
         PlayerInputManager.instance.DisableJoining();
+        foreach(var dock in m_CharacterDocks)
+        {
+            dock.ConnectPhase = CharacterDock.Phase.NONE;
+        }
+
+
+        Player primaryPlayer = Player.GetPlayerBySlot(Player.PlayerSlot.P1);
+        primaryPlayer.RemoveInputListener(Player.Control.B_PRESSED, OnBPressedByP1);
+
+        Invoke(nameof(Transition), 1);
+    }
+
+    private void Transition()
+    {
         // Setup players to change scene
         foreach (var dock in m_CharacterDocks)
         {
@@ -462,7 +476,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
             player.transform.localScale = Vector3.one;
 
             if (player.Character)
-			{
+            {
                 player.Character.SetUseCharacterSelectAnimations(false);
                 player.Character.gameObject.SetActive(false);
             }
