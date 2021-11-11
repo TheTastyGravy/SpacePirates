@@ -669,17 +669,17 @@ MonoBehaviour:
         Data2: 1076199366
         Data3: 1916741050
         Data4: -2019206583
-      Path: event:/Events/Asteroid/VO/EnterField
+      Path: event:/Events/Asteroid/VO/InitAsteroid
   asteroidEnter:
     strings:
-    - LARGE OBJECTS INCOMING!!
+    - LARGE OBJECTS ON COLLISION COURSE!!
     dialogueEvent:
       Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
+        Data1: 1890018079
+        Data2: 1303706294
+        Data3: 998931586
+        Data4: -1203352439
+      Path: event:/Events/Asteroid/VO/EnterAsteroid
   asteroidDurring:
     strings:
     - MAN THE TURRETS!!
@@ -697,11 +697,11 @@ MonoBehaviour:
     - ASTEROID FIELD CLEARED!!
     dialogueEvent:
       Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
+        Data1: -620586553
+        Data2: 1161631458
+        Data3: 986596256
+        Data4: -894765687
+      Path: event:/Events/Asteroid/VO/EndAsteroid
   asteroidPrestrike:
     strings:
     - PROXIMITY ALERT!!
@@ -721,17 +721,17 @@ MonoBehaviour:
         Data2: 1261546819
         Data3: -1951307334
         Data4: 570121391
-      Path: event:/Events/Plasma Storm/VO/EnterPlasma
+      Path: event:/Events/Plasma Storm/VO/InitPlasma
   stormEnter:
     strings:
     - FOREIGN PARTICLE BUILDUP!!
     dialogueEvent:
       Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
+        Data1: 369295114
+        Data2: 1289081416
+        Data3: 380713600
+        Data4: 660955970
+      Path: event:/Events/Plasma Storm/VO/EnterPlasma
   stormDurring:
     strings:
     - SHUTDOWN THE REACTOR!!
@@ -744,14 +744,14 @@ MonoBehaviour:
       Path: 
   stormExit:
     strings:
-    - PLASMA STORM CLEARED!!
+    - PARTICLE CLOUD CLEARING!!
     dialogueEvent:
       Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
+        Data1: 369295114
+        Data2: 1289081416
+        Data3: 380713600
+        Data4: 660955970
+      Path: event:/Events/Plasma Storm/VO/EnterPlasma
   stormPrestrike:
     strings:
     - PLASMONIC SPIKE IMMINENT!!
@@ -771,7 +771,7 @@ MonoBehaviour:
         Data2: 1203680992
         Data3: -1026239863
         Data4: 1649793206
-      Path: event:/Events/The Fuzz/VO/ShipDetected
+      Path: event:/Events/The Fuzz/VO/InitShip
   shipEnter:
     strings:
     - PROXIMITY ALERT!!
@@ -796,14 +796,14 @@ MonoBehaviour:
       Path: 
   shipExit:
     strings:
-    - WE'VE LOST THEM!!
+    - VESSEL EVADED!!
     dialogueEvent:
       Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
+        Data1: -1762438846
+        Data2: 1103945540
+        Data3: -716686161
+        Data4: -1520301197
+      Path: event:/Events/The Fuzz/VO/EndShip
 --- !u!1 &6661497441136619289
 GameObject:
   m_ObjectHideFlags: 0
