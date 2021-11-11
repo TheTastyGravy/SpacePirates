@@ -7,6 +7,8 @@ public class ChaseShipLogic : MonoBehaviour
 	public GameObject missilePrefab;
 	public GameObject explosionPrefab;
 	public Transform firePoint;
+	public Transform turret;
+	public Transform turretRotationPoint;
 	public Light light1;
 	public Light light2;
 	[Tooltip("Used to place explosions when the ship is destroied")]
@@ -16,6 +18,7 @@ public class ChaseShipLogic : MonoBehaviour
 	public float moveOffScreenTime = 1;
 	[Space]
 	public float spreadAngle;
+	public float rotationSpeed = 5;
 	[Space]
 	public float wanderFrequency = 1;
 	public float wanderDist = 0.75f;
@@ -34,6 +37,8 @@ public class ChaseShipLogic : MonoBehaviour
 	private int health;
 	private float firePeriod;
 	private float fireTimePassed = 0;
+	private float currentAngle = 0;
+	private float targetAngle = 0;
 	private float wanderTimePassed = 0;
 	private Vector3 wanderPos;
 	private Vector3 velocity = Vector3.zero;
@@ -65,7 +70,6 @@ public class ChaseShipLogic : MonoBehaviour
 
 		this.health = health;
 		this.firePeriod = firePeriod;
-		spreadAngle *= Mathf.Deg2Rad * 0.5f;
 		// Start moving on screen
 		moveRoutine = StartCoroutine(Move(offScreenPos, followPos, moveOnScreenTime));
 		// Get initial wander pos
@@ -90,19 +94,21 @@ public class ChaseShipLogic : MonoBehaviour
 			return;
 		}
 
+
+		if (Mathf.Abs(Mathf.Abs(currentAngle) - Mathf.Abs(targetAngle)) < 1)
+		{
+			targetAngle = Random.Range(-spreadAngle * 0.5f, spreadAngle * 0.5f);
+		}
+		float newAngle = Mathf.Lerp(currentAngle, targetAngle, Time.deltaTime * rotationSpeed);
+		turret.RotateAround(turretRotationPoint.position, Vector3.up, currentAngle - newAngle);
+		currentAngle = newAngle;
+
 		// Fire missiles
 		fireTimePassed += Time.deltaTime;
 		if (fireTimePassed >= firePeriod)
 		{
 			fireTimePassed = 0;
-
-			// Get direction with random angle
-			Vector3 dir = Vector3.zero;
-			float angle = Random.Range(-spreadAngle, spreadAngle);
-			dir.x = firePoint.forward.x * Mathf.Cos(angle) - firePoint.forward.z * Mathf.Sin(angle);
-			dir.z = firePoint.forward.x * Mathf.Sin(angle) + firePoint.forward.z * Mathf.Cos(angle);
-			// Instantiate missile with direction
-			Instantiate(missilePrefab, firePoint.position, Quaternion.FromToRotation(Vector3.forward, dir));
+			Instantiate(missilePrefab, firePoint.position, Quaternion.FromToRotation(Vector3.forward, firePoint.forward));
 		}
 
 		// Random wander
