@@ -30,12 +30,36 @@ MonoBehaviour:
     plasmaStormPretrikeDelay: 1
     shipHealth: 5
     shipFirePeriod: 4
-    timePerFuel:
+    maxFuel:
+      playerCountValues:
+      - 30
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+      useMaxPlayers: 0
+    startFuel:
+      playerCountValues:
+      - 30
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+      useMaxPlayers: 0
+    ammountOnRefuel:
       playerCountValues:
       - 10
-      - 10
-      - 10
-      - 10
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+      useMaxPlayers: 0
+    fuelUsageRate:
+      playerCountValues:
+      - 1
+      - 0
+      - 0
+      - 0
       useSeperateValues: 0
       useMaxPlayers: 0
     maxSpeed:
@@ -46,10 +70,6 @@ MonoBehaviour:
       - 0.375
       useSeperateValues: 1
       useMaxPlayers: 1
-    startFuel:
-      playerCountValues: 03000000050000000500000005000000
-      useSeperateValues: 0
-      useMaxPlayers: 0
     interactionCooldown:
       playerCountValues:
       - 2
@@ -110,9 +130,33 @@ MonoBehaviour:
     plasmaStormPretrikeDelay: 1
     shipHealth: 8
     shipFirePeriod: 3
-    timePerFuel:
+    maxFuel:
+      playerCountValues:
+      - 30
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+      useMaxPlayers: 0
+    startFuel:
+      playerCountValues:
+      - 20
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+      useMaxPlayers: 0
+    ammountOnRefuel:
       playerCountValues:
       - 10
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+      useMaxPlayers: 0
+    fuelUsageRate:
+      playerCountValues:
+      - 1
       - 0
       - 0
       - 0
@@ -126,10 +170,6 @@ MonoBehaviour:
       - 0.375
       useSeperateValues: 1
       useMaxPlayers: 1
-    startFuel:
-      playerCountValues: 02000000000000000000000000000000
-      useSeperateValues: 0
-      useMaxPlayers: 0
     interactionCooldown:
       playerCountValues:
       - 3
@@ -190,9 +230,33 @@ MonoBehaviour:
     plasmaStormPretrikeDelay: 1
     shipHealth: 10
     shipFirePeriod: 1
-    timePerFuel:
+    maxFuel:
+      playerCountValues:
+      - 30
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+      useMaxPlayers: 0
+    startFuel:
+      playerCountValues:
+      - 0
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+      useMaxPlayers: 0
+    ammountOnRefuel:
       playerCountValues:
       - 10
+      - 0
+      - 0
+      - 0
+      useSeperateValues: 0
+      useMaxPlayers: 0
+    fuelUsageRate:
+      playerCountValues:
+      - 1
       - 0
       - 0
       - 0
@@ -206,10 +270,6 @@ MonoBehaviour:
       - 0.375
       useSeperateValues: 1
       useMaxPlayers: 1
-    startFuel:
-      playerCountValues: 01000000000000000000000000000000
-      useSeperateValues: 0
-      useMaxPlayers: 0
     interactionCooldown:
       playerCountValues:
       - 5

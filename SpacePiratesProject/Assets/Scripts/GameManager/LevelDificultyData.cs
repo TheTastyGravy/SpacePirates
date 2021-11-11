@@ -38,11 +38,13 @@ public class LevelDificultyData : ScriptableObject
         public float shipFirePeriod = 2;
 
         [Header("Engine")]
-        [Tooltip("How long each fuel lasts")]
-        public SettingEntry<float> timePerFuel;
+        public SettingEntry<float> maxFuel;
+        public SettingEntry<float> startFuel;
+        public SettingEntry<float> ammountOnRefuel;
+        [Tooltip("The fuels rate of consumption")]
+        public SettingEntry<float> fuelUsageRate;
         [Tooltip("The speed allied to the ship when turned on")]
         public SettingEntry<float> maxSpeed;
-        public SettingEntry<int> startFuel;
         [Header("Scanner")]
         public SettingEntry<float> interactionCooldown;
         [Header("Reactor")]
