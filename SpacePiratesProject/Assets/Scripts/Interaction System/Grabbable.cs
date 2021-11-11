@@ -9,7 +9,7 @@ public class Grabbable : Interactable
 	public Player.Control pickupButton = Player.Control.A_PRESSED;
 	public Player.Control dropButton = Player.Control.B_PRESSED;
 
-	private Rigidbody rb;
+	internal Rigidbody rb;
 
 
 

@@ -213,6 +213,7 @@ public class Interactor : MonoBehaviour
 		heldGrabbable.attach.SetParent(Player.transform.parent);
 		heldGrabbable.attach.SetPositionAndRotation(transform.position + transform.rotation * dropPositionOffset, transform.rotation);
 		heldGrabbable.Drop(this);
+		heldGrabbable.rb.AddForceAtPosition(transform.forward * 1.2f, heldGrabbable.rb.position + UnityEngine.Random.insideUnitSphere * 0.15f, ForceMode.Impulse);
 		heldGrabbable = null;
 		dropButton = 0;
 	}
