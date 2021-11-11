@@ -1832,11 +1832,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   background: {fileID: 300307189}
   backgroundBase: {fileID: 1662791746}
-  plasmaStormEffectPrefab: {fileID: 1885306340502562398, guid: 211b57802507287438f612f40767f823, type: 3}
+  plasmaStormEffectPrefab: {fileID: 1660023810801193663, guid: d7d38bf2544faf5429125f9208fdd48f, type: 3}
   storm_backgroundColor: {r: 0, g: 0, b: 0, a: 1}
-  storm_timeBetween: 0.25
-  storm_baseSpeed: 4
-  storm_fadeOutTime: 1.5
   asteroidFieldEffectPrefab: {fileID: 4332016396429787035, guid: 28814ac3622107449864ebeeaa81c557, type: 3}
   minSpeedModifier: 0.1
   maxSpeedModifier: 1
