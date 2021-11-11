@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 72278036c29a99c429ebef4e43830665
+guid: b7d60d74890bfb94bb8dc0e85661436c
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: A_Idle
+    second: A_Man_Selected_Idle
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -21,13 +21,18 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Inbetween bone
       rotation in copied configuration does not match rotation in animation file:\n\t'HipPart1_L'
-      : rotation error = 15.503671 deg\n\t'KneePart1_L' : rotation error = 2.477439
+      : rotation error = 12.384215 deg\n\t'KneePart1_L' : rotation error = 1.426425
       deg\n"
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar
       to improve retargeting quality.\n\t'Shoulder_R' has translation animation that
-      will be discarded.\n\t'Shoulder_L' has translation animation that will be discarded.\n\t'HipPart1_R'
+      will be discarded.\n\t'ShoulderPart1_R' is inbetween humanoid transforms and
+      has rotation animation that will be discarded.\n\t'ElbowPart1_R' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'Shoulder_L'
+      has translation animation that will be discarded.\n\t'ShoulderPart1_L' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'ElbowPart1_L'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'HipPart1_R'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'KneePart1_R'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'HipPart1_L'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'KneePart1_L'
@@ -45,11 +50,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: A_Idle
+      name: A_Man_Selected_Idle
       takeName: Take 001
       internalID: 0
-      firstFrame: 0
-      lastFrame: 72
+      firstFrame: 72
+      lastFrame: 144
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -72,7 +77,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 72
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -217,14 +222,6 @@ ModelImporter:
         modified: 0
     - boneName: Scapula_R
       humanName: RightShoulder
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Shoulder_L
-      humanName: LeftUpperArm
       limit:
         min: {x: 0, y: 0, z: 0}
         max: {x: 0, y: 0, z: 0}
@@ -511,6 +508,14 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
+    - boneName: Shoulder_L
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
     skeleton:
     - name: CM_Man(Clone)
       parentName: 
@@ -685,7 +690,7 @@ ModelImporter:
     - name: Wrist_L
       parentName: ElbowPart1_L
       position: {x: 0.16438095, y: 1.9753088e-14, z: -2.3732127e-14}
-      rotation: {x: -0.5014874, y: -0.060612053, z: 0.057974935, w: 0.8610898}
+      rotation: {x: -0.5014874, y: -0.06061205, z: 0.05797493, w: 0.86108977}
       scale: {x: 1, y: 1, z: 1}
     - name: IndexFinger1_L
       parentName: Wrist_L
@@ -750,17 +755,17 @@ ModelImporter:
     - name: ThumbFinger1_L
       parentName: Wrist_L
       position: {x: 0.014214113, y: -0.05848602, z: 0.022029605}
-      rotation: {x: -0.48659217, y: 0.20364696, z: -0.38564312, w: 0.75699097}
+      rotation: {x: -0.4865922, y: 0.20364697, z: -0.38564315, w: 0.756991}
       scale: {x: 1, y: 1, z: 1}
     - name: ThumbFinger2_L
       parentName: ThumbFinger1_L
       position: {x: 0.060478203, y: -7.105427e-16, z: 1.7195133e-14}
-      rotation: {x: 0.08451877, y: -0.036154825, z: -0.0046541383, w: 0.99575484}
+      rotation: {x: 0.084518775, y: -0.03615483, z: -0.004654139, w: 0.9957549}
       scale: {x: 1, y: 1, z: 1}
     - name: ThumbFinger3_L
       parentName: ThumbFinger2_L
       position: {x: 0.056807008, y: 2.1316282e-16, z: 1.463718e-14}
-      rotation: {x: 0.02787731, y: -0.033592723, z: 0.0035013214, w: 0.9990406}
+      rotation: {x: 0.02787731, y: -0.033592727, z: 0.0035013214, w: 0.99904066}
       scale: {x: 1, y: 1, z: 1}
     - name: ThumbFinger4_L
       parentName: ThumbFinger3_L
@@ -785,7 +790,7 @@ ModelImporter:
     - name: Elbow_R
       parentName: ShoulderPart1_R
       position: {x: -0.13697541, y: 1.4210854e-16, z: 2.842171e-16}
-      rotation: {x: 0.0016186232, y: 0.0050677164, z: -0.038814902, w: 0.99923223}
+      rotation: {x: 0.0016186233, y: 0.005067717, z: -0.038814906, w: 0.9992323}
       scale: {x: 1, y: 1, z: 1}
     - name: ElbowPart1_R
       parentName: Elbow_R
@@ -805,7 +810,7 @@ ModelImporter:
     - name: IndexFinger2_R
       parentName: IndexFinger1_R
       position: {x: -0.084829986, y: -1.0658141e-16, z: -4.2632563e-16}
-      rotation: {x: -0.000000021420412, y: -0.036748886, z: 0.0000011945372, w: 0.9993245}
+      rotation: {x: -0.000000021420414, y: -0.03674889, z: 0.0000011945373, w: 0.99932456}
       scale: {x: 1, y: 1, z: 1}
     - name: IndexFinger3_R
       parentName: IndexFinger2_R
@@ -830,7 +835,7 @@ ModelImporter:
     - name: MiddleFinger3_R
       parentName: MiddleFinger2_R
       position: {x: -0.08511758, y: -7.105427e-17, z: 0}
-      rotation: {x: 0.00046798476, y: -0.041098233, z: -0.000033885302, w: 0.999155}
+      rotation: {x: 0.00046798482, y: -0.041098233, z: -0.00003388531, w: 0.999155}
       scale: {x: 1, y: 1, z: 1}
     - name: MiddleFinger4_R
       parentName: MiddleFinger3_R
@@ -865,7 +870,7 @@ ModelImporter:
     - name: ThumbFinger2_R
       parentName: ThumbFinger1_R
       position: {x: -0.060478203, y: -2.1316282e-16, z: -4.2632563e-16}
-      rotation: {x: 0.08451873, y: -0.036154006, z: -0.004653899, w: 0.9957549}
+      rotation: {x: 0.084518746, y: -0.036154006, z: -0.0046539, w: 0.9957549}
       scale: {x: 1, y: 1, z: 1}
     - name: ThumbFinger3_R
       parentName: ThumbFinger2_R
@@ -882,9 +887,19 @@ ModelImporter:
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Man
+    - name: CM_MAN
       parentName: Geometry
-      position: {x: -0, y: 0, z: 0}
+      position: {x: -0, y: 0.00000015258789, z: 0.31396753}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Eyes
+      parentName: CM_MAN
+      position: {x: -0, y: -0.00000015258789, z: -0.31396753}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: MAN
+      parentName: CM_MAN
+      position: {x: -0, y: -0.00000015258789, z: -0.31396753}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     armTwist: 0.5

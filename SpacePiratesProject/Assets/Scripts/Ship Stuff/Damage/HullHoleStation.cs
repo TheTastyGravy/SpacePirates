@@ -15,6 +15,7 @@ public class HullHoleStation : Interactable
     public DamageLevel[] damageLevels;
     public ParticleSystem damageEffect;
     public EventReference repairEvent;
+    public EventReference repairEndEvent;
 
     internal float oxygenLossRate;
     private float repairTime;
@@ -90,8 +91,9 @@ public class HullHoleStation : Interactable
 		}
         GetComponentInChildren<ParticleSystem>().Stop();
         Destroy(gameObject, 1);
-        // Stop sound effect
+        // Stop sound effect, and play end sound
         repairEventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        RuntimeManager.PlayOneShot(repairEndEvent);
     }
 
     protected override void OnInteractionStart()
@@ -106,6 +108,7 @@ public class HullHoleStation : Interactable
         currentInteractor.EndInteraction();
         // Stop sound effect
         repairEventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        RuntimeManager.PlayOneShot(repairEndEvent);
     }
 
     protected override bool CanBeUsed(Interactor interactor, out Player.Control button)

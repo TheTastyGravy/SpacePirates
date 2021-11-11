@@ -6,6 +6,7 @@ public class CharacterSettings : MonoBehaviour
 {
     public string characterName;
     public Material[] variants;
+	public Renderer baseRenderer;
     public Transform grabTransform;
 
 

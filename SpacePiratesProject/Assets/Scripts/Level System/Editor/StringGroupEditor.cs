@@ -7,6 +7,7 @@ using UnityEditor;
 public class StringGroupEditor : PropertyDrawer
 {
     private SerializedProperty strings;
+    private SerializedProperty dialogueEvent;
     private bool cache = false;
 
 
@@ -17,14 +18,27 @@ public class StringGroupEditor : PropertyDrawer
         {
             property.Next(true);
             strings = property.Copy();
+            property.Next(false);
+            dialogueEvent = property.Copy();
             cache = true;
         }
 
         EditorGUI.PropertyField(position, strings, label, true);
+        position.y += EditorGUI.GetPropertyHeight(strings, label, true);
+        EditorGUI.indentLevel++;
+        EditorGUI.PropertyField(position, dialogueEvent);
+        EditorGUI.indentLevel--;
     }
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
-        return EditorGUI.GetPropertyHeight(strings ?? property, label) ;
+        if (cache)
+        {
+            return EditorGUI.GetPropertyHeight(strings, label) + EditorGUI.GetPropertyHeight(dialogueEvent, label) + 2;
+        }
+        else
+        {
+            return EditorGUI.GetPropertyHeight(property, label);
+        }
     }
 }

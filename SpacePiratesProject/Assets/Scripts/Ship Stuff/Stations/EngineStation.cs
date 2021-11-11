@@ -6,7 +6,6 @@ using FMODUnity;
 public class EngineStation : MonoBehaviour
 {
 	public FuelIndicator fuelIndicator;
-	public int maxFuel = 3;
 	public float speedAcceleration = 1;
 	public float speedDecay = 0.2f;
 	[Space]
@@ -17,16 +16,20 @@ public class EngineStation : MonoBehaviour
 	private DamageStation damage;
 	public DamageStation Damage => damage;
 
-	private float timePerFuel;
+	public bool IsTurnedOn => currentFuel > 0 && damage.DamageLevel == 0;
 	private float maxSpeed;
 	public float MaxSpeed => maxSpeed;
-	private int startFuel;
-	public bool IsTurnedOn => currentFuel > 0 && damage.DamageLevel == 0;
 	private float currentSpeed = 0;
 	public float CurrentSpeed => currentSpeed;
-	private int currentFuel = 0;
-	public int CurrentFuel => currentFuel;
-	private float fuelTime = 0;
+
+
+	private float maxFuel;
+	private float ammountOnRefuel;
+	private float fuelUsageRate;
+	private float startFuel;
+
+	private float currentFuel = 0;
+	public float CurrentFuel => currentFuel;
 
 	
 
@@ -40,19 +43,21 @@ public class EngineStation : MonoBehaviour
 
 		// Get values from difficulty settings
 		LevelDificultyData.DiffSetting setting = GameManager.GetDifficultySettings();
-		timePerFuel = setting.timePerFuel.Value;
-		maxSpeed = setting.maxSpeed.Value;
+		maxFuel = setting.maxFuel.Value;
 		startFuel = setting.startFuel.Value;
+		ammountOnRefuel = setting.ammountOnRefuel.Value;
+		fuelUsageRate = setting.fuelUsageRate.Value;
+		maxSpeed = setting.maxSpeed.Value;
 
 		currentFuel = startFuel;
-		if (currentFuel != 0)
+		if (currentFuel > 0)
 			currentSpeed = maxSpeed;
 		Invoke(nameof(FixFuelIndicator), 0.1f);
 	}
 
 	private void FixFuelIndicator()
 	{
-		fuelIndicator.SetFuelLevel((float)currentFuel / (float)maxFuel * 100f);
+		fuelIndicator.SetFuelLevel(currentFuel / maxFuel * 100f);
 		if (currentFuel >= maxFuel)
 			fuelDepo.enabled = false;
 	}
@@ -63,10 +68,15 @@ public class EngineStation : MonoBehaviour
 		{
 			engineEffect.Run();
 			// Use fuel
-			fuelTime += Time.deltaTime;
-			if (fuelTime >= timePerFuel)
+			currentFuel -= Time.deltaTime * fuelUsageRate;
+			if (currentFuel <= 0)
 			{
-				OnFuelUsed();
+				currentFuel = 0;
+				return;
+			}
+			else if (currentFuel < maxFuel)
+			{
+				fuelDepo.enabled = true;
 			}
 
 			// Accelerate speed with cap
@@ -85,28 +95,22 @@ public class EngineStation : MonoBehaviour
 				currentSpeed = 0;
 		}
 
-		fuelIndicator.SetFuelLevel(CalculateFuelValue() * 100f);
+		fuelIndicator.SetFuelLevel(currentFuel / maxFuel * 100f);
 	}
 
 	private void OnFueled()
 	{
-		currentFuel++;
+		currentFuel += ammountOnRefuel;
 		if (currentFuel >= maxFuel)
 		{
+			currentFuel = maxFuel;
 			fuelDepo.enabled = false;
 		}
 
-		if (currentFuel == 1 && damage.DamageLevel == 0)
+		if (currentFuel > 0 && damage.DamageLevel == 0)
 		{
 			RuntimeManager.PlayOneShot(ignitionEvent);
 		}
-	}
-
-	private void OnFuelUsed()
-	{
-		currentFuel--;
-		fuelTime = 0;
-		fuelDepo.enabled = true;
 	}
 
 	private void OnDamageRepaired()
@@ -115,10 +119,5 @@ public class EngineStation : MonoBehaviour
 		{
 			RuntimeManager.PlayOneShot(ignitionEvent);
 		}
-	}
-
-	private float CalculateFuelValue()
-	{
-		return (currentFuel - 1 + (1 - fuelTime / timePerFuel)) / (float)maxFuel;
 	}
 }

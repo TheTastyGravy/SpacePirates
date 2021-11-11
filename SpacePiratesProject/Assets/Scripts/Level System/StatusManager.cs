@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using FMODUnity;
 
 public class StatusManager : Singleton<StatusManager>
 {
@@ -11,6 +12,7 @@ public class StatusManager : Singleton<StatusManager>
     {
         [SerializeField]
         private string[] strings;
+        public EventReference dialogueEvent;
 
         public string String => strings[Random.Range(0, strings.Length)];
     }
@@ -45,17 +47,20 @@ public class StatusManager : Singleton<StatusManager>
     public StringGroup asteroidEnter;
     public StringGroup asteroidDurring;
     public StringGroup asteroidExit;
+    public StringGroup asteroidPrestrike;
     [Space]
     public StringGroup stormInit;
     public StringGroup stormEnter;
     public StringGroup stormDurring;
     public StringGroup stormExit;
+    public StringGroup stormPrestrike;
     [Space]
     public StringGroup shipInit;
     public StringGroup shipEnter;
     public StringGroup shipDurring;
     public StringGroup shipExit;
 
+    private int currentMessageHash = -1;
     private Level.Event.Type currentEvent = Level.Event.Type.None;
     private bool eventActive = false;
     private EngineStation[] engines;
@@ -75,7 +80,7 @@ public class StatusManager : Singleton<StatusManager>
         cursorOffset = (cursor.transform as RectTransform).rect.width * 0.5f + 5;
         cursorSpeed = 1 / cursorSpeed;
 
-        SetText(gameStart.String);
+        ProcessStringGroup(gameStart);
         EventManager.Instance.OnEventChange += OnEventChange;
         Invoke(nameof(Init), 0.1f);
 
@@ -107,20 +112,20 @@ public class StatusManager : Singleton<StatusManager>
         {
             if (Random.Range(0f, 1f) < genericChance)
             {
-                SetText(genericEvent.String);
+                ProcessStringGroup(genericEvent);
             }
             else
             {
                 switch (currentEvent)
                 {
                     case Level.Event.Type.AstroidField:
-                        SetText(asteroidDurring.String);
+                        ProcessStringGroup(asteroidDurring);
                         break;
                     case Level.Event.Type.PlasmaStorm:
-                        SetText(stormDurring.String);
+                        ProcessStringGroup(stormDurring);
                         break;
                     case Level.Event.Type.ShipAttack:
-                        SetText(shipDurring.String);
+                        ProcessStringGroup(shipDurring);
                         break;
                 }
             }
@@ -131,18 +136,18 @@ public class StatusManager : Singleton<StatusManager>
         //  -----   GENERIC   -----
         if (ShipManager.Instance.Reactor.Damage.DamageLevel > 0)
 		{
-            SetText(reactorDamaged.String);
+            ProcessStringGroup(reactorDamaged);
             return;
         }
         if (!ShipManager.Instance.Reactor.IsTurnedOn)
 		{
-            SetText(reactorDisabled.String);
+            ProcessStringGroup(reactorDisabled);
             return;
         }
         
         if ((ShipManager.Instance.OxygenLevel < 90 && ShipManager.Instance.oxygenDrain > 2) || (ShipManager.Instance.OxygenLevel < 50 && ShipManager.Instance.oxygenDrain > 0))  //maybe also check num damaged stations
 		{
-            SetText(generalRepair.String);
+            ProcessStringGroup(generalRepair);
             return;
         }
         
@@ -163,18 +168,32 @@ public class StatusManager : Singleton<StatusManager>
 		}
         if (count > 1)
 		{
-            SetText(generalRefuel.String);
+            ProcessStringGroup(generalRefuel);
             return;
 		}
         
         if (ShipManager.Instance.GetShipSpeed() == 0)
 		{
-            SetText(useEngines.String);
+            ProcessStringGroup(useEngines);
             return;
         }
-        
-        SetText(general.String);
+
+        ProcessStringGroup(general);
 	}
+
+    // Set text and play dialogue
+    private void ProcessStringGroup(in StringGroup group, bool shouldFlash = false)
+    {
+        if (currentMessageHash == group.GetHashCode())
+            return;
+
+        currentMessageHash = group.GetHashCode();
+        SetText(group.String, shouldFlash);
+        if (!group.dialogueEvent.IsNull)
+        {
+            RuntimeManager.PlayOneShot(group.dialogueEvent);
+        }
+    }
 
     public void OnEventChange(Level.Event.Type eventType, EventManager.EventStage stage)
 	{
@@ -186,13 +205,13 @@ public class StatusManager : Singleton<StatusManager>
             switch (currentEvent)
             {
                 case Level.Event.Type.AstroidField:
-                    SetText(asteroidInit.String, true);
+                    ProcessStringGroup(asteroidInit, true);
                     break;
                 case Level.Event.Type.PlasmaStorm:
-                    SetText(stormInit.String, true);
+                    ProcessStringGroup(stormInit, true);
                     break;
                 case Level.Event.Type.ShipAttack:
-                    SetText(shipInit.String, true);
+                    ProcessStringGroup(shipInit, true);
                     break;
             }
         }
@@ -201,13 +220,13 @@ public class StatusManager : Singleton<StatusManager>
             switch (currentEvent)
             {
                 case Level.Event.Type.AstroidField:
-                    SetText(asteroidEnter.String);
+                    ProcessStringGroup(asteroidEnter);
                     break;
                 case Level.Event.Type.PlasmaStorm:
-                    SetText(stormEnter.String);
+                    ProcessStringGroup(stormEnter);
                     break;
                 case Level.Event.Type.ShipAttack:
-                    SetText(shipEnter.String);
+                    ProcessStringGroup(shipEnter);
                     break;
             }
         }
@@ -216,15 +235,27 @@ public class StatusManager : Singleton<StatusManager>
             switch (currentEvent)
             {
                 case Level.Event.Type.AstroidField:
-                    SetText(asteroidExit.String);
+                    ProcessStringGroup(asteroidExit);
                     break;
                 case Level.Event.Type.PlasmaStorm:
-                    SetText(stormExit.String);
+                    ProcessStringGroup(stormExit);
                     break;
                 case Level.Event.Type.ShipAttack:
-                    SetText(shipExit.String);
+                    ProcessStringGroup(shipExit);
                     break;
             }
+        }
+    }
+
+    public void OnPrestrike(Level.Event.Type eventType)
+    {
+        if (eventType == Level.Event.Type.AstroidField)
+        {
+            ProcessStringGroup(asteroidPrestrike);
+        }
+        else if (eventType == Level.Event.Type.PlasmaStorm)
+        {
+            ProcessStringGroup(stormPrestrike);
         }
     }
 

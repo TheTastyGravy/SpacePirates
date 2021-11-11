@@ -29,18 +29,22 @@ public class LevelDificultyData : ScriptableObject
         [Space]
         public float timeBetweenAsteroidWaves = 2;
         public int asteroidsPerWave = 4;
+        public float asteroidPrestrikeDelay = 0.25f;
         [Space]
         public float timeBetweenStormDamage = 1;
+        public float plasmaStormPretrikeDelay = 1;
         [Space]
         public int shipHealth = 10;
         public float shipFirePeriod = 2;
 
         [Header("Engine")]
-        [Tooltip("How long each fuel lasts")]
-        public SettingEntry<float> timePerFuel;
+        public SettingEntry<float> maxFuel;
+        public SettingEntry<float> startFuel;
+        public SettingEntry<float> ammountOnRefuel;
+        [Tooltip("The fuels rate of consumption")]
+        public SettingEntry<float> fuelUsageRate;
         [Tooltip("The speed allied to the ship when turned on")]
         public SettingEntry<float> maxSpeed;
-        public SettingEntry<int> startFuel;
         [Header("Scanner")]
         public SettingEntry<float> interactionCooldown;
         [Header("Reactor")]

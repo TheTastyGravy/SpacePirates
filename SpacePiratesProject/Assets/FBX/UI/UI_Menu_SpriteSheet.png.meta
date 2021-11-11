@@ -199,9 +199,9 @@ TextureImporter:
       name: UI_Menu_SpriteSheet_Character
       rect:
         serializedVersion: 2
-        x: 1542
+        x: 1639
         y: 206
-        width: 1041
+        width: 802
         height: 101
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -304,9 +304,9 @@ TextureImporter:
       name: UI_Menu_SpriteSheet_Level
       rect:
         serializedVersion: 2
-        x: 248
+        x: 343
         y: 120
-        width: 1042
+        width: 855
         height: 102
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -346,9 +346,9 @@ TextureImporter:
       name: UI_Menu_SpriteSheet_Ship
       rect:
         serializedVersion: 2
-        x: 73
+        x: 181
         y: 282
-        width: 1392
+        width: 1182
         height: 110
       alignment: 0
       pivot: {x: 0.5, y: 0.5}

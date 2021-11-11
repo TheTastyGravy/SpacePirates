@@ -13,7 +13,7 @@ public abstract class Event
 
 public class AstroidField : Event
 {
-	public float preStrikeDelay = 1;
+	public float preStrikeDelay;
 	public float timeBetweenWaves;
 	public int astroidsPerWave;
 
@@ -49,8 +49,7 @@ public class AstroidField : Event
 
 	private void PreStrike()
 	{
-		//temp
-		StatusManager.Instance.SetText("STRIKE INCOMMING");
+		StatusManager.Instance.OnPrestrike(Level.Event.Type.AstroidField);
 	}
 
 	private void Strike()
@@ -61,7 +60,7 @@ public class AstroidField : Event
 
 public class PlasmaStorm : Event
 {
-	public float preStrikeDelay = 1;
+	public float preStrikeDelay;
 	public float timeBetweenDamage;
 
 	private ShipManager shipManager;
@@ -101,8 +100,7 @@ public class PlasmaStorm : Event
 
 	private void PreStrike()
 	{
-		//temp
-		StatusManager.Instance.SetText("STRIKE INCOMMING");
+		StatusManager.Instance.OnPrestrike(Level.Event.Type.PlasmaStorm);
 
 		//start effect or something
 	}

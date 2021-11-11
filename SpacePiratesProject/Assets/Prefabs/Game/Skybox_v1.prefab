@@ -90,7 +90,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3706624315001952404}
-  - component: {fileID: 1662791747}
   - component: {fileID: 3625921906195838699}
   m_Layer: 8
   m_Name: Skybox_v1
@@ -118,18 +117,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -20, y: 0, z: -20}
---- !u!114 &1662791747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3706624315001952405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 418122811be3f334e9159bd161f4f917, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3625921906195838699
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -27,6 +27,14 @@ public class Player : PlayerInput
         m_InputDevice = devices.Count > 0 ? devices[ 0 ] : null;
     }
 
+    void OnDestroy()
+    {
+        if (m_InputDevice is UnityEngine.InputSystem.Haptics.IDualMotorRumble rumble)
+		{
+            rumble.ResetHaptics();
+        }
+    }
+
     public static Player GetPlayerBySlot( PlayerSlot a_PlayerSlot ) => GetPlayerByIndex( ( int )a_PlayerSlot ) as Player;
 
     public static void PulseAllHaptics(float time, float power)
