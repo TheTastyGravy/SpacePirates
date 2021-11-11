@@ -23,6 +23,12 @@ TextureImporter:
   - first:
       213: 5199122735336243880
     second: UI_PlayAgain_Selected
+  - first:
+      213: 4145205389592036814
+    second: UI_Summary_Sheet_7
+  - first:
+      213: 2089790660150455271
+    second: UI_Summary_Sheet_8
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -163,9 +169,9 @@ TextureImporter:
       name: UI_Summary
       rect:
         serializedVersion: 2
-        x: 119
+        x: 252
         y: 791
-        width: 700
+        width: 438
         height: 125
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -302,6 +308,48 @@ TextureImporter:
       bones: []
       spriteID: 8a2cf57e49ef62840800000000000000
       internalID: 5199122735336243880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Summary_Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 794
+        width: 113
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec50bafe65ab68930800000000000000
+      internalID: 4145205389592036814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Summary_Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 713
+        y: 792
+        width: 113
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7eb6231888d600d10800000000000000
+      internalID: 2089790660150455271
       vertices: []
       indices: 
       edges: []
