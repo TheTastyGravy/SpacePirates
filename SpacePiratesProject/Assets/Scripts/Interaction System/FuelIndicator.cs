@@ -12,6 +12,7 @@ public class FuelIndicator : MonoBehaviour
     public Color[] colors;
 
     private float lastLevel = 0;
+    private bool isHidden = false;
 
 
 
@@ -20,6 +21,7 @@ public class FuelIndicator : MonoBehaviour
         for (int i = 0; i < cells.Length; i++)
         {
             cells[i].SetColor(colors[i]);
+            cells[i].SetColor(new Color(cells[i].outer.color.r, cells[i].outer.color.g, cells[i].outer.color.b, 0));
         }
 
         SetFuelLevel(0);
@@ -61,6 +63,9 @@ public class FuelIndicator : MonoBehaviour
 
     void OnEnable()
     {
+        if (isHidden)
+            return;
+
         foreach (var obj in cells)
         {
             obj.outer.enabled = true;
@@ -70,10 +75,45 @@ public class FuelIndicator : MonoBehaviour
 
     void OnDisable()
     {
+        if (isHidden)
+            return;
+
         foreach (var obj in cells)
         {
             obj.outer.enabled = false;
             obj.filled.enabled = false;
         }
+    }
+
+    internal void SetHidden(bool value)
+    {
+        isHidden = value;
+
+        if (isHidden)
+        {
+            foreach (var cell in cells)
+            {
+                cell.SetColor(new Color(cell.outer.color.r, cell.outer.color.g, cell.outer.color.b, 0));
+            }
+        }
+        else
+        {
+            IEnumerator SimpleFade()
+            {
+                float time = 2;
+                float t = 0;
+                while (t < time)
+                {
+                    foreach (var cell in cells)
+                    {
+                        cell.SetColor(new Color(cell.outer.color.r, cell.outer.color.g, cell.outer.color.b, Mathf.Lerp(0, 1, t / time)));
+                    }
+                    t += Time.deltaTime;
+                    yield return null;
+                }
+            }
+            StartCoroutine(SimpleFade());
+        }
+        
     }
 }

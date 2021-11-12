@@ -32,6 +32,8 @@ public class BackgroundController : MonoBehaviour
             new Vector3(-0.5f, 0.5f, 0.5f));
 
         customTime += Time.deltaTime * speedMultiplier;
+        if (float.IsNaN(customTime))
+            customTime = 0;
         foreach (var obj in backgroundRenderers)
 		{
             obj.material.SetFloat("_ScaledTime", customTime);

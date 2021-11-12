@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 public class HUDController : Singleton< HUDController >
 {
     public HUDOptionsMenu OptionsMenu;
+    public Image[] images;
+    public Image bgImage;
 
     private List<System.Action<InputAction.CallbackContext>> actions;
 
@@ -14,6 +16,12 @@ public class HUDController : Singleton< HUDController >
 
     private void Start()
     {
+        foreach (Image image in images)
+        {
+            image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
+        }
+        bgImage.color = new Color(bgImage.color.r, bgImage.color.g, bgImage.color.b, 0);
+
         actions = new List<System.Action<InputAction.CallbackContext>>();
         foreach ( PlayerInput playerInput in PlayerInput.all )
         {
@@ -25,6 +33,28 @@ public class HUDController : Singleton< HUDController >
 
         // Delay by a frame
         Invoke(nameof(GetCamera), 0.1f);
+    }
+
+    public void SetDisplayHUD(bool value)
+    {
+        StartCoroutine(Fade(value));
+    }
+
+    private IEnumerator Fade(bool fadeIn)
+    {
+        float time = 2;
+        float t = 0;
+        while (t < time)
+        {
+            foreach (Image image in images)
+            {
+                image.color = new Color(image.color.r, image.color.g, image.color.b, Mathf.Lerp(fadeIn ? 0 : 1, fadeIn ? 1 : 0, t / time));
+            }
+            bgImage.color = new Color(bgImage.color.r, bgImage.color.g, bgImage.color.b, Mathf.Lerp(fadeIn ? 0 : 0.5f, fadeIn ? 0.5f : 0, t / time));
+            
+            t += Time.deltaTime;
+            yield return null;
+        }
     }
 
     private void GetCamera()

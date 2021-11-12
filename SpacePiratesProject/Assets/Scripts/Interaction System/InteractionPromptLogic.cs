@@ -23,6 +23,7 @@ public class InteractionPromptLogic : MonoBehaviour
 
     private bool isBeingUsed = false;
     private bool isSelected = false;
+    private bool isHidden = false;
     private float actualProgress = 0;
     private Coroutine routine;
     private bool IsBaseVisible => baseImages.Length > 0 && baseImages[0].color.a > 0;
@@ -79,6 +80,9 @@ public class InteractionPromptLogic : MonoBehaviour
 
     public void Pop(bool showDisabled = true)
 	{
+        if (isHidden)
+            return;
+
         if (routine != null)
         {
             StopCoroutine(routine);
@@ -88,6 +92,9 @@ public class InteractionPromptLogic : MonoBehaviour
 
     public void PopV2()
 	{
+        if (isHidden)
+            return;
+
         if (!enabled)
             return;
 
@@ -230,6 +237,9 @@ public class InteractionPromptLogic : MonoBehaviour
 
     public void Selected()
 	{
+        if (isHidden)
+            return;
+
         isSelected = true;
         if (OnSelected != null)
             OnSelected.Invoke();
@@ -248,6 +258,9 @@ public class InteractionPromptLogic : MonoBehaviour
 
     public void Unselected()
 	{
+        if (isHidden)
+            return;
+
         isSelected = false;
         if (OnUnselected != null)
             OnUnselected.Invoke();
@@ -266,6 +279,9 @@ public class InteractionPromptLogic : MonoBehaviour
 
 	void OnEnable()
 	{
+        if (isHidden)
+            return;
+
         if (!GetComponentInParent<Interactable>().enabled)
             return;
 
@@ -277,6 +293,9 @@ public class InteractionPromptLogic : MonoBehaviour
 
     void OnDisable()
 	{
+        if (isHidden)
+            return;
+
         isBeingUsed = false;
         if (gameObject.activeInHierarchy)
 		{
@@ -299,6 +318,60 @@ public class InteractionPromptLogic : MonoBehaviour
                 obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 1);
                 obj.transform.localScale = Vector3.one;
             }
+        }
+    }
+
+    public void SetHidden(bool value)
+    {
+        if (isHidden == value)
+            return;
+        isHidden = value;
+
+        if (routine != null)
+        {
+            StopCoroutine(routine);
+            routine = null;
+        }
+
+        FuelIndicator fuel = GetComponent<FuelIndicator>();
+        if (fuel != null)
+            fuel.SetHidden(isHidden);
+
+        if (isHidden)
+        {
+            foreach (var obj in baseImages)
+            {
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
+                obj.transform.localScale = Vector3.one;
+            }
+            foreach (var obj in selectedImages)
+            {
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
+                obj.transform.localScale = Vector3.one;
+            }
+            foreach (var obj in disabledImages)
+            {
+                obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, 0);
+                obj.transform.localScale = Vector3.one;
+            }
+        }
+        else
+        {
+            IEnumerator SimpleFade()
+            {
+                float time = 2;
+                float t = 0;
+                while (t < time)
+                {
+                    foreach (var obj in enabled ? baseImages : disabledImages)
+                    {
+                        obj.color = new Color(obj.color.r, obj.color.g, obj.color.b, Mathf.Lerp(0, 1, t / time));
+                    }
+                    t += Time.deltaTime;
+                    yield return null;
+                }
+            }
+            StartCoroutine(SimpleFade());
         }
     }
 }

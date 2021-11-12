@@ -18,9 +18,14 @@ public class LevelController : Singleton<LevelController>
 
 	void Start()
     {
-        level = Level.GetLevel( GameManager.SelectedTrack );
+        Init();
+    }
+
+    private void Init()
+    {
+        level = Level.GetLevel(GameManager.SelectedTrack);
         level.Setup();
-        ship = Ship.GetShip( GameManager.SelectedShip );
+        ship = Ship.GetShip(GameManager.SelectedShip);
         Instantiate(ship.ShipPrefab, new Vector3(0, ship.heightOffset, 0), Quaternion.identity);
         // Event for game over
         ShipManager.Instance.OnZeroOxygen += () => OnGameOver(false);
@@ -28,6 +33,12 @@ public class LevelController : Singleton<LevelController>
         eventManager = EventManager.Instance;
         TimelineController.Instance.Setup(level);
         TimelineController.Instance.enabled = false;
+
+
+        foreach (InteractionPromptLogic prompt in FindObjectsOfType<InteractionPromptLogic>())
+        {
+            prompt.SetHidden(true);
+        }
 
         Invoke(nameof(StartGame), 1);
     }
@@ -38,6 +49,12 @@ public class LevelController : Singleton<LevelController>
         ShipManager.Instance.BeginGame();
         AstroidManager.Instance.BeginGame();
         StatusManager.Instance.enabled = true;
+        HUDController.Instance.SetDisplayHUD(true);
+
+        foreach (InteractionPromptLogic prompt in FindObjectsOfType<InteractionPromptLogic>())
+        {
+            prompt.SetHidden(false);
+        }
 
         foreach (Player player in Player.all)
         {
@@ -48,6 +65,9 @@ public class LevelController : Singleton<LevelController>
 
     void Update()
     {
+        if (ShipManager.Instance == null)
+            return;
+
         // Update player position
 		float playerSpeed = ShipManager.Instance.GetShipSpeed();
         playerPos += playerSpeed * Time.deltaTime;

@@ -46,6 +46,7 @@ public class TimelineController : Singleton<TimelineController>
 
     private float playerPos;
     private Coroutine playerFlashRoutine;
+    private bool updatePlayerPos = false;
 
 
 
@@ -57,6 +58,7 @@ public class TimelineController : Singleton<TimelineController>
         invLength = 1.0f / level.length;
         iconSize = timelineBase.rect.height;
         pingSpeed = pingDistance / pingTime;
+        updatePlayerPos = true;
 
         // Setup event icons
         List<EventIcon> iconsTemp = new List<EventIcon>();
@@ -127,6 +129,9 @@ public class TimelineController : Singleton<TimelineController>
 	void LateUpdate()
 	{
         playerPos = LevelController.Instance.PlayerPosition;
+
+        if (!updatePlayerPos)
+            return;
 
         if (playerShipFlashPeriod > 0)
 		{

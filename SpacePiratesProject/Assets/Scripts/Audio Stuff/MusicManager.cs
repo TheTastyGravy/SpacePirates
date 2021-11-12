@@ -217,7 +217,7 @@ public class MusicManager : Singleton<MusicManager>
 
 	void Update()
 	{
-        if (!inGameScene)
+        if (!inGameScene || ShipManager.Instance == null)
             return;
 
         musicInstance.setParameterByName("Oxygen Low", 1 - (ShipManager.Instance.OxygenLevel / ShipManager.Instance.maxOxygenLevel));
