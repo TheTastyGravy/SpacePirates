@@ -6,6 +6,7 @@ public class AsteroidFieldEffect : MonoBehaviour
 {
     public ParticleSystem[] asteroidSystems;
     public ParticleSystem[] dustSystems;
+    public float minAsteroidSpeed = 0.25f;
 
     private Coroutine routine;
     private int maxCount;
@@ -176,7 +177,7 @@ public class AsteroidFieldEffect : MonoBehaviour
                 int pCount = dustSystems[i].GetParticles(particles);
                 for (int j = 0; j < pCount; j++)
                 {
-                    particles[j].velocity = particles[j].velocity.normalized * dustBaseSpeed[i] * speedModifier;
+                    particles[j].velocity = particles[j].velocity.normalized * dustBaseSpeed[i] * Mathf.Max(speedModifier, minAsteroidSpeed);
                     // When a particle goes off screen, destroy it
                     if (particles[j].position.z < -30)
                     {
