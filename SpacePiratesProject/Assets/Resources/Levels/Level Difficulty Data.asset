@@ -22,12 +22,12 @@ MonoBehaviour:
     extraLengthPerEvent: 0
     timeBetweenAstroids: 10
     astroidSpawnDelay: 2
-    initTime: 1.5
+    initTime: 3
     timeBetweenAsteroidWaves: 15
     asteroidsPerWave: 4
-    asteroidPrestrikeDelay: 0.25
+    asteroidPrestrikeDelay: 2
     timeBetweenStormDamage: 15
-    plasmaStormPretrikeDelay: 1
+    plasmaStormPretrikeDelay: 4
     shipHealth: 5
     shipFirePeriod: 4
     maxFuel:
@@ -48,7 +48,7 @@ MonoBehaviour:
       useMaxPlayers: 0
     ammountOnRefuel:
       playerCountValues:
-      - 10
+      - 30
       - 0
       - 0
       - 0
@@ -96,10 +96,10 @@ MonoBehaviour:
       useMaxPlayers: 0
     fuelGenerationTime:
       playerCountValues:
-      - 3
       - 2
       - 1
-      - 1
+      - 0.5
+      - 0.5
       useSeperateValues: 1
       useMaxPlayers: 0
     maxShots:
@@ -122,12 +122,12 @@ MonoBehaviour:
     extraLengthPerEvent: 0
     timeBetweenAstroids: 8
     astroidSpawnDelay: 1.5
-    initTime: 1.5
+    initTime: 3
     timeBetweenAsteroidWaves: 12
     asteroidsPerWave: 5
-    asteroidPrestrikeDelay: 0.25
+    asteroidPrestrikeDelay: 2
     timeBetweenStormDamage: 12
-    plasmaStormPretrikeDelay: 1
+    plasmaStormPretrikeDelay: 4
     shipHealth: 8
     shipFirePeriod: 3
     maxFuel:
@@ -148,7 +148,7 @@ MonoBehaviour:
       useMaxPlayers: 0
     ammountOnRefuel:
       playerCountValues:
-      - 10
+      - 30
       - 0
       - 0
       - 0
@@ -196,10 +196,10 @@ MonoBehaviour:
       useMaxPlayers: 0
     fuelGenerationTime:
       playerCountValues:
-      - 3
-      - 3
+      - 2
       - 2
       - 1
+      - 0.5
       useSeperateValues: 1
       useMaxPlayers: 0
     maxShots:
@@ -222,12 +222,12 @@ MonoBehaviour:
     extraLengthPerEvent: 0
     timeBetweenAstroids: 8
     astroidSpawnDelay: 1
-    initTime: 1.5
+    initTime: 3
     timeBetweenAsteroidWaves: 10
     asteroidsPerWave: 6
-    asteroidPrestrikeDelay: 0.25
+    asteroidPrestrikeDelay: 2
     timeBetweenStormDamage: 10
-    plasmaStormPretrikeDelay: 1
+    plasmaStormPretrikeDelay: 4
     shipHealth: 10
     shipFirePeriod: 1
     maxFuel:
@@ -248,7 +248,7 @@ MonoBehaviour:
       useMaxPlayers: 0
     ammountOnRefuel:
       playerCountValues:
-      - 10
+      - 30
       - 0
       - 0
       - 0
@@ -297,9 +297,9 @@ MonoBehaviour:
     fuelGenerationTime:
       playerCountValues:
       - 4
-      - 4
-      - 3
-      - 2
+      - 3.5
+      - 2.5
+      - 1.5
       useSeperateValues: 1
       useMaxPlayers: 0
     maxShots:
