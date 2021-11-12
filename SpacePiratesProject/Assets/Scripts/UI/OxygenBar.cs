@@ -33,6 +33,12 @@ public class OxygenBar : MonoBehaviour
 		{
             timePassed = 0;
         }
+        // Flip direction
+        if (lastValue >= realValue || realValue <= 0)
+            arrows.transform.localScale = Vector3.one;
+        else
+            arrows.transform.localScale = -Vector3.one;
+
         lastValue = realValue;
 
         if (timePassed < fadeTime)
