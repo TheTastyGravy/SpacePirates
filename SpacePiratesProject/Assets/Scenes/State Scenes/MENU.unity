@@ -2551,6 +2551,7 @@ GameObject:
   - component: {fileID: 997556150}
   - component: {fileID: 997556149}
   - component: {fileID: 997556151}
+  - component: {fileID: 997556152}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -2658,6 +2659,27 @@ MonoBehaviour:
       Data4: 903658640
     Path: event:/Menu/Highlight
   useSlider: 1
+--- !u!114 &997556152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997556148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f973e56a5c9543a489982f546df36711, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 997556149}
+  sound:
+    Guid:
+      Data1: 1483145772
+      Data2: 1160292686
+      Data3: 806144154
+      Data4: 501454939
+    Path: event:/VOs/Spoofs
+  timeDelay: 0.25
 --- !u!1 &1082240173
 GameObject:
   m_ObjectHideFlags: 0
