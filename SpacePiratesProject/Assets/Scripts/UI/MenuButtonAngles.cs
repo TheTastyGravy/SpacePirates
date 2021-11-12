@@ -15,7 +15,7 @@ public class MenuButtonAngles : MonoBehaviour, ISelectHandler, IDeselectHandler
 
 
 
-    void Start()
+    void Awake()
     {
         if (leftAngleImage == null || rightAngleImage == null)
             Init();
