@@ -60,6 +60,8 @@ public class AstroidField : Event
 
 public class PlasmaStorm : Event
 {
+	public RectTransform canvas;
+	public GameObject strikeEffect;
 	public float preStrikeDelay;
 	public float timeBetweenDamage;
 
@@ -101,8 +103,6 @@ public class PlasmaStorm : Event
 	private void PreStrike()
 	{
 		StatusManager.Instance.OnPrestrike(Level.Event.Type.PlasmaStorm);
-
-		//start effect or something
 	}
 
 	private void Strike()
@@ -112,7 +112,8 @@ public class PlasmaStorm : Event
 		{
 			station.Damage();
 		}
-		//play some effect at station (lightning? sparks?)
+
+		Object.Instantiate(strikeEffect, canvas);
 	}
 }
 

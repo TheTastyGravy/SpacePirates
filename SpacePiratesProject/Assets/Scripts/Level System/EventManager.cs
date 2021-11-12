@@ -17,6 +17,8 @@ public class EventManager : Singleton<EventManager>
 	private int astroidsPerWave;
 	private float asteroidPrestrikeDelay;
 
+	public RectTransform canvas;
+	public GameObject strikeEffect;
 	private float timeBetweenDamage;
 	private float plasmaStormPretrikeDelay;
 
@@ -63,6 +65,8 @@ public class EventManager : Singleton<EventManager>
 			case Level.Event.Type.PlasmaStorm:
 				currentEvent = new PlasmaStorm()
 				{
+					canvas = canvas,
+					strikeEffect = strikeEffect,
 					timeBetweenDamage = timeBetweenDamage,
 					preStrikeDelay = plasmaStormPretrikeDelay
 				};

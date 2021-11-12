@@ -7,9 +7,12 @@ public class FlashLogic : MonoBehaviour
     public float Speed;
 
     bool running, back;
-    private void OnEnable()
+
+
+
+    void Start()
     {
-        running = false;
+        running = true;
         back = false;
     }
 
@@ -27,14 +30,8 @@ public class FlashLogic : MonoBehaviour
             {
                 _Image.color += new Color(0f, 0f, 0f, Time.fixedDeltaTime * -Speed);
                 if (_Image.color.a <= 0f)
-                    running = false;
+                    Destroy(gameObject);
             }
         }
-    }
-
-    public void Run()
-    {
-        running = true;
-        back = false;
     }
 }
