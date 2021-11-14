@@ -148,7 +148,7 @@ MonoBehaviour:
       useMaxPlayers: 0
     ammountOnRefuel:
       playerCountValues:
-      - 30
+      - 20
       - 0
       - 0
       - 0
@@ -248,7 +248,7 @@ MonoBehaviour:
       useMaxPlayers: 0
     ammountOnRefuel:
       playerCountValues:
-      - 30
+      - 10
       - 0
       - 0
       - 0
