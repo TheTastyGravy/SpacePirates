@@ -607,7 +607,7 @@ MonoBehaviour:
         Data3: 0
         Data4: 0
       Path: 
-  generalRepair:
+  repairShip:
     strings:
     - REPAIR THE SHIP!!
     dialogueEvent:
@@ -628,6 +628,16 @@ MonoBehaviour:
         Data3: 0
         Data4: 0
       Path: 
+  lowOxygen:
+    strings:
+    - OXYGEN LEVEL CRITICAL!!
+    dialogueEvent:
+      Guid:
+        Data1: 397801430
+        Data2: 1103707573
+        Data3: 1330721720
+        Data4: 581159624
+      Path: event:/VOs/LowOxygen
   useEngines:
     strings:
     - ACTIVATE THE ENGINES!!

@@ -1,4 +1,4 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,7 +33,8 @@ public class StatusManager : Singleton<StatusManager>
     public StringGroup reactorDamaged;
     public StringGroup reactorDisabled;
     [Space]
-    public StringGroup generalRepair;
+    public StringGroup repairShip;
+    public StringGroup lowOxygen;
     public StringGroup generalRefuel;
     [Space]
     public StringGroup useEngines;
@@ -107,79 +108,98 @@ public class StatusManager : Singleton<StatusManager>
             return;
         }
 
-        //  -----   EVENTS   -----
-        if (eventActive)
+        if (!ImportantStatusChecks())
         {
-            if (Random.Range(0f, 1f) < genericChance)
-            {
-                ProcessStringGroup(genericEvent);
-            }
+            if (eventActive)
+                EventStatus();
             else
+                GenericStatus();
+        }
+	}
+
+    private bool ImportantStatusChecks()
+    {
+        // Reactor
+        if (ShipManager.Instance.Reactor.Damage.DamageLevel > 0)
+        {
+            ProcessStringGroup(reactorDamaged);
+            return true;
+        }
+        if (!ShipManager.Instance.Reactor.IsTurnedOn)
+        {
+            ProcessStringGroup(reactorDisabled);
+            return true;
+        }
+
+        // Ship hull
+        if (ShipManager.Instance.OxygenLevel < 30)
+        {
+            ProcessStringGroup(lowOxygen);
+            return true;
+        }
+        if (ShipManager.Instance.oxygenDrain < -3)
+        {
+            ProcessStringGroup(repairShip);
+            return true;
+        }
+
+        return false;
+    }
+
+    private void EventStatus()
+    {
+        if (Random.Range(0f, 1f) < genericChance)
+        {
+            ProcessStringGroup(genericEvent);
+        }
+        else
+        {
+            switch (currentEvent)
             {
-                switch (currentEvent)
-                {
-                    case Level.Event.Type.AstroidField:
-                        ProcessStringGroup(asteroidDurring);
-                        break;
-                    case Level.Event.Type.PlasmaStorm:
-                        ProcessStringGroup(stormDurring);
-                        break;
-                    case Level.Event.Type.ShipAttack:
-                        ProcessStringGroup(shipDurring);
-                        break;
-                }
+                case Level.Event.Type.AstroidField:
+                    ProcessStringGroup(asteroidDurring);
+                    break;
+                case Level.Event.Type.PlasmaStorm:
+                    ProcessStringGroup(stormDurring);
+                    break;
+                case Level.Event.Type.ShipAttack:
+                    ProcessStringGroup(shipDurring);
+                    break;
             }
+        }
+    }
+
+    private void GenericStatus()
+    {
+        int count = 0;
+        foreach (var obj in engines)
+        {
+            if (obj.CurrentFuel == 0)
+            {
+                count++;
+            }
+        }
+        foreach (var obj in turrets)
+        {
+            if (obj.ShotsRemaining == 0)
+            {
+                count++;
+            }
+        }
+        if (count > 1)
+        {
+            ProcessStringGroup(generalRefuel);
             return;
         }
 
-        
-        //  -----   GENERIC   -----
-        if (ShipManager.Instance.Reactor.Damage.DamageLevel > 0)
-		{
-            ProcessStringGroup(reactorDamaged);
-            return;
-        }
-        if (!ShipManager.Instance.Reactor.IsTurnedOn)
-		{
-            ProcessStringGroup(reactorDisabled);
-            return;
-        }
-        
-        if ((ShipManager.Instance.OxygenLevel < 90 && ShipManager.Instance.oxygenDrain > 2) || (ShipManager.Instance.OxygenLevel < 50 && ShipManager.Instance.oxygenDrain > 0))  //maybe also check num damaged stations
-		{
-            ProcessStringGroup(generalRepair);
-            return;
-        }
-        
-        int count = 0;
-        foreach (var obj in engines)
-		{
-            if (obj.CurrentFuel == 0)
-			{
-                count++;
-            }
-		}
-        foreach (var obj in turrets)
-		{
-            if (obj.ShotsRemaining == 0)
-			{
-                count++;
-            }
-		}
-        if (count > 1)
-		{
-            ProcessStringGroup(generalRefuel);
-            return;
-		}
-        
         if (ShipManager.Instance.GetShipSpeed() == 0)
-		{
+        {
             ProcessStringGroup(useEngines);
             return;
         }
 
         ProcessStringGroup(general);
-	}
+    }
 
     // Set text and play dialogue
     private void ProcessStringGroup(in StringGroup group, bool shouldFlash = false)
