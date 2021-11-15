@@ -23,12 +23,10 @@ public class AstroidField : Event
 
 	public override void Start()
 	{
-		//activate background particle effects
 	}
 
 	public override void Stop()
 	{
-		//disable background particle effects
 	}
 
 	public override void Update()
@@ -114,6 +112,7 @@ public class PlasmaStorm : Event
 		}
 
 		Object.Instantiate(strikeEffect, canvas);
+		CameraManager.Instance.Shake();
 	}
 }
 

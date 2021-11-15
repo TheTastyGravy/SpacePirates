@@ -86,7 +86,6 @@ public class ShipManager : Singleton<ShipManager>
         {
             obj.enabled = true;
         }
-        Camera.main.transform.parent = null;
         useWander = true;
     }
 
@@ -105,6 +104,7 @@ public class ShipManager : Singleton<ShipManager>
         }
         holeData.room.DamageRoom(holeData);
         Player.PulseAllHaptics(damageHapticsTime, damageHapticsPower);
+        CameraManager.Instance.Shake();
     }
 
     public float GetShipSpeed()
