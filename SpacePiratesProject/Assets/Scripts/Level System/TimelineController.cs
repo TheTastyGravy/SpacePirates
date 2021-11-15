@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using FMODUnity;
 
 public class TimelineController : Singleton<TimelineController>
 {
@@ -23,6 +24,9 @@ public class TimelineController : Singleton<TimelineController>
     [Space]
     [Tooltip("The period between flashes. Set to 0 to disable")]
     public float playerShipFlashPeriod = 1.2f;
+    [Space]
+    public EventReference scanEvent;
+    public EventReference pingEvent;
 
 
     private RectTransform timelineBase;
@@ -167,6 +171,9 @@ public class TimelineController : Singleton<TimelineController>
     {
         // Fade in the ping effect
         StartCoroutine(FadePingEffect(true));
+        // Play sound effect
+        if (!scanEvent.IsNull)
+            RuntimeManager.PlayOneShot(scanEvent);
 
         // Find the first icon that will be pinged
         int index = icons.Length;
@@ -197,6 +204,9 @@ public class TimelineController : Singleton<TimelineController>
             if (index < icons.Length && dist >= icons[index].position)
 			{
                 StartCoroutine(FlashIcon(icons[index].image));
+                // Play sound effect
+                if (!pingEvent.IsNull)
+                    RuntimeManager.PlayOneShot(pingEvent);
                 index++;
 			}
 
@@ -216,10 +226,8 @@ public class TimelineController : Singleton<TimelineController>
 
     private IEnumerator FlashIcon(Image image)
 	{
-        Color blank = new Color(1, 1, 1, 0);
-        float time = 0;
-
         // Fade in
+        float time = 0;
         while (time < flashFadeInTime)
 		{
             image.color = new Color(image.color.r, image.color.g, image.color.b, Mathf.Lerp(0, 1, time / flashFadeInTime));
@@ -230,9 +238,9 @@ public class TimelineController : Singleton<TimelineController>
         // Display
         image.color = new Color(image.color.r, image.color.g, image.color.b, 1);
         yield return new WaitForSeconds(flashDisplayTime);
-        time = 0;
 
         // Fade out
+        time = 0;
         while (time < flashFadeOutTime)
 		{
             image.color = new Color(image.color.r, image.color.g, image.color.b, Mathf.Lerp(1, 0, time / flashFadeOutTime));

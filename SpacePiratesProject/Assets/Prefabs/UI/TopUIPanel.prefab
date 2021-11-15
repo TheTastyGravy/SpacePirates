@@ -617,6 +617,16 @@ MonoBehaviour:
         Data3: 1361070758
         Data4: 1352856471
       Path: event:/VOs/ManyHoles
+  lowOxygen:
+    strings:
+    - OXYGEN LEVEL CRITICAL!!
+    dialogueEvent:
+      Guid:
+        Data1: 397801430
+        Data2: 1103707573
+        Data3: 1330721720
+        Data4: 581159624
+      Path: event:/VOs/LowOxygen
   generalRefuel:
     strings:
     - REFUEL THE ENGINES!!
@@ -628,16 +638,6 @@ MonoBehaviour:
         Data3: 0
         Data4: 0
       Path: 
-  lowOxygen:
-    strings:
-    - OXYGEN LEVEL CRITICAL!!
-    dialogueEvent:
-      Guid:
-        Data1: 397801430
-        Data2: 1103707573
-        Data3: 1330721720
-        Data4: 581159624
-      Path: event:/VOs/LowOxygen
   useEngines:
     strings:
     - ACTIVATE THE ENGINES!!
@@ -878,6 +878,20 @@ MonoBehaviour:
   flashDisplayTime: 0.1
   flashFadeOutTime: 1
   playerShipFlashPeriod: 1.2
+  scanEvent:
+    Guid:
+      Data1: 1012266214
+      Data2: 1149314581
+      Data3: 2099973762
+      Data4: -858989168
+    Path: event:/Stations/Radar/SFX/Scanning
+  pingEvent:
+    Guid:
+      Data1: -1383907826
+      Data2: 1115749804
+      Data3: 34476982
+      Data4: 914928117
+    Path: event:/Stations/Radar/SFX/Ping
 --- !u!1 &6661497441407422335
 GameObject:
   m_ObjectHideFlags: 0

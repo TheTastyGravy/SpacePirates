@@ -56,11 +56,11 @@ MonoBehaviour:
   onePlayerIcon: {fileID: 0}
   interactionEvent:
     Guid:
-      Data1: -1730815229
-      Data2: 1331283011
-      Data3: -845258340
-      Data4: -631761588
-    Path: event:/Stations/Interact
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   forceDisabled: 0
 --- !u!65 &5241238829815736068
 BoxCollider:

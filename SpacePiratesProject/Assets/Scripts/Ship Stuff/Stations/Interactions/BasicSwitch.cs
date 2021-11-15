@@ -77,7 +77,8 @@ public class BasicSwitch : Interactable
 		enabled = false;
 		Invoke(nameof(Reenable), interactionCooldown);
 		// Play sound effect
-		RuntimeManager.PlayOneShot(interactionEvent);
+		if (!interactionEvent.IsNull)
+			RuntimeManager.PlayOneShot(interactionEvent);
 	}
 
 	protected override bool CanBeUsed(Interactor interactor, out Player.Control button)
