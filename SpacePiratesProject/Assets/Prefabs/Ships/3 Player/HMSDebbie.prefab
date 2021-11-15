@@ -543,6 +543,13 @@ MonoBehaviour:
   wanderAcceleration: 0.3
   damageHapticsTime: 0.2
   damageHapticsPower: 0.3
+  impactEvent:
+    Guid:
+      Data1: -684158216
+      Data2: 1267540296
+      Data3: 430097047
+      Data4: -474427272
+    Path: event:/SFX/Impacts
   oxygenDrain: 0
 --- !u!1 &7202284300289786772
 GameObject:

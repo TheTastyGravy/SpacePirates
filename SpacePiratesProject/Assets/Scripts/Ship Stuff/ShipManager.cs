@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 public class ShipManager : Singleton<ShipManager>
 {
@@ -29,6 +30,7 @@ public class ShipManager : Singleton<ShipManager>
     [Space]
     public float damageHapticsTime = 0.2f;
     public float damageHapticsPower = 0.3f;
+    public EventReference impactEvent;
 
     private ReactorStation[] reactors;
     public ReactorStation Reactor => reactors.Length > 0 ? reactors[0] : null;
@@ -103,6 +105,8 @@ public class ShipManager : Singleton<ShipManager>
             room.FindClosestHolePos(ref holeData);
         }
         holeData.room.DamageRoom(holeData);
+        // Play effects
+        RuntimeManager.PlayOneShot(impactEvent);
         Player.PulseAllHaptics(damageHapticsTime, damageHapticsPower);
         CameraManager.Instance.Shake();
     }
