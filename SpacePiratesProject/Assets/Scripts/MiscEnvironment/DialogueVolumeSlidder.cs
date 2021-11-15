@@ -10,8 +10,8 @@ public class DialogueVolumeSlidder : MonoBehaviour
     public EventReference sound;
     public float timeDelay = 0.25f;
 
-    private FMOD.Studio.EventInstance musicInstance;
-    private float timePassed = 0;
+    private FMOD.Studio.EventInstance soundInstance;
+    private float timePassed = 999;
 
 
 
@@ -19,13 +19,19 @@ public class DialogueVolumeSlidder : MonoBehaviour
     {
         slider.onValueChanged.AddListener(delegate { OnValueChanged(); });
 
-        musicInstance = RuntimeManager.CreateInstance(sound);
-        musicInstance.set3DAttributes(RuntimeUtils.To3DAttributes(Vector3.zero));
+        soundInstance = RuntimeManager.CreateInstance(sound);
+        soundInstance.set3DAttributes(RuntimeUtils.To3DAttributes(Vector3.zero));
+    }
+
+    void OnDisable()
+    {
+        soundInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        timePassed = 999;
     }
 
     private void OnValueChanged()
     {
-        musicInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        soundInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         timePassed = 0;
     }
 
@@ -37,7 +43,7 @@ public class DialogueVolumeSlidder : MonoBehaviour
 
             if (timePassed >= timeDelay)
             {
-                musicInstance.start();
+                soundInstance.start();
             }
         }
     }
