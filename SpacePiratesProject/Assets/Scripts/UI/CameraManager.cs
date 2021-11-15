@@ -14,10 +14,10 @@ public class CameraManager : Singleton<CameraManager>
 
 
 
-    void Awake()
+    void Start()
     {
         trans = transform;
-        startPos = trans.localPosition;
+        startPos = trans.position;
         trans.parent = null;
     }
 
@@ -33,7 +33,7 @@ public class CameraManager : Singleton<CameraManager>
             }
             else
             {
-                trans.localPosition = startPos + trans.rotation * (Random.insideUnitCircle * baseShakeIntensity * currentShakeMult);
+                trans.position = startPos + trans.rotation * (Random.insideUnitCircle * baseShakeIntensity * currentShakeMult);
             }
         }
     }
