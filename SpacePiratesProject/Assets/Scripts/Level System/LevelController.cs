@@ -112,6 +112,7 @@ public class LevelController : Singleton<LevelController>
 		{
             player.Character.enabled = false;
             (player.Character as Character).IsKinematic = true;
+            player.Character.GetComponent<Interactor>().enabled = false;
         }
         // Stop everything
         enabled = false;

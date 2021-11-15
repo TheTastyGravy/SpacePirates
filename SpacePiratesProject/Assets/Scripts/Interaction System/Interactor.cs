@@ -86,7 +86,11 @@ public class Interactor : MonoBehaviour
 
 	void OnDisable()
 	{
-		EndInteraction();
+		if (IsInteracting)
+        {
+			currentInteractable.ButtonUp(this);
+			EndInteraction();
+		}
 	}
 
 	private void OnInteractionInput(InputAction.CallbackContext context)
