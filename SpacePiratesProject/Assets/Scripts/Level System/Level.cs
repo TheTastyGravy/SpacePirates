@@ -124,6 +124,19 @@ public class Level : ScriptableObject
 		}
 	}
 
+	public void ResizeEvent(int index, float newEnd)
+	{
+		float diff = events[index].end - newEnd;
+		events[index].end = newEnd;
+		// Move all following events forward to avoid a larger gap
+		for (int i = index + 1; i < events.Count; i++)
+		{
+			events[i].start -= diff;
+			events[i].end -= diff;
+		}
+		length -= diff;
+	}
+
 	public static Level[] All
     {
         get

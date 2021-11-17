@@ -31,9 +31,9 @@ public class LevelController : Singleton<LevelController>
         ShipManager.Instance.OnZeroOxygen += () => OnGameOver(false);
 
         eventManager = EventManager.Instance;
-        TimelineController.Instance.Setup(level);
+		eventManager.OnEventChange += OnEventChange;
+		TimelineController.Instance.Setup(level);
         TimelineController.Instance.enabled = false;
-
 
         foreach (InteractionPromptLogic prompt in FindObjectsOfType<InteractionPromptLogic>())
         {
@@ -79,9 +79,9 @@ public class LevelController : Singleton<LevelController>
             // If the player has passed the end, stop the event
             if (playerPos >= currentEvent.end)
             {
-                eventManager.StopEvent();
-                lastEventIndex++;
-                currentEvent = null;
+				currentEvent = null;
+				lastEventIndex++;
+				eventManager.StopEvent();
             }
         }
         // If there are more events in the level
@@ -102,6 +102,18 @@ public class LevelController : Singleton<LevelController>
             OnGameOver(true);
         }
     }
+
+	private void OnEventChange(Level.Event.Type eventType, EventManager.EventStage stage)
+	{
+		// If the event has ended early, resize the event to bring the next event forward
+		if (stage == EventManager.EventStage.END && currentEvent != null)
+		{
+			currentEvent = null;
+			lastEventIndex++;
+			level.ResizeEvent(lastEventIndex, playerPos);
+			TimelineController.Instance.UpdateTimeline();
+		}
+	}
 
     private void OnGameOver(bool hasWon)
 	{
