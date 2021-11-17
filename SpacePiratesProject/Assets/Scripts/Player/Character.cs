@@ -105,9 +105,19 @@ public class Character : ICharacter
         m_Rigidbody.velocity = new Vector3(movement.x, Mathf.Min(m_Rigidbody.velocity.y, 0), movement.z);
 
 		// Rotate over time towards the direction of movement
-		Vector3 forward = Vector3.Slerp( transform.forward, movement, Time.fixedDeltaTime * TurnSpeed );
-		Quaternion quat = Quaternion.FromToRotation( transform.forward, forward );
+		Vector3 newForward = Vector3.Slerp( transform.forward, movement, Time.fixedDeltaTime * TurnSpeed );
+        newForward.y = 0;
+        Vector3 currentForward = transform.forward;
+        currentForward.y = 0;
+		Quaternion quat = Quaternion.FromToRotation(currentForward, newForward);
 		m_Rigidbody.MoveRotation( m_Rigidbody.rotation * quat );
+        // Prevent the player from falling through the ground
+        if (m_Rigidbody.position.y < -0.5f)
+        {
+            Vector3 pos = m_Rigidbody.position;
+            pos.y = 0;
+            m_Rigidbody.MovePosition(pos);
+        }
     }
 
 	void OnDisable()
