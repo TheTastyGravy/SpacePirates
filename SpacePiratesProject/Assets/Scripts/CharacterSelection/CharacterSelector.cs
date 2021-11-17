@@ -34,6 +34,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
             return;
         }
 
+        MenuBaseLogic.Instance.SetSidePanelsVisible(false);
         //Canvas.worldCamera = Camera.main;
         m_SelectorTiles = new SelectorTile[ ( int )Player.PlayerSlot.COUNT ];
         m_CharacterTiles = new CharacterTile[ CharacterTiles.Length ];
@@ -102,6 +103,7 @@ public class CharacterSelector : Singleton< CharacterSelector >
             primaryPlayer.RemoveInputListener( Player.Control.B_PRESSED, OnBPressedByP1 );
         PlayerInputManager.instance.onPlayerJoined -= OnPlayerJoined;
         PlayerInputManager.instance.onPlayerLeft -= OnPlayerLeft;
+        MenuBaseLogic.Instance.SetSidePanelsVisible(true);
     }
 
     public static CharacterDock GetCharacterDock( Player.PlayerSlot a_PlayerSlot )
