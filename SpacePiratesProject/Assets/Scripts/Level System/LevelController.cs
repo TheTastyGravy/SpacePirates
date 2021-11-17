@@ -85,7 +85,7 @@ public class LevelController : Singleton<LevelController>
             }
         }
         // If there are more events in the level
-        else if (level.events.Length > lastEventIndex + 1)
+        else if (level.events.Count > lastEventIndex + 1)
         {
             // If the player has passed the start, start the event
             Level.Event nextEvent = level.events[lastEventIndex + 1];

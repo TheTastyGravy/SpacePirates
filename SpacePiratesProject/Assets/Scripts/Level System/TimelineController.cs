@@ -66,7 +66,7 @@ public class TimelineController : Singleton<TimelineController>
 
         // Setup event icons
         List<EventIcon> iconsTemp = new List<EventIcon>();
-        for (int i = 0; i < level.events.Length; i++)
+        for (int i = 0; i < level.events.Count; i++)
 		{
             Level.Event _event = level.events[i];
             // Check the event has an icon

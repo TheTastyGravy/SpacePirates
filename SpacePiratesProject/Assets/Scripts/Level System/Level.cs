@@ -32,12 +32,14 @@ public class Level : ScriptableObject
     [Space]
     [Tooltip("This value is generated with the level")]
     public float length;
-    public Event[] events;
+    public List<Event> events = new List<Event>();
+
+	// Values used for event creation
+	private float eventArea;
 
 
-
-    // Called by LevelController.Start()
-    public void Setup()
+	// Called by LevelController.Start()
+	public void Setup()
 	{
         if (useRandomEvents)
 		{
@@ -69,57 +71,58 @@ public class Level : ScriptableObject
 
     private void GenerateRandomLevel()
 	{
-        // Player count doesnt matter for levels
-        LevelDificultyData.DiffSetting settings = diffData.GetSetting(difficulty, 2, 2);
+		events.Clear();
+		// Player count doesnt matter for levels
+		LevelDificultyData.DiffSetting settings = diffData.GetSetting(difficulty, 2, 2);
 
-        int eventCount = UnityEngine.Random.Range(settings.minEventCount, settings.maxEventCount + 1);
-        // Determine length of level
-        length = diffData.edgeBoundry * 2 + (settings.maxEventLength + diffData.regionGap + settings.extraLengthPerEvent) * eventCount;
-
-        events = new Event[eventCount];
-        // The area an event can be created within
-        float eventArea = (length - diffData.edgeBoundry * 2) / eventCount;
-
-        for (int i = 0; i < eventCount; i++)
+		eventArea = diffData.regionGap + settings.maxEventLength + settings.extraLengthPerEvent;
+		int eventCount = UnityEngine.Random.Range(settings.minEventCount, settings.maxEventCount + 1);
+        length = diffData.edgeBoundry * 2 + eventArea * eventCount;
+		// Create events
+		for (int i = 0; i < eventCount; i++)
         {
-            float halfLength = UnityEngine.Random.Range(settings.minEventLength, settings.maxEventLength) * 0.5f;
-            float pos = UnityEngine.Random.Range(halfLength + diffData.regionGap * 0.5f, eventArea - halfLength - diffData.regionGap * 0.5f) + diffData.edgeBoundry + eventArea * i;
-
-            float start = pos - halfLength;
-            float end = pos + halfLength;
-            // Prevent events from overlapping or going outside the boundry
-            start = Mathf.Max(start, i > 0 ? events[i - 1].end : diffData.edgeBoundry);
-            if (i == eventCount - 1)
-			{
-                end = Mathf.Min(end, length - diffData.edgeBoundry);
-			}
-
-            events[i] = new Event()
-            {
-                start = start,
-                end = end,
-                // Get random int in range of enum count, and cast to Event.Type
-                type = (Event.Type)UnityEngine.Random.Range(0, Enum.GetValues(typeof(Event.Type)).Length - 1)
-            };
-
-            // If this is the same type as the last event, change it
-            if (i > 0 && events[i].type == events[i - 1].type)
-            {
-                switch (events[i].type)
-                {
-                    case Event.Type.AstroidField:
-                        events[i].type = Event.Type.PlasmaStorm;
-                        break;
-                    case Event.Type.PlasmaStorm:
-                        events[i].type = Event.Type.ShipAttack;
-                        break;
-                    case Event.Type.ShipAttack:
-                        events[i].type = Event.Type.AstroidField;
-                        break;
-                }
-            }
-        }
+			CreateEvent(UnityEngine.Random.Range(settings.minEventLength, settings.maxEventLength) * 0.5f);
+		}
     }
+
+	private void CreateEvent(float halfLength)
+	{
+		int index = events.Count;
+
+		// Find the center position to determine the start and end around it
+		float offset = diffData.edgeBoundry;
+		if (index > 0)
+		{
+			// Round the previous events end pos up to a multiple of eventArea. This is done instead of 
+			// using eventArea * index to make it independent of event index, being important for endless mode
+			offset += Mathf.Round((events[index - 1].end - offset - 1) / eventArea) * eventArea;
+		}
+		float pos = UnityEngine.Random.Range(halfLength + diffData.regionGap * 0.5f, eventArea - halfLength - diffData.regionGap * 0.5f) + offset;
+		events.Add(new Event()
+		{
+			start = pos - halfLength,
+			end = pos + halfLength,
+			// Get random int in range of enum count, and cast to Event.Type
+			type = (Event.Type)UnityEngine.Random.Range(0, Enum.GetValues(typeof(Event.Type)).Length - 1)
+		});
+		
+		// If this is the same type as the last event, change it
+		if (index > 0 && events[index].type == events[index - 1].type)
+		{
+			switch (events[index].type)
+			{
+				case Event.Type.AstroidField:
+					events[index].type = Event.Type.PlasmaStorm;
+					break;
+				case Event.Type.PlasmaStorm:
+					events[index].type = Event.Type.ShipAttack;
+					break;
+				case Event.Type.ShipAttack:
+					events[index].type = Event.Type.AstroidField;
+					break;
+			}
+		}
+	}
 
 	public static Level[] All
     {
