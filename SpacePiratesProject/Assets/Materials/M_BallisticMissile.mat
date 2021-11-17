@@ -109,7 +109,11 @@ Material:
     - _Parallax: 0.0215
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+<<<<<<< Updated upstream
     - _Smoothness: 0.703
+=======
+    - _Smoothness: 0.67
+>>>>>>> Stashed changes
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
