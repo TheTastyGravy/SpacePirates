@@ -660,6 +660,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateLight: {fileID: 6214520378672009785}
   ActiveEffect: {fileID: 6303066593096122709}
+  fuelGens:
+  - {fileID: 8824153044975623900}
+  - {fileID: 6802874016640609262}
 --- !u!1 &7978950749829107200
 GameObject:
   m_ObjectHideFlags: 0

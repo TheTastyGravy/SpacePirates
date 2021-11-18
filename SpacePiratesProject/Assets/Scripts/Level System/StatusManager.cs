@@ -132,12 +132,12 @@ public class StatusManager : Singleton<StatusManager>
         }
 
         // Ship hull
-        if (ShipManager.Instance.OxygenLevel < 30)
+        if (ShipManager.Instance.OxygenLevel < 50)
         {
             ProcessStringGroup(lowOxygen);
             return true;
         }
-        if (ShipManager.Instance.oxygenDrain < -3)
+        if (ShipManager.Instance.oxygenDrain < -2)
         {
             ProcessStringGroup(repairShip);
             return true;
