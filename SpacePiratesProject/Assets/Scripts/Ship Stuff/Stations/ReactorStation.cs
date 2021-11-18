@@ -8,7 +8,7 @@ public class ReactorStation : MonoBehaviour
 	public ParticleSystem ActiveEffect;
 
 	private BasicSwitch[] reactorSwitches;
-	private ReactorFuelGen fuelGen;
+	public ReactorFuelGen[] fuelGens;
 	private DamageStation damage;
 	public DamageStation Damage => damage;
 	private bool isTurnedOn = true;
@@ -26,7 +26,7 @@ public class ReactorStation : MonoBehaviour
     void Awake()
     {
 		reactorSwitches = GetComponentsInChildren<BasicSwitch>();
-		fuelGen = GetComponentInChildren<ReactorFuelGen>();
+		//fuelGen = GetComponentsInChildren<ReactorFuelGen>();
         damage = GetComponentInChildren<DamageStation>();
 		enabled = false;
 
@@ -50,18 +50,28 @@ public class ReactorStation : MonoBehaviour
 	{
 		isTurnedOn = true;
 		currentOxygenRegen = baseOxygenRegenRate;
-		fuelGen.SetActive(true);
+		//fuelGen.SetActive(true);
+		SetStatus(true);
 
 		stateLight.color = Color.green;
 		stateLight.intensity = 1;
 		ActiveEffect.Play();
 	}
 
+	private void SetStatus(bool b)
+	{
+		foreach (ReactorFuelGen r in fuelGens)
+		{
+			r.SetActive(b);
+		}
+	}
+
 	private void TurnOff()
 	{
 		isTurnedOn = false;
 		currentOxygenRegen = 0;
-		fuelGen.SetActive(false);
+		//fuelGen.SetActive(false);
+		SetStatus(false);
 
 		stateLight.color = Color.red;
 		stateLight.intensity = 2;
@@ -103,12 +113,21 @@ public class ReactorStation : MonoBehaviour
 
 	void OnEnable()
 	{
-		fuelGen.isActive = isTurnedOn;
+		foreach (ReactorFuelGen r in fuelGens)
+		{
+			r.isActive = IsTurnedOn;
+		}
+		//fuelGen.isActive = isTurnedOn;
 	}
 
 	void OnDisable()
 	{
-		if (fuelGen)
-			fuelGen.isActive = false;
+		foreach (ReactorFuelGen r in fuelGens)
+		{
+			if (r)
+				r.isActive = false;
+		}
+		//if (fuelGen)
+		//	fuelGen.isActive = false;
 	}
 }

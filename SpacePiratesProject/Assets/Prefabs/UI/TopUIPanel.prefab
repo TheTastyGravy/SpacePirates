@@ -870,8 +870,8 @@ MonoBehaviour:
   - {fileID: 7634360701724794496, guid: f2f44469c447ea041869ca258521c2f1, type: 3}
   playerShipIconPrefab: {fileID: 7634360701724794496, guid: b5d717397cdf800428190121a685ebb0, type: 3}
   pingEffectPrefab: {fileID: 7733858003142291371, guid: 03d1be19dc57d2340af78fc5c67c6dc1, type: 3}
-  pingDistance: 40
-  pingTime: 1.5
+  pingDistance: 999
+  pingTime: 5
   pingEffectFadeInTime: 0.2
   pingEffectFadeOutTime: 0.3
   flashFadeInTime: 0.2
