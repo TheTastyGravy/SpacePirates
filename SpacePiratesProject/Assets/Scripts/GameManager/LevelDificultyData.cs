@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Level Difficulty Data", menuName = "Data/Level Diff Data")]
 public class LevelDificultyData : ScriptableObject
 {
+    private static LevelDificultyData m_instance;
+
     public enum Difficulty
     {
         Easy,
@@ -82,6 +85,11 @@ public class LevelDificultyData : ScriptableObject
     private DiffSetting medium;
     [SerializeField]
     private DiffSetting hard;
+    [Header("Endless")]
+    public float timeToDiffIncrease = 20;
+    public float eventLengthAddition = 15;
+    public float asteroidSpawnPeriodDecrease = 1;
+    public float asteroidPromptDelayDecrease = 0.5f;
 
     internal static int m_playerCount = 0;
     internal static int m_maxPlayerCount = 0;
@@ -100,4 +108,13 @@ public class LevelDificultyData : ScriptableObject
 			_ => null,
 		};
 	}
+
+    public static LevelDificultyData Instance
+    {
+        get
+        {
+            m_instance = m_instance ?? Resources.LoadAll<LevelDificultyData>("Levels")[0];
+            return m_instance;
+        }
+    }
 }

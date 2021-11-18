@@ -13,16 +13,22 @@ public class LevelController : Singleton<LevelController>
     private int lastEventIndex = -1;
     private Level.Event currentEvent = null;
     private EventManager eventManager;
+    private LevelDificultyData diffData;
+    private LevelDificultyData.DiffSetting settings;
+    private float timePassed = 0;
+    private float endlessLengthAddition = 0;
 
 
 
-	void Start()
+    void Start()
     {
         Init();
     }
 
     private void Init()
     {
+        diffData = LevelDificultyData.Instance;
+        settings = GameManager.GetDifficultySettings();
         level = Level.GetLevel(GameManager.SelectedTrack);
         level.Setup();
         ship = Ship.GetShip(GameManager.SelectedShip);
@@ -82,6 +88,11 @@ public class LevelController : Singleton<LevelController>
 				currentEvent = null;
 				lastEventIndex++;
 				eventManager.StopEvent();
+                if (level.isEndless)
+                {
+                    level.CreateEvent(Random.Range(settings.minEventLength, settings.maxEventLength));
+                    TimelineController.Instance.UpdateTimeline();
+                }
             }
         }
         // If there are more events in the level
@@ -96,8 +107,23 @@ public class LevelController : Singleton<LevelController>
             }
         }
 
+        if (level.isEndless)
+        {
+            timePassed += Time.deltaTime;
+            if (timePassed >= diffData.timeToDiffIncrease)
+            {
+                timePassed = 0;
+                // Increase difficulty
+                endlessLengthAddition += diffData.eventLengthAddition;
+                level.eventArea += diffData.eventLengthAddition;
+
+
+                AstroidManager.Instance.IncreaseDifficulty();
+            }
+        }
+
         // Check if the player has reached the end of the level
-        if (playerPos >= level.length)
+        if (playerPos >= level.length && !level.isEndless)
 		{
             OnGameOver(true);
         }
@@ -111,6 +137,10 @@ public class LevelController : Singleton<LevelController>
 			currentEvent = null;
 			lastEventIndex++;
 			level.ResizeEvent(lastEventIndex, playerPos);
+            if (level.isEndless)
+            {
+                level.CreateEvent(Random.Range(settings.minEventLength, settings.maxEventLength));
+            }
 			TimelineController.Instance.UpdateTimeline();
 		}
 	}

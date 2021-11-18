@@ -12,6 +12,9 @@ public class TrackSelector : Singleton< TrackSelector >
     public EventReference returnEvent;
     public EventReference selectEvent;
 
+    private int diffIndex = 0;
+
+
     private void Start()
     {
         // Edge case
@@ -47,13 +50,27 @@ public class TrackSelector : Singleton< TrackSelector >
     {
         Vector2 value = a_CallbackContext.ReadValue< Vector2 >().normalized;
 
+        // Move left and right only if we are on the top row (easy, medium, hard)
         if ( value.x < -0.7f)
         {
-            DecrementTrackIndex( true );
+            if (m_CurrentTrackIndex != 3)
+                DecrementTrackIndex( true );
         }
         else if ( value.x > 0.7f)
         {
-            IncrementTrackIndex( true );
+            if (m_CurrentTrackIndex != 3)
+                IncrementTrackIndex( true );
+        }
+        else if (value.y < -0.7f || value.y > 0.7f)
+        {
+            TrackTiles[m_CurrentTrackIndex].SetSelected(false);
+            if (m_CurrentTrackIndex == 3)
+                m_CurrentTrackIndex = diffIndex;
+            else
+                m_CurrentTrackIndex = 3;
+
+            TrackTiles[m_CurrentTrackIndex].SetSelected(true);
+            SelectorTile.gameObject.SetActive(m_CurrentTrackIndex != 3);
         }
     }
 
@@ -91,20 +108,21 @@ public class TrackSelector : Singleton< TrackSelector >
 
     public void IncrementTrackIndex( bool a_LoopAround = false )
     {
-        if ( m_CurrentTrackIndex == TrackTiles.Length - 1 && !a_LoopAround )
+        if ( m_CurrentTrackIndex == TrackTiles.Length - 2 && !a_LoopAround )
         {
             return;
         }
 
         TrackTiles[m_CurrentTrackIndex].SetSelected(false);
 
-        if ( ++m_CurrentTrackIndex >= TrackTiles.Length )
+        if ( ++m_CurrentTrackIndex >= TrackTiles.Length -1 )
         {
             m_CurrentTrackIndex = 0;
         }
 
         SelectorTile.SetPosition( TrackTiles[ m_CurrentTrackIndex ].RectTransform.anchoredPosition );
         TrackTiles[m_CurrentTrackIndex].SetSelected(true);
+        diffIndex = m_CurrentTrackIndex;
     }
 
     public void DecrementTrackIndex( bool a_LoopAround = false )
@@ -118,11 +136,12 @@ public class TrackSelector : Singleton< TrackSelector >
 
         if ( --m_CurrentTrackIndex < 0 )
         {
-            m_CurrentTrackIndex = TrackTiles.Length - 1;
+            m_CurrentTrackIndex = TrackTiles.Length - 2;
         }
         
         SelectorTile.SetPosition( TrackTiles[ m_CurrentTrackIndex ].RectTransform.anchoredPosition );
         TrackTiles[m_CurrentTrackIndex].SetSelected(true);
+        diffIndex = m_CurrentTrackIndex;
     }
 
     private int m_CurrentTrackIndex;

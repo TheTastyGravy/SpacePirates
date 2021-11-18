@@ -19,17 +19,21 @@ public class TrackTile : Tile
 
 	public void SetSelected(bool selected)
 	{
-		image.sprite = selected ? selectImage : baseImage;
-		textImage.sprite = selected ? selectTextImage : baseTextImage;
+		if (image != null)
+			image.sprite = selected ? selectImage : baseImage;
+		if (textImage != null)
+			textImage.sprite = selected ? selectTextImage : baseTextImage;
 
 		if (selected)
 		{
-			angles.OnSelect(null);
+			if (angles != null)
+				angles.OnSelect(null);
 			audioEvent.OnSelect(null);
 		}
 		else
 		{
-			angles.OnDeselect(null);
+			if (angles != null)
+				angles.OnDeselect(null);
 		}
 	}
 }

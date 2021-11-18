@@ -119,6 +119,18 @@ public class AstroidManager : Singleton<AstroidManager>
 		CreateBox("Right", new Vector2(1, .5f), new Vector3(ySize * 2 + extraSize, 1, boxDepth));
 		regions = boxes.ToArray();
 	}
+
+	// Called by LevelController when the difficulty increases in endless mode
+	public void IncreaseDifficulty()
+	{
+		LevelDificultyData diffSettings = LevelDificultyData.Instance;
+		timeBetweenAstroids -= diffSettings.asteroidSpawnPeriodDecrease;
+		if (timeBetweenAstroids < 0.5f)
+			timeBetweenAstroids = 0.5f;
+		astroidSpawnDelay -= diffSettings.asteroidPromptDelayDecrease;
+		if (astroidSpawnDelay < 0)
+			astroidSpawnDelay = 0;
+	}
 	
 	void Update()
 	{

@@ -55,10 +55,14 @@ public class TimelineController : Singleton<TimelineController>
     private Coroutine playerFlashRoutine;
     private bool updatePlayerPos = false;
 	private float shipFlashTimePassed = 0;
+    private float endlessPlayerShipFreezePos = 30;
+
+    private float PlayerPosDiference => (level.isEndless && playerPos > endlessPlayerShipFreezePos) ? endlessPlayerShipFreezePos : playerPos - playerPosOffset;
+    private float ShipIconPos => (timelineBase.rect.width - iconSize) * PlayerPosDiference * invLength + shipPosOffset;
 
 
 
-	public void Setup(Level level)
+    public void Setup(Level level)
 	{
         enabled = false;
         timelineBase = transform as RectTransform;
@@ -71,30 +75,7 @@ public class TimelineController : Singleton<TimelineController>
         // Setup event icons
         for (int i = 0; i < level.events.Count; i++)
 		{
-            Level.Event _event = level.events[i];
-            // Check the event has an icon
-            if ((int)_event.type >= eventIconPrefabs.Length)
-                continue;
-
-			icons.Add(new EventIcon());
-			int index = icons.Count - 1;
-			// Set basic info
-			icons[index].position = _event.start;
-			icons[index].eventRef = _event;
-
-            // Create icon for event
-            GameObject iconObject = Instantiate(eventIconPrefabs[(int)_event.type], timelineBase);
-            icons[index].trans = iconObject.transform as RectTransform;
-			// Set hight to match the parent
-			icons[index].trans.sizeDelta = new Vector2(0, iconSize);
-			// Set position and size on X axis relitive to the left edge
-			icons[index].trans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * icons[index].position * invLength + iconSize * 0.5f, iconSize);
-
-			// Make image transparent
-			icons[index].image = iconObject.GetComponentInChildren<Image>();
-            Color color = icons[index].image.color;
-            color.a = 0;
-			icons[index].image.color = color;
+            CreateEventIcon(level.events[i]);
         }
 
         // Setup player ship icon
@@ -130,13 +111,48 @@ public class TimelineController : Singleton<TimelineController>
             pingEffect.color = new Color(pingEffect.color.r, pingEffect.color.g, pingEffect.color.b, 0);
         }
     }
+
+    private void CreateEventIcon(Level.Event _event)
+    {
+        // Check the event has an icon
+        if ((int)_event.type >= eventIconPrefabs.Length)
+            return;
+
+        icons.Add(new EventIcon());
+        int index = icons.Count - 1;
+        // Set basic info
+        icons[index].position = _event.start;
+        icons[index].eventRef = _event;
+
+        // Create icon for event
+        GameObject iconObject = Instantiate(eventIconPrefabs[(int)_event.type], timelineBase);
+        icons[index].trans = iconObject.transform as RectTransform;
+        // Set hight to match the parent
+        icons[index].trans.sizeDelta = new Vector2(0, iconSize);
+        // Set position and size on X axis relitive to the left edge
+        icons[index].trans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * icons[index].position * invLength + iconSize * 0.5f, iconSize);
+
+        // Make image transparent
+        icons[index].image = iconObject.GetComponentInChildren<Image>();
+        Color color = icons[index].image.color;
+        color.a = 0;
+        icons[index].image.color = color;
+    }
     
 	void LateUpdate()
 	{
         playerPos = LevelController.Instance.PlayerPosition;
-
         if (!updatePlayerPos)
             return;
+
+        void MoveShip()
+        {
+            if (!level.isEndless || playerPos < endlessPlayerShipFreezePos)
+            {
+                // Update player ship icon position
+                playerShipRectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, ShipIconPos, iconSize);
+            }
+        }
 
         if (playerShipFlashPeriod > 0)
 		{
@@ -144,8 +160,7 @@ public class TimelineController : Singleton<TimelineController>
             if (shipFlashTimePassed > playerShipFlashPeriod)
             {
 				shipFlashTimePassed = 0;
-                // Update player ship icon position
-                playerShipRectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * (playerPos - playerPosOffset) * invLength + shipPosOffset, iconSize);
+                MoveShip();
                 // Flash the ship
                 if (playerFlashRoutine != null)
                 {
@@ -156,17 +171,18 @@ public class TimelineController : Singleton<TimelineController>
         }
         else
 		{
-            // Update player ship icon position
-            playerShipRectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * (playerPos - playerPosOffset) * invLength + shipPosOffset, iconSize);
+            MoveShip();
         }
     }
 
 	// Called when the level has been changed
 	public void UpdateTimeline()
 	{
-		playerPosOffset = playerPos;
-		shipPosOffset = (timelineBase.rect.width - iconSize) * playerPos * invLength;
-		invLength = 1.0f / level.length;
+        float newPlayerPosOffset = PlayerPosDiference;
+        shipPosOffset = ShipIconPos;
+        playerPosOffset = newPlayerPosOffset;
+
+        invLength = 1.0f / level.length;
 		// Update icons
 		for (int i = 0; i < icons.Count; i++)
 		{
@@ -181,6 +197,13 @@ public class TimelineController : Singleton<TimelineController>
 			icons[i].position = icons[i].eventRef.start;
 			icons[i].trans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * icons[i].position * invLength + iconSize * 0.5f, iconSize);
 		}
+
+        // Get all events we dont have an icon for
+        List<Level.Event> events = level.events.FindAll(_event => !icons.Exists(icon => icon.eventRef == _event));
+        foreach (Level.Event newEvent in events)
+        {
+            CreateEventIcon(newEvent);
+        }
 	}
 
 	public void Ping()
@@ -208,7 +231,8 @@ public class TimelineController : Singleton<TimelineController>
         }
 
         float time = 0;
-        float dist = playerPos;
+        float startPos = PlayerPosDiference;
+        float dist = 0;
         bool fadeOutFlag = false;
         while (time < pingTime)
 		{
@@ -220,9 +244,9 @@ public class TimelineController : Singleton<TimelineController>
             }
 
             // Update ping effect position
-            pingEffectRectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * dist * invLength, iconSize);
+            pingEffectRectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * (startPos + dist) * invLength + (level.isEndless ? 0 : shipPosOffset), iconSize);
             // Flash icons as we pass them
-            if (index < icons.Count && dist >= icons[index].position)
+            if (index < icons.Count && (playerPos + dist) >= icons[index].position)
 			{
                 StartCoroutine(FlashIcon(icons[index].image));
                 // Play sound effect
@@ -235,7 +259,7 @@ public class TimelineController : Singleton<TimelineController>
             time += Time.deltaTime;
             dist += pingSpeed * Time.deltaTime;
             // If we have reached the end of the level, fade out the ping effect and exit
-            if (dist >= level.length)
+            if (startPos + (level.isEndless ? 0 : shipPosOffset) + dist >= level.length)
             {
                 if (!fadeOutFlag)
                     StartCoroutine(FadePingEffect(false));

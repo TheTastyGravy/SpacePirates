@@ -33,9 +33,13 @@ public class Level : ScriptableObject
     [Tooltip("This value is generated with the level")]
     public float length;
     public List<Event> events = new List<Event>();
+	[Space]
+	public bool isEndless;
+	public int endlessEventCount = 2;
 
 	// Values used for event creation
-	private float eventArea;
+	[HideInInspector]
+	public float eventArea;
 
 
 	// Called by LevelController.Start()
@@ -76,7 +80,7 @@ public class Level : ScriptableObject
 		LevelDificultyData.DiffSetting settings = diffData.GetSetting(difficulty, 2, 2);
 
 		eventArea = diffData.regionGap + settings.maxEventLength + settings.extraLengthPerEvent;
-		int eventCount = UnityEngine.Random.Range(settings.minEventCount, settings.maxEventCount + 1);
+		int eventCount = isEndless ? endlessEventCount : UnityEngine.Random.Range(settings.minEventCount, settings.maxEventCount + 1);
         length = diffData.edgeBoundry * 2 + eventArea * eventCount;
 		// Create events
 		for (int i = 0; i < eventCount; i++)
@@ -85,7 +89,7 @@ public class Level : ScriptableObject
 		}
     }
 
-	private void CreateEvent(float halfLength)
+	internal void CreateEvent(float halfLength, bool removeFirstEvent = false)
 	{
 		int index = events.Count;
 
@@ -122,6 +126,11 @@ public class Level : ScriptableObject
 					break;
 			}
 		}
+
+		if (removeFirstEvent)
+		{
+			events.RemoveAt(0);
+		}
 	}
 
 	public void ResizeEvent(int index, float newEnd)
@@ -134,7 +143,8 @@ public class Level : ScriptableObject
 			events[i].start -= diff;
 			events[i].end -= diff;
 		}
-		length -= diff;
+		if (!isEndless)
+			length -= diff;
 	}
 
 	public static Level[] All
