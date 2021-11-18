@@ -27,13 +27,12 @@ public class ChaseShipLogic : MonoBehaviour
 	[Space]
 	public float timeBetweenExplosions = 0.5f;
 
-
 	[HideInInspector]
 	public bool initOver = false;
+	private Transform trans;
 	private Vector3 offScreenPos;
 	private Vector3 followPos;
 	private Coroutine moveRoutine = null;
-
 	private int health;
 	private float firePeriod;
 	private float fireTimePassed = 0;
@@ -57,6 +56,7 @@ public class ChaseShipLogic : MonoBehaviour
 
 	public void Setup(int health, float firePeriod)
 	{
+		trans = transform;
 		Transform playerShip = ShipManager.Instance.transform;
 		Ship ship = Ship.GetShip(GameManager.SelectedShip);
 		// Calculate the follow and off screen positions
@@ -90,10 +90,7 @@ public class ChaseShipLogic : MonoBehaviour
     {
 		// Do nothing while moving
 		if (moveRoutine != null || !initOver)
-		{
 			return;
-		}
-
 
 		if (Mathf.Abs(Mathf.Abs(currentAngle) - Mathf.Abs(targetAngle)) < 1)
 		{
@@ -122,18 +119,21 @@ public class ChaseShipLogic : MonoBehaviour
 			wanderPos += followPos;
 		}
 		// Adjust velocity with a sort of steering force, and apply to position
-		velocity = Vector3.Lerp(velocity, (wanderPos - transform.position).normalized * wanderSpeed, Time.deltaTime * wanderAcceleration);
-		transform.position += velocity * Time.deltaTime;
+		velocity = Vector3.Lerp(velocity, (wanderPos - trans.position).normalized * wanderSpeed, Time.deltaTime * wanderAcceleration);
+		trans.position += velocity * Time.deltaTime;
 	}
 
 	void OnCollisionEnter(Collision collision)
 	{
-		// If we are hit by a turret
-		if (collision.gameObject.CompareTag("TurretProjectile"))
+		Debug.Log("colision with: " + LayerMask.LayerToName(collision.gameObject.layer));
+
+		// If we are hit by a turret or asteroid
+		if (collision.gameObject.CompareTag("TurretProjectile") || collision.gameObject.layer == LayerMask.GetMask("Astroid"))
 		{
-			// Destroy the turret projectile. this might allow multiple collision events to fire
+			Debug.Log("thing");
+			// Destroy the object. this might allow multiple collision events to fire
 			Destroy(collision.gameObject);
-			// Create explosion effect, and destroy it after its ended
+			// Create explosion effect
 			Destroy(Instantiate(explosionPrefab, collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal, Random.onUnitSphere)), explosionTime);
 
 			health--;
@@ -144,18 +144,12 @@ public class ChaseShipLogic : MonoBehaviour
 		}
 	}
 
-
 	// Called when the event ends
 	public void OnEventEnd()
 	{
-		// If we are (presumably) still moving forward, cancel it
 		if (moveRoutine != null)
-		{
 			StopCoroutine(moveRoutine);
-		}
-
-		// Move off screen, then destroy the ship
-		moveRoutine = StartCoroutine(Move(transform.position, offScreenPos, moveOffScreenTime));
+		moveRoutine = StartCoroutine(Move(trans.position, offScreenPos, moveOffScreenTime));
 		Destroy(gameObject, moveOffScreenTime);
 
 		// If the event ended because we ran out of health, start exploding
@@ -170,7 +164,7 @@ public class ChaseShipLogic : MonoBehaviour
         float timePassed = 0;
         while (timePassed < time)
 		{
-            transform.position = Vector3.Lerp(start, end, timePassed / time);
+			trans.position = Vector3.Lerp(start, end, timePassed / time);
 
             timePassed += Time.deltaTime;
             yield return null;
@@ -194,12 +188,13 @@ public class ChaseShipLogic : MonoBehaviour
 
 	private IEnumerator Explode()
 	{
+		Transform meshTrans = meshFilter.transform;
 		while (true)
 		{
 			// Meshes are concidered in local space, so it needs to be converted
-			Vector3 point = meshFilter.transform.localToWorldMatrix * GetRandomPointOnMesh();
+			Vector3 point = meshTrans.localToWorldMatrix * GetRandomPointOnMesh();
 			// Create explosion effect, and destroy it after its done
-			GameObject explosionInstance = Instantiate(explosionPrefab, point + transform.position, Quaternion.LookRotation(point - meshFilter.mesh.bounds.center, Random.onUnitSphere), transform);
+			GameObject explosionInstance = Instantiate(explosionPrefab, point + trans.position, Quaternion.LookRotation(point - meshFilter.mesh.bounds.center, Random.onUnitSphere), trans);
 			Destroy(explosionInstance, explosionTime);
 
 			yield return new WaitForSeconds(timeBetweenExplosions);
