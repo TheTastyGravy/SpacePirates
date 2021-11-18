@@ -8,6 +8,12 @@ TextureImporter:
   - first:
       213: -6609448813823124750
     second: UI_Cannon
+  - first:
+      213: -5214286366435271700
+    second: UI_Endless_1
+  - first:
+      213: -8266166533344094844
+    second: UI_Endless_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -182,6 +188,48 @@ TextureImporter:
       bones: []
       spriteID: 2fa12fa72558644a0800000000000000
       internalID: -6609448813823124750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Endless_1
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 205
+        width: 400
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ceb967b1d2223a7b0800000000000000
+      internalID: -5214286366435271700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Endless_2
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 50
+        width: 400
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4859dcd755da84d80800000000000000
+      internalID: -8266166533344094844
       vertices: []
       indices: 
       edges: []

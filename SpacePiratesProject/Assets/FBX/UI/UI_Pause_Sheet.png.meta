@@ -23,6 +23,12 @@ TextureImporter:
   - first:
       213: 1137609638083973669
     second: UI_Pause_Sheet_6
+  - first:
+      213: 3658031756713756212
+    second: UI_Credits_1
+  - first:
+      213: 2288110721612717435
+    second: UI_Credits_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -189,7 +195,7 @@ TextureImporter:
         width: 330
         height: 100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -210,7 +216,7 @@ TextureImporter:
         width: 330
         height: 100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -231,7 +237,7 @@ TextureImporter:
         width: 380
         height: 100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -252,7 +258,7 @@ TextureImporter:
         width: 380
         height: 100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -273,7 +279,7 @@ TextureImporter:
         width: 450
         height: 100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -294,7 +300,7 @@ TextureImporter:
         width: 450
         height: 100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -302,6 +308,48 @@ TextureImporter:
       bones: []
       spriteID: 5225e0340f999cf00800000000000000
       internalID: 1137609638083973669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Credits_1
+      rect:
+        serializedVersion: 2
+        x: 845
+        y: 300
+        width: 370
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 436850c6080f3c230800000000000000
+      internalID: 3658031756713756212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Credits_2
+      rect:
+        serializedVersion: 2
+        x: 845
+        y: 150
+        width: 370
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7d1d70149001cf10800000000000000
+      internalID: 2288110721612717435
       vertices: []
       indices: 
       edges: []
