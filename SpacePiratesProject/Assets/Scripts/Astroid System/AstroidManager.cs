@@ -15,6 +15,8 @@ public class AstroidManager : Singleton<AstroidManager>
 	public PolygonCollider2D uiBoundry;
 	public float uiExtraTime = 0.5f;
 
+	private Camera cam;
+	private float lastOrthoSize;
 	private float timeBetweenAstroids;
 	private float astroidSpawnDelay;
 	private BoxCollider[] regions;
@@ -40,6 +42,8 @@ public class AstroidManager : Singleton<AstroidManager>
 	// Called by LevelController when the game starts
 	public void BeginGame()
 	{
+		cam = Camera.main;
+		lastOrthoSize = cam.orthographicSize;
 		SetupRegions();
 		enabled = true;
 	}
@@ -77,7 +81,6 @@ public class AstroidManager : Singleton<AstroidManager>
 	private void SetupRegions()
 	{
 		List<BoxCollider> boxes = new List<BoxCollider>();
-		Camera cam = Camera.main;
 		Plane plane = new Plane(Vector3.up, 0);
 		float boxDepth = 5;
 		float extraDist = 2;
@@ -104,11 +107,11 @@ public class AstroidManager : Singleton<AstroidManager>
 			position += dir.normalized * (boxDepth * 0.5f + extraDist);
 
 			// Create object with box collider
-			GameObject obj = new GameObject(name);
-			obj.transform.parent = transform;
-			obj.transform.position = position;
-			obj.transform.eulerAngles = new Vector3(0, rotation, 0);
-			BoxCollider box = obj.AddComponent<BoxCollider>();
+			Transform objTrans = new GameObject(name).transform;
+			objTrans.parent = transform;
+			objTrans.position = position;
+			objTrans.eulerAngles = new Vector3(0, rotation, 0);
+			BoxCollider box = objTrans.gameObject.AddComponent<BoxCollider>();
 			box.size = boxSize;
 			box.isTrigger = true;
 			boxes.Add(box);
@@ -134,6 +137,18 @@ public class AstroidManager : Singleton<AstroidManager>
 	
 	void Update()
 	{
+		// If the camera size changes, move the spawn regions to prevent asteroids being spawned on screen
+		if (cam.orthographicSize != lastOrthoSize)
+		{
+			float diff = cam.orthographicSize - lastOrthoSize;
+			foreach (var obj in regions)
+			{
+				Transform trans = obj.transform;
+				trans.position += trans.position.normalized * diff;
+			}
+			lastOrthoSize = cam.orthographicSize;
+		}
+
 		timePassed += Time.deltaTime;
 		if (timePassed >= timeBetweenAstroids)
 		{
@@ -182,8 +197,8 @@ public class AstroidManager : Singleton<AstroidManager>
 			}
 
 			// Get astroid info in screen space to generate a raycast
-			Vector2 screenPoint = Camera.main.WorldToScreenPoint(pos);
-			Vector2 screenDir = (Vector2)Camera.main.WorldToScreenPoint(pos + dir) - screenPoint;
+			Vector2 screenPoint = cam.WorldToScreenPoint(pos);
+			Vector2 screenDir = (Vector2)cam.WorldToScreenPoint(pos + dir) - screenPoint;
 			RaycastHit2D rayHit = Physics2D.Raycast(screenPoint, screenDir);
 
 			if (rayHit.point == Vector2.zero)
@@ -198,12 +213,12 @@ public class AstroidManager : Singleton<AstroidManager>
 			Destroy(uiObj, astroidSpawnDelay + uiExtraTime);
 			RectTransform rectTrans = uiObj.transform as RectTransform;
 			// Set its position on the canvas
-			rectTrans.position = Camera.main.ScreenToWorldPoint(rayHit.point);
+			rectTrans.position = cam.ScreenToWorldPoint(rayHit.point);
 			rectTrans.localPosition = new Vector3(rectTrans.localPosition.x, rectTrans.localPosition.y, 0);
 			// Orientate the object with the canvas
 			rectTrans.rotation = Quaternion.LookRotation(canvas.forward, canvas.up);
 			// Rotate and position the arrow
-			rectTrans.GetChild(1).rotation = Quaternion.LookRotation(canvas.forward, Vector3.Cross(canvas.forward, canvas.transform.TransformDirection(screenDir)));
+			rectTrans.GetChild(1).rotation = Quaternion.LookRotation(canvas.forward, Vector3.Cross(canvas.forward, canvas.TransformDirection(screenDir)));
 			rectTrans.GetChild(1).localPosition = screenDir.normalized * 70;
 
 			// Create astroid
