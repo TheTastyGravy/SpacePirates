@@ -126,6 +126,6 @@ Shader "Universal Render Pipeline/Custom/Mesh Particle Fix"
         usepass "Universal Render Pipeline/Particles/Lit/Universal2D"
     }
 
-    Fallback "Universal Render Pipeline/Particles/SimpleLit"
+    Fallback "Universal Render Pipeline/Particles/Unlit"
     CustomEditor "UnityEditor.Rendering.Universal.ShaderGUI.ParticlesLitShader"
 }
