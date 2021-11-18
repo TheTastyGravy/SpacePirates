@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 259950520011081610}
   - component: {fileID: 3792253914184564595}
+  - component: {fileID: 7805810833883323888}
   m_Layer: 10
   m_Name: Collider
   m_TagString: Untagged
@@ -42,8 +43,21 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 12.237332, y: 9.74556, z: 14.703486}
-  m_Center: {x: 0.8, y: 0, z: 0}
+  m_Size: {x: 10.227371, y: 6.4000006, z: 4.999999}
+  m_Center: {x: -1.1136851, y: -2.1, z: 1.6155663e-15}
+--- !u!65 &7805810833883323888
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4580494799076956832}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.4, y: 1, z: 15}
+  m_Center: {x: 1.5, y: -2.4, z: 0}
 --- !u!1 &5177932336649607564
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8829360656060271152}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: TurretPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

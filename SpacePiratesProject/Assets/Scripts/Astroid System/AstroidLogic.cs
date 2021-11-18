@@ -30,6 +30,7 @@ public class AstroidLogic : MonoBehaviour
 	private bool hasHitShip = false;
 	private float currentSpeed = 0;
 
+	private Transform trans;
 	private Transform visualTrans;
 	private Vector3 visualCenter;
 	private float rotAngle;
@@ -42,7 +43,8 @@ public class AstroidLogic : MonoBehaviour
 		// Allign collider with camera
 		magicCollider.rotation = Camera.main.transform.rotation;
 
-		transform.position = startPos;
+		trans = transform;
+		trans.position = startPos;
 		this.direction = direction.normalized;
 		SetupVisuals();
 
@@ -65,16 +67,15 @@ public class AstroidLogic : MonoBehaviour
 		// Apply random rotation about the center of the mesh
 		visualCenter = renderer.bounds.center;
 		Random.rotation.ToAngleAxis(out float angle, out Vector3 axis);
-		selected.transform.RotateAround(visualCenter, axis, angle);
+		visualTrans.RotateAround(visualCenter, axis, angle);
 		// Scale by random factor
-		selected.transform.localScale *= Random.Range(minScaleFactor, maxScaleFactor);
+		visualTrans.localScale *= Random.Range(minScaleFactor, maxScaleFactor);
 
 		// Get a random angle and axis for rotation
 		rotAngle = 360f * Random.Range(minRotationSpeed, maxRotationSpeed);
 		rotAxis = Random.onUnitSphere;
 		// Convert center point from world to local of the base transform
-		visualCenter -= transform.position;
-
+		visualCenter -= trans.position;
 
 		if (updateCollider)
 		{
@@ -84,7 +85,7 @@ public class AstroidLogic : MonoBehaviour
 			// OBB, causing renderer.bounds to be larger than the actual object when rotated.
 			CapsuleCollider col = GetComponent<CapsuleCollider>();
 			col.radius = Mathf.Max(renderer.bounds.extents.x, renderer.bounds.extents.z);
-			col.center = renderer.bounds.center - transform.position;
+			col.center = renderer.bounds.center - trans.position;
 		}
 	}
 
@@ -97,13 +98,17 @@ public class AstroidLogic : MonoBehaviour
 	void Update()
 	{
 		// Update position
-		transform.position += currentSpeed * Time.deltaTime * direction;
+		trans.position += currentSpeed * Time.deltaTime * direction;
 		// Rotate visual astroid
-		visualTrans.RotateAround(visualCenter + transform.position, rotAxis, rotAngle * Time.deltaTime);
+		visualTrans.RotateAround(visualCenter + trans.position, rotAxis, rotAngle * Time.deltaTime);
 	}
 
 	void OnCollisionEnter(Collision collision)
 	{
+		// Ignore collisions with the chase ship, since it handles being hit by asteroids
+		if (collision.gameObject.layer == LayerMask.NameToLayer("ChaseShip"))
+			return;
+
 		if (collision.gameObject.CompareTag("TurretProjectile"))
 		{
 			// We have been hit by a turret
@@ -112,7 +117,7 @@ public class AstroidLogic : MonoBehaviour
 			if (health <= 0)
 			{
 				Destroy(gameObject);
-				GameObject obj = Instantiate(explosionPrefab, transform.position, Random.rotation);
+				GameObject obj = Instantiate(explosionPrefab, trans.position, Random.rotation);
 				obj.transform.localScale = new Vector3(turretExplosionScale, turretExplosionScale, turretExplosionScale);
 				Destroy(obj, 3);
 			}
@@ -122,12 +127,11 @@ public class AstroidLogic : MonoBehaviour
 			// Prevent multiple collisions being registered
 			if (hasHitShip)
 				return;
-
-			// If we hit something else, damage the ship
-			ShipManager.Instance.DamageShipAtPosition(transform.position);
 			hasHitShip = true;
-			Destroy(gameObject);
 
+			ShipManager.Instance.DamageShipAtPosition(trans.position);
+			// Destroy this asteroid and create an explosion
+			Destroy(gameObject);
 			GameObject obj = Instantiate(explosionPrefab, collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
 			Destroy(obj, 3);
 		}

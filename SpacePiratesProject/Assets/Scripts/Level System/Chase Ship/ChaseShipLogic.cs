@@ -125,12 +125,9 @@ public class ChaseShipLogic : MonoBehaviour
 
 	void OnCollisionEnter(Collision collision)
 	{
-		Debug.Log("colision with: " + LayerMask.LayerToName(collision.gameObject.layer));
-
 		// If we are hit by a turret or asteroid
-		if (collision.gameObject.CompareTag("TurretProjectile") || collision.gameObject.layer == LayerMask.GetMask("Astroid"))
+		if (collision.gameObject.CompareTag("TurretProjectile") || LayerMask.LayerToName(collision.gameObject.layer) == "Astroid")
 		{
-			Debug.Log("thing");
 			// Destroy the object. this might allow multiple collision events to fire
 			Destroy(collision.gameObject);
 			// Create explosion effect
