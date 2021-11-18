@@ -5629,6 +5629,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Reactor
       objectReference: {fileID: 0}
+    - target: {fileID: 8694046095127365748, guid: d62785ec555396641a893f7a083d664b, type: 3}
+      propertyPath: fuelGens.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8694046095127365748, guid: d62785ec555396641a893f7a083d664b, type: 3}
+      propertyPath: fuelGens.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d62785ec555396641a893f7a083d664b, type: 3}
 --- !u!1001 &7625282781688186304
