@@ -26,6 +26,7 @@ public class Character : ICharacter
         }
     }
     private Rigidbody m_Rigidbody;
+    private Transform trans;
 
     private Player.Control[] cheatCode;
     private int cheatIndex = 0;
@@ -39,6 +40,7 @@ public class Character : ICharacter
         base.Start();
 
         m_Rigidbody = GetComponent< Rigidbody >();
+        trans = transform;
         enabled = false;
         // Only P1 can activate the cheat code
         if (Player.Slot == Player.PlayerSlot.P1)
@@ -105,14 +107,14 @@ public class Character : ICharacter
         m_Rigidbody.velocity = new Vector3(movement.x, Mathf.Min(m_Rigidbody.velocity.y, 0), movement.z);
 
 		// Rotate over time towards the direction of movement
-		Vector3 newForward = Vector3.Slerp( transform.forward, movement, Time.fixedDeltaTime * TurnSpeed );
+		Vector3 newForward = Vector3.Slerp(trans.forward, movement, Time.fixedDeltaTime * TurnSpeed );
         newForward.y = 0;
-        Vector3 currentForward = transform.forward;
+        Vector3 currentForward = trans.forward;
         currentForward.y = 0;
 		Quaternion quat = Quaternion.FromToRotation(currentForward, newForward);
 		m_Rigidbody.MoveRotation( m_Rigidbody.rotation * quat );
         // Prevent the player from falling through the ground
-        if (m_Rigidbody.position.y < -0.5f)
+        if (trans.localPosition.y < -0.5f)
         {
             Vector3 pos = m_Rigidbody.position;
             pos.y = 0;
