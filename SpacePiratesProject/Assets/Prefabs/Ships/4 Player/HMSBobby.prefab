@@ -10246,6 +10246,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Room-Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 3493232498707276330, guid: 716f020d0bc664b4a9efb0d4953319ed, type: 3}
+      propertyPath: holePrefabPromptScale
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 8029895955456511900, guid: 716f020d0bc664b4a9efb0d4953319ed, type: 3}
       propertyPath: m_RootOrder
       value: 2

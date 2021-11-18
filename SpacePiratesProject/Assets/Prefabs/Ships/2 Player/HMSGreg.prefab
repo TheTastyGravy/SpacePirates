@@ -4958,6 +4958,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 3493232498707276330, guid: 716f020d0bc664b4a9efb0d4953319ed, type: 3}
+      propertyPath: holePrefabPromptScale
+      value: 0.005
+      objectReference: {fileID: 0}
     - target: {fileID: 4122176639161992799, guid: 716f020d0bc664b4a9efb0d4953319ed, type: 3}
       propertyPath: m_Layer
       value: 6

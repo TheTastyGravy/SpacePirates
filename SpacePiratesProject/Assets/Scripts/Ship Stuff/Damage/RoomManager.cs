@@ -6,6 +6,7 @@ public class RoomManager : MonoBehaviour
 {
     // The possible hole prefabs to create
     public GameObject[] holePrefabs;
+	public float holePrefabPromptScale = 1f;
     public float chanceToDamageStation = 0.1f;
 	[Tooltip("The max distance a station can be from an astroid and be damaged")]
 	public float distanceToDamageStation = 10;
@@ -96,9 +97,10 @@ public class RoomManager : MonoBehaviour
     private void CreateHole(int index)
 	{
         GameObject prefab = holePrefabs[Random.Range(0, holePrefabs.Length)];
+		prefab.transform.Find("Prompt").GetComponent<RectTransform>().localScale = new Vector3(holePrefabPromptScale, holePrefabPromptScale, 1f);
 
-        // Create hole at position and get station script
-        HullHoleStation hole = Instantiate(prefab, holePositions[index].position, holePositions[index].rotation, transform).GetComponent<HullHoleStation>();
+		// Create hole at position and get station script
+		HullHoleStation hole = Instantiate(prefab, holePositions[index].position, holePositions[index].rotation, transform).GetComponent<HullHoleStation>();
         holes[index] = hole;
 		hole.room = this;
 		hole.holeIndex = index;
