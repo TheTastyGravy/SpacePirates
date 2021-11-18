@@ -119,28 +119,35 @@ public class PlasmaStorm : Event
 public class ShipAttack : Event
 {
 	public GameObject shipPrefab;
+	public float zoomLevel;
 	public int shipHealth;
 	public float firePeriod;
+	public float initTime;
 	
 	private ChaseShipLogic shipLogic;
+	private CameraManager camManager;
 
 
 	public override void Init()
 	{
+		camManager = CameraManager.Instance;
 		// Setup ship
 		shipLogic = Object.Instantiate(shipPrefab).GetComponent<ChaseShipLogic>();
+		shipLogic.moveOnScreenTime = initTime;
 		shipLogic.Setup(shipHealth, firePeriod);
 	}
 
 	public override void Start()
 	{
 		shipLogic.initOver = true;
+		camManager.Zoom(zoomLevel);
 	}
 
 	public override void Stop()
 	{
 		//tell ship to move off screen
 		shipLogic.OnEventEnd();
+		camManager.Zoom(1);
 	}
 
 	public override void Update()

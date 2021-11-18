@@ -23,6 +23,7 @@ public class EventManager : Singleton<EventManager>
 	private float plasmaStormPretrikeDelay;
 
 	public GameObject shipPrefab;
+	public float shipZoomLevel;
 	private int shipHealth;
 	private float firePeriod;
 
@@ -75,8 +76,10 @@ public class EventManager : Singleton<EventManager>
 				currentEvent = new ShipAttack()
 				{
 					shipPrefab = shipPrefab,
+					zoomLevel = shipZoomLevel,
 					shipHealth = shipHealth,
-					firePeriod = firePeriod
+					firePeriod = firePeriod,
+					initTime = initTime
 				};
 				break;
 		}

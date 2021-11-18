@@ -1440,6 +1440,7 @@ MonoBehaviour:
   canvas: {fileID: 1324750617}
   strikeEffect: {fileID: 3354586267496840436, guid: 610fdf24494f03e4e8946feaa5b39ad6, type: 3}
   shipPrefab: {fileID: 6161450435761204015, guid: 16e746287e4911f41abeabf5546bea79, type: 3}
+  shipZoomLevel: 1.25
 --- !u!114 &5063274434833239920
 MonoBehaviour:
   m_ObjectHideFlags: 0

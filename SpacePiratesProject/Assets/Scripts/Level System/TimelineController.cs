@@ -259,7 +259,7 @@ public class TimelineController : Singleton<TimelineController>
             time += Time.deltaTime;
             dist += pingSpeed * Time.deltaTime;
             // If we have reached the end of the level, fade out the ping effect and exit
-            if (startPos + (level.isEndless ? 0 : shipPosOffset) + dist >= level.length)
+            if (startPos + (level.isEndless ? 0 : playerPosOffset) + dist >= level.length)
             {
                 if (!fadeOutFlag)
                     StartCoroutine(FadePingEffect(false));
