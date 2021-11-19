@@ -23,6 +23,11 @@ public class GameManager : Singleton<GameManager>
     public delegate void SceneDelegate(Scene scene, GameState otherScene);
     public static SceneDelegate OnStartTransition;
     public static SceneDelegate OnEndTransition;
+    // Used by the loading scene
+    public float gameLoadProgress { get; private set; }
+    // Set by the loading scene when the player attempts to continue
+    [HideInInspector]
+    public bool continueFromLoadingScene = false;
 
     public static InputActionMap DefaultActionMap => Instance.m_DefaultActionAsset.actionMaps.Count > 0 ? Instance.m_DefaultActionAsset.actionMaps[0] : null;
     public static int SelectedShip => Instance.m_SelectedShip;
@@ -76,13 +81,17 @@ public class GameManager : Singleton<GameManager>
                     DontDestroyOnLoad(player.gameObject);
                 }
             }
-            if (newState == GameState.GAME || newState == GameState.LOADING)
-			{
+            if (newState == GameState.LOADING || newState == GameState.GAME)
+            {
                 (Player.GetPlayerBySlot(Player.PlayerSlot.P1).Character as Character).ResetCheat();
                 Instance.m_Time = 0;
                 Instance.m_ShouldTrackTime = true;  //move this when intro is added
-                // Use a fade transition when entering the game scene because it has a longer load
-                Instance.StartCoroutine(LoadUnload(Instance.m_CurrentState, newState));
+                // The 'loading' state is more so a type of transition to the game scene. When 
+                // it is not used, a fade transition is used instead.
+                if (newState == GameState.LOADING)
+                    Instance.StartCoroutine(LoadGame(Instance.m_CurrentState));
+                else
+                    Instance.StartCoroutine(LoadWithFade(Instance.m_CurrentState, newState));
                 Instance.m_CurrentState = newState;
                 return;
             }
@@ -191,7 +200,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    private static IEnumerator LoadUnload(GameState oldState, GameState newState)
+    private static IEnumerator LoadWithFade(GameState oldState, GameState newState)
 	{
         // Start loading the new scene, then wait for fade
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(newState.ToString(), LoadSceneMode.Additive);
@@ -220,6 +229,76 @@ public class GameManager : Singleton<GameManager>
             Instance.Invoke(nameof(SetLoading), 0.01f);
         };
         loadOp.allowSceneActivation = true;
+    }
+
+    private static IEnumerator LoadGame(GameState oldState)
+    {
+        Instance.gameLoadProgress = 0;
+        Instance.continueFromLoadingScene = false;
+        // Start loading the 'loading' scene, then wait for fade
+        AsyncOperation loading_LoadOp = SceneManager.LoadSceneAsync(GameState.LOADING.ToString(), LoadSceneMode.Additive);
+        loading_LoadOp.allowSceneActivation = false;
+        shouldFade = true;
+        yield return new WaitForSecondsRealtime(Instance.realFadeIn);
+
+        UnityEngine.Time.timeScale = 0;
+        SceneManager.SetActiveScene(Instance.gameObject.scene);
+        // Unload the previous menu scene
+        if (SceneManager.GetSceneByName("MENU_BASE").IsValid())
+            SceneManager.UnloadSceneAsync("MENU_BASE").priority = 100;
+        SceneManager.UnloadSceneAsync(oldState.ToString());
+        // Finish loading the 'loading' scene
+        loading_LoadOp.completed += asyncOperation =>
+        {
+            UnityEngine.Time.timeScale = 1;
+            // Fade in and set active scene
+            shouldFade = false;
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(GameState.LOADING.ToString()));
+            if (OnEndTransition != null)
+                OnEndTransition.Invoke(SceneManager.GetSceneByName(GameState.LOADING.ToString()), oldState);
+            // Allow things to be loaded faster on the loading screen
+            Application.backgroundLoadingPriority = ThreadPriority.High;
+        };
+        loading_LoadOp.allowSceneActivation = true;
+
+        // Start loading the game scene, and wait for continueFromLoadingScene to be set by the 'loading' scene
+        AsyncOperation game_LoadOp = SceneManager.LoadSceneAsync(GameState.GAME.ToString(), LoadSceneMode.Additive);
+        game_LoadOp.allowSceneActivation = false;
+        while (!Instance.continueFromLoadingScene)
+        {
+            Instance.gameLoadProgress = game_LoadOp.progress;
+            yield return null;
+        }
+
+        // Do stuff usualy done in ChangeState, and start fading
+        Instance.realFadeIn = Instance.fadeInGame;
+        Instance.realFadeOut = Instance.fadeOutGame;
+        if (OnStartTransition != null)
+            OnStartTransition.Invoke(SceneManager.GetSceneByName(GameState.LOADING.ToString()), GameState.GAME);
+        Instance.m_CurrentState = GameState.GAME;
+        shouldFade = true;
+        yield return new WaitForSecondsRealtime(Instance.realFadeIn);
+
+        UnityEngine.Time.timeScale = 0;
+        SceneManager.SetActiveScene(Instance.gameObject.scene);
+        // Unload the 'loading' scene
+        SceneManager.UnloadSceneAsync(GameState.LOADING.ToString());
+        // Finish loading the game scene
+        game_LoadOp.completed += asyncOperation =>
+        {
+            Instance.m_Time = 0;
+            Instance.m_ShouldTrackTime = true;  //move this when intro is added
+            UnityEngine.Time.timeScale = 1;
+            // Fade in and set active scene
+            shouldFade = false;
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(GameState.GAME.ToString()));
+            if (OnEndTransition != null)
+                OnEndTransition.Invoke(SceneManager.GetSceneByName(GameState.GAME.ToString()), GameState.LOADING);
+            Instance.Invoke(nameof(SetLoading), 0.01f);
+            // Reset background loading priority
+            Application.backgroundLoadingPriority = ThreadPriority.Normal;
+        };
+        game_LoadOp.allowSceneActivation = true;
     }
 
     private static IEnumerator Reload(GameState state)
