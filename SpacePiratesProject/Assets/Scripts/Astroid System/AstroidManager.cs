@@ -140,11 +140,16 @@ public class AstroidManager : Singleton<AstroidManager>
 		// If the camera size changes, move the spawn regions to prevent asteroids being spawned on screen
 		if (cam.orthographicSize != lastOrthoSize)
 		{
+			// Move this transform to the center of the screen
+			Ray ray = cam.ViewportPointToRay(new Vector2(0.5f, 0.5f));
+			new Plane(Vector3.up, 0).Raycast(ray, out float enter);
+			transform.position = ray.GetPoint(enter);
+
 			float diff = cam.orthographicSize - lastOrthoSize;
 			foreach (var obj in regions)
 			{
-				Transform trans = obj.transform;
-				trans.position += trans.position.normalized * diff;
+				Vector3 normPos = obj.transform.localPosition.normalized;
+				obj.transform.localPosition += new Vector3(normPos.x * diff * cam.aspect, 0, normPos.z * diff);
 			}
 			lastOrthoSize = cam.orthographicSize;
 		}
