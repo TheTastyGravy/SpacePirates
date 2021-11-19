@@ -96,6 +96,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1
   speed: 10
+  steeringSpeed: 35
+  angleFactorMultiplier: 1.15
   explosion: {fileID: 7894892668884435334, guid: 33825a87e5aa9194aa1508cc53ebe6cf, type: 3}
   magicCollider: {fileID: 7950730211443236069}
 --- !u!54 &5795167540847266031
