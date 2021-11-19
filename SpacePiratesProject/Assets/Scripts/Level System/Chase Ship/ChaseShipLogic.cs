@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class ChaseShipLogic : MonoBehaviour
 {
@@ -21,7 +22,6 @@ public class ChaseShipLogic : MonoBehaviour
 	public float rotationSpeed = 5;
 	[Space]
 	public float wanderFrequency = 1;
-	public float wanderDist = 0.75f;
 	public float wanderSpeed = 3;
 	public float wanderAcceleration = 1;
 	[Space]
@@ -30,8 +30,10 @@ public class ChaseShipLogic : MonoBehaviour
 	[HideInInspector]
 	public bool initOver = false;
 	private Transform trans;
-	private Vector3 offScreenPos;
-	private Vector3 followPos;
+	private Ship ship;
+	private Vector3 wanderAreaCenter;
+	private Vector3 wanderAreaSize;
+	private float offScrenDist;
 	private Coroutine moveRoutine = null;
 	private int health;
 	private float firePeriod;
@@ -43,7 +45,6 @@ public class ChaseShipLogic : MonoBehaviour
 	private Vector3 velocity = Vector3.zero;
 	// This should be determined using the particle effects on the prefab
 	private float explosionTime = 1.5f;
-
 	private float[] cumulativeSizes;
 	private float total;
 
@@ -57,23 +58,20 @@ public class ChaseShipLogic : MonoBehaviour
 	public void Setup(int health, float firePeriod)
 	{
 		trans = transform;
-		Transform playerShip = ShipManager.Instance.transform;
-		Ship ship = Ship.GetShip(GameManager.SelectedShip);
-		// Calculate the follow and off screen positions
-		offScreenPos = -playerShip.forward * ship.chaseShipOffScreenDist;
-		offScreenPos += playerShip.position;
-		followPos = -playerShip.forward * ship.chaseShipFollowDist;
-		followPos += playerShip.position;
+		ship = Ship.GetShip(GameManager.SelectedShip);
 
-		offScreenPos.y += 1.5f;
-		followPos.y += 1.5f;
+		wanderAreaCenter = ship.chaseShipWanderCenterOffset;
+		wanderAreaSize = ship.chaseShipWanderArea;
+		offScrenDist = ship.chaseShipOffScreenDist;
 
 		this.health = health;
 		this.firePeriod = firePeriod;
 		// Start moving on screen
-		moveRoutine = StartCoroutine(Move(offScreenPos, followPos, moveOnScreenTime));
+		moveRoutine = StartCoroutine(Move(wanderAreaCenter + Vector3.back * offScrenDist, wanderAreaCenter, moveOnScreenTime));
 		// Get initial wander pos
-		wanderPos = followPos + Random.insideUnitSphere * wanderDist;
+		wanderPos = Random.insideUnitSphere;
+		wanderPos.Scale(wanderAreaSize);
+		wanderPos += wanderAreaCenter;
 
 		// Setup for GetRandomPointOnMesh()
 		float[] sizes = GetTriSizes(meshFilter.mesh.triangles, meshFilter.mesh.vertices);
@@ -92,6 +90,36 @@ public class ChaseShipLogic : MonoBehaviour
 		if (moveRoutine != null || !initOver)
 			return;
 
+		UpdatePosition();
+		UpdateTurret();
+	}
+
+	private void UpdatePosition()
+	{
+		//TODO: include move to remove jank
+
+		// Update values from ship for debugging
+		wanderAreaCenter = ship.chaseShipWanderCenterOffset;
+		wanderAreaSize = ship.chaseShipWanderArea;
+
+		// Random wander
+		wanderTimePassed += Time.deltaTime;
+		if (wanderTimePassed >= wanderFrequency)
+		{
+			wanderTimePassed = 0;
+			// Get new wander pos
+			wanderPos = Random.insideUnitSphere;
+			wanderPos.Scale(wanderAreaSize);
+			wanderPos += wanderAreaCenter;
+		}
+
+		// Adjust velocity with a sort of steering force, and apply to position
+		velocity = Vector3.Lerp(velocity, (wanderPos - trans.position).normalized * wanderSpeed, Time.deltaTime * wanderAcceleration);
+		trans.position += velocity * Time.deltaTime;
+	}
+
+	private void UpdateTurret()
+	{
 		if (Mathf.Abs(Mathf.Abs(currentAngle) - Mathf.Abs(targetAngle)) < 1)
 		{
 			targetAngle = Random.Range(-spreadAngle * 0.5f, spreadAngle * 0.5f);
@@ -107,21 +135,8 @@ public class ChaseShipLogic : MonoBehaviour
 			fireTimePassed = 0;
 			Instantiate(missilePrefab, firePoint.position, Quaternion.FromToRotation(Vector3.forward, firePoint.forward));
 		}
-
-		// Random wander
-		wanderTimePassed += Time.deltaTime;
-		if (wanderTimePassed >= wanderFrequency)
-		{
-			wanderTimePassed = 0;
-			// Get new wander pos
-			wanderPos = Random.insideUnitSphere * wanderDist;
-			wanderPos.y = Mathf.Min(Mathf.Max(wanderPos.y, 0.5f), -0.5f);
-			wanderPos += followPos;
-		}
-		// Adjust velocity with a sort of steering force, and apply to position
-		velocity = Vector3.Lerp(velocity, (wanderPos - trans.position).normalized * wanderSpeed, Time.deltaTime * wanderAcceleration);
-		trans.position += velocity * Time.deltaTime;
 	}
+
 
 	void OnCollisionEnter(Collision collision)
 	{
@@ -146,7 +161,7 @@ public class ChaseShipLogic : MonoBehaviour
 	{
 		if (moveRoutine != null)
 			StopCoroutine(moveRoutine);
-		moveRoutine = StartCoroutine(Move(trans.position, offScreenPos, moveOffScreenTime));
+		moveRoutine = StartCoroutine(Move(trans.position, trans.position + Vector3.back * offScrenDist, moveOffScreenTime));
 		Destroy(gameObject, moveOffScreenTime);
 
 		// If the event ended because we ran out of health, start exploding
@@ -158,6 +173,7 @@ public class ChaseShipLogic : MonoBehaviour
 
     private IEnumerator Move(Vector3 start, Vector3 end, float time)
 	{
+		//move to update
         float timePassed = 0;
         while (timePassed < time)
 		{
@@ -244,4 +260,32 @@ public class ChaseShipLogic : MonoBehaviour
 		}
 		return sizes;
 	}
+
+
+#if UNITY_EDITOR
+	[DrawGizmo(GizmoType.Pickable)]
+	private void OnDrawGizmos()
+	{
+		Vector3 drawPos = wanderAreaCenter;
+		Vector3 elipseSize = wanderAreaSize;
+		float size = 1;
+		Color col = Color.white;
+
+		//Y-Z Ring
+		Handles.DrawBezier(new Vector3(drawPos.x, drawPos.y + elipseSize.y, drawPos.z), new Vector3(drawPos.x, drawPos.y, drawPos.z + elipseSize.z), new Vector3(0, elipseSize.y, elipseSize.z / 2)   + drawPos, new Vector3(0, elipseSize.y / 2, elipseSize.z)   + drawPos, col, Texture2D.whiteTexture, size);
+		Handles.DrawBezier(new Vector3(drawPos.x, drawPos.y + elipseSize.y, drawPos.z), new Vector3(drawPos.x, drawPos.y, drawPos.z - elipseSize.z), new Vector3(0, elipseSize.y, -elipseSize.z / 2)  + drawPos, new Vector3(0, elipseSize.y / 2, -elipseSize.z)  + drawPos, col, Texture2D.whiteTexture, size);
+		Handles.DrawBezier(new Vector3(drawPos.x, drawPos.y - elipseSize.y, drawPos.z), new Vector3(drawPos.x, drawPos.y, drawPos.z + elipseSize.z), new Vector3(0, -elipseSize.y, elipseSize.z / 2)  + drawPos, new Vector3(0, -elipseSize.y / 2, elipseSize.z)  + drawPos, col, Texture2D.whiteTexture, size);
+		Handles.DrawBezier(new Vector3(drawPos.x, drawPos.y - elipseSize.y, drawPos.z), new Vector3(drawPos.x, drawPos.y, drawPos.z - elipseSize.z), new Vector3(0, -elipseSize.y, -elipseSize.z / 2) + drawPos, new Vector3(0, -elipseSize.y / 2, -elipseSize.z) + drawPos, col, Texture2D.whiteTexture, size);
+		//X-Y Ring
+		Handles.DrawBezier(new Vector3(drawPos.x + elipseSize.x, drawPos.y, drawPos.z), new Vector3(drawPos.x, drawPos.y + elipseSize.y, drawPos.z), new Vector3((elipseSize.x), (elipseSize.y / 2), 0)   + drawPos, new Vector3((elipseSize.x / 2), (elipseSize.y), 0)   + drawPos, col, Texture2D.whiteTexture, size);
+		Handles.DrawBezier(new Vector3(drawPos.x - elipseSize.x, drawPos.y, drawPos.z), new Vector3(drawPos.x, drawPos.y + elipseSize.y, drawPos.z), new Vector3(-(elipseSize.x), (elipseSize.y / 2), 0)  + drawPos, new Vector3(-(elipseSize.x / 2), (elipseSize.y), 0)  + drawPos, col, Texture2D.whiteTexture, size);
+		Handles.DrawBezier(new Vector3(drawPos.x + elipseSize.x, drawPos.y, drawPos.z), new Vector3(drawPos.x, drawPos.y - elipseSize.y, drawPos.z), new Vector3((elipseSize.x), -(elipseSize.y / 2), 0)  + drawPos, new Vector3((elipseSize.x / 2), -(elipseSize.y), 0)  + drawPos, col, Texture2D.whiteTexture, size);
+		Handles.DrawBezier(new Vector3(drawPos.x - elipseSize.x, drawPos.y, drawPos.z), new Vector3(drawPos.x, drawPos.y - elipseSize.y, drawPos.z), new Vector3(-(elipseSize.x), -(elipseSize.y / 2), 0) + drawPos, new Vector3(-(elipseSize.x / 2), -(elipseSize.y), 0) + drawPos, col, Texture2D.whiteTexture, size);
+		//X-Z Ring
+		Handles.DrawBezier(new Vector3(drawPos.x + elipseSize.x, drawPos.y, drawPos.z), new Vector3(drawPos.x, drawPos.y, drawPos.z + elipseSize.z), new Vector3((elipseSize.x), 0, (elipseSize.z / 2))   + drawPos, new Vector3((elipseSize.x / 2), 0, (elipseSize.z))   + drawPos, col, Texture2D.whiteTexture, size);
+		Handles.DrawBezier(new Vector3(drawPos.x - elipseSize.x, drawPos.y, drawPos.z), new Vector3(drawPos.x, drawPos.y, drawPos.z + elipseSize.z), new Vector3(-(elipseSize.x), 0, (elipseSize.z / 2))  + drawPos, new Vector3(-(elipseSize.x / 2), 0, (elipseSize.z))  + drawPos, col, Texture2D.whiteTexture, size);
+		Handles.DrawBezier(new Vector3(drawPos.x + elipseSize.x, drawPos.y, drawPos.z), new Vector3(drawPos.x, drawPos.y, drawPos.z - elipseSize.z), new Vector3((elipseSize.x), 0, -(elipseSize.z / 2))  + drawPos, new Vector3((elipseSize.x / 2), 0, -(elipseSize.z))  + drawPos, col, Texture2D.whiteTexture, size);
+		Handles.DrawBezier(new Vector3(drawPos.x - elipseSize.x, drawPos.y, drawPos.z), new Vector3(drawPos.x, drawPos.y, drawPos.z - elipseSize.z), new Vector3(-(elipseSize.x), 0, -(elipseSize.z / 2)) + drawPos, new Vector3(-(elipseSize.x / 2), 0, -(elipseSize.z)) + drawPos, col, Texture2D.whiteTexture, size);
+	}
+#endif
 }

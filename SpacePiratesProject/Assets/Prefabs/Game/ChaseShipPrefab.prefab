@@ -152,6 +152,7 @@ MonoBehaviour:
   wanderAcceleration: 1
   timeBetweenExplosions: 0.1
   initOver: 0
+  ship: {fileID: 0}
 --- !u!54 &6299108741606740615
 Rigidbody:
   m_ObjectHideFlags: 0

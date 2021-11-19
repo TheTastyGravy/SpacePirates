@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShipPrefab: {fileID: 6707386950761864410, guid: 2cf02f61682ce09459b1895a6092a80b, type: 3}
   heightOffset: -1.5
-  chaseShipFollowDist: 26
-  chaseShipOffScreenDist: 35
+  chaseShipOffScreenDist: 10
+  chaseShipWanderCenterOffset: {x: -5.89, y: 0.5, z: -28.5}
+  chaseShipWanderArea: {x: 10, y: 0.2, z: 3}
