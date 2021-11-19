@@ -10,7 +10,7 @@ public class ICharacter : MonoBehaviour
 	{
         public string characterName;
         public GameObject character;
-        public Renderer renderer;
+        public Renderer[] renderers;
         public Material[] variants;
         public Transform grabTransform;
         public Animator animator;
@@ -62,7 +62,7 @@ public class ICharacter : MonoBehaviour
             {
                 characterName = settings.characterName,
                 character = obj.gameObject,
-                renderer = settings.baseRenderer,
+                renderers = settings.renderers,
                 variants = settings.variants,
                 grabTransform = settings.grabTransform != null ? settings.grabTransform : fallbackGrabTransform,
                 animator = anim
@@ -143,7 +143,10 @@ public class ICharacter : MonoBehaviour
         }
 
         index = Mathf.Clamp(index, 0, GetVariantCount());
-        currentCharacter.renderer.material = currentCharacter.variants[index];
+        foreach (Renderer renderer in currentCharacter.renderers)
+        {
+            renderer.sharedMaterial = currentCharacter.variants[index];
+        }
         m_VariantIndex = index;
     }
 
