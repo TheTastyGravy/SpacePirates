@@ -316,5 +316,13 @@ MonoBehaviour:
       useMaxPlayers: 0
   timeToDiffIncrease: 60
   eventLengthAddition: 15
+  initTimeDecrease: 0
   asteroidSpawnPeriodDecrease: 1
   asteroidPromptDelayDecrease: 0.5
+  timeBetweenAsteroidWavesDecrease: 0.2
+  asteroidsPerWaveIncrease: 0.5
+  asteroidPrestrikeDelayDecrease: 0
+  timeBetweenStormDamageDecrease: 0.1
+  plasmaStormPretrikeDelayDecrease: 0
+  shipHealthIncrease: 1
+  shipFirePeriodIncrease: 0.2

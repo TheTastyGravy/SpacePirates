@@ -88,8 +88,21 @@ public class LevelDificultyData : ScriptableObject
     [Header("Endless")]
     public float timeToDiffIncrease = 20;
     public float eventLengthAddition = 15;
+    public float initTimeDecrease = 0;
+    [Space]
     public float asteroidSpawnPeriodDecrease = 1;
     public float asteroidPromptDelayDecrease = 0.5f;
+    [Space]
+    public float timeBetweenAsteroidWavesDecrease = 0.25f;
+    [Tooltip("Value used will be rounded down")]
+    public float asteroidsPerWaveIncrease = 0.5f;
+    public float asteroidPrestrikeDelayDecrease = 0;
+    [Space]
+    public float timeBetweenStormDamageDecrease = 0.1f;
+    public float plasmaStormPretrikeDelayDecrease = 0;
+    [Space]
+    public int shipHealthIncrease = 1;
+    public float shipFirePeriodIncrease = 0.2f;
 
     internal static int m_playerCount = 0;
     internal static int m_maxPlayerCount = 0;
