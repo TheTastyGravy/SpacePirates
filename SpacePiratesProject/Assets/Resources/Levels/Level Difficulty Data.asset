@@ -314,3 +314,7 @@ MonoBehaviour:
       playerCountValues: 00000000000000000000000000000000
       useSeperateValues: 0
       useMaxPlayers: 0
+  timeToDiffIncrease: 60
+  eventLengthAddition: 15
+  asteroidSpawnPeriodDecrease: 1
+  asteroidPromptDelayDecrease: 0.5
