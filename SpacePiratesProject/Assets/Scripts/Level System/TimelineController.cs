@@ -248,6 +248,8 @@ public class TimelineController : Singleton<TimelineController>
             // Flash icons as we pass them
             if (index < icons.Count && (playerPos + dist) >= icons[index].position)
 			{
+                if (level.isEndless)
+                    icons[index].trans.position = pingEffectRectTrans.position;
                 StartCoroutine(FlashIcon(icons[index].image));
                 // Play sound effect
                 if (!pingEvent.IsNull)
