@@ -11,7 +11,7 @@ public class MissileLogic : MonoBehaviour
 	public float steeringSpeed = 30;
 	public float angleFactorMultiplier = 1;
 	[Space]
-	public GameObject explosion;
+	public GameObject explosion, otherExplosion;
 	public Transform magicCollider;
 
 	private Transform trans;
@@ -50,6 +50,8 @@ public class MissileLogic : MonoBehaviour
 			health--;
 			if (health <= 0)
 			{
+				GameObject obj = Instantiate(otherExplosion, collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
+				Destroy(obj, 3);
 				Destroy(gameObject);
 			}
 		}
