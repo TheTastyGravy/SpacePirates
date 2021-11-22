@@ -16,7 +16,23 @@ MonoBehaviour:
   difficulty: 0
   useRandomEvents: 1
   generateRandomLevelNow: 0
-  length: 0
-  events: []
+  length: 220
+  events:
+  - start: 10
+    end: 16.538918
+    type: 2
+  - start: 26.538918
+    end: 116.53892
+    type: 0
+  - start: 126.53891
+    end: 135.7304
+    type: 2
+  - start: 146.50298
+    end: 236.50298
+    type: 0
+  - start: 249.60025
+    end: 339.60025
+    type: 1
   isEndless: 1
-  endlessEventCount: 2
+  endlessEventCount: 3
+  eventArea: 115
