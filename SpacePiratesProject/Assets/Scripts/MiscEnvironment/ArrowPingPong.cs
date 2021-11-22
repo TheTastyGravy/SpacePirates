@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 public class ArrowPingPong : MonoBehaviour
 {
     public GameObject Arrow;
@@ -7,25 +10,40 @@ public class ArrowPingPong : MonoBehaviour
     [Space]
     public bool Left;
 
-    Vector3 startPos;
-    RectTransform rectTransform;
+    private Vector3 startPos;
+    private RectTransform rectTransform;
+    private Coroutine routine;
 
-    private void OnEnable()
+
+
+    void OnEnable()
     {
         if (startPos == Vector3.zero)
         {
             rectTransform = Arrow.GetComponent<RectTransform>();
             startPos = rectTransform.localPosition;
         }
-        else
-            rectTransform.localPosition = startPos;
+
+        if (routine != null)
+            StopCoroutine(routine);
+        routine = StartCoroutine(PingPong());
     }
 
-    private void FixedUpdate()
+    void OnDisable()
     {
-        if (Left)
-            rectTransform.localPosition += new Vector3(-(Mathf.Sin(Time.time * Speed) * Distance), 0f, 0f);
-        else
-            rectTransform.localPosition += new Vector3((Mathf.Sin(Time.time * Speed) * Distance), 0f, 0f);
+        if (routine != null)
+            StopCoroutine(routine);
+    }
+
+    private IEnumerator PingPong()
+    {
+        while (true)
+        {
+            if (Left)
+                rectTransform.localPosition = startPos - new Vector3(Mathf.Sin(Time.unscaledTime * Speed) * Distance, 0, 0);
+            else
+                rectTransform.localPosition = startPos + new Vector3(Mathf.Sin(Time.unscaledTime * Speed) * Distance, 0, 0);
+            yield return null;
+        }
     }
 }
