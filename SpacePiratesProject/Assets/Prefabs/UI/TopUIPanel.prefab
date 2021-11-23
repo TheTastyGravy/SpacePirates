@@ -582,11 +582,11 @@ MonoBehaviour:
     - LET'S GET OUT OF HERE!!
     dialogueEvent:
       Guid:
-        Data1: 0
-        Data2: 0
-        Data3: 0
-        Data4: 0
-      Path: 
+        Data1: 1443260407
+        Data2: 1314134370
+        Data3: -1885415777
+        Data4: 443349328
+      Path: event:/VOs/Operational
   reactorDamaged:
     strings:
     - REACTOR OFFLINE!!
@@ -892,8 +892,6 @@ MonoBehaviour:
       Data3: 34476982
       Data4: 914928117
     Path: event:/Stations/Radar/SFX/Ping
-  min: 0.12
-  max: 0.772
 --- !u!1 &6661497441407422335
 GameObject:
   m_ObjectHideFlags: 0
