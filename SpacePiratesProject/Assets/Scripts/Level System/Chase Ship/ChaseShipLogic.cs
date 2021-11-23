@@ -5,8 +5,6 @@ using UnityEditor;
 
 public class ChaseShipLogic : MonoBehaviour
 {
-	public GameObject missilePrefab;
-	public GameObject explosionPrefab;
 	public Transform firePoint;
 	public Transform turret;
 	public Transform turretRotationPoint;
@@ -30,6 +28,8 @@ public class ChaseShipLogic : MonoBehaviour
 	[HideInInspector]
 	public bool initOver = false;
 	private Transform trans;
+    private ObjectPool explosionPool;
+    private ObjectPool missilePool;
 	private Ship ship;
 	private Vector3 wanderAreaCenter;
 	private Vector3 wanderAreaSize;
@@ -52,13 +52,15 @@ public class ChaseShipLogic : MonoBehaviour
 
 	void Start()
 	{
-		StartCoroutine(Siren());
+        StartCoroutine(Siren());
 	}
 
 	public void Setup(int health, float firePeriod)
 	{
 		trans = transform;
-		ship = Ship.GetShip(GameManager.SelectedShip);
+        explosionPool = ObjectPool.GetPool("Explosion Pool");
+        missilePool = ObjectPool.GetPool("Missile Pool");
+        ship = Ship.GetShip(GameManager.SelectedShip);
 
 		wanderAreaCenter = ship.chaseShipWanderCenterOffset;
 		wanderAreaSize = ship.chaseShipWanderArea;
@@ -133,27 +135,39 @@ public class ChaseShipLogic : MonoBehaviour
 		if (fireTimePassed >= firePeriod)
 		{
 			fireTimePassed = 0;
-			Instantiate(missilePrefab, firePoint.position, Quaternion.FromToRotation(Vector3.forward, firePoint.forward));
+            missilePool.GetInstance().transform.SetPositionAndRotation(firePoint.position, Quaternion.FromToRotation(Vector3.forward, firePoint.forward));
 		}
 	}
 
-
 	void OnCollisionEnter(Collision collision)
 	{
-		// If we are hit by a turret or asteroid
-		if (collision.gameObject.CompareTag("TurretProjectile") || LayerMask.LayerToName(collision.gameObject.layer) == "Astroid")
-		{
-			// Destroy the object. this might allow multiple collision events to fire
-			Destroy(collision.gameObject);
-			// Create explosion effect
-			Destroy(Instantiate(explosionPrefab, collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal, Random.onUnitSphere)), explosionTime);
+        void Damage()
+        {
+            // Create explosion effect
+            GameObject explosion = explosionPool.GetInstance();
+            explosion.transform.SetPositionAndRotation(collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal, Random.onUnitSphere));
+            explosionPool.Return(explosion, explosionTime);
 
-			health--;
-			if (health <= 0)
-			{
-				EventManager.Instance.StopEvent();
-			}
-		}
+            health--;
+            if (health <= 0)
+            {
+                EventManager.Instance.StopEvent();
+            }
+        }
+        
+        // If we are hit by a turret or asteroid
+        if (collision.gameObject.CompareTag("TurretProjectile"))
+		{
+            // Destroy the projectile
+            ObjectPool.GetPool("Projectile Pool").Return(collision.gameObject);
+            Damage();
+        }
+        else if (LayerMask.LayerToName(collision.gameObject.layer) == "Astroid")
+        {
+            // Destroy the asteroid
+            ObjectPool.GetPool("Asteroid Pool").Return(collision.gameObject);
+            Damage();
+        }
 	}
 
 	// Called when the event ends
@@ -206,9 +220,10 @@ public class ChaseShipLogic : MonoBehaviour
 		{
 			// Meshes are concidered in local space, so it needs to be converted
 			Vector3 point = meshTrans.localToWorldMatrix * GetRandomPointOnMesh();
-			// Create explosion effect, and destroy it after its done
-			GameObject explosionInstance = Instantiate(explosionPrefab, point + trans.position, Quaternion.LookRotation(point - meshFilter.mesh.bounds.center, Random.onUnitSphere), trans);
-			Destroy(explosionInstance, explosionTime);
+            // Create explosion effect, and destroy it after its done
+            GameObject explosion = explosionPool.GetInstance();
+            explosion.transform.SetPositionAndRotation(point + trans.position, Quaternion.LookRotation(point - meshFilter.mesh.bounds.center, Random.onUnitSphere));
+            explosionPool.Return(explosion, explosionTime);
 
 			yield return new WaitForSeconds(timeBetweenExplosions);
 		}

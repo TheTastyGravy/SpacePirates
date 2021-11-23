@@ -55,6 +55,7 @@ MonoBehaviour:
   - {fileID: 8944867219402090524}
   - {fileID: 8896474859516537344}
   - {fileID: 2258114739899374973}
+  pSystem: {fileID: 1163983735194975349}
   LightTriggers:
   - Heading: Flash, Flash
     LightTriggers:

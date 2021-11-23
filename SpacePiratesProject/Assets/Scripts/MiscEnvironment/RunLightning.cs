@@ -3,6 +3,7 @@
 public class RunLightning : MonoBehaviour
 {
     public PlasmaLightLogic[] _Lights;
+    public ParticleSystem pSystem;
     [Space]
     [SerializeField] LightArrays[] LightTriggers;
     public float LightDelay;
@@ -12,30 +13,42 @@ public class RunLightning : MonoBehaviour
 
     float elapsed, targetTime;
     int iterative, selective;
-    private void OnEnable()
+
+
+
+    void OnEnable()
     {
+        pSystem.Play();
         elapsed = 0f;
         iterative = 0;
         selective = Random.Range(0, LightTriggers.Length);
         targetTime = GetStartTime();
         InitializeLights();
     }
+
+    void OnDisable()
+    {
+        pSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+    }
+
     float GetStartTime() => LightTriggers[selective].LightTriggers[0] + Random.Range(RandomBufferMin, RandomBufferMax);
+
     void InitializeLights()
     {
         for (int i = 0; i < _Lights.Length; i++)
             _Lights[i].Initialize(LightDelay);
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
-        elapsed += Time.fixedDeltaTime;
+        elapsed += Time.deltaTime;
         if(elapsed >= targetTime)
         {
             UpdateTimer();
             RunLight();
         }
     }
+
     void UpdateTimer()
     {
         elapsed = 0f;
@@ -50,6 +63,7 @@ public class RunLightning : MonoBehaviour
         else
             targetTime = LightTriggers[selective].LightTriggers[iterative];
     }
+
     void RunLight() => _Lights[Random.Range(0, _Lights.Length)].Run();
 }
 [System.Serializable]

@@ -139,6 +139,116 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1f81a1d3aec3b4eaad0d6ecc4e34c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &376280973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 376280974}
+  - component: {fileID: 376280980}
+  - component: {fileID: 376280979}
+  - component: {fileID: 376280978}
+  - component: {fileID: 376280976}
+  - component: {fileID: 376280975}
+  m_Layer: 0
+  m_Name: ObjectPools
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &376280974
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376280973}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &376280975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376280973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1607e3dbb49337642a8c3efd87802445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolName: Plasma Pool
+  prefab: {fileID: 1885306340502562398, guid: 211b57802507287438f612f40767f823, type: 3}
+  maxStoredCount: 50
+--- !u!114 &376280976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376280973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1607e3dbb49337642a8c3efd87802445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolName: Explosion Pool
+  prefab: {fileID: 7894892668884435334, guid: 33825a87e5aa9194aa1508cc53ebe6cf, type: 3}
+  maxStoredCount: 10
+--- !u!114 &376280978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376280973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1607e3dbb49337642a8c3efd87802445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolName: Projectile Pool
+  prefab: {fileID: 6203124041145230643, guid: 2cf2a750ad9d68c47a39e323631cc834, type: 3}
+  maxStoredCount: 8
+--- !u!114 &376280979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376280973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1607e3dbb49337642a8c3efd87802445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolName: Missile Pool
+  prefab: {fileID: 5795167540847266017, guid: 898819c832f56054ebc18670b0b8b7d7, type: 3}
+  maxStoredCount: 5
+--- !u!114 &376280980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376280973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1607e3dbb49337642a8c3efd87802445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolName: Asteroid Pool
+  prefab: {fileID: 1177453880813799770, guid: 5a69b7a24e7d7024eabe93c3a92d22fd, type: 3}
+  maxStoredCount: 10
 --- !u!1 &772499114
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,7 +279,7 @@ Transform:
   m_Children:
   - {fileID: 1431593330}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &772499116
 MonoBehaviour:
@@ -183,7 +293,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11c399aab82d2f947937193914174005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  astroidPrefab: {fileID: 1177453880813799770, guid: 5a69b7a24e7d7024eabe93c3a92d22fd, type: 3}
   maxAngleVariance: 90
   raycastMask:
     serializedVersion: 2
@@ -543,7 +652,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &1230211156
 GameObject:
@@ -736,7 +845,7 @@ RectTransform:
   - {fileID: 1595431795}
   - {fileID: 21941197}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1017,7 +1126,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3706624315001952404, guid: f30c2d1d9ee11464b91ac914c8c63e19, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3706624315001952404, guid: f30c2d1d9ee11464b91ac914c8c63e19, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1408,7 +1517,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5063274434833239917
 MonoBehaviour:
