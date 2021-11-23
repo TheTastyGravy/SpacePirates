@@ -44,7 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e8cc0afcdf9964bb71a32a576e7a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plasmaStormEffectPrefab: {fileID: 1885306340502562398, guid: 211b57802507287438f612f40767f823, type: 3}
   pSystem: {fileID: 3457050212386814724}
   storm_timeBetween: 0.25
   storm_baseSpeed: 4
@@ -64,6 +63,10 @@ PrefabInstance:
     - target: {fileID: 1416469106509751751, guid: 2615357357634c14b811d2db7e998b24, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 13.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1416469106509751751, guid: 2615357357634c14b811d2db7e998b24, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.atime2
+      value: 32768
       objectReference: {fileID: 0}
     - target: {fileID: 5048777933630452461, guid: 2615357357634c14b811d2db7e998b24, type: 3}
       propertyPath: m_RootOrder

@@ -74,7 +74,7 @@ public class PlasmaStormEffect : MonoBehaviour
     {
         // Move objects (plasma storm clouds)
         List<Transform> toDestroy = new List<Transform>();
-        foreach (var obj in objects)
+        foreach (Transform obj in objects)
         {
             if (obj == null || !obj.gameObject.activeInHierarchy)
             {
@@ -89,7 +89,7 @@ public class PlasmaStormEffect : MonoBehaviour
                 toDestroy.Add(obj);
             }
         }
-        foreach (var obj in toDestroy)
+        foreach (Transform obj in toDestroy)
         {
             objects.Remove(obj);
             if (obj != null && obj.gameObject.activeInHierarchy)
@@ -146,6 +146,9 @@ public class PlasmaStormEffect : MonoBehaviour
                 Vector3 spawnPos = trans.position + spawnOffset + spawnLineDir * GetRandomValue(spawnLineLength);
                 GameObject effectObj = pool.GetInstance();
                 effectObj.transform.SetPositionAndRotation(spawnPos, rotation);
+                // Enable effect
+                if (effectObj.TryGetComponent(out RunLightning runLightning))
+                    runLightning.enabled = true;
                 objects.Add(effectObj.transform);
             }
 
@@ -158,29 +161,20 @@ public class PlasmaStormEffect : MonoBehaviour
     {
         foreach (var obj in objects)
         {
+            // Disable effect and reduce lifetime of all particles
             if (obj.TryGetComponent(out RunLightning runLightning))
                 runLightning.enabled = false;
-
             ParticleSystem particleSystem = obj.GetComponentInChildren<ParticleSystem>();
-            if (particleSystem != null)
+            ParticleSystem.Particle[] particles = new ParticleSystem.Particle[particleSystem.main.maxParticles];
+            int count = particleSystem.GetParticles(particles);
+            for (int i = 0; i < count; i++)
             {
-                // Disable emission
-                ParticleSystem.EmissionModule emission = particleSystem.emission;
-                emission.enabled = false;
-
-                // Set the lifetime of all particles
-                ParticleSystem.Particle[] particles = new ParticleSystem.Particle[particleSystem.main.maxParticles];
-                int count = particleSystem.GetParticles(particles);
-                for (int i = 0; i < count; i++)
-                {
-                    particles[i].remainingLifetime = particles[i].remainingLifetime / particles[i].startLifetime * time;
-                    particles[i].startLifetime = time;
-                }
-                particleSystem.SetParticles(particles);
-
-                // Destroy the object when the particles are gone
-                pool.Return(obj.gameObject, time);
+                particles[i].remainingLifetime = particles[i].remainingLifetime / particles[i].startLifetime * time;
+                particles[i].startLifetime = time;
             }
+            particleSystem.SetParticles(particles);
+            // Destroy the object when the particles are gone
+            pool.Return(obj.gameObject, time);
         }
 
         // Fade out particle system
