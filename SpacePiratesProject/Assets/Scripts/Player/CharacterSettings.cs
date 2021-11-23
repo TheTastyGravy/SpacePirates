@@ -6,7 +6,7 @@ public class CharacterSettings : MonoBehaviour
 {
     public string characterName;
     public Material[] variants;
-	public Renderer baseRenderer;
+	public Renderer[] renderers;
     public Transform grabTransform;
 
 
@@ -16,7 +16,7 @@ public class CharacterSettings : MonoBehaviour
 		if (variants.Length == 0)
 		{
 			variants = new Material[1];
-			variants[0] = GetComponentInChildren<Renderer>().material;
+			variants[0] = renderers[0].sharedMaterial;
 		}
 	}
 }

@@ -8,38 +8,61 @@ public class MissileLogic : MonoBehaviour
 	[Tooltip("How many times it can be hit by a turret before being destroied")]
 	public int health = 1;
 	public float speed = 10;
+	public float steeringSpeed = 30;
+	public float angleFactorMultiplier = 1;
 	[Space]
-	public GameObject explosion;
+	public GameObject explosionPrefab;
 	public Transform magicCollider;
 
+	private Transform trans;
+	private Transform shipTrans;
+    private ObjectPool pool;
+    private ObjectPool explosionPool;
+	private bool hasHitShip;
 
-	private bool hasHitShip = false;
 
 
-
-	void Start()
+	void Awake()
 	{
 		// Allign collider with camera
 		magicCollider.rotation = Camera.main.transform.rotation;
-		Destroy(gameObject, 10);
-	}
+		trans = transform;
+		shipTrans = ShipManager.Instance.transform;
+        pool = ObjectPool.GetPool("Missile Pool");
+        explosionPool = ObjectPool.GetPool("Explosion Pool");
+    }
 
-	void Update()
+    void OnEnable()
+    {
+        hasHitShip = false;
+        pool.Return(gameObject, 10);
+    }
+
+    void Update()
 	{
+		// Rotate the forward direction to try andfact the player ship
+		Vector3 dir = shipTrans.position - trans.position;
+		float angleFactor = Mathf.Abs(Vector3.Angle(trans.forward, dir) * Mathf.Deg2Rad) * angleFactorMultiplier;
+		dir = Vector3.RotateTowards(trans.forward, dir, steeringSpeed * Mathf.Deg2Rad * Time.deltaTime * angleFactor, 0);
+		dir.y = 0;
+		trans.forward = dir;
 		// Update position
-		transform.position += speed * Time.deltaTime * transform.forward;
+		trans.position += speed * Time.deltaTime * trans.forward;
 	}
 
 	void OnCollisionEnter(Collision collision)
 	{
 		if (collision.gameObject.CompareTag("TurretProjectile"))
 		{
-			// We have been hit by a turret
-			Destroy(collision.gameObject);
+            // We have been hit by a turret
+            ObjectPool.GetPool("Projectile Pool").Return(collision.gameObject);
 			health--;
 			if (health <= 0)
 			{
-				Destroy(gameObject);
+                pool.Return(gameObject);
+                // This is a different explosion effect that is only used here, so dont use object pooling
+				GameObject obj = Instantiate(explosionPrefab, collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
+				Destroy(obj, 3);
 			}
 		}
 		else
@@ -51,10 +74,11 @@ public class MissileLogic : MonoBehaviour
 			// If we hit something else, damage the ship
 			ShipManager.Instance.DamageShipAtPosition(transform.position);
 			hasHitShip = true;
-			Destroy(gameObject);
-
-			GameObject obj = Instantiate(explosion, collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
-			Destroy(obj, 3);
-		}
+            pool.Return(gameObject);
+            // Create explosion
+            GameObject explosion = explosionPool.GetInstance();
+            explosion.transform.SetPositionAndRotation(collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
+            explosionPool.Return(explosion, 3);
+        }
 	}
 }

@@ -297,6 +297,7 @@ MonoBehaviour:
   audioEvent: {fileID: 4386059622376514148}
   MaxPlayers: 2
   image: {fileID: 1951724436}
+  mat: {fileID: 2100000, guid: a641c41a978900746869e390d808504d, type: 2}
   textImage: {fileID: 2477986246390423060}
   baseTextImage: {fileID: -3347424670509386320, guid: 3192ab2573016c643bcdeab760323551, type: 3}
   selectTextImage: {fileID: -6851193026322675327, guid: 3192ab2573016c643bcdeab760323551, type: 3}

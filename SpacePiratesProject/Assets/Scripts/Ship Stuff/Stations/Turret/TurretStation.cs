@@ -11,7 +11,6 @@ public class TurretStation : MonoBehaviour
     public Transform turretBase;
     public TurretRecoil recoilScript;
     public Transform firePos;
-    public GameObject projectilePrefab;
     [Space]
     public float projectileSpeed = 10;
     public float minAngle, maxAngle;
@@ -31,6 +30,8 @@ public class TurretStation : MonoBehaviour
     public EventReference fireEvent;
     public EventReference activateEvent;
 
+    private Transform camTrans;
+    private ObjectPool projectilePool;
     private TurretActivate turretActivate;
     private DamageStation damage;
     private FuelDeposit fuelDepo;
@@ -54,6 +55,8 @@ public class TurretStation : MonoBehaviour
 
     void Start()
     {
+        camTrans = Camera.main.transform;
+        projectilePool = ObjectPool.GetPool("Projectile Pool");
         turretActivate = GetComponentInChildren<TurretActivate>();
         damage = GetComponentInChildren<DamageStation>();
         fuelDepo = GetComponentInChildren<FuelDeposit>();
@@ -173,10 +176,11 @@ public class TurretStation : MonoBehaviour
         currentInteractor.Player.PulseHaptics(hapticActivateTime, hapticActivatePower);
 
         //get info
-        playerPos = currentInteractor.Player.Character.transform.position;
-        playerRot = currentInteractor.Player.Character.transform.rotation;
+        Transform playerTrans = currentInteractor.Player.Character.transform;
+        playerPos = playerTrans.position;
+        playerRot = playerTrans.rotation;
         //move character
-        currentInteractor.Player.Character.transform.SetPositionAndRotation(playerActivatedTrans.position, playerActivatedTrans.rotation);
+        playerTrans.SetPositionAndRotation(playerActivatedTrans.position, playerActivatedTrans.rotation);
 
         //setup turret controls
         currentInteractor.Player.AddInputListener(Player.Control.A_PRESSED, Fire);
@@ -216,11 +220,16 @@ public class TurretStation : MonoBehaviour
         currentInteractor.Player.PulseHaptics(hapticShootTime, hapticShootPower);
 
         // Shoot projectile in direction of turretBase
-        GameObject projectile = Instantiate(projectilePrefab, firePos.position, firePos.rotation);
-        projectile.GetComponent<Rigidbody>().AddForce(firePos.forward * projectileSpeed, ForceMode.Impulse);
-        Destroy(projectile, 5);
+        GameObject projectile = projectilePool.GetInstance();
+        Transform projTrans = projectile.transform;
+        projTrans.SetPositionAndRotation(firePos.position, firePos.rotation);
         // Rotate child containing collider to align with camera. This is to create more consistant collisions visualy
-        projectile.transform.GetChild(0).rotation = Camera.main.transform.rotation;
+        projTrans.GetChild(0).rotation = camTrans.rotation;
+        Rigidbody projRb = projectile.GetComponent<Rigidbody>();
+        projRb.velocity = Vector3.zero;
+        projRb.AddForce(firePos.forward * projectileSpeed, ForceMode.Impulse);
+        projectilePool.Return(projectile, 5);
+        
         // Play explosion effect at fire pos
         if (shootEffect != null)
             shootEffect.Play();
@@ -235,9 +244,7 @@ public class TurretStation : MonoBehaviour
         if (shotsRemaining == 0)
 		{
             TurnOff();
-            //  SOUND - fuel empty
 		}
-
         fuelIndicator.SetFuelLevel((float)shotsRemaining / (float)maxShots * 100f);
     }
 
@@ -245,7 +252,6 @@ public class TurretStation : MonoBehaviour
 	{
         if (currentInteractor == null || Time.timeScale == 0)
             return;
-
 
         // Get the desiered direction
         Vector3 direction;
@@ -257,9 +263,9 @@ public class TurretStation : MonoBehaviour
             direction = (left.sqrMagnitude > right.sqrMagnitude) ? left : right;
 
             // Get camera directions on the Y plane
-            Vector3 camForward = Camera.main.transform.forward;
+            Vector3 camForward = camTrans.forward;
             camForward.y = 0;
-            Vector3 camRight = Camera.main.transform.right;
+            Vector3 camRight = camTrans.right;
             camRight.y = 0;
             // Calculate movement using the camera
             direction = camForward.normalized * direction.z + camRight.normalized * direction.x;
@@ -276,7 +282,6 @@ public class TurretStation : MonoBehaviour
 
         if (direction.sqrMagnitude < 0.15f)
             return;
-
         direction.Normalize();
         
         // Limit the angle of the direction

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AstroidManager : Singleton<AstroidManager>
 {
-	public GameObject astroidPrefab;
 	public float maxAngleVariance = 45;
 	public LayerMask raycastMask;
 	public float raycastYOffset = 1;
@@ -16,6 +15,7 @@ public class AstroidManager : Singleton<AstroidManager>
 	public float uiExtraTime = 0.5f;
 
 	private Camera cam;
+    private ObjectPool pool;
 	private float lastOrthoSize;
 	private float timeBetweenAstroids;
 	private float astroidSpawnDelay;
@@ -27,8 +27,9 @@ public class AstroidManager : Singleton<AstroidManager>
 
 	void Awake()
 	{
-		// Get values from difficulty settings
-		LevelDificultyData.DiffSetting settings = GameManager.GetDifficultySettings();
+        pool = ObjectPool.GetPool("Asteroid Pool");
+        // Get values from difficulty settings
+        LevelDificultyData.DiffSetting settings = GameManager.GetDifficultySettings();
 		timeBetweenAstroids = settings.timeBetweenAstroids;
 		astroidSpawnDelay = settings.astroidSpawnDelay;
 		enabled = false;
@@ -140,11 +141,16 @@ public class AstroidManager : Singleton<AstroidManager>
 		// If the camera size changes, move the spawn regions to prevent asteroids being spawned on screen
 		if (cam.orthographicSize != lastOrthoSize)
 		{
+			// Move this transform to the center of the screen
+			Ray ray = cam.ViewportPointToRay(new Vector2(0.5f, 0.5f));
+			new Plane(Vector3.up, 0).Raycast(ray, out float enter);
+			transform.position = ray.GetPoint(enter);
+
 			float diff = cam.orthographicSize - lastOrthoSize;
 			foreach (var obj in regions)
 			{
-				Transform trans = obj.transform;
-				trans.position += trans.position.normalized * diff;
+				Vector3 normPos = obj.transform.localPosition.normalized;
+				obj.transform.localPosition += new Vector3(normPos.x * diff * cam.aspect, 0, normPos.z * diff);
 			}
 			lastOrthoSize = cam.orthographicSize;
 		}
@@ -222,7 +228,7 @@ public class AstroidManager : Singleton<AstroidManager>
 			rectTrans.GetChild(1).localPosition = screenDir.normalized * 70;
 
 			// Create astroid
-			AstroidLogic astroid = Instantiate(astroidPrefab).GetComponent<AstroidLogic>();
+			AstroidLogic astroid = pool.GetInstance().GetComponent<AstroidLogic>();
 			astroid.Setup(pos, dir, astroidSpawnDelay);
 		}
 	}

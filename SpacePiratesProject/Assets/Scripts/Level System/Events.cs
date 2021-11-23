@@ -109,7 +109,8 @@ public class PlasmaStorm : Event
 		if (station != null)
 		{
 			station.Damage();
-		}
+            Object.FindObjectOfType<LightningStrikeEffect>().CreateStrike(station.transform.position, 2);
+        }
 
 		Object.Instantiate(strikeEffect, canvas);
 		CameraManager.Instance.Shake();

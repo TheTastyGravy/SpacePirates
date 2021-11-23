@@ -57,7 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 52d6126e0d79e434cb6edcbc1dfa0ab8, type: 2}
+  m_Material: {fileID: 2100000, guid: a641c41a978900746869e390d808504d, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -132,6 +132,7 @@ MonoBehaviour:
   audioEvent: {fileID: 326530836492652165}
   MaxPlayers: 3
   image: {fileID: 1233881945}
+  mat: {fileID: 2100000, guid: a641c41a978900746869e390d808504d, type: 2}
   textImage: {fileID: 8603596563750211543}
   baseTextImage: {fileID: 6720867574395565244, guid: 3192ab2573016c643bcdeab760323551, type: 3}
   selectTextImage: {fileID: -2810967178557429219, guid: 3192ab2573016c643bcdeab760323551, type: 3}

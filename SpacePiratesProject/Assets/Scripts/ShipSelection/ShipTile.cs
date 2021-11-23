@@ -10,7 +10,8 @@ public class ShipTile : Tile
 	[ Range( 1, 4 ) ] public int MaxPlayers = 1;
 	[Header("Ship")]
 	public Image image;
-	[Header("Text")]
+    public Material mat;
+    [Header("Text")]
 	public Image textImage;
 	public Sprite baseTextImage;
 	public Sprite selectTextImage;
@@ -19,12 +20,14 @@ public class ShipTile : Tile
 	
 	public void Init()
 	{
-		image.materialForRendering.SetFloat("_EffectAmount", 1);
+        // Assign a new instance of the material so the actual values dont get changed
+        image.material = Instantiate(mat);
+        image.material.SetFloat("_EffectAmount", 1);
 	}
 
 	public void SetSelected(bool selected)
 	{
-		image.materialForRendering.SetFloat("_EffectAmount", selected ? 0 : 1);
+		image.material.SetFloat("_EffectAmount", selected ? 0 : 1);
 		textImage.sprite = selected ? selectTextImage : baseTextImage;
 
 		if (selected)

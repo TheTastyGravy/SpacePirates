@@ -11,7 +11,7 @@ public class CameraManager : Singleton<CameraManager>
     public Camera[] cams;
 
     private Transform trans;
-    private Vector3 startPos;
+    private Vector3 basePos;
     private float currentShakeMult = 1;
     private float timePassed = 999;
     private float baseCamSize;
@@ -23,24 +23,21 @@ public class CameraManager : Singleton<CameraManager>
     {
         baseCamSize = cams[0].orthographicSize;
         trans = transform;
-        startPos = trans.position;
+        basePos = trans.position;
         trans.parent = null;
     }
 
     void Update()
     {
-        if (timePassed < shakeTime)
+        timePassed += Time.unscaledDeltaTime;
+        if (timePassed >= shakeTime)
         {
-            timePassed += Time.unscaledDeltaTime;
-            if (timePassed >= shakeTime)
-            {
-                // At the end, reset the position
-                trans.localPosition = startPos;
-            }
-            else
-            {
-                trans.position = startPos + trans.rotation * (Random.insideUnitCircle * baseShakeIntensity * currentShakeMult);
-            }
+            // At the end, reset the position
+            trans.localPosition = basePos;
+        }
+        else
+        {
+            trans.position = basePos + trans.rotation * (Random.insideUnitCircle * baseShakeIntensity * currentShakeMult);
         }
     }
 
@@ -60,19 +57,27 @@ public class CameraManager : Singleton<CameraManager>
     private IEnumerator ZoomRoutine(float zoomLevel)
     {
         float startSize = cams[0].orthographicSize;
+        Vector3 initPos = basePos;
+        Vector3 up = cams[0].transform.up;
+        Vector3 right = cams[0].transform.right;
         float t = 0;
         while (t < zoomTime)
         {
-            float value = zoomCurve.Evaluate(t / zoomTime);
+            // Move the base position to pin the top left corner in place
+            float newSize = Mathf.Lerp(startSize, zoomLevel, zoomCurve.Evaluate(t / zoomTime));
+            float diff = startSize - newSize;
+            basePos = initPos + up * diff + right * diff * cams[0].aspect;
+
             foreach (Camera cam in cams)
             {
-                cam.orthographicSize = Mathf.Lerp(startSize, zoomLevel, value);
+                cam.orthographicSize = newSize;
+                cam.transform.position = basePos;
             }
-
             t += Time.deltaTime;
             yield return null;
         }
         // Set value on end
+        basePos = initPos + up * (startSize - zoomLevel) + right * (startSize - zoomLevel) * cams[0].aspect;
         foreach (Camera cam in cams)
         {
             cam.orthographicSize = zoomLevel;

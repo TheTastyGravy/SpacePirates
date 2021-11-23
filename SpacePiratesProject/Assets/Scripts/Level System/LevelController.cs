@@ -27,7 +27,7 @@ public class LevelController : Singleton<LevelController>
 
     private void Init()
     {
-        diffData = LevelDificultyData.Instance;
+        diffData = GameManager.DiffData;
         settings = GameManager.GetDifficultySettings();
         level = Level.GetLevel(GameManager.SelectedTrack);
         level.Setup();
@@ -92,6 +92,7 @@ public class LevelController : Singleton<LevelController>
                 {
                     level.CreateEvent(Random.Range(settings.minEventLength, settings.maxEventLength));
                     TimelineController.Instance.UpdateTimeline();
+                    EventManager.Instance.UpdateValues();
                 }
             }
         }

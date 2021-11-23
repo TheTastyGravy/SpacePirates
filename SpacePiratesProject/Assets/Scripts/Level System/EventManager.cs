@@ -14,7 +14,7 @@ public class EventManager : Singleton<EventManager>
 	private float initTime;
 
 	private float timeBetweenWaves;
-	private int astroidsPerWave;
+	private float astroidsPerWave;
 	private float asteroidPrestrikeDelay;
 
 	public RectTransform canvas;
@@ -49,6 +49,20 @@ public class EventManager : Singleton<EventManager>
 		firePeriod = settings.shipFirePeriod;
 	}
 
+    public void UpdateValues()
+    {
+        // Apply endless mode value modifications
+        LevelDificultyData diffData = GameManager.DiffData;
+        initTime -= diffData.initTimeDecrease;
+        timeBetweenWaves -= diffData.timeBetweenAsteroidWavesDecrease;
+        astroidsPerWave += diffData.asteroidsPerWaveIncrease;
+        asteroidPrestrikeDelay -= diffData.asteroidPrestrikeDelayDecrease;
+        timeBetweenDamage -= diffData.timeBetweenStormDamageDecrease;
+        plasmaStormPretrikeDelay -= diffData.plasmaStormPretrikeDelayDecrease;
+        shipHealth += diffData.shipHealthIncrease;
+        firePeriod += diffData.shipFirePeriodIncrease;
+    }
+
 	public void StartEvent(Level.Event newEvent)
 	{
 		currentEventType = newEvent.type;
@@ -59,7 +73,7 @@ public class EventManager : Singleton<EventManager>
 				currentEvent = new AstroidField()
 				{
 					timeBetweenWaves = timeBetweenWaves,
-					astroidsPerWave = astroidsPerWave,
+					astroidsPerWave = Mathf.FloorToInt(astroidsPerWave),
 					preStrikeDelay = asteroidPrestrikeDelay
 				};
 				break;

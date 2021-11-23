@@ -40,6 +40,7 @@ public class EngineStation : MonoBehaviour
 		damage = GetComponentInChildren<DamageStation>();
 		fuelDepo.OnFuelDeposited += OnFueled;
 		damage.OnDamageRepaired += OnDamageRepaired;
+		damage.OnDamageTaken += OnDamageTaken;
 
 		// Get values from difficulty settings
 		LevelDificultyData.DiffSetting setting = GameManager.GetDifficultySettings();
@@ -113,9 +114,15 @@ public class EngineStation : MonoBehaviour
 		}
 	}
 
+    private void OnDamageTaken()
+    {
+        fuelDepo.enabled = false;
+    }
+
 	private void OnDamageRepaired()
 	{
-		if (currentFuel > 0)
+        fuelDepo.enabled = true;
+        if (currentFuel > 0)
 		{
 			RuntimeManager.PlayOneShot(ignitionEvent);
 		}

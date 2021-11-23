@@ -169,9 +169,9 @@ TextureImporter:
       name: UI_Paused
       rect:
         serializedVersion: 2
-        x: 72
+        x: 227
         y: 766
-        width: 800
+        width: 491
         height: 178
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -321,7 +321,7 @@ TextureImporter:
         width: 370
         height: 100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -342,7 +342,7 @@ TextureImporter:
         width: 370
         height: 100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

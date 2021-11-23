@@ -9,10 +9,11 @@ public class Ship : ScriptableObject
     public GameObject ShipPrefab;
     public float heightOffset = 0;
 
-    [Tooltip("The distance behind the chase ship event will follow at")]
-    public float chaseShipFollowDist = 15;
     [Tooltip("The distance behind the chase ship event will spawn and despawn at")]
     public float chaseShipOffScreenDist = 25;
+
+    public Vector3 chaseShipWanderCenterOffset;
+    public Vector3 chaseShipWanderArea = Vector3.one;
 
     public static Ship[] All
     {

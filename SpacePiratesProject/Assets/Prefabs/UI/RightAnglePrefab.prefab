@@ -134,6 +134,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Arrow: {fileID: 713443388950961880}
-  Distance: 2
-  Speed: 10
+  Distance: 10
+  Speed: 8
   Left: 0

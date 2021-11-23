@@ -28,14 +28,13 @@ public class TimelineController : Singleton<TimelineController>
     public EventReference scanEvent;
     public EventReference pingEvent;
 
-
     private RectTransform timelineBase;
+    private Material timelineMat;
     private Level level;
     // Inverse length of the level
     private float invLength;
     private float iconSize;
     private float pingSpeed;
-
     private class EventIcon
 	{
 		public RectTransform trans;
@@ -48,7 +47,6 @@ public class TimelineController : Singleton<TimelineController>
     private RectTransform playerShipRectTrans;
     private Image pingEffect;
     private RectTransform pingEffectRectTrans;
-
     private float playerPos;
 	private float playerPosOffset = 0;
 	private float shipPosOffset = 0;
@@ -56,10 +54,18 @@ public class TimelineController : Singleton<TimelineController>
     private bool updatePlayerPos = false;
 	private float shipFlashTimePassed = 0;
     private float endlessPlayerShipFreezePos = 30;
+    private float remainingLevelInvLength;
+    private float remainingLevelScaler;
+    // Data passed to timelineMat for highlighting
+    private Vector4[] timelineHighlightData = new Vector4[2];
 
+    // The distance between the actual player position and the saved offset
     private float PlayerPosDiference => (level.isEndless && playerPos > endlessPlayerShipFreezePos) ? endlessPlayerShipFreezePos : playerPos - playerPosOffset;
-    private float ShipIconPos => (timelineBase.rect.width - iconSize) * PlayerPosDiference * invLength + shipPosOffset;
+    // The position of the player ship icon along the timeline
+    private float ShipIconPos => (timelineBase.rect.width - iconSize) * PlayerPosDiference * remainingLevelInvLength * remainingLevelScaler + shipPosOffset;
 
+
+    // If something has broken in this script, abandon all hope
 
 
     public void Setup(Level level)
@@ -68,9 +74,13 @@ public class TimelineController : Singleton<TimelineController>
         timelineBase = transform as RectTransform;
         this.level = level;
         invLength = 1.0f / level.length;
+        remainingLevelInvLength = invLength;
+        remainingLevelScaler = 1;
         iconSize = timelineBase.rect.height;
         pingSpeed = pingDistance / pingTime;
         updatePlayerPos = true;
+        // Get the material on the timeline
+        timelineMat = GetComponentInChildren<Image>().material;
 
         // Setup event icons
         for (int i = 0; i < level.events.Count; i++)
@@ -145,14 +155,46 @@ public class TimelineController : Singleton<TimelineController>
         if (!updatePlayerPos)
             return;
 
-        void MoveShip()
+        // If we are in an event, highlight the area it takes up
+        bool inEvent = false;
+        foreach (EventIcon icon in icons)
         {
-            if (!level.isEndless || playerPos < endlessPlayerShipFreezePos)
+            if (icon.eventRef.start < playerPos && playerPos < icon.eventRef.end)
             {
-                // Update player ship icon position
-                playerShipRectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, ShipIconPos, iconSize);
+                inEvent = true;
+                float start, end;
+                if (level.isEndless)
+                {
+                    start = (icon.eventRef.start - playerPos + PlayerPosDiference) * invLength;
+                    end = (icon.eventRef.end - playerPos + PlayerPosDiference) * invLength;
+                }
+                else
+                {
+                    // This doesnt account for the 'warping' that occurs when the levels length changes,
+                    // and is slightly incorrect in that situation, but small enough to not be very noticable
+                    start = icon.eventRef.start * invLength;
+                    end = icon.eventRef.end * invLength;
+                }
+
+                // Set values. Use a minimum start value to prevent highlighting the very end of the
+                // timeline in endless. The math is done to first put the values in range of where
+                // icons go, then in range of magic numbers. I have no clue why they are nessesary.
+                float widthScale = (timelineBase.rect.width - iconSize * 0.5f) / timelineBase.rect.width;
+                timelineHighlightData[0].x = Mathf.Max(0.15f, (start * widthScale + (1 - widthScale)) * 0.772f + 0.12f);
+                timelineHighlightData[0].y = (end * widthScale + (1 - widthScale)) * 0.772f + 0.12f;
+                timelineHighlightData[0].z = (int)icon.eventRef.type;
+                if (timelineHighlightData[0].w < 1)
+                    timelineHighlightData[0].w += 1 * Time.deltaTime;
+                break;
             }
         }
+        // Fade highlight out when outside an event
+        if (!inEvent && timelineHighlightData[0].w > 0)
+        {
+            timelineHighlightData[0].w -= 1 * Time.deltaTime;
+        }
+        // Pass the array to the material
+        timelineMat.SetVectorArray("_HighlightData", timelineHighlightData);
 
         if (playerShipFlashPeriod > 0)
 		{
@@ -160,7 +202,7 @@ public class TimelineController : Singleton<TimelineController>
             if (shipFlashTimePassed > playerShipFlashPeriod)
             {
 				shipFlashTimePassed = 0;
-                MoveShip();
+                playerShipRectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, ShipIconPos, iconSize);
                 // Flash the ship
                 if (playerFlashRoutine != null)
                 {
@@ -171,20 +213,26 @@ public class TimelineController : Singleton<TimelineController>
         }
         else
 		{
-            MoveShip();
+            playerShipRectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, ShipIconPos, iconSize);
         }
     }
 
 	// Called when the level has been changed
 	public void UpdateTimeline()
 	{
-        float newPlayerPosOffset = PlayerPosDiference;
-        shipPosOffset = ShipIconPos;
-        playerPosOffset = newPlayerPosOffset;
-
+        // Update variable dependent on level length
+        float shipIconPos = ShipIconPos;
+        playerPosOffset = playerPos;
         invLength = 1.0f / level.length;
-		// Update icons
-		for (int i = 0; i < icons.Count; i++)
+        if (!level.isEndless)
+        {
+            shipPosOffset = shipIconPos;
+            remainingLevelInvLength = 1.0f / (level.length - playerPos);
+            remainingLevelScaler = ((timelineBase.rect.width - iconSize) - shipIconPos) / (timelineBase.rect.width - iconSize);
+        }
+
+        // Update icons
+        for (int i = 0; i < icons.Count; i++)
 		{
 			// If the event was removed, remove the icon
 			if (icons[i].eventRef == null)
@@ -232,6 +280,7 @@ public class TimelineController : Singleton<TimelineController>
 
         float time = 0;
         float startPos = PlayerPosDiference;
+        float initPlayerPos = playerPos;
         float dist = 0;
         bool fadeOutFlag = false;
         while (time < pingTime)
@@ -244,22 +293,43 @@ public class TimelineController : Singleton<TimelineController>
             }
 
             // Update ping effect position
-            pingEffectRectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, (timelineBase.rect.width - iconSize) * (startPos + dist) * invLength + (level.isEndless ? 0 : shipPosOffset), iconSize);
+            pingEffectRectTrans.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 
+                (timelineBase.rect.width - iconSize) * (startPos + dist) * remainingLevelInvLength * remainingLevelScaler + shipPosOffset, iconSize);
+
             // Flash icons as we pass them
-            if (index < icons.Count && (playerPos + dist) >= icons[index].position)
+            if (index < icons.Count && (initPlayerPos + dist) >= icons[index].position)
 			{
+                if (level.isEndless)
+                    icons[index].trans.position = pingEffectRectTrans.position;
                 StartCoroutine(FlashIcon(icons[index].image));
                 // Play sound effect
                 if (!pingEvent.IsNull)
                     RuntimeManager.PlayOneShot(pingEvent);
                 index++;
 			}
+            // If we are within an event, highlight the area around us on the timeline
+            if (index > 0 && icons[index - 1].eventRef.start < initPlayerPos + dist && initPlayerPos + dist < icons[index - 1].eventRef.end)
+            {
+                // Scale the ping icon position to the timeline, then convert into the range of magic numbers that make it work
+                float value = ((pingEffectRectTrans.offsetMin.x + iconSize * 0.5f) / timelineBase.rect.width) * 0.772f + 0.12f;
+                //[start, end, type, alpha]
+                timelineHighlightData[1].x = value - 0.02f;
+                timelineHighlightData[1].y = value + 0.02f;
+                timelineHighlightData[1].z = (int)icons[index - 1].eventRef.type;
+                timelineHighlightData[1].w = pingEffect.color.a;
+            }
+            else
+            {
+                // Not in an event, so reset the start and end to not draw a highlight
+                timelineHighlightData[1].x = 0;
+                timelineHighlightData[1].y = 0;
+            }
 
             // Update time and distance
             time += Time.deltaTime;
             dist += pingSpeed * Time.deltaTime;
             // If we have reached the end of the level, fade out the ping effect and exit
-            if (startPos + (level.isEndless ? 0 : playerPosOffset) + dist >= level.length)
+            if ((level.isEndless ? startPos : initPlayerPos) + dist >= level.length)
             {
                 if (!fadeOutFlag)
                     StartCoroutine(FadePingEffect(false));
@@ -267,6 +337,9 @@ public class TimelineController : Singleton<TimelineController>
             }
             yield return null;
 		}
+        // Remove the highlight
+        timelineHighlightData[1].x = 0;
+        timelineHighlightData[1].y = 0;
     }
 
     private IEnumerator FlashIcon(Image image)

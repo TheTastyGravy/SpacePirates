@@ -15,6 +15,10 @@ public class HUDOptionsMenu : MonoBehaviour
     [Space]
     public EventReference returnEvent;
 
+    private Player m_AssignedPlayer;
+    private bool hasJustPaused;
+
+
 
     void Start()
 	{
@@ -23,14 +27,27 @@ public class HUDOptionsMenu : MonoBehaviour
         restartButton.onClick.AddListener(RestartGame);
     }
 
-	public void ShowOptions( Player a_Player )
+    void OnDestroy()
+    {
+        resumeButton.onClick.RemoveListener(HideOptions);
+        menuButton.onClick.RemoveListener(ReturnToMenu);
+        restartButton.onClick.RemoveListener(RestartGame);
+
+        if (m_AssignedPlayer != null)
+        {
+            m_AssignedPlayer.RemoveInputListener(Player.Control.B_PRESSED, BackAction);
+            m_AssignedPlayer.RemoveInputListener(Player.Control.START_PRESSED, BackAction);
+            Time.timeScale = 1.0f;
+        }
+    }
+
+    public void ShowOptions( Player a_Player )
     {
         // Set the selected object to the resume button
-        EventSystem.current.SetSelectedGameObject(resumeButton.gameObject);
-        resumeButton.OnSelect(null);
+        gameObject.SetActive(true);
+        resumeButton.Select();
 
-        startFlag = false;
-        gameObject.SetActive( true );
+        hasJustPaused = true;
         m_AssignedPlayer = a_Player;
         m_AssignedPlayer.AddInputListener(Player.Control.B_PRESSED, BackAction);
         m_AssignedPlayer.AddInputListener(Player.Control.START_PRESSED, BackAction);
@@ -40,6 +57,7 @@ public class HUDOptionsMenu : MonoBehaviour
 
     public void HideOptions()
     {
+        EventSystem.current.SetSelectedGameObject(null);
         m_AssignedPlayer.RemoveInputListener(Player.Control.B_PRESSED, BackAction);
         m_AssignedPlayer.RemoveInputListener(Player.Control.START_PRESSED, BackAction);
         m_AssignedPlayer = null;
@@ -47,13 +65,12 @@ public class HUDOptionsMenu : MonoBehaviour
         Time.timeScale = 1.0f;
     }
 
-
-    bool startFlag = false;
     private void BackAction( InputAction.CallbackContext context )
 	{
-        if (!startFlag && context.action == m_AssignedPlayer.actions.FindAction("START_PRESSED"))
+        // If we just paused, ignore this start pressed event
+        if (hasJustPaused && context.action == m_AssignedPlayer.actions.FindAction("START_PRESSED"))
 		{
-            startFlag = true;
+            hasJustPaused = false;
             return;
         }
 
@@ -70,21 +87,4 @@ public class HUDOptionsMenu : MonoBehaviour
     {
         GameManager.ReloadScene();
     }
-
-
-	void OnDestroy()
-	{
-        resumeButton.onClick.RemoveListener(HideOptions);
-        menuButton.onClick.RemoveListener(ReturnToMenu);
-        restartButton.onClick.RemoveListener(RestartGame);
-
-        if (m_AssignedPlayer != null)
-		{
-            m_AssignedPlayer.RemoveInputListener(Player.Control.B_PRESSED, BackAction);
-            m_AssignedPlayer.RemoveInputListener(Player.Control.START_PRESSED, BackAction);
-            Time.timeScale = 1.0f;
-        }
-	}
-
-	private Player m_AssignedPlayer;
 }

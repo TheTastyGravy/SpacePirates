@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PlasmaStormEffect : MonoBehaviour
 {
-    public GameObject plasmaStormEffectPrefab;
     public ParticleSystem pSystem;
     public float storm_timeBetween = 0.5f;
     public float storm_baseSpeed = 1;
     public float storm_fadeOutTime = 1.5f;
 
     private Transform trans;
+    private ObjectPool pool;
     private float spawnLineLength;
     private Vector3 spawnLineDir;
     private Vector3 spawnOffset;
@@ -36,6 +36,7 @@ public class PlasmaStormEffect : MonoBehaviour
     private void Init()
     {
         trans = transform;
+        pool = ObjectPool.GetPool("Plasma Pool");
         Camera cam = Camera.main;
         Ray ray = cam.ViewportPointToRay(new Vector2(1, 1));    //top right corner
         new Plane(Vector3.up, 0).Raycast(ray, out float enter);
@@ -75,7 +76,7 @@ public class PlasmaStormEffect : MonoBehaviour
         List<Transform> toDestroy = new List<Transform>();
         foreach (var obj in objects)
         {
-            if (obj == null)
+            if (obj == null || !obj.gameObject.activeInHierarchy)
             {
                 toDestroy.Add(obj);
                 continue;
@@ -91,8 +92,8 @@ public class PlasmaStormEffect : MonoBehaviour
         foreach (var obj in toDestroy)
         {
             objects.Remove(obj);
-            if (obj != null)
-                Destroy(obj.gameObject);
+            if (obj != null && obj.gameObject.activeInHierarchy)
+                pool.Return(obj.gameObject);
         }
     }
 
@@ -143,7 +144,8 @@ public class PlasmaStormEffect : MonoBehaviour
                 timeToWait = storm_timeBetween / speedModifier;
 
                 Vector3 spawnPos = trans.position + spawnOffset + spawnLineDir * GetRandomValue(spawnLineLength);
-                GameObject effectObj = Instantiate(plasmaStormEffectPrefab, spawnPos, rotation);
+                GameObject effectObj = pool.GetInstance();
+                effectObj.transform.SetPositionAndRotation(spawnPos, rotation);
                 objects.Add(effectObj.transform);
             }
 
@@ -177,7 +179,7 @@ public class PlasmaStormEffect : MonoBehaviour
                 particleSystem.SetParticles(particles);
 
                 // Destroy the object when the particles are gone
-                Destroy(obj.gameObject, time);
+                pool.Return(obj.gameObject, time);
             }
         }
 

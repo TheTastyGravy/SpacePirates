@@ -16,3 +16,5 @@ MonoBehaviour:
   heightOffset: -1.5
   chaseShipFollowDist: 16
   chaseShipOffScreenDist: 25
+  chaseShipWanderCenterOffset: {x: -6, y: 0.5, z: -20}
+  chaseShipWanderArea: {x: 10, y: 0.2, z: 3}

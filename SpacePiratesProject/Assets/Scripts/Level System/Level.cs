@@ -85,11 +85,11 @@ public class Level : ScriptableObject
 		// Create events
 		for (int i = 0; i < eventCount; i++)
         {
-			CreateEvent(UnityEngine.Random.Range(settings.minEventLength, settings.maxEventLength) * 0.5f);
+			CreateEvent(UnityEngine.Random.Range(settings.minEventLength, settings.maxEventLength));
 		}
     }
 
-	internal void CreateEvent(float halfLength, bool removeFirstEvent = false)
+	internal void CreateEvent(float eventLength, bool removeFirstEvent = false)
 	{
 		int index = events.Count;
 
@@ -97,11 +97,13 @@ public class Level : ScriptableObject
 		float offset = diffData.edgeBoundry;
 		if (index > 0)
 		{
-			// Round the previous events end pos up to a multiple of eventArea. This is done instead of 
-			// using eventArea * index to make it independent of event index, being important for endless mode
-			offset += Mathf.Round((events[index - 1].end - offset - 1) / eventArea) * eventArea;
+            // Round the previous events end pos up to a multiple of eventArea. This is done instead of 
+            // using eventArea * index to make it independent of event index, being important for endless mode
+            //offset += Mathf.Round((events[index - 1].end - offset - 1) / eventArea) * eventArea;
+            offset += events[index - 1].end;
 		}
-		float pos = UnityEngine.Random.Range(halfLength + diffData.regionGap * 0.5f, eventArea - halfLength - diffData.regionGap * 0.5f) + offset;
+        float halfLength = eventLength * 0.5f;
+        float pos = UnityEngine.Random.Range(halfLength + diffData.regionGap * 0.5f, eventArea - halfLength - diffData.regionGap * 0.5f) + offset;
 		events.Add(new Event()
 		{
 			start = pos - halfLength,
