@@ -49,55 +49,58 @@ public class SplashController : Singleton< SplashController >
 
     private IEnumerator SplashFade()
     {
-        float durationInverse = 1.0f / FadeDuration;
-        float elapsedTime = 0.0f;
-
-        while ( elapsedTime < FadeDuration * 0.5f )
-        {
-            yield return null;
-            elapsedTime += Time.deltaTime;
-            float alpha = 1.0f - Mathf.Sin( elapsedTime * durationInverse * Mathf.PI );
-            Filter.color = new Color( 0.0f, 0.0f, 0.0f, alpha );
-        }
-
+        yield return Fade(false);
         yield return new WaitForSeconds(logoTime);
-
-        while ( elapsedTime < FadeDuration )
-        {
-            yield return null;
-            elapsedTime += Time.deltaTime;
-            float alpha = 1.0f - Mathf.Sin( elapsedTime * durationInverse * Mathf.PI );
-            Filter.color = new Color( 0.0f, 0.0f, 0.0f, alpha );
-        }
+        yield return Fade(true);
 
         logoObject.SetActive(false);
-        // Dont start the music untill the video has actualy started
+        yield return PlayVideo();
+
+        yield return new WaitForSeconds(0.5f);
+        GameManager.ChangeState(GameManager.GameState.START);
+    }
+
+    private IEnumerator PlayVideo()
+    {
+        // Wait for the video to start playing
         videoPlayer.Play();
         yield return new WaitWhile(() => videoPlayer.time <= 0);
-        videoMusicInstance.start();
-        float startTime = Time.time;
-        elapsedTime = 0;
+        // Start fading in
+        StartCoroutine(Fade(false));
 
-        while (elapsedTime < FadeDuration  * 0.5f)
+        // Make the video use the time assigned to it
+        videoPlayer.timeReference = VideoTimeReference.ExternalTime;
+        float startTime = Time.time;
+        videoMusicInstance.start();
+        while (Time.time < startTime + musicLength)
         {
+            FMOD.RESULT res = videoMusicInstance.getTimelinePosition(out int time);
+            if (res == FMOD.RESULT.OK)
+            {
+                // Convert from milliseconds to seconds
+                float musicTime = time * 0.001f;
+                videoPlayer.externalReferenceTime = musicTime;
+            }
             yield return null;
-            elapsedTime += Time.deltaTime;
-            float alpha = 1.0f - Mathf.Sin(elapsedTime * durationInverse * Mathf.PI);
-            Filter.color = new Color(0.0f, 0.0f, 0.0f, alpha);
         }
 
-        yield return new WaitWhile(() => Time.time < startTime + musicLength);
+        // Stop the music and until video is about to end
         videoMusicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         yield return new WaitWhile(() => Time.time < startTime + videoPlayer.length - FadeDuration * 0.5f);
+        // Fade to black
+        yield return Fade(true);
+    }
 
-        while (elapsedTime < FadeDuration)
+    private IEnumerator Fade(bool toBlack)
+    {
+        float durationInverse = 1f / FadeDuration;
+        float time = 0;
+        while (time < FadeDuration * 0.5f)
         {
             yield return null;
-            elapsedTime += Time.deltaTime;
-            float alpha = 1.0f - Mathf.Sin(elapsedTime * durationInverse * Mathf.PI);
+            time += Time.deltaTime;
+            float alpha = 1.0f - Mathf.Sin((time + (toBlack ? FadeDuration * 0.5f : 0)) * durationInverse * Mathf.PI);
             Filter.color = new Color(0.0f, 0.0f, 0.0f, alpha);
         }
-
-        GameManager.ChangeState(GameManager.GameState.START);
     }
 }
