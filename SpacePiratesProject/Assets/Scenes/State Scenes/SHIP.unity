@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -133,7 +133,7 @@ PrefabInstance:
     - target: {fileID: 1233881945, guid: 786ed1754dcb7bb48b2955399e2ec210, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 010fe0ef7586a7a4f8bb1d5629789eb8, type: 3}
+      objectReference: {fileID: -7530421604905691091, guid: 6adc80fe0bf9cba40be108c399db0375, type: 3}
     - target: {fileID: 2631449711186803071, guid: 786ed1754dcb7bb48b2955399e2ec210, type: 3}
       propertyPath: m_Name
       value: Ship2
@@ -887,7 +887,7 @@ PrefabInstance:
     - target: {fileID: 1463333993, guid: 1c132cc375ef22a48a29ce1debe60908, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 35f71ecbd89db6e40986e2999fc7eddf, type: 3}
+      objectReference: {fileID: 5673669416244679971, guid: 77863059ac88cc640adf755fb6918861, type: 3}
     - target: {fileID: 2631449711186803071, guid: 1c132cc375ef22a48a29ce1debe60908, type: 3}
       propertyPath: m_Name
       value: Ship3
@@ -1288,6 +1288,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 338321643}
     m_Modifications:
+    - target: {fileID: 1951724436, guid: ff0633d2eb7cb3e4cad2f8e2d660fb6b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1259076871811540347, guid: f3afcc5adeb6ca846b8217112856ba84, type: 3}
     - target: {fileID: 2631449711186803071, guid: ff0633d2eb7cb3e4cad2f8e2d660fb6b, type: 3}
       propertyPath: m_Name
       value: Ship1
