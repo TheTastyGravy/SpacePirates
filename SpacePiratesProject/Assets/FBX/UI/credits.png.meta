@@ -148,12 +148,12 @@ TextureImporter:
       name: credits_0
       rect:
         serializedVersion: 2
-        x: 728
-        y: 769
-        width: 457
-        height: 112
+        x: 744
+        y: 805
+        width: 432
+        height: 97
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -169,12 +169,12 @@ TextureImporter:
       name: credits_1
       rect:
         serializedVersion: 2
-        x: 410
-        y: 87
-        width: 1105
-        height: 653
+        x: 421
+        y: 105
+        width: 1080
+        height: 669
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
