@@ -28,7 +28,7 @@ public class RunLightning : MonoBehaviour
 
     void OnDisable()
     {
-        pSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        pSystem.Stop(true, ParticleSystemStopBehavior.StopEmitting);
     }
 
     float GetStartTime() => LightTriggers[selective].LightTriggers[0] + Random.Range(RandomBufferMin, RandomBufferMax);

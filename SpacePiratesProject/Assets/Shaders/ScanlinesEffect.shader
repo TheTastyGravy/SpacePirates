@@ -42,7 +42,6 @@
 	         o.pos = UnityObjectToClipPos(v.vertex);
 	         o.uv = MultiplyUV(UNITY_MATRIX_TEXTURE0, v.texcoord);
 	         o.scr_pos = ComputeScreenPos(o.pos);
-	         
 	         return o;
 	     }
 	 
@@ -52,7 +51,8 @@
 	         float displacement = ((_Time.y*1000)*_Speed)%_ScreenParams.y;
 	         float ps = displacement+(i.scr_pos.y * _ScreenParams.y / i.scr_pos.w);
 
-	         return ((int)(ps / floor(_LineWidth*lineSize)) % 2 == 0) ? color : color * float4(_Hardness,_Hardness,_Hardness,1);
+			 float value = max(_Hardness, floor((ps / (_LineWidth*lineSize)) % (uint)2));
+	         return color * float4(value,value,value,1);
 	     }
 	 
 	     ENDCG

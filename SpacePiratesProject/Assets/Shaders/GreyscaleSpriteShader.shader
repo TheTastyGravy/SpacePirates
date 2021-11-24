@@ -30,7 +30,7 @@ Shader "Sprites/GrayScale"
             CGPROGRAM
                 #pragma vertex vert
                 #pragma fragment frag
-                #pragma multi_compile DUMMY PIXELSNAP_ON
+                #pragma multi_compile_local DUMMY PIXELSNAP_ON
                 #include "UnityCG.cginc"
 
                 struct appdata_t

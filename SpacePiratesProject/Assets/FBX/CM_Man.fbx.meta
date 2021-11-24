@@ -16,7 +16,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: lambert4
-    second: {fileID: 2100000, guid: 92987d2d9a7ece448a328faac6db007b, type: 2}
+    second: {fileID: 2100000, guid: 017059cbb4eda49478dc0a3bccdf3dbe, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

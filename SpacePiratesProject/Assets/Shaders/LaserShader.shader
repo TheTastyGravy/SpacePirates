@@ -50,15 +50,12 @@ Shader "Unlit/LaserShader"
             float4 GetLinearFade(float2 uv)
             {
                 float f = lerp(0, 1, uv.y);
-
                 return float4(f.xxxx);
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
                 return _Color * GetLinearFade(i.uv);
-
-                //return _Color * a;
             }
             ENDCG
         }
