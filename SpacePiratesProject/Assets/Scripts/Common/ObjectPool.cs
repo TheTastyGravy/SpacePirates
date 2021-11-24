@@ -46,7 +46,7 @@ public class ObjectPool : MonoBehaviour
             entry.timeRemaining -= Time.deltaTime;
             if (entry.timeRemaining <= 0)
             {
-                if (!pool.Contains(entry.obj))
+                if (!pool.Contains(entry.obj) && entry.obj != null)
                     Return(entry.obj);
                 toReturn.RemoveAt(i);
                 i--;
@@ -63,12 +63,15 @@ public class ObjectPool : MonoBehaviour
         if (pool.Count > 0)
         {
             GameObject obj = pool[0];
-
-            if (obj == null)
+            // Remove any delayed returns that still exist
+            for (int i = 0; i < toReturn.Count; i++)
             {
-                Debug.LogError("<size=15>OBJECT POOL INSTANCE IS NULL</size>");
+                if (toReturn[i].obj == obj)
+                {
+                    toReturn.RemoveAt(i);
+                    i--;
+                }
             }
-
             obj.SetActive(true);
             pool.RemoveAt(0);
             return obj;
@@ -82,11 +85,6 @@ public class ObjectPool : MonoBehaviour
 
     public void Return(GameObject instance)
     {
-        if (instance == null)
-        {
-            Debug.LogError("<size=15>OBJECT POOL INSTANCE IS NULL</size>");
-        }
-
         if (pool.Count < maxStoredCount)
         {
             instance.SetActive(false);
@@ -101,11 +99,6 @@ public class ObjectPool : MonoBehaviour
 
     public void Return(GameObject instance, float time)
     {
-        if (instance == null)
-        {
-            Debug.LogError("<size=15>OBJECT POOL INSTANCE IS NULL</size>");
-        }
-
         toReturn.Add(new ReturnEntry() { obj = instance, timeRemaining = time });
     }
 

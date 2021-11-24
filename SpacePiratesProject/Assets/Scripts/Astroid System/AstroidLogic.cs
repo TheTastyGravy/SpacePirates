@@ -124,6 +124,11 @@ public class AstroidLogic : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("ChaseShip"))
             return;
 
+        // Prevent multiple collisions being registered
+        if (hasHitShip)
+            return;
+        hasHitShip = true;
+
         if (collision.gameObject.CompareTag("TurretProjectile"))
         {
             // We have been hit by a turret
@@ -142,11 +147,6 @@ public class AstroidLogic : MonoBehaviour
         }
         else
         {
-            // Prevent multiple collisions being registered
-            if (hasHitShip)
-                return;
-            hasHitShip = true;
-
             ShipManager.Instance.DamageShipAtPosition(trans.position);
             // Destroy this asteroid and create an explosion
             pool.Return(gameObject);

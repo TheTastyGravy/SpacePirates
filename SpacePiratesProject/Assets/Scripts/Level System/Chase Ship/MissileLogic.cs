@@ -52,6 +52,11 @@ public class MissileLogic : MonoBehaviour
 
 	void OnCollisionEnter(Collision collision)
 	{
+		// Prevent multiple collisions being registered
+		if (hasHitShip)
+			return;
+		hasHitShip = true;
+
 		if (collision.gameObject.CompareTag("TurretProjectile"))
 		{
             // We have been hit by a turret
@@ -67,13 +72,8 @@ public class MissileLogic : MonoBehaviour
 		}
 		else
 		{
-			// Prevent multiple collisions being registered
-			if (hasHitShip)
-				return;
-
 			// If we hit something else, damage the ship
 			ShipManager.Instance.DamageShipAtPosition(transform.position);
-			hasHitShip = true;
             pool.Return(gameObject);
             // Create explosion
             GameObject explosion = explosionPool.GetInstance();
