@@ -126,6 +126,8 @@ public class GameManager : Singleton<GameManager>
     private static void RegularLoad(GameState oldState, GameState newState)
     {
         UnityEngine.Time.timeScale = 0;
+        // Allow things to be loaded faster
+        Application.backgroundLoadingPriority = ThreadPriority.High;
 
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(newState.ToString(), LoadSceneMode.Additive);
         loadOp.completed += asyncOperation =>
@@ -152,6 +154,8 @@ public class GameManager : Singleton<GameManager>
                 if (OnEndTransition != null)
                     OnEndTransition.Invoke(SceneManager.GetSceneByName(newState.ToString()), oldState);
                 Instance.Invoke(nameof(SetLoading), 0.01f);
+                // Reset background loading priority
+                Application.backgroundLoadingPriority = ThreadPriority.Normal;
             };
         };
     }
@@ -208,6 +212,8 @@ public class GameManager : Singleton<GameManager>
         shouldFade = true;
         yield return new WaitForSecondsRealtime(Instance.realFadeIn);
 
+        // Allow things to be loaded faster after fading
+        Application.backgroundLoadingPriority = ThreadPriority.High;
         // Fades are only used for transitioning to non-menu scenes (currently...)
         if (SceneManager.GetSceneByName("MENU_BASE").IsValid())
 		{
@@ -227,6 +233,8 @@ public class GameManager : Singleton<GameManager>
             if (OnEndTransition != null)
                 OnEndTransition.Invoke(SceneManager.GetSceneByName(newState.ToString()), oldState);
             Instance.Invoke(nameof(SetLoading), 0.01f);
+            // Reset background loading priority
+            Application.backgroundLoadingPriority = ThreadPriority.Normal;
         };
         loadOp.allowSceneActivation = true;
     }
@@ -245,7 +253,7 @@ public class GameManager : Singleton<GameManager>
         SceneManager.SetActiveScene(Instance.gameObject.scene);
         // Unload the previous menu scene
         if (SceneManager.GetSceneByName("MENU_BASE").IsValid())
-            SceneManager.UnloadSceneAsync("MENU_BASE").priority = 100;
+            SceneManager.UnloadSceneAsync("MENU_BASE");
         SceneManager.UnloadSceneAsync(oldState.ToString());
         // Finish loading the 'loading' scene
         loading_LoadOp.completed += asyncOperation =>
@@ -256,11 +264,14 @@ public class GameManager : Singleton<GameManager>
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(GameState.LOADING.ToString()));
             if (OnEndTransition != null)
                 OnEndTransition.Invoke(SceneManager.GetSceneByName(GameState.LOADING.ToString()), oldState);
-            // Allow things to be loaded faster on the loading screen
-            Application.backgroundLoadingPriority = ThreadPriority.High;
         };
         loading_LoadOp.allowSceneActivation = true;
+        // Wait for fade
+        yield return new WaitUntil(() => loading_LoadOp.isDone);
+        yield return new WaitForSecondsRealtime(Instance.realFadeOut);
 
+        // Allow things to be loaded faster on the loading screen
+        Application.backgroundLoadingPriority = ThreadPriority.High;
         // Start loading the game scene, and wait for continueFromLoadingScene to be set by the 'loading' scene
         AsyncOperation game_LoadOp = SceneManager.LoadSceneAsync(GameState.GAME.ToString(), LoadSceneMode.Additive);
         game_LoadOp.allowSceneActivation = false;
@@ -307,6 +318,8 @@ public class GameManager : Singleton<GameManager>
         yield return new WaitForSecondsRealtime(Instance.realFadeIn);
         SceneManager.SetActiveScene(Instance.gameObject.scene);
 
+        // Allow things to be loaded faster after fading
+        Application.backgroundLoadingPriority = ThreadPriority.High;
         // Because we need to finish unloading before we finish loading, the unload operation needs 
         // to be started first so the load operation can have allowSceneActivation = false. This 
         // is because allowSceneActivation will stop all AsyncOperations that come after it once 
@@ -326,6 +339,8 @@ public class GameManager : Singleton<GameManager>
             if (OnEndTransition != null)
                 OnEndTransition.Invoke(SceneManager.GetSceneByName(state.ToString()), state);
             Instance.Invoke(nameof(SetLoading), 0.01f);
+            // Reset background loading priority
+            Application.backgroundLoadingPriority = ThreadPriority.Normal;
         };
     }
 
