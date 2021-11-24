@@ -58,34 +58,27 @@ Shader "Universal Render Pipeline/Custom/Mesh Particle Fix"
         [HideInInspector] _Color("color", Color) = (1,1,1,1)
     }
 
-    // Everything is exactly the same as Particles/Lit, except forward pass uses ZWrite On
     SubShader
     {
-        Tags{"RenderType" = "Transparent" "IgnoreProjector" = "True" "PerformanceChecks" = "False" "RenderPipeline" = "UniversalPipeline" "UniversalMaterialType" = "Lit"}
-        LOD 200
+        Tags{"Queue" = "Transparent" "RenderType" = "Transparent" "IgnoreProjector" = "True" "RenderPipeline" = "UniversalPipeline" "UniversalMaterialType" = "Unlit"}
+        LOD 100
 
         Pass
         {
-            // Lightmode matches the ShaderPassName set in UniversalRenderPipeline.cs. SRPDefaultUnlit and passes with
-            // no LightMode tag are also rendered by Universal Render Pipeline
             Name "ForwardLit"
-            Tags {"LightMode" = "UniversalForward"}
 
             BlendOp[_BlendOp]
-            Blend[_SrcBlend][_DstBlend]
-            ZWrite On
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZTest LEqual
             Cull[_Cull]
+            ColorMask RGB
 
             HLSLPROGRAM
             #pragma target 2.0
-
             // -------------------------------------
             // Material Keywords
             #pragma shader_feature_local _NORMALMAP
             #pragma shader_feature_local_fragment _EMISSION
-            #pragma shader_feature_local_fragment _METALLICSPECGLOSSMAP
-            #pragma shader_feature_local _RECEIVE_SHADOWS_OFF
-
             // -------------------------------------
             // Particle Keywords
             #pragma shader_feature_local_fragment _ _ALPHAPREMULTIPLY_ON _ALPHAMODULATE_ON
@@ -95,35 +88,22 @@ Shader "Universal Render Pipeline/Custom/Mesh Particle Fix"
             #pragma shader_feature_local _SOFTPARTICLES_ON
             #pragma shader_feature_local _FADING_ON
             #pragma shader_feature_local _DISTORTION_ON
-
-            // -------------------------------------
-            // Universal Pipeline keywords
-            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
-            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
-            #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
-            #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
-            #pragma multi_compile_fragment _ _SHADOWS_SOFT
-
             // -------------------------------------
             // Unity defined keywords
             #pragma multi_compile_fog
             #pragma multi_compile_instancing
             #pragma instancing_options procedural:ParticleInstancingSetup
 
-            #pragma vertex ParticlesLitVertex
-            #pragma fragment ParticlesLitFragment
+            #pragma vertex vertParticleUnlit
+            #pragma fragment fragParticleUnlit
 
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/Particles/ParticlesLitInput.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/Particles/ParticlesLitForwardPass.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/Particles/ParticlesUnlitInput.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/Particles/ParticlesUnlitForwardPass.hlsl"
             ENDHLSL
         }
-        
-        usepass "Universal Render Pipeline/Particles/Lit/GBuffer"
 
-        usepass "Universal Render Pipeline/Particles/Lit/SceneSelectionPass"
-
-        usepass "Universal Render Pipeline/Particles/Lit/ScenePickingPass"
-        usepass "Universal Render Pipeline/Particles/Lit/Universal2D"
+        usepass "Universal Render Pipeline/Particles/Unlit/SceneSelectionPass"
+        usepass "Universal Render Pipeline/Particles/Unlit/ScenePickingPass"
     }
 
     Fallback "Universal Render Pipeline/Particles/Unlit"

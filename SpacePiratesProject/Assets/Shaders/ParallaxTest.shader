@@ -7,7 +7,6 @@ Shader "Custom/ParallaxTest"
         _XSpeed ("X Scroll Speed", Range(0, 10)) = 1
         _YSpeed ("Y Scroll Speed", Range(0, 10)) = 1
         _ClipThreshold ("Clip Threshold", Range(0, 1)) = 0.01
-        _UseTransparency ("Use Transparency", Int) = 0
         _BaseAlpha ("Base Alpha", Range(0, 1)) = 0
         _AlphaMult ("Alpha Multiplyer", float) = 1
     }
@@ -21,7 +20,7 @@ Shader "Custom/ParallaxTest"
         {
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite Off
-            Cull Back
+            Cull[_Cull]
 
             CGPROGRAM
             #pragma vertex vert
@@ -34,7 +33,6 @@ Shader "Custom/ParallaxTest"
             float _XSpeed;
             float _YSpeed;
             float _ClipThreshold;
-            fixed _UseTransparency;
             float _BaseAlpha;
             float _AlphaMult;
 
@@ -66,20 +64,13 @@ Shader "Custom/ParallaxTest"
             {
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
-
                 float maxValue = max(max(col.r, col.g), col.b);
                 clip(maxValue - _ClipThreshold);
-
-                if (_UseTransparency == 1)
-                {
-                    col.a = maxValue * _AlphaMult + _BaseAlpha;
-                }
-
+                col.a = maxValue * _AlphaMult + _BaseAlpha;
                 return col;
             }
             ENDCG
         }
     }
-
     Fallback "Universal Render Pipeline/Unlit"
 }
