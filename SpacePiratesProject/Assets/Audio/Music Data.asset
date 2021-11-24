@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicData:
   - name: Menu Music
-    scenes: 127
+    scenes: 126
     musicEvent:
       Guid:
         Data1: -181069247

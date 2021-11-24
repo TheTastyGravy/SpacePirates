@@ -79,6 +79,9 @@ public class MusicManager : Singleton<MusicManager>
 
     private void SetupMusic()
 	{
+        if (musicInfo == null)
+            return;
+
         musicInstance = FMODUnity.RuntimeManager.CreateInstance(musicInfo.musicEvent);
 
         // Pin the class that will store the data modified during the callback
@@ -100,20 +103,20 @@ public class MusicManager : Singleton<MusicManager>
         musicInstance.setUserData(IntPtr.Zero);
         musicInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         musicInstance.release();
-        timelineHandle.Free();
+        if (timelineHandle.IsAllocated)
+            timelineHandle.Free();
     }
 
 	void OnEnable()
 	{
         if (musicInstance.isValid())
-		{
             musicInstance.start();
-        }
     }
 
     void OnDisable()
 	{
-        musicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        if (musicInstance.isValid())
+            musicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
     private void OnSceneExit(Scene scene, GameManager.GameState otherScene)
@@ -123,7 +126,8 @@ public class MusicManager : Singleton<MusicManager>
         {
             StartCoroutine(ChangeMusic(newInfo));
             // Make sure music has enough time to fade out
-            GameManager.Instance.realFadeIn = Mathf.Max(GameManager.Instance.realFadeIn, musicInfo.fadeTime);
+            if (musicInfo != null)
+                GameManager.Instance.realFadeIn = Mathf.Max(GameManager.Instance.realFadeIn, musicInfo.fadeTime);
         }
         if (scene.name == "GAME")
         {
@@ -162,13 +166,15 @@ public class MusicManager : Singleton<MusicManager>
 	{
         // Stop with fade
         musicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        yield return new WaitForSeconds(musicInfo.fadeTime);
+        if (musicInfo != null)
+            yield return new WaitForSeconds(musicInfo.fadeTime);
 
         // Hard stop and destroy everything
         musicInstance.setUserData(IntPtr.Zero);
         musicInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         musicInstance.release();
-        timelineHandle.Free();
+        if (timelineHandle.IsAllocated)
+            timelineHandle.Free();
         // Setup using the new info
         musicInfo = newMusicInfo;
         SetupMusic();
