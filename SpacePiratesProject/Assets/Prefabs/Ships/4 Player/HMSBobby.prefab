@@ -3900,6 +3900,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7529721210251564460}
     - target: {fileID: 1171378425374151363, guid: f721249a27c1c4a4c8baf1d08070ee63, type: 3}
+      propertyPath: notInUseAngle
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1171378425374151363, guid: f721249a27c1c4a4c8baf1d08070ee63, type: 3}
       propertyPath: RecoilAmount.x
       value: -0.020498998
       objectReference: {fileID: 0}
@@ -5706,6 +5710,10 @@ PrefabInstance:
       propertyPath: barrel
       value: 
       objectReference: {fileID: 6574112740527231800}
+    - target: {fileID: 1171378425374151363, guid: f721249a27c1c4a4c8baf1d08070ee63, type: 3}
+      propertyPath: notInUseAngle
+      value: -20
+      objectReference: {fileID: 0}
     - target: {fileID: 1171378425374151363, guid: f721249a27c1c4a4c8baf1d08070ee63, type: 3}
       propertyPath: RecoilAmount.x
       value: -1.096
@@ -7648,6 +7656,10 @@ PrefabInstance:
       propertyPath: barrel
       value: 
       objectReference: {fileID: 3861781843456223728}
+    - target: {fileID: 1171378425374151363, guid: f721249a27c1c4a4c8baf1d08070ee63, type: 3}
+      propertyPath: notInUseAngle
+      value: -20
+      objectReference: {fileID: 0}
     - target: {fileID: 1171378425374151363, guid: f721249a27c1c4a4c8baf1d08070ee63, type: 3}
       propertyPath: RecoilAmount.x
       value: 0.861
