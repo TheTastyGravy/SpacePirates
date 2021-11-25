@@ -84,16 +84,24 @@ public class LightningStrikeEffect : MonoBehaviour
             // Set the start and end positions
             positions[0] = spawnPos;
             positions[segmentCount - 1] = target;
-            Transform camTrans = cam.transform;
+            Vector3 tangent = Vector3.Cross(target - spawnPos, canvas.forward);
+            tangent *= cam.orthographicSize / 50;
             for (int j = 1; j < segmentCount - 1; j++)
             {
-                positions[j] = Vector3.Lerp(spawnPos, target, j / (float)segmentCount);
-                positions[j] += camTrans.rotation * (Random.insideUnitCircle * randomnessMagnitude);
+                positions[j] = Vector3.Lerp(spawnPos, target, j / (float)segmentCount + Random.Range(-0.05f, 0.05f));
+                // Use insideUnitCircle to get something close to a normal distribution
+                positions[j] += tangent * Random.insideUnitCircle.x * randomnessMagnitude;
             }
             // Set line renderer positions, and remove unnessesary ones
             newEffect.lineRenderer.positionCount = segmentCount;
             newEffect.lineRenderer.SetPositions(positions);
-            newEffect.lineRenderer.Simplify(0.75f);
+            newEffect.lineRenderer.Simplify(0.5f);
+            if (newEffect.lineRenderer.positionCount < 5)
+            {
+                Destroy(newEffect.obj);
+                i--;
+                continue;
+            }
             effects.Add(newEffect);
         }
     }
