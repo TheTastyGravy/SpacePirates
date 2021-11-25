@@ -230,12 +230,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diffData: {fileID: 11400000, guid: 9ac970e625d924b40a5895b80b9721e4, type: 2}
+  cinematicTime: 7
   fadeInGame: 0.5
   fadeOutGame: 1.5
-  fadeInOther: 0.25
-  fadeOutOther: 0.25
+  fadeInOther: 0.5
+  fadeOutOther: 0.5
   realFadeIn: 0
   realFadeOut: 0
+  continueFromLoadingScene: 0
   m_DefaultActionAsset: {fileID: -944628639613478452, guid: 66637995c6492454c88311f2533856d4, type: 3}
 --- !u!4 &1234440285
 Transform:

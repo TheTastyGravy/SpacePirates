@@ -9,6 +9,7 @@ using FMODUnity;
 public class GameManager : Singleton<GameManager>
 {
     public LevelDificultyData diffData;
+    public float cinematicTime = 10;
     [Space]
     public float fadeInGame = 0.5f;
     public float fadeOutGame = 0.5f;
@@ -243,19 +244,48 @@ public class GameManager : Singleton<GameManager>
     {
         Instance.gameLoadProgress = 0;
         Instance.continueFromLoadingScene = false;
-        // Start loading the 'loading' scene, then wait for fade
-        AsyncOperation loading_LoadOp = SceneManager.LoadSceneAsync(GameState.LOADING.ToString(), LoadSceneMode.Additive);
-        loading_LoadOp.allowSceneActivation = false;
+        // Start loading the cinematic scene, then wait for fade to finish
+        AsyncOperation cinematic_LoadOp = SceneManager.LoadSceneAsync("Jordan_Cinemachine", LoadSceneMode.Additive);
+        cinematic_LoadOp.allowSceneActivation = false;
         shouldFade = true;
         yield return new WaitForSecondsRealtime(Instance.realFadeIn);
 
+        Application.backgroundLoadingPriority = ThreadPriority.High;
         UnityEngine.Time.timeScale = 0;
         SceneManager.SetActiveScene(Instance.gameObject.scene);
         // Unload the previous menu scene
         if (SceneManager.GetSceneByName("MENU_BASE").IsValid())
-            SceneManager.UnloadSceneAsync("MENU_BASE");
-        SceneManager.UnloadSceneAsync(oldState.ToString());
+            SceneManager.UnloadSceneAsync("MENU_BASE").priority = 100;
+        SceneManager.UnloadSceneAsync(oldState.ToString()).priority = 100;
+        // Finish loading the cinematic scene
+        cinematic_LoadOp.completed += asyncOperation =>
+        {
+            UnityEngine.Time.timeScale = 1;
+            // Fade in and set active scene
+            shouldFade = false;
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName("Jordan_Cinemachine"));
+        };
+        cinematic_LoadOp.allowSceneActivation = true;
+        yield return new WaitUntil(() => cinematic_LoadOp.isDone);
+
+        // Lower loading priority so the animation is smooth
+        Application.backgroundLoadingPriority = ThreadPriority.BelowNormal;
+        // The order these operations will occur in is:  load loading > unload cinematic > load game
+        AsyncOperation loading_LoadOp = SceneManager.LoadSceneAsync(GameState.LOADING.ToString(), LoadSceneMode.Additive);
+        loading_LoadOp.allowSceneActivation = false;
+        AsyncOperation cinematic_UnloadOp = SceneManager.UnloadSceneAsync("Jordan_Cinemachine");
+        AsyncOperation game_LoadOp = SceneManager.LoadSceneAsync(GameState.GAME.ToString(), LoadSceneMode.Additive);
+        game_LoadOp.allowSceneActivation = false;
+        // Allow fade + cinematic to finish, then fade out again
+        yield return new WaitForSeconds(Instance.cinematicTime + Instance.realFadeOut);
+        Application.backgroundLoadingPriority = ThreadPriority.Normal;
+        shouldFade = true;
+        yield return new WaitForSeconds(Instance.realFadeIn);
+
+        UnityEngine.Time.timeScale = 0;
+        Application.backgroundLoadingPriority = ThreadPriority.High;
         // Finish loading the 'loading' scene
+        cinematic_UnloadOp.allowSceneActivation = true;
         loading_LoadOp.completed += asyncOperation =>
         {
             UnityEngine.Time.timeScale = 1;
@@ -266,22 +296,16 @@ public class GameManager : Singleton<GameManager>
                 OnEndTransition.Invoke(SceneManager.GetSceneByName(GameState.LOADING.ToString()), oldState);
         };
         loading_LoadOp.allowSceneActivation = true;
-        // Wait for fade
         yield return new WaitUntil(() => loading_LoadOp.isDone);
-        yield return new WaitForSecondsRealtime(Instance.realFadeOut);
 
-        // Allow things to be loaded faster on the loading screen
-        Application.backgroundLoadingPriority = ThreadPriority.High;
-        // Start loading the game scene, and wait for continueFromLoadingScene to be set by the 'loading' scene
-        AsyncOperation game_LoadOp = SceneManager.LoadSceneAsync(GameState.GAME.ToString(), LoadSceneMode.Additive);
-        game_LoadOp.allowSceneActivation = false;
+        Application.backgroundLoadingPriority = ThreadPriority.Normal;
+        // Wait for the player to continue from the 'loading' scene. Set by LoadingController
         while (!Instance.continueFromLoadingScene)
         {
             Instance.gameLoadProgress = game_LoadOp.progress;
             yield return null;
         }
-
-        // Do stuff usualy done in ChangeState, and start fading
+        // Do stuff usualy done in ChangeState, then wait for fade
         Instance.realFadeIn = Instance.fadeInGame;
         Instance.realFadeOut = Instance.fadeOutGame;
         if (OnStartTransition != null)
@@ -290,6 +314,7 @@ public class GameManager : Singleton<GameManager>
         shouldFade = true;
         yield return new WaitForSecondsRealtime(Instance.realFadeIn);
 
+        Application.backgroundLoadingPriority = ThreadPriority.High;
         UnityEngine.Time.timeScale = 0;
         SceneManager.SetActiveScene(Instance.gameObject.scene);
         // Unload the 'loading' scene
@@ -298,7 +323,7 @@ public class GameManager : Singleton<GameManager>
         game_LoadOp.completed += asyncOperation =>
         {
             Instance.m_Time = 0;
-            Instance.m_ShouldTrackTime = true;  //move this when intro is added
+            Instance.m_ShouldTrackTime = true;
             UnityEngine.Time.timeScale = 1;
             // Fade in and set active scene
             shouldFade = false;

@@ -38,5 +38,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/State Scenes/MENU_BASE.unity
     guid: 30ff59313af555541916596ee00bae62
+  - enabled: 1
+    path: Assets/Scenes/Jordan_Cinemachine.unity
+    guid: 4d5e02c36cbaf0742917cdc9fe5f7713
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 88552c2ba1ac2a244a4e31d0cd0cd9f0, type: 2}
