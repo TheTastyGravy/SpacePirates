@@ -4338,11 +4338,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6595697876368446460, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.01
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6595697876368446460, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.01
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7821818431190508828, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
       propertyPath: m_AnchorMax.y
@@ -7261,11 +7261,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6595697876368446460, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.01
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6595697876368446460, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.01
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7821818431190508828, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
       propertyPath: m_AnchorMax.y
@@ -11295,11 +11295,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6595697876368446460, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.01
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6595697876368446460, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.01
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7821818431190508828, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
       propertyPath: m_AnchorMax.y
@@ -12029,11 +12029,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6595697876368446460, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.01
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6595697876368446460, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.01
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7821818431190508828, guid: dd0574a823766a141aecdad86eb568b9, type: 3}
       propertyPath: m_AnchorMax.y
