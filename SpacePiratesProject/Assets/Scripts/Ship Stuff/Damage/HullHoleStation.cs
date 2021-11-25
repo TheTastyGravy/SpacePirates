@@ -10,10 +10,13 @@ public class HullHoleStation : Interactable
 	{
         public float oxygenLossRate;
         public float repairTime;
+        public float scale;
 	}
     [Space]
     public DamageLevel[] damageLevels;
     public ParticleSystem damageEffect;
+    public Transform[] scalableTransforms;
+    [Space]
     public EventReference repairEvent;
     public EventReference repairEndEvent;
 
@@ -35,6 +38,11 @@ public class HullHoleStation : Interactable
         repairTime = damageLevels[0].repairTime;
         repairEventInstance = RuntimeManager.CreateInstance(repairEvent);
         repairEventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(Vector3.zero));
+
+        foreach (Transform obj in scalableTransforms)
+        {
+            obj.localScale = new Vector3(damageLevels[0].scale, damageLevels[0].scale, damageLevels[0].scale);
+        }
     }
 
     protected override void OnDestroy()
@@ -72,6 +80,11 @@ public class HullHoleStation : Interactable
         room.RecalculateOxygenDrain();
 
         damageEffect.Play();
+
+        foreach (Transform obj in scalableTransforms)
+        {
+            obj.localScale = new Vector3(damageLevels[size].scale, damageLevels[size].scale, damageLevels[size].scale);
+        }
     }
 
     private void Repair()
