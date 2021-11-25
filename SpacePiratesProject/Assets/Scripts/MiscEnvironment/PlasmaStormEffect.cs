@@ -84,7 +84,7 @@ public class PlasmaStormEffect : MonoBehaviour
 
             obj.position += obj.forward * Time.deltaTime * speedModifier * storm_baseSpeed;
             // Destroy objects when they go far enough
-            if (obj.position.z < -20)
+            if (obj.position.z < -35)
             {
                 toDestroy.Add(obj);
             }
@@ -130,7 +130,7 @@ public class PlasmaStormEffect : MonoBehaviour
             {
                 particles[i].velocity = particles[i].velocity.normalized * baseSpeed * speedModifier;
                 // When a particle goes off screen, destroy it
-                if (particles[i].position.z < -20)
+                if (particles[i].position.z < -35)
                 {
                     particles[i].remainingLifetime = -1;
                 }

@@ -158,7 +158,7 @@ public class AsteroidFieldEffect : MonoBehaviour
                 {
                     particles[j].velocity = particles[j].velocity.normalized * asteroidBaseSpeed[i] * speedModifier;
                     // When a particle goes off screen, destroy it
-                    if (particles[j].position.z < -30)
+                    if (particles[j].position.z < -35)
                     {
                         particles[j].remainingLifetime = -1;
                     }
@@ -179,7 +179,7 @@ public class AsteroidFieldEffect : MonoBehaviour
                 {
                     particles[j].velocity = particles[j].velocity.normalized * dustBaseSpeed[i] * Mathf.Max(speedModifier, minAsteroidSpeed);
                     // When a particle goes off screen, destroy it
-                    if (particles[j].position.z < -30)
+                    if (particles[j].position.z < -35)
                     {
                         particles[j].remainingLifetime = -1;
                     }
