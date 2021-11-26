@@ -7405,6 +7405,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2391066436550089821}
     - target: {fileID: 1171378425374151363, guid: f721249a27c1c4a4c8baf1d08070ee63, type: 3}
+      propertyPath: notInUseAngle
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1171378425374151363, guid: f721249a27c1c4a4c8baf1d08070ee63, type: 3}
       propertyPath: RecoilAmount.x
       value: -0.006750793
       objectReference: {fileID: 0}
