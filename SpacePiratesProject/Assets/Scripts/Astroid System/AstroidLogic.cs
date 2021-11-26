@@ -80,7 +80,8 @@ public class AstroidLogic : MonoBehaviour
         Random.rotation.ToAngleAxis(out float angle, out Vector3 axis);
         visualTrans.RotateAround(visualCenter, axis, angle);
         // Scale by random factor
-        visualTrans.localScale *= Random.Range(minScaleFactor, maxScaleFactor);
+        float random = Random.Range(minScaleFactor, maxScaleFactor);
+        visualTrans.localScale = new Vector3(random, random, random);
 
         // Get a random angle and axis for rotation
         rotAngle = 360f * Random.Range(minRotationSpeed, maxRotationSpeed);
