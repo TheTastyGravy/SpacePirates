@@ -28,7 +28,7 @@ MonoBehaviour:
     asteroidPrestrikeDelay: 2
     timeBetweenStormDamage: 15
     plasmaStormPretrikeDelay: 4
-    shipHealth: 5
+    shipHealth: 10
     shipFirePeriod: 4
     maxFuel:
       playerCountValues:
@@ -128,7 +128,7 @@ MonoBehaviour:
     asteroidPrestrikeDelay: 2
     timeBetweenStormDamage: 12
     plasmaStormPretrikeDelay: 4
-    shipHealth: 8
+    shipHealth: 20
     shipFirePeriod: 3
     maxFuel:
       playerCountValues:
@@ -228,7 +228,7 @@ MonoBehaviour:
     asteroidPrestrikeDelay: 2
     timeBetweenStormDamage: 10
     plasmaStormPretrikeDelay: 4
-    shipHealth: 10
+    shipHealth: 30
     shipFirePeriod: 2
     maxFuel:
       playerCountValues:
@@ -314,7 +314,7 @@ MonoBehaviour:
       playerCountValues: 00000000000000000000000000000000
       useSeperateValues: 0
       useMaxPlayers: 0
-  timeToDiffIncrease: 60
+  timeToDiffIncrease: 45
   eventLengthAddition: 5
   initTimeDecrease: 0
   asteroidSpawnPeriodDecrease: 0.5
@@ -324,5 +324,5 @@ MonoBehaviour:
   asteroidPrestrikeDelayDecrease: 0
   timeBetweenStormDamageDecrease: 0.2
   plasmaStormPretrikeDelayDecrease: 0
-  shipHealthIncrease: 1
+  shipHealthIncrease: 4
   shipFirePeriodIncrease: 0.2
