@@ -14587,10 +14587,10 @@ MonoBehaviour:
   - oxygenLossRate: 1
     repairTime: 1
     scale: 0.5
-  - oxygenLossRate: 5
+  - oxygenLossRate: 3
     repairTime: 2
     scale: 1
-  - oxygenLossRate: 10
+  - oxygenLossRate: 5
     repairTime: 3
     scale: 1.5
   damageEffect: {fileID: 1693379352692837426}
