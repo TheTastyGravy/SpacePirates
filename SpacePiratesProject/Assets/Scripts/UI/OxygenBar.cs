@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class OxygenBar : MonoBehaviour
 {
+    public Image lowOxygenEffect;
+    public float lowOxygenStartLevel = 0.5f;
+    [Space]
     public Image bar;
     public Image arrows;
     public float arrowValue = 0.95f;
@@ -38,18 +41,23 @@ public class OxygenBar : MonoBehaviour
             arrows.transform.localScale = Vector3.one;
         else
             arrows.transform.localScale = -Vector3.one;
-
-        lastValue = realValue;
-
+        // Fade arrows
         if (timePassed < fadeTime)
-		{
+        {
             float alpha = timePassed / fadeTime;
             arrows.color = Color.Lerp(Color.white, new Color(1, 1, 1, 0), realValue > arrowValue ? alpha : 1 - alpha);
             timePassed += Time.deltaTime;
-		}
-		else
-		{
+        }
+        else
+        {
             arrows.color = realValue > arrowValue ? new Color(1, 1, 1, 0) : Color.white;
         }
+
+        // Low oxygen effect alpha
+        Color lowOxygenColor = lowOxygenEffect.color;
+        lowOxygenColor.a = 1 - Mathf.Clamp(realValue / lowOxygenStartLevel, 0, 1);
+        lowOxygenEffect.color = lowOxygenColor;
+
+        lastValue = realValue;
     }
 }
