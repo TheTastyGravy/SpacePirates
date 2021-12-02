@@ -68,8 +68,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Lorem ipsum dolor sit amet, consectetur adipiscing elit
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2efec8abc528a9a4f851b91ae41b9900, type: 2}
+  m_sharedMaterial: {fileID: -46020938065973353, guid: 2efec8abc528a9a4f851b91ae41b9900, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -757,11 +757,11 @@ MonoBehaviour:
     - PARTICLE CLOUD CLEARING!!
     dialogueEvent:
       Guid:
-        Data1: 369295114
-        Data2: 1289081416
-        Data3: 380713600
-        Data4: 660955970
-      Path: event:/Events/Plasma Storm/VO/EnterPlasma
+        Data1: 897176121
+        Data2: 1316614815
+        Data3: 1710903459
+        Data4: -682293837
+      Path: event:/Events/Plasma Storm/VO/EndPlasma
   stormPrestrike:
     strings:
     - PLASMONIC SPIKE IMMINENT!!
@@ -1058,6 +1058,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d77b6a64632bd47816595fc2670022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lowOxygenEffect: {fileID: 0}
+  lowOxygenStartLevel: 0.5
   bar: {fileID: 8318709057914052655}
   arrows: {fileID: 2225550040774381424}
   arrowValue: 0.9
